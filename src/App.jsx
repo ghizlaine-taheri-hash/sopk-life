@@ -221,12 +221,102 @@ const ALIMENTS = [
 // ─── BANQUE DE REPAS (exemples concrets, SMOP-friendly) ───────────────────────
 // moment: matin|midi|soir|collation — tags: tableau d'étiquettes
 // profils: tableau des profils pour qui c'est un atout spécifique (sourcé)
+
+// ─── RECETTES DÉTAILLÉES (liées aux repas par le nom) ───
+const RECETTES = {
+  "Œufs brouillés à l'avocat":{
+    temps:"10 min", pour:"1 personne",
+    ingredients:["2 œufs","½ avocat mûr","une poignée de tomates cerises","1 noix de beurre ou filet d'huile d'olive","sel, poivre"],
+    etapes:["casse les œufs dans un bol, bats-les avec une pincée de sel.","fais chauffer le beurre à feu doux dans une poêle.","verse les œufs et remue doucement en continu, sans laisser trop cuire — ils doivent rester crémeux.","coupe l'avocat et les tomates cerises pendant ce temps.","sers les œufs avec l'avocat et les tomates à côté. mange les œufs et l'avocat avant les tomates si tu veux lisser encore plus la glycémie."],
+    astuce:"feu doux = œufs crémeux et digestes. à feu fort ils deviennent caoutchouteux."
+  },
+  "Porridge chia-myrtilles":{
+    temps:"5 min + une nuit", pour:"1 personne",
+    ingredients:["3 c. à soupe de graines de chia","200 ml de lait végétal non sucré (amande, coco...)","une poignée de myrtilles","½ c. à café de cannelle de Ceylan (optionnel)"],
+    etapes:["dans un bocal, mélange les graines de chia et le lait végétal.","remue bien, attends 5 min, puis remue encore (ça évite les grumeaux).","ferme le bocal et laisse une nuit au frigo.","le matin, ajoute les myrtilles et la cannelle. c'est prêt."],
+    astuce:"prépare 2-3 bocaux d'avance pour la semaine. ça se garde 3-4 jours au frigo."
+  },
+  "Bowl saumon-quinoa":{
+    temps:"20 min", pour:"1 personne",
+    ingredients:["1 pavé de saumon (ou 100g)","60g de quinoa cru","½ avocat","une poignée de roquette","1 c. à soupe de graines de courge","huile d'olive, citron, sel"],
+    etapes:["rince le quinoa, puis fais-le cuire 12-15 min dans 2 fois son volume d'eau à frémissement.","pendant ce temps, cuis le saumon à la poêle 3-4 min de chaque côté.","égoutte le quinoa, laisse tiédir.","dans un bol : quinoa, roquette, avocat coupé, saumon émietté.","parsème de graines de courge, assaisonne d'huile d'olive et citron."],
+    astuce:"le saumon froid du lendemain est parfait dans ce bowl — cuis-en un peu plus la veille."
+  },
+  "Dahl de lentilles corail":{
+    temps:"25 min", pour:"1 personne",
+    ingredients:["80g de lentilles corail","150 ml de lait de coco","½ oignon","1 c. à café de curcuma","un morceau de gingembre frais râpé","une poignée d'épinards","un peu de riz complet (optionnel)"],
+    etapes:["fais revenir l'oignon émincé dans un peu d'huile.","ajoute le curcuma et le gingembre, mélange 30 secondes.","ajoute les lentilles corail rincées, le lait de coco et un verre d'eau.","laisse mijoter 15-20 min à feu doux jusqu'à ce que les lentilles soient fondantes.","en fin de cuisson, ajoute les épinards, laisse-les tomber 2 min.","sers tel quel ou avec un peu de riz complet."],
+    astuce:"les lentilles corail n'ont pas besoin de trempage — c'est la légumineuse la plus rapide à cuisiner."
+  },
+  "Houmous & crudités":{
+    temps:"10 min", pour:"1 personne",
+    ingredients:["100g de pois chiches cuits (ou en bocal, égouttés)","1 c. à soupe de tahini (purée de sésame)","jus d'½ citron","1 petite gousse d'ail","filet d'huile d'olive","bâtonnets de concombre, carotte, poivron"],
+    etapes:["mets les pois chiches, le tahini, le citron, l'ail et un filet d'huile dans un mixeur.","mixe jusqu'à obtenir une texture lisse — ajoute un peu d'eau si c'est trop épais.","goûte, ajuste le sel et le citron.","coupe les légumes en bâtonnets et trempe-les dans le houmous."],
+    astuce:"le houmous se garde 3-4 jours au frigo. parfait en collation anti-fringale à garder prête."
+  },
+  "Curry de pois chiches":{
+    temps:"25 min", pour:"1 personne",
+    ingredients:["150g de pois chiches cuits","150 ml de lait de coco","½ oignon","1 c. à café de curry en poudre","½ c. à café de curcuma","une poignée d'épinards","un peu de riz complet"],
+    etapes:["fais revenir l'oignon émincé dans un peu d'huile 3-4 min.","ajoute le curry et le curcuma, mélange 30 secondes pour libérer les arômes.","ajoute les pois chiches et le lait de coco, laisse mijoter 12-15 min.","ajoute les épinards en fin de cuisson, laisse-les fondre 2 min.","sers avec un peu de riz complet."],
+    astuce:"curcuma et gingembre sont des épices au profil anti-inflammatoire — parfaites pour le terrain SMOP."
+  },
+  "Buddha bowl complet":{
+    temps:"30 min", pour:"1 personne",
+    ingredients:["60g de quinoa cru","100g de pois chiches cuits","½ avocat","1 carotte râpée","une poignée d'épinards","1 c. à soupe de tahini","jus de citron, huile d'olive"],
+    etapes:["cuis le quinoa 12-15 min, égoutte, laisse tiédir.","fais rôtir les pois chiches à la poêle avec un peu d'huile et des épices jusqu'à ce qu'ils soient dorés.","prépare la sauce : tahini + citron + un peu d'eau pour détendre.","dans un bol, dispose le quinoa, les épinards, la carotte, l'avocat et les pois chiches en sections.","arrose de sauce tahini au moment de servir."],
+    astuce:"un bowl, ça se compose à l'avance : prépare les éléments séparément, assemble au dernier moment."
+  },
+  "Tofu sauté & légumes croquants":{
+    temps:"20 min", pour:"1 personne",
+    ingredients:["150g de tofu ferme","1 brocoli (quelques bouquets)","½ poivron","1 c. à soupe de sauce soja","1 c. à café de graines de sésame","un peu de riz complet"],
+    etapes:["presse le tofu dans du papier absorbant, coupe-le en cubes.","fais-le dorer à la poêle dans un peu d'huile sur toutes les faces, réserve.","fais sauter le brocoli et le poivron 5-6 min — ils doivent rester croquants.","remets le tofu, ajoute la sauce soja, mélange 1 min.","parsème de graines de sésame, sers avec le riz."],
+    astuce:"bien presser le tofu avant cuisson = il dore mieux et absorbe les saveurs."
+  },
+  "Steak haché & ratatouille":{
+    temps:"30 min", pour:"1 personne",
+    ingredients:["1 steak haché 5%","½ courgette","½ aubergine","½ poivron","1 tomate","½ oignon","huile d'olive, herbes de Provence"],
+    etapes:["coupe tous les légumes en dés.","fais revenir l'oignon, puis ajoute aubergine et poivron, laisse 5 min.","ajoute courgette et tomate, les herbes, sel, poivre.","laisse mijoter 20 min à feu doux, en remuant de temps en temps.","pendant ce temps, cuis le steak haché à ta convenance. sers ensemble."],
+    astuce:"la ratatouille est meilleure réchauffée — fais-en plus, tu l'auras pour 2-3 repas."
+  },
+  "Papillote de poisson blanc":{
+    temps:"25 min", pour:"1 personne",
+    ingredients:["1 filet de cabillaud ou colin","½ courgette en rondelles","quelques tomates cerises","½ citron","filet d'huile d'olive, herbes, sel"],
+    etapes:["préchauffe le four à 190°C.","pose le poisson au centre d'une feuille de papier cuisson.","dispose les rondelles de courgette et les tomates autour.","arrose d'huile, de jus de citron, ajoute herbes et sel.","referme la papillote hermétiquement et enfourne 18-20 min."],
+    astuce:"la papillote cuit à la vapeur dans son jus : zéro matière grasse ajoutée nécessaire, et c'est ultra digeste le soir."
+  },
+  "Velouté de courge & œuf mollet":{
+    temps:"30 min", pour:"1 personne",
+    ingredients:["300g de courge (butternut, potimarron)","½ oignon","1-2 œufs","1 c. à soupe de graines de courge","sel, poivre, filet d'huile d'olive"],
+    etapes:["coupe la courge en cubes, fais revenir l'oignon dans une casserole.","ajoute la courge et de l'eau à hauteur, laisse cuire 20 min.","mixe jusqu'à obtenir un velouté lisse, assaisonne.","pour l'œuf mollet : plonge-le 6 min dans l'eau bouillante, puis écale délicatement.","sers le velouté avec l'œuf mollet dessus et les graines de courge."],
+    astuce:"on ajoute toujours l'œuf et les graines : la courge seule fait monter la glycémie, les protéines et le gras la lissent."
+  },
+  "Tartare de saumon & avocat":{
+    temps:"15 min", pour:"1 personne",
+    ingredients:["120g de saumon très frais (qualité sashimi)","½ avocat","½ citron vert","ciboulette","1 c. à café de graines de sésame","filet d'huile d'olive"],
+    etapes:["coupe le saumon en petits dés au couteau.","coupe l'avocat en dés.","mélange délicatement saumon, avocat, jus de citron vert, ciboulette ciselée.","assaisonne d'un filet d'huile et de sel.","parsème de graines de sésame et sers frais."],
+    astuce:"utilise du saumon extra-frais (dis à ton poissonnier que c'est pour manger cru), ou du saumon surgelé décongelé pour plus de sécurité."
+  },
+  "Sardines & salade de pommes de terre":{
+    temps:"20 min", pour:"1 personne",
+    ingredients:["1 boîte de sardines à l'huile d'olive","2 petites pommes de terre","une poignée de haricots verts","1 œuf dur","moutarde, vinaigre, huile d'olive"],
+    etapes:["cuis les pommes de terre à l'eau 15-20 min, laisse-les REFROIDIR (étape importante).","cuis les haricots verts 8 min, l'œuf 9 min.","coupe les pommes de terre froides et l'œuf en rondelles.","prépare une vinaigrette moutarde-vinaigre-huile.","dispose tout dans l'assiette avec les sardines, assaisonne."],
+    astuce:"les pommes de terre FROIDES forment de l'amidon résistant, qui lisse la glycémie — bien mieux que chaudes."
+  },
+  "Pancakes flocons-banane":{
+    temps:"15 min", pour:"1 personne",
+    ingredients:["3 c. à soupe de flocons d'avoine","1 œuf","½ banane bien mûre","½ c. à café de cannelle de Ceylan","un peu d'huile pour la poêle"],
+    etapes:["mixe les flocons d'avoine pour en faire une farine grossière.","écrase la banane à la fourchette, ajoute l'œuf, la farine d'avoine et la cannelle.","mélange jusqu'à obtenir une pâte homogène.","fais cuire de petits pancakes à feu doux, 2 min de chaque côté.","sers avec quelques fruits rouges plutôt que du sirop."],
+    astuce:"l'avoine et l'œuf ralentissent l'absorption du sucre de la banane — un petit-déj gourmand mais malin. garde-le pour le week-end."
+  },
+};
+
 const REPAS = [
   // ── PETITS-DÉJEUNERS ──
   {moment:"matin",nom:"Œufs brouillés à l'avocat",
    compo:"2 œufs brouillés + ½ avocat + tomates cerises + thé vert ou café sans sucre",
    pourquoi:"protéines + bons gras = aucun pic de glycémie. tu tiens jusqu'au déjeuner sans fringale.",
-   prot:"~20g",tags:["rapide","anti-fringale"],profils:[]},
+   prot:"~20g",tags:["rapide","anti-fringale"],profils:[],
+   recette:{temps:"10 min",ingredients:["2 œufs","½ avocat mûr","une poignée de tomates cerises","1 c. à café d'huile d'olive ou de beurre","sel, poivre"],etapes:["casse les 2 œufs dans un bol, bats-les à la fourchette avec une pincée de sel","fais chauffer l'huile à feu doux dans une poêle","verse les œufs et remue doucement en continu jusqu'à la texture crémeuse (ne pas trop cuire)","coupe l'avocat en tranches et les tomates cerises en deux","dresse les œufs avec l'avocat et les tomates à côté, poivre et sers"]}},
   {moment:"matin",nom:"Skyr, oléagineux & cannelle",
    compo:"150g de skyr nature + 1 poignée d'amandes + ½ c. à café de cannelle de Ceylan + quelques myrtilles",
    pourquoi:"le skyr est très protéiné, les amandes apportent de bons gras, la cannelle de Ceylan soutient la glycémie.",
@@ -234,7 +324,8 @@ const REPAS = [
   {moment:"matin",nom:"Porridge chia-myrtilles",
    compo:"3 c. à soupe de graines de chia + lait végétal non sucré + myrtilles, laissé une nuit au frigo",
    pourquoi:"les graines de chia apportent des oméga-3 qui soutiennent le terrain anti-inflammatoire. à préparer la veille.",
-   prot:"~10g",tags:["végé","à préparer la veille"],profils:["inflammatoire"]},
+   prot:"~10g",tags:["végé","à préparer la veille"],profils:["inflammatoire"],
+   recette:{temps:"5 min + une nuit",ingredients:["3 c. à soupe de graines de chia","200ml de lait végétal non sucré","une poignée de myrtilles","½ c. à café de cannelle de Ceylan","quelques amandes effilées (optionnel)"],etapes:["mélange les graines de chia, le lait végétal et la cannelle dans un bocal","remue bien pour éviter les grumeaux, attends 5 min puis remue encore","ferme le bocal et laisse une nuit au réfrigérateur","le matin, le mélange a la texture d'un pudding","ajoute les myrtilles et les amandes effilées par-dessus, et déguste"]}},
   {moment:"matin",nom:"Omelette épinards-feta",
    compo:"2-3 œufs + une poignée d'épinards + un peu de feta émiettée + filet d'huile d'olive",
    pourquoi:"protéines complètes + légumes verts dès le matin. les épinards apportent fer et magnésium.",
@@ -252,7 +343,8 @@ const REPAS = [
   {moment:"midi",nom:"Bowl saumon-quinoa",
    compo:"saumon + quinoa + avocat + roquette + graines de courge + huile d'olive citron",
    pourquoi:"saumon et graines de courge apportent oméga-3 et zinc. la roquette est un crucifère qui soutient le foie.",
-   prot:"~30g",tags:["rassasiant","anti-fringale"],profils:["inflammatoire","androgenique"]},
+   prot:"~30g",tags:["rassasiant","anti-fringale"],profils:["inflammatoire","androgenique"],
+   recette:{temps:"20 min",ingredients:["1 pavé de saumon (env. 120g)","50g de quinoa cru","½ avocat","une poignée de roquette","1 c. à soupe de graines de courge","huile d'olive, citron, sel"],etapes:["rince le quinoa, puis cuis-le 12-15 min dans 2 fois son volume d'eau bouillante salée","pendant ce temps, cuis le saumon à la poêle 3-4 min de chaque côté (ou au four)","égoutte le quinoa et laisse-le tiédir","dans un bol, dispose le quinoa, la roquette, l'avocat en tranches et le saumon émietté","parsème de graines de courge, arrose d'huile d'olive et de citron, sale légèrement"]}},
   {moment:"midi",nom:"Salade de lentilles complète",
    compo:"lentilles + œuf dur + dés de feta + tomates + concombre + persil + vinaigrette huile d'olive",
    pourquoi:"les lentilles (IG bas) + l'œuf donnent des protéines végé et animales avec beaucoup de fibres rassasiantes.",
@@ -278,7 +370,8 @@ const REPAS = [
   {moment:"soir",nom:"Curry de pois chiches",
    compo:"pois chiches + lait de coco + épinards + curcuma + gingembre, servi avec un peu de riz complet",
    pourquoi:"les pois chiches (IG bas, fibres) + curcuma et gingembre, des épices au profil anti-inflammatoire.",
-   prot:"~16g",tags:["végé","batch-cookable"],profils:["inflammatoire"]},
+   prot:"~16g",tags:["végé","batch-cookable"],profils:["inflammatoire"],
+   recette:{temps:"25 min",ingredients:["1 boîte de pois chiches (240g égouttés)","100ml de lait de coco","une poignée d'épinards frais","1 c. à café de curcuma","1 c. à café de gingembre râpé","½ oignon","30g de riz complet (optionnel)","huile d'olive, sel"],etapes:["fais revenir l'oignon émincé dans un peu d'huile à feu moyen","ajoute le curcuma et le gingembre, mélange 30 secondes pour libérer les arômes","ajoute les pois chiches égouttés et le lait de coco, laisse mijoter 10 min","incorpore les épinards en fin de cuisson jusqu'à ce qu'ils fondent","sale, et sers avec un peu de riz complet si tu veux un repas plus consistant"]}},
   {moment:"soir",nom:"Cabillaud & légumes rôtis",
    compo:"dos de cabillaud + courgettes et poivrons rôtis + filet d'huile d'olive + herbes",
    pourquoi:"poisson blanc maigre, très protéiné et léger. les légumes rôtis remplissent l'assiette sans pic glycémique.",
@@ -320,7 +413,8 @@ const REPAS = [
   {moment:"midi",nom:"Buddha bowl complet",
    compo:"quinoa + pois chiches rôtis + avocat + carottes râpées + épinards + sauce tahini citron",
    pourquoi:"un bol végé complet : protéines végétales, fibres, bons gras. rassasiant longtemps grâce aux pois chiches (IG bas).",
-   prot:"~18g",tags:["végé","batch-cookable"],profils:["metabolique"]},
+   prot:"~18g",tags:["végé","batch-cookable"],profils:["metabolique"],
+   recette:{temps:"25 min",ingredients:["50g de quinoa cru","½ boîte de pois chiches (120g)","½ avocat","1 carotte","une poignée d'épinards","1 c. à soupe de tahini","jus de ½ citron","huile d'olive, sel, paprika"],etapes:["cuis le quinoa 12-15 min dans 2 fois son volume d'eau salée","égoutte les pois chiches, assaisonne-les de paprika et fais-les rôtir 15 min à la poêle ou au four jusqu'à ce qu'ils dorent","râpe la carotte, coupe l'avocat en tranches","prépare la sauce : mélange le tahini, le jus de citron, un filet d'eau et une pincée de sel","dans un bol, dispose le quinoa, les épinards, la carotte, les pois chiches et l'avocat, puis nappe de sauce tahini"]}},
   {moment:"midi",nom:"Sardines & salade de pommes de terre",
    compo:"sardines en boîte + pommes de terre froides + haricots verts + œuf dur + vinaigrette moutarde",
    pourquoi:"les sardines sont riches en oméga-3. les pommes de terre FROIDES forment de l'amidon résistant, qui lisse la glycémie.",
@@ -390,6 +484,33 @@ const save = (key, val) => { try { localStorage.setItem("sopklife_"+key, JSON.st
 const load = (key, def) => { try { const v = localStorage.getItem("sopklife_"+key); return v ? JSON.parse(v) : def; } catch(e) { return def; } };
 
 // ─── 15 FICHES SOS ───────────────────────────────────────────────────────────
+
+// ─── COACH MINDSET KAMILA ───
+// états émotionnels → message de Kamila (à retoucher par Ghiz, voix authentique)
+const MINDSET = [
+  {id:"decouragee", emoji:"😔", label:"découragée",
+   message:"ok. respire un coup ma go.\n\nle découragement avec le SMOP c'est pas un manque de volonté — c'est l'épuisement d'avoir essayé mille trucs sans qu'on t'explique vraiment ton corps.\n\nt'as le droit d'en avoir marre. vraiment.\n\nmais regarde : t'es là, t'as ouvert l'app. c'est déjà un pas que beaucoup ne font pas. on n'a pas besoin d'un grand soir, juste du prochain petit geste. un seul.",
+   geste:"fais juste UNE chose aujourd'hui. ta mission du jour, rien de plus. le reste attendra."},
+  {id:"anxieuse", emoji:"😰", label:"anxieuse",
+   message:"je suis là. pose-toi deux secondes avec moi.\n\nl'anxiété et le SMOP c'est un duo connu — tes hormones rendent ton système nerveux plus à vif. c'est pas toi qui « dramatises ». c'est biologique.\n\nlà maintenant t'as pas besoin de tout régler. juste de faire redescendre la vague.",
+   geste:"respire avec moi : inspire 4 secondes, expire 6 secondes. cinq fois. l'expiration longue, c'est ce qui calme tout le système."},
+  {id:"frustree", emoji:"😤", label:"frustrée",
+   message:"t'as raison d'être frustrée. je vais pas te dire « reste positive », ça serait insultant.\n\nle SMOP c'est injuste. les résultats sont lents, le corps fait ce qu'il veut, et personne autour comprend vraiment. y'a de quoi péter un câble.\n\nmais la frustration, c'est aussi le signe que tu veux que ça change. et ça, c'est une force — pas un défaut.",
+   geste:"défoule-toi pour de vrai : une marche rapide, de la musique fort, bouge ton corps. la frustration a besoin de sortir, pas d'être ravalée."},
+  {id:"seule", emoji:"🤍", label:"seule",
+   message:"se sentir seule avec ce truc, c'est un des poids les plus lourds. je le sais, je l'ai vécu.\n\npersonne autour comprend vraiment ce que c'est de se battre avec son propre corps tous les jours. et ça isole grave.\n\nmais là, maintenant, t'es pas seule. on est des milliers de Cysters à vivre exactement ça. moi la première.",
+   geste:"écris un mot dans la communauté Cysters, ou à quelqu'un de confiance. juste un message. briser le silence, ça allège déjà."},
+  {id:"epuisee", emoji:"😩", label:"épuisée",
+   message:"t'es pas paresseuse. t'es épuisée. c'est pas pareil et c'est important.\n\nton corps porte une charge invisible — hormonale, glycémique, mentale — que personne ne voit. forcément, ça vide.\n\naujourd'hui, l'objectif c'est pas la performance. c'est de tenir, doucement. et c'est largement suffisant.",
+   geste:"autorise-toi le repos sans culpabiliser. une vraie pause, de l'eau, une protéine. ton corps récupère mieux quand tu le brusques pas."},
+  {id:"mal", emoji:"🌧️", label:"pas dans mon assiette",
+   message:"pas besoin de mettre un mot précis dessus. parfois on est juste... pas bien. et c'est ok.\n\navec le SMOP, l'humeur peut tanguer sans raison apparente — c'est les hormones qui jouent en coulisses. tu fais pas semblant, c'est réel.\n\nsois douce avec toi aujourd'hui. comme tu le serais avec une amie qui file pas le moral.",
+   geste:"fais un truc qui te fait du bien, même minuscule : une douche chaude, ta série, l'air dehors. pas pour « te soigner », juste pour souffler."},
+  {id:"bien", emoji:"✨", label:"plutôt bien",
+   message:"ah ça fait plaisir ça ma go !\n\nprends une seconde pour le savourer pour de vrai. les bons jours avec le SMOP, on les mérite et on les célèbre.\n\net retiens cette sensation : c'est la preuve que ton corps PEUT aller mieux. garde-la en tête les jours plus durs — ils repasseront, et celui-là aussi reviendra.",
+   geste:"profite, et si tu peux, note dans ton journal ce qui va bien aujourd'hui. ça te servira de preuve les jours gris."},
+];
+
 const SOS_DATA = [
   {
     id:"fringale", emoji:"⚡", titre:"Fringale sucrée", couleur:"#D97706",
@@ -570,6 +691,66 @@ const SOS_DATA = [
     action1h:"si tu ne te rendors pas en 20 min — lève-toi 15 minutes. lumière tamisée. pas d'écran. retourne te coucher.",
     mecanisme:"deux causes principales du réveil nocturne SOPK : le cortisol élevé la nuit qui supprime la mélatonine, et l'hypoglycémie nocturne qui déclenche une alerte adrénaline. les deux sont biologiques. les deux répondent au protocole sur plusieurs semaines.",
     kamila:"demain tu seras fatiguée. et tu continueras quand même. parce que t'as prouvé que tu peux. 🌿"
+  },
+  {
+    id:"buffet", emoji:"🍽️", titre:"Buffet / fête", couleur:"#CB9A79",
+    validation:"un buffet quand on a un SMOP, c'est pas juste de la nourriture.\nc'est l'abondance, le regard des autres, la peur de \"craquer\".\nrespire. tu peux traverser ça sereinement.",
+    actions5min:[
+      {em:"💧", t:"Un grand verre d'eau en arrivant", why:"calme la faim et ralentit le rythme"},
+      {em:"🥗", t:"Repère les protéines et légumes d'abord", why:"remplis ton assiette d'eux en priorité"},
+      {em:"🧘", t:"Trois respirations avant de te servir", why:"tu choisis, tu ne subis pas"},
+    ],
+    action1h:"sers-toi une assiette dans le bon ordre : légumes, protéines, puis une part de ce qui te fait plaisir. mange lentement. tu as le droit de te régaler sans culpabiliser.",
+    mecanisme:"face à l'abondance, le cerveau passe en mode \"prends tout maintenant\". ce n'est pas de la gourmandise — c'est un réflexe ancien. en mangeant les légumes et protéines en premier, tu lisses ta glycémie et tu coupes les fringales qui te pousseraient au rab de sucré.",
+    kamila:"un repas de fête ne défait pas des semaines de cohérence. profite, savoure, et reprends ton rythme demain. 🌿"
+  },
+  {
+    id:"poids-soudain", emoji:"⚖️", titre:"Prise de poids soudaine", couleur:"#B07050",
+    validation:"avant tout : ce chiffre ne dit pas ta valeur.\nle SMOP fait fluctuer le poids et l'eau du corps de façon parfois brutale et injuste.\nce n'est pas un échec. ce n'est pas ta faute.",
+    actions5min:[
+      {em:"🚫", t:"Éloigne-toi de la balance", why:"une pesée isolée ne veut rien dire avec un SMOP"},
+      {em:"💧", t:"Bois de l'eau", why:"la rétention d'eau gonfle le chiffre, paradoxalement l'eau aide"},
+      {em:"📝", t:"Note ce que tu ressens, pas le chiffre", why:"énergie, sommeil, fringales comptent plus"},
+    ],
+    action1h:"reviens à tes fondamentaux sans punition : un repas dans le bon ordre, une marche douce, du sommeil. pas de restriction brutale — ça aggrave tout avec un SMOP.",
+    mecanisme:"avec un SMOP, le poids peut grimper vite à cause de la rétention d'eau, des variations hormonales du cycle, du stress (cortisol) ou d'une nuit courte. ce n'est presque jamais de la \"vraie\" graisse installée en quelques jours. la restriction sévère, elle, fait flamber le cortisol et empire la situation.",
+    kamila:"ton corps traverse une vague, pas une marée. sois douce avec lui — la dureté n'a jamais rien réglé. 🌿"
+  },
+  {
+    id:"fatigue-repas", emoji:"🥱", titre:"Fatigue après le repas", couleur:"#7A5C45",
+    validation:"ce coup de barre juste après manger, tu le connais bien.\nce n'est pas de la paresse.\nc'est ta glycémie qui fait des montagnes russes.",
+    actions5min:[
+      {em:"🚶‍♀️", t:"Marche 10 minutes maintenant", why:"tes muscles absorbent le sucre et coupent la somnolence"},
+      {em:"💧", t:"Un verre d'eau", why:"la déshydratation amplifie le coup de barre"},
+      {em:"☀️", t:"Va à la lumière du jour", why:"elle relance la vigilance"},
+    ],
+    action1h:"au prochain repas, change l'ordre : légumes et protéines d'abord, féculents en dernier et en quantité modérée. le coup de barre vient souvent d'un repas trop riche en sucres rapides.",
+    mecanisme:"après un repas riche en glucides rapides, ta glycémie monte fort puis redescend brutalement. cette chute déclenche la somnolence. avec un SMOP et une insuline déjà sollicitée, le phénomène est amplifié. manger dans le bon ordre lisse la courbe et garde ton énergie stable.",
+    kamila:"ce n'est pas \"normal\" d'avoir besoin d'une sieste après chaque repas. tu peux changer ça, repas après repas. 🌿"
+  },
+  {
+    id:"angoisse", emoji:"💗", titre:"Crise d'angoisse", couleur:"#5B7FA6",
+    validation:"là, maintenant, ton corps sonne l'alarme.\nton cœur s'emballe, ta poitrine se serre, tout s'accélère.\ntu n'es pas en danger. ça va passer. je reste avec toi.",
+    actions5min:[
+      {em:"🫁", t:"Respire : 4 sec inspire, 6 sec expire", why:"l'expiration longue calme le système nerveux"},
+      {em:"🖐️", t:"Nomme 5 choses que tu vois autour de toi", why:"ça ramène ton cerveau dans le présent"},
+      {em:"❄️", t:"De l'eau fraîche sur les poignets ou le visage", why:"ça apaise la réponse de panique"},
+    ],
+    action1h:"une fois la vague passée, sois douce : une boisson chaude, un endroit calme, pas d'écran anxiogène. l'angoisse épuise — laisse-toi récupérer sans culpabiliser.",
+    mecanisme:"le SMOP et l'anxiété sont liés : les variations hormonales et un cortisol souvent élevé rendent le système nerveux plus réactif. une crise d'angoisse est une fausse alarme du corps — intense, mais sans danger réel. la respiration lente envoie au cerveau le signal que la menace est passée.",
+    kamila:"ce que tu ressens est réel et tu n'exagères pas. mais ça va passer, comme à chaque fois. tu es plus solide que cette vague. 🌿"
+  },
+  {
+    id:"solitude", emoji:"🤍", titre:"Je me sens seule", couleur:"#C2AEBA",
+    validation:"se sentir seule avec un SMOP, c'est l'un des poids les plus lourds.\npersonne autour ne comprend vraiment ce que tu traverses.\nmais là, tu n'es pas seule. d'autres Cysters vivent exactement ça.",
+    actions5min:[
+      {em:"💬", t:"Écris dans la communauté Cysters", why:"d'autres comprennent sans que tu aies à expliquer"},
+      {em:"🎧", t:"Écoute un vocal de Kamila", why:"une voix qui te comprend, là, maintenant"},
+      {em:"📝", t:"Écris ce que tu ressens dans ton journal", why:"poser les mots allège le poids"},
+    ],
+    action1h:"contacte une personne de confiance, même juste pour parler d'autre chose. l'isolement nourrit la solitude — un seul lien, même petit, change la journée.",
+    mecanisme:"le SMOP est souvent invisible et incompris, ce qui crée un vrai sentiment d'isolement. s'y ajoutent les effets hormonaux sur l'humeur. ce n'est pas \"dans ta tête\" : c'est une charge réelle. mais elle s'allège dès qu'elle est partagée avec des personnes qui vivent la même chose.",
+    kamila:"tu as construit une communauté entière de femmes qui te ressemblent. tu n'as jamais été aussi entourée que maintenant. 🤍"
   },
 ];
 
@@ -961,6 +1142,10 @@ export default function App() {
   const [victories, setVictories] = useState(() => load("victories",{}));
   const [notes, setNotes] = useState(() => load("notes",{}));
   const [symptoms, setSymptoms] = useState(() => load("symptoms",{}));
+  const [journalWeek, setJournalWeek] = useState(() => load("journalWeek",1));
+  const [toast, setToast] = useState(null);
+  const [mindsetOpen, setMindsetOpen] = useState(null);
+  const showToast = (titre, sousTitre) => { setToast({titre,sousTitre}); setTimeout(()=>setToast(null), 3400); };
   const [markers, setMarkers] = useState(() => load("markers",{}));
   const [translation, setTranslation] = useState(null);
   const [translating, setTranslating] = useState(false);
@@ -972,16 +1157,18 @@ export default function App() {
   const [criseMode, setCriseMode] = useState(false);
   const [modePrio, setModePrio] = useState(false);
   const [prenomInput, setPrenomInput] = useState("");
+  const [showOnboarding, setShowOnboarding] = useState(() => load("onboardingDone","no")==="no");
   const [foodSearch, setFoodSearch] = useState("");
   const [outilOpen, setOutilOpen] = useState("aliments");
   const [repasMoment, setRepasMoment] = useState("matin");
+  const [recetteOpen, setRecetteOpen] = useState(null);
   const inputRef = useRef(null);
 
   const pc = C.profils[profil];
 
   useEffect(()=>{
     const s=document.createElement("style");
-    s.innerHTML=`@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&display=swap');*{box-sizing:border-box;margin:0;padding:0;}@keyframes fadeUp{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}@keyframes spin{to{transform:rotate(360deg);}}@keyframes breathe{0%,100%{opacity:1;}50%{opacity:0.92;}}.fu{animation:fadeUp 0.35s ease forwards;}.breathe{animation:breathe 5s ease-in-out infinite;}input:focus,textarea:focus{outline:none;}::-webkit-scrollbar{width:3px;}::-webkit-scrollbar-thumb{background:#E8DDD3;border-radius:99px;}`;
+    s.innerHTML=`@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&display=swap');*{box-sizing:border-box;margin:0;padding:0;}@keyframes toastUp{from{opacity:0;transform:translate(-50%,12px)}to{opacity:1;transform:translate(-50%,0)}}@keyframes fadeUp{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}@keyframes spin{to{transform:rotate(360deg);}}@keyframes breathe{0%,100%{opacity:1;}50%{opacity:0.92;}}.fu{animation:fadeUp 0.35s ease forwards;}.breathe{animation:breathe 5s ease-in-out infinite;}input:focus,textarea:focus{outline:none;}::-webkit-scrollbar{width:3px;}::-webkit-scrollbar-thumb{background:#E8DDD3;border-radius:99px;}`;
     document.head.appendChild(s);
     return()=>document.head.removeChild(s);
   },[]);
@@ -995,13 +1182,15 @@ export default function App() {
   useEffect(()=>{ save("victories",victories); },[victories]);
   useEffect(()=>{ save("notes",notes); },[notes]);
   useEffect(()=>{ save("symptoms",symptoms); },[symptoms]);
+  useEffect(()=>{ save("journalWeek",journalWeek); },[journalWeek]);
+  useEffect(()=>{ setJournalWeek(Math.ceil(day/7)); },[day]);
   useEffect(()=>{ save("markers",markers); },[markers]);
 
   const completedCount = Object.values(checked).filter(Boolean).length;
   const baseScore = 76;
   const score = Math.max(8, baseScore - completedCount * 1.5);
   const week = Math.ceil(day/7);
-  const weekWins = victories[week]||[];
+  const weekWins = victories[journalWeek]||[];
   const todayData = MISSIONS_META[day-1]||MISSIONS_META[0];
 
   const translate = async () => {
@@ -1247,6 +1436,38 @@ export default function App() {
   return (
     <div style={{fontFamily:"'DM Sans',sans-serif",background:C.cream,minHeight:"100vh",maxWidth:430,margin:"0 auto",paddingBottom:80}}>
 
+      {/* ONBOARDING — bienvenue (s'affiche une seule fois) */}
+      {showOnboarding&&(
+        <div style={{position:"fixed",inset:0,background:"rgba(61,43,31,0.55)",zIndex:100,display:"flex",alignItems:"center",justifyContent:"center",padding:20,maxWidth:430,margin:"0 auto"}}>
+          <div style={{background:C.white,borderRadius:22,padding:"1.6rem 1.4rem",maxWidth:360,width:"100%",boxShadow:"0 12px 40px rgba(0,0,0,0.25)"}}>
+            <div style={{fontSize:34,textAlign:"center",marginBottom:8}}>🌿</div>
+            <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.35rem",color:C.brown,textAlign:"center",marginBottom:6,lineHeight:1.25}}>Bienvenue {prenom} 💛</div>
+            <div style={{fontSize:12.5,color:C.mid,lineHeight:1.6,textAlign:"center",marginBottom:18}}>
+              avant de te lancer, juste l'essentiel pour ne pas te sentir perdue :
+            </div>
+
+            {[
+              {n:"1",t:"Commence par ta mission du jour",d:"chaque jour, une seule action concrète t'attend dans l'onglet Kamila 🌿. fais-la, c'est tout. le reste viendra naturellement."},
+              {n:"2",t:"Explore les autres onglets quand tu veux",d:"SOS ⚡ quand ça ne va pas, Outils 🧰 pour chercher un aliment ou une idée repas, Analyses 🔬 pour comprendre tes prises de sang."},
+              {n:"3",t:"Avance à ton rythme",d:"pas de pression, pas de perfection. un petit geste par jour suffit. je suis là pour t'accompagner, pas pour te juger."},
+            ].map((s,i)=>(
+              <div key={i} style={{display:"flex",gap:11,marginBottom:13,alignItems:"flex-start"}}>
+                <div style={{width:26,height:26,borderRadius:"50%",background:pc.p,color:"white",fontSize:13,fontWeight:700,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>{s.n}</div>
+                <div style={{flex:1}}>
+                  <div style={{fontSize:12.5,fontWeight:700,color:C.brown,marginBottom:2}}>{s.t}</div>
+                  <div style={{fontSize:11,color:C.mid,lineHeight:1.5}}>{s.d}</div>
+                </div>
+              </div>
+            ))}
+
+            <button onClick={()=>{setShowOnboarding(false);save("onboardingDone","yes");}}
+              style={{width:"100%",background:pc.p,border:"none",padding:"14px",borderRadius:14,color:"white",fontFamily:"inherit",fontSize:14,fontWeight:600,cursor:"pointer",marginTop:6}}>
+              C'est parti, montre-moi le Jour 1 →
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* HEADER */}
       <div style={{background:`linear-gradient(135deg,${pc.p},#9A6040)`,padding:"1rem 1.25rem",color:"white"}}>
         <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start"}}>
@@ -1293,14 +1514,30 @@ export default function App() {
         {/* ── KAMILA ── */}
         {tab==="kamila"&&(
           <div className="fu">
+            {/* Compteur de progression */}
+            <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:8}}>
+              <div style={{fontSize:12,fontWeight:700,color:C.brown}}>Jour {day} <span style={{color:C.light,fontWeight:500}}>sur 30</span></div>
+              <div style={{fontSize:10,color:C.light}}>{Object.values(checked).filter(Boolean).length} missions accomplies</div>
+            </div>
+            {/* Barre de progression */}
+            <div style={{height:6,background:C.border,borderRadius:99,marginBottom:12,overflow:"hidden"}}>
+              <div style={{height:"100%",width:`${(day/30)*100}%`,background:`linear-gradient(90deg,${pc.p},${pc.p}CC)`,borderRadius:99,transition:"width 0.4s"}}/>
+            </div>
+
             {/* Sélecteur jours */}
-            <div style={{display:"flex",gap:5,marginBottom:14,overflowX:"auto",paddingBottom:2}}>
-              {Array.from({length:30},(_,i)=>i+1).slice(Math.max(0,day-4),day+5).map(d=>(
-                <button key={d} onClick={()=>setDay(d)}
-                  style={{flexShrink:0,width:32,height:32,borderRadius:"50%",border:`2px solid ${d===day?pc.p:checked[d]?pc.p:C.border}`,background:d===day?pc.p:checked[d]?`${pc.p}20`:C.white,color:d===day?"white":C.brown,fontSize:10,fontWeight:500,cursor:"pointer",fontFamily:"inherit"}}>
-                  {checked[d]&&d!==day?"✓":d}
-                </button>
-              ))}
+            <div style={{display:"flex",alignItems:"center",gap:6,marginBottom:14}}>
+              <button onClick={()=>setDay(d=>Math.max(1,d-1))} disabled={day<=1}
+                style={{flexShrink:0,width:30,height:30,borderRadius:"50%",border:`1.5px solid ${C.border}`,background:C.white,color:day<=1?C.border:pc.p,fontSize:15,cursor:day<=1?"default":"pointer",fontFamily:"inherit",display:"flex",alignItems:"center",justifyContent:"center"}}>{"‹"}</button>
+              <div style={{display:"flex",gap:5,overflowX:"auto",paddingBottom:2,flex:1}}>
+                {Array.from({length:30},(_,i)=>i+1).slice(Math.max(0,day-4),day+5).map(d=>(
+                  <button key={d} onClick={()=>setDay(d)}
+                    style={{flexShrink:0,width:32,height:32,borderRadius:"50%",border:`2px solid ${d===day?pc.p:checked[d]?pc.p:C.border}`,background:d===day?pc.p:checked[d]?`${pc.p}20`:C.white,color:d===day?"white":C.brown,fontSize:10,fontWeight:500,cursor:"pointer",fontFamily:"inherit"}}>
+                    {checked[d]&&d!==day?"✓":d}
+                  </button>
+                ))}
+              </div>
+              <button onClick={()=>setDay(d=>Math.min(30,d+1))} disabled={day>=30}
+                style={{flexShrink:0,width:30,height:30,borderRadius:"50%",border:`1.5px solid ${day>=30?C.border:pc.p}`,background:day>=30?C.white:pc.p,color:day>=30?C.border:"white",fontSize:15,cursor:day>=30?"default":"pointer",fontFamily:"inherit",display:"flex",alignItems:"center",justifyContent:"center",boxShadow:day>=30?"none":`0 2px 8px ${pc.p}50`}}>{"›"}</button>
             </div>
 
             {/* ── AUJOURD'HUI TON CORPS ── */}
@@ -1337,7 +1574,20 @@ export default function App() {
                   <div style={{fontSize:9,letterSpacing:1.5,textTransform:"uppercase",color:C.light,marginBottom:3}}>{todayData.emoji} {todayData.theme}</div>
                   <div style={{fontSize:13,fontWeight:600,color:C.brown,lineHeight:1.35,whiteSpace:"pre-line"}}>{todayData.mission}</div>
                 </div>
-                <button onClick={()=>setChecked(p=>({...p,[day]:!p[day]}))}
+                <button onClick={()=>{
+                  const wasChecked=checked[day];
+                  setChecked(p=>({...p,[day]:!p[day]}));
+                  if(!wasChecked){
+                    // mission validée — calcule les jalons
+                    const newCount=Object.values({...checked,[day]:true}).filter(Boolean).length;
+                    if(day===7) showToast("Première semaine complète 💛","sept jours de cohérence — c'est énorme, bravo.");
+                    else if(day===14) showToast("Mi-parcours atteint 🌿","la moitié du chemin. ton corps enregistre déjà les changements.");
+                    else if(day===21) showToast("Trois semaines 🌸","tu tiens le rythme. la plupart abandonnent avant. pas toi.");
+                    else if(day===30) showToast("Protocole terminé 🎉","30 jours. tu n'es plus la même qu'au départ. fière de toi.");
+                    else if(day%7===0) showToast(`Semaine ${Math.ceil(day/7)} complète 🌿`,"une semaine de plus dans la cohérence.");
+                    else showToast(`Jour ${day} validé 🌿`, todayData.victoire);
+                  }
+                }}
                   style={{width:36,height:36,borderRadius:"50%",border:`2px solid ${checked[day]?pc.p:C.border}`,background:checked[day]?pc.p:"transparent",cursor:"pointer",fontSize:15,color:"white",flexShrink:0,transition:"all 0.25s",fontFamily:"inherit"}}>
                   {checked[day]?"✓":""}
                 </button>
@@ -1462,6 +1712,36 @@ export default function App() {
                 );
               })}
               <div style={{fontSize:9,color:C.light,textAlign:"center",marginTop:4}}>certains messages se débloquent au fil de ton protocole</div>
+            </div>
+
+            {/* ── COACH MINDSET ── */}
+            <div style={{background:`linear-gradient(135deg,${pc.l},${C.cream})`,borderRadius:16,padding:"1rem",marginBottom:10,border:`1px solid ${C.border}`}}>
+              <div style={{fontSize:12,fontWeight:700,color:C.brown,marginBottom:3}}>🤍 Comment tu te sens, là ?</div>
+              <div style={{fontSize:10.5,color:C.mid,marginBottom:11,lineHeight:1.5}}>dis-moi ton humeur du moment, et je te réponds. 🌿</div>
+              <div style={{display:"flex",flexWrap:"wrap",gap:6}}>
+                {MINDSET.map(m=>{
+                  const sel=mindsetOpen===m.id;
+                  return(
+                    <button key={m.id} onClick={()=>setMindsetOpen(sel?null:m.id)}
+                      style={{padding:"8px 12px",borderRadius:99,border:`1.5px solid ${sel?pc.p:C.border}`,background:sel?pc.p:C.white,color:sel?"white":C.brown,fontSize:11,fontWeight:500,cursor:"pointer",fontFamily:"inherit"}}>
+                      {m.emoji} {m.label}
+                    </button>
+                  );
+                })}
+              </div>
+              {mindsetOpen&&(()=>{
+                const m=MINDSET.find(x=>x.id===mindsetOpen);
+                return(
+                  <div style={{marginTop:12,background:C.white,borderRadius:12,padding:"13px",border:`1px solid ${pc.p}`,animation:"fadeUp 0.3s ease"}}>
+                    <div style={{fontSize:12,color:C.brown,lineHeight:1.7,whiteSpace:"pre-line",marginBottom:10}}>{m.message}</div>
+                    <div style={{background:`${pc.p}10`,borderRadius:10,padding:"9px 11px",display:"flex",gap:8,alignItems:"flex-start"}}>
+                      <div style={{fontSize:13,flexShrink:0}}>👉</div>
+                      <div style={{fontSize:11,color:C.mid,lineHeight:1.5,fontWeight:500}}>{m.geste}</div>
+                    </div>
+                    <div style={{fontSize:9.5,color:C.light,textAlign:"right",marginTop:7,fontStyle:"italic"}}>— Kamila</div>
+                  </div>
+                );
+              })()}
             </div>
 
             {/* Navigation */}
@@ -1622,6 +1902,49 @@ export default function App() {
                       </div>
                       <div style={{fontSize:11,color:C.brown,lineHeight:1.6,marginBottom:8,background:C.cream,borderRadius:10,padding:"9px 11px"}}>{r.compo}</div>
                       <div style={{fontSize:11,color:C.mid,lineHeight:1.6,fontStyle:"italic"}}>💡 {r.pourquoi}</div>
+                      {RECETTES[r.nom]&&(
+                        <div style={{marginTop:9}}>
+                          <button onClick={()=>setRecetteOpen(recetteOpen===r.nom?null:r.nom)}
+                            style={{width:"100%",background:recetteOpen===r.nom?pc.p:`${pc.p}12`,border:`1px solid ${pc.p}`,borderRadius:10,padding:"9px 12px",cursor:"pointer",fontFamily:"inherit",fontSize:11,fontWeight:600,color:recetteOpen===r.nom?"white":pc.p,display:"flex",alignItems:"center",justifyContent:"space-between"}}>
+                            <span>📖 {recetteOpen===r.nom?"masquer la recette":"voir la recette détaillée"}</span>
+                            <span>{recetteOpen===r.nom?"✕":"→"}</span>
+                          </button>
+                          {recetteOpen===r.nom&&(()=>{
+                            const rec=RECETTES[r.nom];
+                            return(
+                              <div style={{marginTop:8,background:C.cream,borderRadius:12,padding:"13px",animation:"fadeUp 0.3s ease"}}>
+                                <div style={{display:"flex",gap:10,marginBottom:10}}>
+                                  <div style={{fontSize:9,color:C.mid,background:C.white,borderRadius:99,padding:"3px 9px"}}>⏱️ {rec.temps}</div>
+                                  <div style={{fontSize:9,color:C.mid,background:C.white,borderRadius:99,padding:"3px 9px"}}>👥 {rec.pour}</div>
+                                </div>
+                                <div style={{fontSize:10,fontWeight:700,color:C.brown,textTransform:"uppercase",letterSpacing:0.5,marginBottom:6}}>Ingrédients</div>
+                                <div style={{marginBottom:12}}>
+                                  {rec.ingredients.map((ing,k)=>(
+                                    <div key={k} style={{display:"flex",gap:7,marginBottom:4,alignItems:"flex-start"}}>
+                                      <div style={{color:pc.p,fontSize:11,flexShrink:0}}>•</div>
+                                      <div style={{fontSize:11,color:C.mid,lineHeight:1.4}}>{ing}</div>
+                                    </div>
+                                  ))}
+                                </div>
+                                <div style={{fontSize:10,fontWeight:700,color:C.brown,textTransform:"uppercase",letterSpacing:0.5,marginBottom:6}}>Préparation</div>
+                                <div style={{marginBottom:10}}>
+                                  {rec.etapes.map((et,k)=>(
+                                    <div key={k} style={{display:"flex",gap:9,marginBottom:7,alignItems:"flex-start"}}>
+                                      <div style={{width:18,height:18,borderRadius:"50%",background:pc.p,color:"white",fontSize:9,fontWeight:700,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,marginTop:1}}>{k+1}</div>
+                                      <div style={{fontSize:11,color:C.mid,lineHeight:1.5}}>{et}</div>
+                                    </div>
+                                  ))}
+                                </div>
+                                {rec.astuce&&(
+                                  <div style={{background:`${C.sage}22`,borderRadius:9,padding:"8px 10px",border:`1px solid ${C.sage}`}}>
+                                    <div style={{fontSize:10.5,color:"#4F6038",lineHeight:1.5}}>🌿 {rec.astuce}</div>
+                                  </div>
+                                )}
+                              </div>
+                            );
+                          })()}
+                        </div>
+                      )}
                     </div>
                   );
                 })}
@@ -1837,7 +2160,26 @@ export default function App() {
         {/* ── JOURNAL ── */}
         {tab==="journal"&&(
           <div className="fu">
-            <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.2rem",color:C.brown,marginBottom:14}}>Mon journal</div>
+            <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.2rem",color:C.brown,marginBottom:10}}>Mon journal</div>
+
+            {/* Sélecteur de semaine */}
+            <div style={{marginBottom:14}}>
+              <div style={{fontSize:9,letterSpacing:1,textTransform:"uppercase",color:C.light,marginBottom:6}}>quelle semaine veux-tu remplir ?</div>
+              <div style={{display:"flex",gap:6}}>
+                {[1,2,3,4].map(w=>{
+                  const cur=journalWeek===w;
+                  const isNow=Math.ceil(day/7)===w;
+                  return(
+                    <button key={w} onClick={()=>setJournalWeek(w)}
+                      style={{flex:1,padding:"9px 4px",borderRadius:11,border:`1.5px solid ${cur?pc.p:C.border}`,background:cur?pc.p:C.white,color:cur?"white":C.brown,fontSize:11,fontWeight:cur?700:500,cursor:"pointer",fontFamily:"inherit",position:"relative"}}>
+                      S{w}
+                      {isNow&&!cur&&<div style={{position:"absolute",top:3,right:5,width:5,height:5,borderRadius:"50%",background:pc.p}}/>}
+                    </button>
+                  );
+                })}
+              </div>
+              <div style={{fontSize:9,color:C.light,marginTop:5,fontStyle:"italic"}}>tu peux remplir ou revoir n'importe quelle semaine — le point coloré indique ta semaine en cours.</div>
+            </div>
 
             {/* ── SCORE TERRAIN VISUEL ── */}
             {(()=>{
@@ -1896,13 +2238,13 @@ export default function App() {
 
             {/* Victoires */}
             <div style={{background:`linear-gradient(135deg,${C.bubble},${C.sage}33)`,borderRadius:16,padding:"1rem",marginBottom:12,border:`1px solid ${C.border}`}}>
-              <div style={{fontSize:9,letterSpacing:2,textTransform:"uppercase",color:C.light,marginBottom:3}}>semaine {week} — mes victoires</div>
+              <div style={{fontSize:9,letterSpacing:2,textTransform:"uppercase",color:C.light,marginBottom:3}}>semaine {journalWeek} — mes victoires</div>
               <div style={{fontFamily:"'Playfair Display',serif",fontSize:"0.9rem",color:C.brown,marginBottom:10,fontStyle:"italic"}}>"le but n'est pas d'être parfaite. c'est de remarquer ce qui change."</div>
               <div style={{display:"flex",flexDirection:"column",gap:5}}>
                 {VICTORIES_LIST.map((v,i)=>{
                   const sel=weekWins.includes(i);
                   return(
-                    <button key={i} onClick={()=>setVictories(p=>{const c=p[week]||[];return{...p,[week]:sel?c.filter(x=>x!==i):[...c,i]};})}
+                    <button key={i} onClick={()=>{if(!sel)showToast("Victoire notée 🌸","chaque petit pas compte. continue.");setVictories(p=>{const c=p[journalWeek]||[];return{...p,[journalWeek]:sel?c.filter(x=>x!==i):[...c,i]};});}}
                       style={{display:"flex",alignItems:"center",gap:9,padding:"8px 10px",border:`1.5px solid ${sel?pc.p:C.border}`,borderRadius:11,background:sel?`${pc.p}10`:C.white,cursor:"pointer",fontFamily:"inherit",fontSize:11,color:C.brown,textAlign:"left",transition:"all 0.15s"}}>
                       <div style={{width:16,height:16,borderRadius:"50%",border:`1.5px solid ${sel?pc.p:C.border}`,background:sel?pc.p:"transparent",flexShrink:0,display:"flex",alignItems:"center",justifyContent:"center"}}>
                         {sel&&<span style={{color:"white",fontSize:9}}>✓</span>}
@@ -1917,9 +2259,9 @@ export default function App() {
 
             {/* Suivi symptômes */}
             <div style={{background:C.white,borderRadius:14,padding:"1rem",marginBottom:10,border:`1px solid ${C.border}`}}>
-              <div style={{fontSize:11,fontWeight:600,color:C.brown,marginBottom:8}}>suivi — semaine {week}</div>
+              <div style={{fontSize:11,fontWeight:600,color:C.brown,marginBottom:8}}>suivi — semaine {journalWeek}</div>
               {["Énergie le matin","Fringales","Fatigue après repas","Humeur","Sommeil","Brouillard"].map((sym,i)=>{
-                const val=symptoms[`${week}_${i}`]||0;
+                const val=symptoms[`${journalWeek}_${i}`]||0;
                 const col=val>=4?"#7A9A5A":val>=3?pc.p:C.border;
                 return(
                   <div key={i} style={{marginBottom:10}}>
@@ -1929,7 +2271,7 @@ export default function App() {
                     </div>
                     <div style={{display:"flex",gap:5}}>
                       {[1,2,3,4,5].map(n=>(
-                        <button key={n} onClick={()=>setSymptoms(p=>({...p,[`${week}_${i}`]:n}))}
+                        <button key={n} onClick={()=>setSymptoms(p=>({...p,[`${journalWeek}_${i}`]:n}))}
                           style={{flex:1,height:7,borderRadius:99,border:"none",background:n<=val?col:C.border,cursor:"pointer",transition:"all 0.2s"}}/>
                       ))}
                     </div>
@@ -1937,6 +2279,61 @@ export default function App() {
                 );
               })}
             </div>
+
+            {/* ── ÉVOLUTION DANS LE TEMPS ── */}
+            {(()=>{
+              const symNoms=["Énergie le matin","Fringales","Fatigue après repas","Humeur","Sommeil","Brouillard"];
+              const hasData=symNoms.some((_,i)=>[1,2,3,4].some(w=>symptoms[`${w}_${i}`]>0));
+              if(!hasData) return(
+                <div style={{background:C.bubble,borderRadius:14,padding:"1rem",marginBottom:10,border:`1px dashed ${C.border}`,textAlign:"center"}}>
+                  <div style={{fontSize:22,marginBottom:6}}>{"📈"}</div>
+                  <div style={{fontSize:11,color:C.mid,lineHeight:1.6}}>note tes symptômes chaque semaine — et tu verras ici, noir sur blanc, ton évolution dans le temps. {"🌿"}</div>
+                </div>
+              );
+              return(
+                <div style={{background:C.white,borderRadius:14,padding:"1rem",marginBottom:10,border:`1.5px solid ${pc.p}`}}>
+                  <div style={{fontSize:11,fontWeight:700,color:C.brown,marginBottom:3}}>{"📈"} Ton évolution dans le temps</div>
+                  <div style={{fontSize:10,color:C.light,marginBottom:12}}>regarde comment tes symptômes bougent, semaine après semaine</div>
+                  {symNoms.map((sym,i)=>{
+                    const vals=[1,2,3,4].map(w=>symptoms[`${w}_${i}`]||0);
+                    const filled=vals.filter(v=>v>0);
+                    if(filled.length===0) return null;
+                    const first=filled[0], last=filled[filled.length-1];
+                    const inverse=[1,2,5].includes(i);
+                    const diff=last-first;
+                    const positif=inverse?diff<0:diff>0;
+                    const stable=diff===0;
+                    return(
+                      <div key={i} style={{marginBottom:13}}>
+                        <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:5}}>
+                          <div style={{fontSize:10,color:C.brown,fontWeight:500}}>{sym}</div>
+                          {filled.length>1&&!stable&&(
+                            <div style={{fontSize:9,fontWeight:700,color:positif?"#5A7040":"#B07050",background:positif?"#7A9A5A20":"#D0877020",borderRadius:99,padding:"1px 7px"}}>
+                              {positif?"↗ s'améliore":"↘ à surveiller"}
+                            </div>
+                          )}
+                        </div>
+                        <div style={{display:"flex",gap:5,alignItems:"flex-end",height:40}}>
+                          {[1,2,3,4].map(w=>{
+                            const v=symptoms[`${w}_${i}`]||0;
+                            const h=v>0?Math.max(8,(v/5)*40):3;
+                            const isCur=w===week;
+                            const barCol=v>0?(inverse?(v<=2?"#7A9A5A":v<=3?pc.p:"#D08770"):(v>=4?"#7A9A5A":v>=3?pc.p:"#D08770")):C.border;
+                            return(
+                              <div key={w} style={{flex:1,display:"flex",flexDirection:"column",alignItems:"center",gap:3}}>
+                                <div style={{width:"100%",height:h,background:barCol,borderRadius:6,opacity:v>0?1:0.4,transition:"height 0.4s",border:isCur?`2px solid ${C.brown}`:"none"}}/>
+                                <div style={{fontSize:8,color:isCur?C.brown:C.light,fontWeight:isCur?700:400}}>S{w}</div>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    );
+                  })}
+                  <div style={{fontSize:9,color:C.light,fontStyle:"italic",marginTop:4,lineHeight:1.5}}>les changements de ton corps sont souvent progressifs — ce graphique les rend visibles. c'est ta preuve que ça avance. {"🌿"}</div>
+                </div>
+              );
+            })()}
 
             {/* Notes */}
             {[1,2,3,4].map(w=>(
@@ -1950,6 +2347,16 @@ export default function App() {
         )}
 
       </div>
+
+      {/* TOAST DE CÉLÉBRATION */}
+      {toast&&(
+        <div style={{position:"fixed",bottom:88,left:"50%",transform:"translateX(-50%)",zIndex:200,width:"calc(100% - 32px)",maxWidth:398,animation:"toastUp 0.35s ease"}}>
+          <div style={{background:`linear-gradient(135deg,${pc.p},#9A6040)`,borderRadius:16,padding:"13px 16px",boxShadow:"0 8px 28px rgba(0,0,0,0.28)",display:"flex",alignItems:"center",gap:12}}>
+            <div style={{fontSize:13,fontWeight:700,color:"white",lineHeight:1.3}}>{toast.titre}</div>
+            <div style={{flex:1,fontSize:11,color:"rgba(255,255,255,0.9)",lineHeight:1.4}}>{toast.sousTitre}</div>
+          </div>
+        </div>
+      )}
 
       {/* BOTTOM NAV */}
       <div style={{position:"fixed",bottom:0,left:"50%",transform:"translateX(-50%)",width:"100%",maxWidth:430,background:C.white,borderTop:`1px solid ${C.border}`,padding:"7px 0 10px",display:"flex",justifyContent:"space-around",zIndex:30}}>
