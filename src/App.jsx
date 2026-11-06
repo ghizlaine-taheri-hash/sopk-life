@@ -2795,7 +2795,7 @@ const VOCAUX = [
   {id:"miParcours",titre:"Mi-parcours",when:"J14",unlockDay:14,desc:"Pour la deuxième moitié",file:"https://res.cloudinary.com/drfu1c1u2/video/upload/f_mp3/v1781262394/Nouvel_enregistrement_3_oktybp.mp3"},
   {id:"difficile",titre:"Pour les jours difficiles",when:"SOS",unlockDay:1,desc:"Quand c'est dur",file:"https://res.cloudinary.com/drfu1c1u2/video/upload/f_mp3/v1781262416/Nouvel_enregistrement_4_ngzb7h.mp3"},
   {id:"rdv",titre:"Avant ton rendez-vous",when:"RDV",unlockDay:1,desc:"Pour entrer préparée",file:"https://res.cloudinary.com/drfu1c1u2/video/upload/f_mp3/v1781262416/Nouvel_enregistrement_5_zyqlh5.mp3"},
-  {id:"fin",titre:"30 jours — La fin",when:"J30",unlockDay:30,desc:"Ce que tu as construit",file:"https://res.cloudinary.com/drfu1c1u2/video/upload/f_mp3/v1781262415/Nouvel_enregistrement_6_t0wubb.mp3"},
+  {id:"fin",titre:"30 jours — le cap franchi",when:"J30",unlockDay:30,desc:"ta Fondation est posée, on continue ensemble",file:"https://res.cloudinary.com/drfu1c1u2/video/upload/f_mp3/v1781262415/Nouvel_enregistrement_6_t0wubb.mp3"},
 ];
 
 const GPS_DATA = [
