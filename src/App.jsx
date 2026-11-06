@@ -2939,6 +2939,8 @@ export default function App() {
   const [accMsg, setAccMsg] = useState("");
   const [accErr, setAccErr] = useState("");
   const [accBusy, setAccBusy] = useState(false);
+  const [accPrenom, setAccPrenom] = useState("");
+  const [accNewEmail, setAccNewEmail] = useState("");
 
   useEffect(()=>{ let subref;
     getSupabase().then(client=>{
@@ -3012,7 +3014,18 @@ export default function App() {
     }catch(e){ setAccErr("Une erreur est survenue, réessaie."); }
     setAccBusy(false);
   };
+  const savePrenom = () => { const v=accPrenom.trim(); setAccErr(""); setPrenom(v); save("prenom",v); setAccMsg("Prénom enregistré 🌿"); };
+  const changeEmail = async () => {
+    if(!sb||accBusy) return; setAccErr(""); setAccMsg(""); const email=accNewEmail.trim().toLowerCase();
+    if(!email||!email.includes("@")){ setAccErr("Entre un email valide."); return; }
+    setAccBusy(true);
+    try{ const { error } = await sb.auth.updateUser({ email });
+      if(error){ setAccErr(authErrFr(error.message)); } else { setAccMsg("Un email de confirmation t'a été envoyé — clique le lien pour valider ta nouvelle adresse."); setAccNewEmail(""); }
+    }catch(e){ setAccErr("Une erreur est survenue, réessaie."); }
+    setAccBusy(false);
+  };
   const logout = async () => { try{ sessionStorage.removeItem("sopklife_hydrated"); pulledRef.current=false; setShowAccount(false); await sb?.auth.signOut(); }catch(e){} };
+  useEffect(()=>{ if(showAccount){ setAccPrenom(prenom||""); setAccErr(""); setAccMsg(""); setNewPw(""); setAccNewEmail(""); } },[showAccount]);
   const showToast = (titre, sousTitre) => { setToast({titre,sousTitre}); setTimeout(()=>setToast(null), 3400); };
   const [markers, setMarkers] = useState(() => load("markers",{}));
   const [translation, setTranslation] = useState(null);
@@ -5645,12 +5658,32 @@ profil · 3 priorités · analyses à demander · ton suivi & tes tendances · s
               <div style={{fontSize:13,color:C.brown,fontWeight:600,wordBreak:"break-all"}}>{session?.user?.email||"—"}</div>
             </div>
 
+            {(accErr||accMsg)&&<div style={{fontSize:11,color:accErr?"#B5553F":"#4A7A52",background:accErr?"#FDF0E8":"#EAF3EA",borderRadius:9,padding:"8px 11px",marginBottom:12,lineHeight:1.5}}>{accErr||accMsg}</div>}
+
+            <div style={{background:C.white,borderRadius:14,padding:"14px 15px",border:`1px solid ${C.border}`,marginBottom:14}}>
+              <div style={{fontSize:11,fontWeight:700,color:C.brown,marginBottom:10}}>Mon prénom</div>
+              <div style={{display:"flex",gap:8}}>
+                <input value={accPrenom} onChange={e=>setAccPrenom(e.target.value)} placeholder="ton prénom"
+                  style={{flex:1,border:`1px solid ${C.border}`,borderRadius:10,padding:"11px",fontSize:13,fontFamily:"inherit",color:C.brown,background:C.cream,outline:"none"}}/>
+                <button onClick={savePrenom} style={{background:pc.p,color:"#fff",border:"none",borderRadius:10,padding:"0 16px",fontFamily:"inherit",fontSize:12,fontWeight:700,cursor:"pointer"}}>ok</button>
+              </div>
+            </div>
+
+            <div style={{background:C.white,borderRadius:14,padding:"14px 15px",border:`1px solid ${C.border}`,marginBottom:14}}>
+              <div style={{fontSize:11,fontWeight:700,color:C.brown,marginBottom:10}}>Changer mon email</div>
+              <input type="email" value={accNewEmail} onChange={e=>setAccNewEmail(e.target.value)} autoComplete="email" placeholder="nouvel email"
+                style={{width:"100%",border:`1px solid ${C.border}`,borderRadius:10,padding:"11px",fontSize:13,fontFamily:"inherit",color:C.brown,background:C.cream,outline:"none",marginBottom:8}}/>
+              <button onClick={changeEmail} disabled={accBusy||!accNewEmail}
+                style={{width:"100%",background:(accBusy||!accNewEmail)?C.light:pc.p,color:"#fff",border:"none",borderRadius:10,padding:"11px",fontFamily:"inherit",fontSize:12,fontWeight:700,cursor:(accBusy||!accNewEmail)?"default":"pointer"}}>
+                {accBusy?"un instant…":"mettre à jour mon email"}
+              </button>
+              <div style={{fontSize:9,color:C.light,marginTop:7,lineHeight:1.5}}>un email de confirmation sera envoyé à la nouvelle adresse pour valider le changement.</div>
+            </div>
+
             <div style={{background:C.white,borderRadius:14,padding:"14px 15px",border:`1px solid ${C.border}`,marginBottom:14}}>
               <div style={{fontSize:11,fontWeight:700,color:C.brown,marginBottom:10}}>Changer mon mot de passe</div>
               <input type="password" value={newPw} onChange={e=>setNewPw(e.target.value)} autoComplete="new-password" placeholder="nouveau mot de passe (6 caractères min.)"
                 style={{width:"100%",border:`1px solid ${C.border}`,borderRadius:10,padding:"11px",fontSize:13,fontFamily:"inherit",color:C.brown,background:C.cream,outline:"none",marginBottom:8}}/>
-              {accErr&&<div style={{fontSize:11,color:"#B5553F",background:"#FDF0E8",borderRadius:9,padding:"7px 10px",marginBottom:8,lineHeight:1.5}}>{accErr}</div>}
-              {accMsg&&<div style={{fontSize:11,color:"#4A7A52",background:"#EAF3EA",borderRadius:9,padding:"7px 10px",marginBottom:8,lineHeight:1.5}}>{accMsg}</div>}
               <button onClick={changePw} disabled={accBusy||newPw.length<6}
                 style={{width:"100%",background:(accBusy||newPw.length<6)?C.light:pc.p,color:"#fff",border:"none",borderRadius:10,padding:"11px",fontFamily:"inherit",fontSize:12,fontWeight:700,cursor:(accBusy||newPw.length<6)?"default":"pointer"}}>
                 {accBusy?"un instant…":"mettre à jour mon mot de passe"}
