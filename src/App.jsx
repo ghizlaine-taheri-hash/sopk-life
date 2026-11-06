@@ -5365,6 +5365,15 @@ export default function App() {
               "tu n'attends plus qu'on te sauve. tu collabores avec ton médecin. c'est très différent." — Kamila
             </div>
 
+            <div style={{display:"flex",gap:8,marginBottom:14}}>
+              <button onClick={()=>setTab("analyses")} style={{flex:1,display:"flex",alignItems:"center",gap:8,background:C.white,border:`1px solid ${C.border}`,borderRadius:12,padding:"11px 12px",cursor:"pointer",fontFamily:"inherit",textAlign:"left"}}>
+                <Icon name="flask" size={16} color={pc.p}/><span style={{fontSize:11.5,fontWeight:600,color:C.brown}}>Analyses de sang</span>
+              </button>
+              <button onClick={()=>setTab("journal")} style={{flex:1,display:"flex",alignItems:"center",gap:8,background:C.white,border:`1px solid ${C.border}`,borderRadius:12,padding:"11px 12px",cursor:"pointer",fontFamily:"inherit",textAlign:"left"}}>
+                <Icon name="calendar" size={16} color={pc.p}/><span style={{fontSize:11.5,fontWeight:600,color:C.brown}}>Mon journal</span>
+              </button>
+            </div>
+
             {SCRIPTS.map((sc,i)=>(
               <div key={i} style={{background:C.white,borderRadius:12,padding:"12px",marginBottom:8,border:`1px solid ${C.border}`}}>
                 <div style={{fontSize:11,fontWeight:600,color:C.brown,marginBottom:5}}>{sc.t}</div>
