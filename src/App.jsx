@@ -2941,6 +2941,7 @@ export default function App() {
   const [accBusy, setAccBusy] = useState(false);
   const [accPrenom, setAccPrenom] = useState("");
   const [accNewEmail, setAccNewEmail] = useState("");
+  const [dossierInner, setDossierInner] = useState("");
 
   useEffect(()=>{ let subref;
     getSupabase().then(client=>{
@@ -3067,7 +3068,7 @@ export default function App() {
 
   useEffect(()=>{
     const s=document.createElement("style");
-    s.innerHTML=`@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap');*{box-sizing:border-box;margin:0;padding:0;-webkit-font-smoothing:antialiased;}body{background:#FBF8F3;}@keyframes toastUp{from{opacity:0;transform:translate(-50%,12px)}to{opacity:1;transform:translate(-50%,0)}}@keyframes fadeUp{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}@keyframes spin{to{transform:rotate(360deg);}}@keyframes breathe{0%,100%{opacity:1;}50%{opacity:0.92;}}.fu{animation:fadeUp 0.35s ease forwards;}.breathe{animation:breathe 5s ease-in-out infinite;}input:focus,textarea:focus{outline:none;}::-webkit-scrollbar{width:3px;}::-webkit-scrollbar-thumb{background:#E8DDD3;border-radius:99px;}.app-shell{max-width:430px;margin:0 auto;}.sop-sidebar{display:none;}@media(min-width:900px){.app-shell{max-width:960px;display:flex;align-items:flex-start;}.sop-sidebar{display:flex!important;}.sop-main{flex:1;min-width:0;max-width:100%;}.mobile-tabs{display:none!important;}.bottom-nav-wrap{display:none!important;}}`;
+    s.innerHTML=`@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap');*{box-sizing:border-box;margin:0;padding:0;-webkit-font-smoothing:antialiased;}body{background:#FBF8F3;}@keyframes toastUp{from{opacity:0;transform:translate(-50%,12px)}to{opacity:1;transform:translate(-50%,0)}}@keyframes fadeUp{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}@keyframes spin{to{transform:rotate(360deg);}}@keyframes breathe{0%,100%{opacity:1;}50%{opacity:0.92;}}.fu{animation:fadeUp 0.35s ease forwards;}.breathe{animation:breathe 5s ease-in-out infinite;}input:focus,textarea:focus{outline:none;}::-webkit-scrollbar{width:3px;}::-webkit-scrollbar-thumb{background:#E8DDD3;border-radius:99px;}.app-shell{max-width:430px;margin:0 auto;}.sop-sidebar{display:none;}@media(min-width:900px){.app-shell{max-width:960px;display:flex;align-items:flex-start;}.sop-sidebar{display:flex!important;}.sop-main{flex:1;min-width:0;max-width:100%;}.mobile-tabs{display:none!important;}.bottom-nav-wrap{display:none!important;}}#sopk-dossier-content{color:#3D2B1F;line-height:1.5;font-family:Arial,sans-serif;}#sopk-dossier-content h1{font-size:20px;color:#3D2B1F;margin-bottom:8px;}#sopk-dossier-content h2{font-size:15px;color:#B07D4F;margin-top:20px;border-bottom:2px solid #E8DDD3;padding-bottom:4px;}#sopk-dossier-content table{border-collapse:collapse;width:100%;font-size:13px;margin-top:6px;}#sopk-dossier-content ul{font-size:13px;margin:6px 0 0 18px;}#sopk-dossier-content li{margin-bottom:4px;}#sopk-dossier-content .note{font-size:11px;color:#9A8578;font-style:italic;margin-top:24px;display:block;}@media print{body>*{visibility:hidden;}#sopk-dossier,#sopk-dossier *{visibility:visible;}#sopk-dossier{position:absolute;inset:0;overflow:visible;background:#fff;padding:0;}#sopk-dossier-content{max-width:100%;padding:0 10px;}.sopk-noprint{display:none!important;}}`;
     document.head.appendChild(s);
     return()=>document.head.removeChild(s);
   },[]);
@@ -3196,7 +3197,14 @@ export default function App() {
         <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.6rem",color:C.brown,fontWeight:600}}>SMOP Map</div>
         <div style={{fontSize:12,color:C.light,marginTop:4}}>{authMode==="signup"?"crée ton compte pour commencer":"contente de te revoir 🌿"}</div>
       </div>
+      <div style={{display:"flex",gap:6,background:C.bubble,borderRadius:13,padding:4,marginBottom:14}}>
+        <button onClick={()=>{setAuthMode("login");setAuthErr("");setAuthMsg("");}}
+          style={{flex:1,textAlign:"center",padding:"10px",borderRadius:10,border:"none",cursor:"pointer",fontFamily:"inherit",fontSize:12.5,fontWeight:authMode==="login"?700:500,background:authMode==="login"?C.white:"transparent",color:authMode==="login"?C.brown:C.mid,boxShadow:authMode==="login"?"0 2px 6px rgba(0,0,0,.05)":"none"}}>Me connecter</button>
+        <button onClick={()=>{setAuthMode("signup");setAuthErr("");setAuthMsg("");}}
+          style={{flex:1,textAlign:"center",padding:"10px",borderRadius:10,border:"none",cursor:"pointer",fontFamily:"inherit",fontSize:12.5,fontWeight:authMode==="signup"?700:500,background:authMode==="signup"?C.white:"transparent",color:authMode==="signup"?C.brown:C.mid,boxShadow:authMode==="signup"?"0 2px 6px rgba(0,0,0,.05)":"none"}}>Créer un compte</button>
+      </div>
       <div style={{background:C.white,borderRadius:18,padding:"1.3rem",border:`1px solid ${C.border}`}}>
+        {authMode==="signup" && <div style={{fontSize:11,color:C.mid,background:C.mauveSoft,borderRadius:10,padding:"9px 12px",marginBottom:14,lineHeight:1.5}}>première visite ? crée ton compte ici 🌿 c'est lui qui gardera ton suivi.</div>}
         <div style={{fontSize:10,letterSpacing:1,textTransform:"uppercase",color:C.light,marginBottom:6}}>Email</div>
         <input type="email" value={authEmail} onChange={e=>setAuthEmail(e.target.value)} autoComplete="email" placeholder="ton@email.fr"
           style={{width:"100%",border:`1px solid ${C.border}`,borderRadius:11,padding:"12px",fontSize:14,fontFamily:"inherit",color:C.brown,marginBottom:14,outline:"none",background:C.cream}}/>
@@ -3212,10 +3220,6 @@ export default function App() {
           {authBusy?"un instant…":(authMode==="signup"?"créer mon compte":"me connecter")}
         </button>
       </div>
-      <button onClick={()=>{setAuthMode(authMode==="signup"?"login":"signup");setAuthErr("");setAuthMsg("");}}
-        style={{marginTop:16,background:"none",border:"none",color:C.mid,fontSize:12,cursor:"pointer",fontFamily:"inherit",textAlign:"center"}}>
-        {authMode==="signup"?"j'ai déjà un compte · me connecter":"pas encore de compte · en créer un"}
-      </button>
       {authMode==="login" && <button onClick={forgotPw} disabled={authBusy}
         style={{marginTop:6,background:"none",border:"none",color:C.light,fontSize:11,cursor:"pointer",fontFamily:"inherit",textAlign:"center",textDecoration:"underline"}}>
         mot de passe oublié ?
@@ -5386,13 +5390,9 @@ profil · 3 priorités · analyses à demander · ton suivi & tes tendances · s
                   const trendsSection = trends.length ? `<h2>Tendances rep&eacute;r&eacute;es dans mon suivi</h2><ul>${trends.map(t=>`<li>${esc(t.text)}</li>`).join("")}</ul>` : "";
                   const poidsSection = (mesures.actif && poidsArr.length) ? `<h2>Poids</h2><p>Dernier : ${poidsArr[poidsArr.length-1].v} kg &middot; ${poidsArr.length} mesures sur la p&eacute;riode.</p>` : "";
                   const rows=prios.map((p,i)=>`<tr><td style="padding:6px 10px;border:1px solid #E8DDD3;font-weight:600">${i+1}. ${esc(p.t)}</td><td style="padding:6px 10px;border:1px solid #E8DDD3">${esc(p.geste)}</td></tr>`).join("");
-                  const html=`<!doctype html><html lang="fr"><head><meta charset="utf-8"><title>Dossier médecin — ${esc(prenom||"")}</title>
-                  <style>body{font-family:Arial,sans-serif;color:#3D2B1F;max-width:720px;margin:30px auto;padding:0 20px;line-height:1.5}
-                  h1{font-size:22px;color:#3D2B1F}h2{font-size:15px;color:#B07D4F;margin-top:22px;border-bottom:2px solid #E8DDD3;padding-bottom:4px}
-                  table{border-collapse:collapse;width:100%;font-size:13px;margin-top:6px}ul{font-size:13px}.note{font-size:11px;color:#9A8578;font-style:italic;margin-top:24px}
-                  .tag{display:inline-block;background:#F5EDE3;border-radius:20px;padding:2px 10px;font-size:12px;margin:2px}</style></head><body>
+                  const inner=`
                   <h1>Mon dossier SOPK — à présenter à mon médecin</h1>
-                  <div><strong>${esc(prenom||"")}</strong> · ${esc(pc.label)} · progression : jour ${day}/30, ${completedCount} missions validées</div>
+                  <div><strong>${esc(prenom||"")}</strong> · ${esc(pc.label)} · progression : jour ${day}, ${completedCount} missions validées</div>
                   <h2>Mes 3 priorités en ce moment</h2>
                   <table><tr><th style="padding:6px 10px;border:1px solid #E8DDD3;text-align:left">Priorité</th><th style="padding:6px 10px;border:1px solid #E8DDD3;text-align:left">Premier geste</th></tr>${rows}</table>
                   <h2>Analyses que je souhaite demander</h2>
@@ -5412,28 +5412,8 @@ profil · 3 priorités · analyses à demander · ton suivi & tes tendances · s
                     <li>Quelles pistes au-delà de la pilule ?</li>
                     <li>Vers quel spécialiste m'orienter si besoin ?</li>
                   </ul>
-                  <p class="note">Document personnel d'aide à la consultation — ne remplace pas un avis médical. Les analyses pertinentes et leur interprétation relèvent de ton médecin.</p>
-                  </body></html>`;
-                  // impression sans pop-up : iframe caché (non bloqué par le navigateur)
-                  try{
-                    const iframe=document.createElement("iframe");
-                    iframe.setAttribute("aria-hidden","true");
-                    iframe.style.cssText="position:fixed;right:0;bottom:0;width:0;height:0;border:0;";
-                    document.body.appendChild(iframe);
-                    const d=iframe.contentWindow.document; d.open(); d.write(html); d.close();
-                    const cleanup=()=>{ try{document.body.removeChild(iframe);}catch(e){} };
-                    iframe.onload=()=>{ setTimeout(()=>{ try{ iframe.contentWindow.focus(); iframe.contentWindow.print(); }catch(e){} setTimeout(cleanup,3000); },300); };
-                  }catch(e){
-                    try{
-                      const blob=new Blob([html],{type:"text/html"});
-                      const url=URL.createObjectURL(blob);
-                      const a=document.createElement("a");
-                      a.href=url; a.download=`dossier-sopk-${(prenom||"moi").replace(/[^a-z0-9]/gi,"-")}.html`;
-                      document.body.appendChild(a); a.click(); document.body.removeChild(a);
-                      setTimeout(()=>URL.revokeObjectURL(url),3000);
-                      showToast("Ton dossier est téléchargé 🌿","ouvre-le pour l'imprimer ou l'enregistrer en PDF.");
-                    }catch(e2){ showToast("Impossible de générer le dossier ici","réessaie depuis un navigateur à jour."); }
-                  }
+                  <span class="note">Document personnel d'aide à la consultation — ne remplace pas un avis médical. Les analyses pertinentes et leur interprétation relèvent de ton médecin.</span>`;
+                  setDossierInner(inner);
                 }}
                 style={{width:"100%",background:pc.p,border:"none",padding:"10px",borderRadius:10,color:"white",fontFamily:"inherit",fontSize:11,fontWeight:600,cursor:"pointer"}}>
                 Générer mon dossier PDF →
@@ -5695,6 +5675,18 @@ profil · 3 priorités · analyses à demander · ton suivi & tes tendances · s
             </button>
             <div style={{fontSize:9.5,color:C.light,textAlign:"center",marginTop:14,lineHeight:1.6}}>tes données sont sauvegardées automatiquement sur ton compte.</div>
           </div>
+        </div>
+      )}
+
+      {/* APERÇU DOSSIER MÉDECIN (impression / PDF, marche sur mobile) */}
+      {dossierInner&&(
+        <div id="sopk-dossier" style={{position:"fixed",inset:0,zIndex:400,background:"#fff",overflowY:"auto"}}>
+          <div className="sopk-noprint" style={{position:"sticky",top:0,background:C.cream,borderBottom:`1px solid ${C.border}`,padding:"12px 16px",display:"flex",alignItems:"center",justifyContent:"space-between",gap:10}}>
+            <button onClick={()=>setDossierInner("")} style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:10,padding:"9px 14px",fontFamily:"inherit",fontSize:12,color:C.mid,cursor:"pointer"}}>← fermer</button>
+            <button onClick={()=>window.print()} style={{background:pc.p,color:"#fff",border:"none",borderRadius:10,padding:"9px 16px",fontFamily:"inherit",fontSize:12,fontWeight:700,cursor:"pointer"}}>Imprimer / Enregistrer en PDF</button>
+          </div>
+          <div className="sopk-noprint" style={{fontSize:10.5,color:C.light,padding:"10px 20px 0",lineHeight:1.5,maxWidth:720,margin:"0 auto"}}>sur téléphone : appuie sur « Imprimer », puis en bas choisis « Enregistrer au format PDF » ou « Partager ».</div>
+          <div id="sopk-dossier-content" style={{maxWidth:720,margin:"0 auto",padding:"18px 20px 40px"}} dangerouslySetInnerHTML={{__html:dossierInner}}/>
         </div>
       )}
 
