@@ -857,7 +857,7 @@ const SOS_DATA = [
     ],
     action1h:"mange un vrai repas — protéines + graisses + légumes. dans le bon ordre.",
     mecanisme:"ton insuline a fait une montagne russe. elle a chuté. ton cerveau interprète ça comme une urgence et envoie l'alarme 'sucre maintenant'. c'est automatique. ce n'est pas toi.",
-    kamila:"chaque fringale que tu comprends est une fringale que tu subis moins la prochaine fois. 🌿",
+    kamila:"chaque fringale que tu comprends est une fringale que tu subis moins la prochaine fois.",
     secret:"la fringale de l'après-midi vient souvent d'un petit-déjeuner trop sucré le matin — même un « healthy » jus + granola. le pic du matin programme la chute de 16h. règle ton matin, et la fringale de l'aprèm s'efface souvent toute seule. la cause n'est pas là où tu crois.",
     monMot:"longtemps, chaque craquage me faisait honte. je pensais manquer de contrôle, je me promettais d'être plus forte la prochaine fois — et à 16h je me retrouvais encore devant le placard, à culpabiliser. comprendre que ces fringales étaient liées à mon insuline a tout changé. parce qu'on ne combat pas un signal biologique avec de la culpabilité. aujourd'hui, quand une fringale arrive, je ne me traite plus de faible : je cherche d'abord ce qui l'a déclenchée. souvent, la réponse avait commencé bien plus tôt dans la journée. et ça, personne ne me l'avait jamais expliqué.",
     liens:["ta mission \"l'ordre dans l'assiette\" (Jour 1)","tes recettes collations anti-fringale","la fiche SOS \"fatigue après repas\" si ça t'arrive souvent"]
@@ -872,7 +872,7 @@ const SOS_DATA = [
     ],
     action1h:"une protéine. maintenant. œuf, fromage blanc, amandes. pas de sucre.",
     mecanisme:"avec le SOPK, la fatigue peut venir de 6 endroits différents — l'insuline, l'inflammation, le cortisol, la thyroïde, les carences ou le rythme circadien. ce n'est pas une seule cause. c'est pour ça qu'elle résiste aux solutions simples.",
-    kamila:"ton corps ne fait pas exprès. il essaie de te parler. aujourd'hui tu l'écoutes. 🌿",
+    kamila:"ton corps ne fait pas exprès. il essaie de te parler. aujourd'hui tu l'écoutes.",
     secret:"avant de penser « je dors mal », fais vérifier ta ferritine ET ta vitamine D. une fatigue de fond avec un SMOP cache très souvent une ferritine basse (< 70) ou une vitamine D insuffisante — même quand le médecin dit que c'est « normal ». ce sont les deux premières choses à regarder.",
     monMot:"la fatigue a été l'un de mes symptômes les plus violents. parce qu'elle est invisible : les gens voient ton visage, pas le poids que tu portes à l'intérieur. je culpabilisais énormément, je me traitais de paresseuse. puis j'ai compris qu'on peut dormir toute une nuit et être épuisée quand même, quand le corps lutte en permanence. le jour où j'ai arrêté de me juger, j'ai commencé à chercher les vraies causes. aujourd'hui encore, quand la fatigue revient, je ne me demande plus « qu'est-ce qui ne va pas chez moi ? » mais « qu'est-ce que mon corps essaie de me dire ? »",
     liens:["l'onglet Analyses pour comprendre ta ferritine et ta vitamine D","tes recettes riches en fer (lentilles, saumon)","la fiche SOS \"réveil nocturne\" si ton sommeil est haché"]
@@ -887,7 +887,7 @@ const SOS_DATA = [
     ],
     action1h:"une seule tâche. pas trois. une. jusqu'au bout. puis la suivante.",
     mecanisme:"les cytokines inflammatoires traversent la barrière hémato-encéphalique et perturbent la neurotransmission. concrètement — ton cerveau reçoit des signaux parasites. ce n'est pas de la paresse. c'est de la neurobiologie.",
-    kamila:"un seul truc à la fois Cyster. le reste peut attendre. 🌿",
+    kamila:"un seul truc à la fois Cyster. le reste peut attendre.",
     secret:"le brouillard mental s'aggrave avec les pics et chutes de glycémie. après un repas trop sucré, le coup de barre cérébral est plus fort. stabiliser ta glycémie (protéines + bons gras à chaque repas) est souvent la première chose qui éclaircit les idées — avant même de penser au sommeil.",
     monMot:"il y a une fatigue que les gens comprennent. et puis il y a le brouillard mental : celui où tu cherches tes mots, où tu oublies ce que tu venais faire dans une pièce, où ton cerveau tourne au ralenti. parfois je me demandais si quelque chose n'allait pas dans ma tête — je me trouvais moins vive, moins efficace, moins moi. aujourd'hui je sais que quand le corps lutte en permanence, le cerveau finit souvent par payer une partie de la facture. ça ne veut pas dire que tu perds tes capacités. ça veut dire que ton corps réclame de l'aide.",
     liens:["ta mission du jour, une seule chose à la fois","tes recettes du matin riches en protéines","la fiche SOS \"fatigue profonde\" si le brouillard s'installe"]
@@ -902,7 +902,7 @@ const SOS_DATA = [
     ],
     action1h:"pas de produit agressif ce soir. juste nettoyage doux. laisse la peau respirer.",
     mecanisme:"les androgènes en excès activent tes glandes sébacées. trop de sébum = pores obstrués = inflammation = bouton. c'est pour ça que les crèmes seules ne règlent jamais rien durablement — elles traitent la conséquence, pas la cause.",
-    kamila:"ce bouton va partir. et le protocole s'attaque à ce qui le produit. 🌿",
+    kamila:"ce bouton va partir. et le protocole s'attaque à ce qui le produit.",
     secret:"l'acné du SMOP n'est pas un problème de peau de surface — elle vient de l'intérieur, du versant hormonal. c'est pour ça que les crèmes seules ne suffisent souvent pas. travailler la glycémie et l'insuline agit sur une des racines, là où aucun soin local ne va. la peau est le messager, pas la cause.",
     monMot:"l'acné m'a volé une grande partie de ma confiance. au lycée c'est devenu profond, douloureux. je me cachais derrière le fond de teint, je vérifiais mon visage dix fois par jour, et un seul nouveau bouton suffisait à gâcher ma journée. ce qui me faisait le plus souffrir, ce n'était pas l'acné — c'était de ne pas comprendre pourquoi elle revenait malgré tous mes efforts. j'avais l'impression que mon corps me déclarait la guerre. puis j'ai découvert que ce n'était pas un problème de peau : c'était hormonal, et ça se montrait sur ma peau. cette différence a tout changé. parce qu'à partir du moment où tu comprends la cause, tu arrêtes de te battre contre ton reflet.",
     liens:["l'onglet Analyses pour comprendre ton versant hormonal","tes recettes à index glycémique bas","tes scripts médecin pour aborder l'acné hormonale"]
@@ -917,7 +917,7 @@ const SOS_DATA = [
     ],
     action1h:"vérifier ta ferritine dans tes analyses. une ferritine < 70 est souvent la cause principale — même si ton médecin dit 'normale'.",
     mecanisme:"la DHT — dérivé de la testostérone — raccourcit la durée de vie de tes follicules capillaires. les cheveux poussent moins vite et tombent plus tôt. le protocole s'attaque à la DHT via plusieurs voies. la stabilisation arrive en 2-3 mois. la repousse en 4-6 mois.",
-    kamila:"ce que tu perds maintenant reviendra. le protocole travaille sur la cause. 🌿",
+    kamila:"ce que tu perds maintenant reviendra. le protocole travaille sur la cause.",
     secret:"une chute de cheveux avec un SMOP n'est pas toujours « hormonale » : très souvent, c'est une ferritine trop basse qui en est la vraie cause. exige le chiffre exact de ta ferritine — pas un « c'est normal ». en dessous de 70, les cheveux tombent, même si la valeur est dans les normes du labo.",
     monMot:"je me souviens du moment où j'ai commencé à regarder la brosse avant même de regarder mes cheveux. chaque douche était une angoisse, chaque mèche tombée semblait confirmer que je perdais une partie de moi. ce qui m'a le plus aidée, ce n'est pas une solution miracle : c'est de comprendre que la chute avait une cause — et qu'une cause, ça se travaille. les cheveux sont souvent les derniers à montrer une amélioration. c'est frustrant. mais ça ne veut pas dire que rien ne se passe : pendant des semaines, ton corps répare avant que tes yeux voient le résultat. accroche-toi à ça les jours où le miroir te décourage.",
     liens:["l'onglet Analyses pour traduire ta ferritine","tes scripts médecin pour demander le bon bilan","la fiche SOS \"poussée d'acné\" (même mécanisme hormonal)"]
@@ -932,7 +932,7 @@ const SOS_DATA = [
     ],
     action1h:"si > 90 jours sans règles — prends rendez-vous. les analyses à demander : LH, FSH, progestérone, prolactine, TSH.",
     mecanisme:"l'excès d'androgènes ou d'insuline perturbe la maturation des follicules. ils commencent à se développer mais n'arrivent pas à terme. pas d'ovulation = pas de règles. c'est mécanique. et ça se régule.",
-    kamila:"chaque action du protocole travaille à ramener ce cycle. c'est lent. mais c'est réel. 🌿",
+    kamila:"chaque action du protocole travaille à ramener ce cycle. c'est lent. mais c'est réel.",
     secret:"l'absence de règles n'est pas le problème en soi — c'est le signal d'une ovulation qui ne se fait pas régulièrement. noter tes cycles (même absents) sur plusieurs mois donne à ton médecin une information précieuse, bien plus utile qu'un simple « j'ai des cycles irréguliers ». tes données, c'est ton pouvoir en consultation.",
     monMot:"j'ai attendu mes règles pendant des mois, parfois presque un an. et quand elles arrivaient, elles ne repartaient plus — je pouvais saigner un mois, parfois deux. personne autour de moi ne vivait ça. je me sentais différente, cassée, comme si mon corps avait oublié comment fonctionner. longtemps j'ai cru que mes règles étaient le problème. avec le recul, je comprends qu'elles n'étaient que le signal : le vrai sujet se jouait en arrière-plan, dans mes hormones, mon ovulation, mon métabolisme. aujourd'hui je regarde mes cycles autrement. ils ne sont pas là pour me punir, mais pour me raconter ce qui se passe à l'intérieur.",
     liens:["ton Journal pour noter tes cycles dans le temps","l'onglet Analyses pour comprendre ton bilan hormonal","tes scripts médecin pour demander le bon suivi"]
@@ -947,7 +947,7 @@ const SOS_DATA = [
     ],
     action1h:"ibuprofène si nécessaire — pas de culpabilité. et note l'intensité sur 10 pour ton dossier médecin.",
     mecanisme:"les prostaglandines pro-inflammatoires provoquent les contractions utérines. avec un terrain inflammatoire SOPK, leur production est souvent excessive. les oméga-3 et le magnésium réduisent cette production progressivement.",
-    kamila:"ces douleurs méritent d'être prises au sérieux. par toi. et par ton médecin. 🌿",
+    kamila:"ces douleurs méritent d'être prises au sérieux. par toi. et par ton médecin.",
     secret:"une douleur de règles qui te plie en deux, qui te réveille la nuit, n'est PAS « normale » — même si on te l'a répété. une douleur intense mérite toujours une vraie recherche de cause (et parfois un avis sur l'endométriose, fréquemment associée). soulager sans comprendre, ce n'est pas se soigner.",
     monMot:"ce qui me met encore en colère, c'est qu'on a longtemps cherché à calmer ma douleur sans chercher à la comprendre. des douleurs qui me réveillaient la nuit, qui me pliaient en deux. on me donnait des médicaments, on me disait que ça passerait — mais personne ne me disait pourquoi. pendant des années, j'ai cru que souffrir faisait partie du contrat. aujourd'hui je sais que non. la douleur est un signal. pas une personnalité, pas une fatalité, pas quelque chose qu'on doit simplement apprendre à supporter.",
     liens:["tes scripts médecin pour faire entendre ta douleur","l'onglet Analyses pour préparer ta consultation","la fiche SOS \"mon médecin ne m'écoute pas\""]
@@ -962,7 +962,7 @@ const SOS_DATA = [
     ],
     action1h:"une seule mission. la plus petite. pas les 30 jours — juste la prochaine heure.",
     mecanisme:"le découragement avec le SOPK est souvent biologique autant qu'émotionnel. le cortisol élevé, l'inflammation, la résistance à l'insuline — tout ça affecte la dopamine et la sérotonine. tu ne 'penses trop'. ton cerveau reçoit de mauvais signaux chimiques.",
-    kamila:"t'es pas en train d'échouer Cyster. t'es en train de traverser quelque chose de difficile. c'est pas la même chose. 🌿",
+    kamila:"t'es pas en train d'échouer Cyster. t'es en train de traverser quelque chose de difficile. c'est pas la même chose.",
     secret:"le découragement arrive presque toujours au même moment : autour de la 2e-3e semaine, quand l'effort est là mais que les résultats visibles ne sont pas encore arrivés. ce n'est pas que ça ne marche pas — c'est que ton corps change à l'intérieur avant que ça se voie dehors. ce creux est NORMAL et il annonce souvent que le tournant est proche.",
     monMot:"longtemps, j'ai cru que j'étais juste nulle en discipline. je recommençais chaque lundi, puis j'abandonnais — et chaque abandon devenait la preuve que je n'y arriverais jamais. ce que je ne comprenais pas, c'est que je me battais contre quelque chose que personne ne m'avait expliqué. le jour où j'ai découvert le SMOP, j'ai arrêté de me voir comme un échec, et j'ai commencé à me voir comme une femme qui avait enfin une explication. le découragement n'a pas disparu d'un coup. mais j'ai arrêté de confondre une journée difficile avec une vie ratée. aujourd'hui si t'as plus de force, ne pense pas aux 30 prochains jours. pense juste au prochain petit pas.",
     liens:["ton onglet Journal pour voir ton évolution noir sur blanc","le coach mindset de Kamila quand le moral est bas","tes victoires déjà accomplies cette semaine"]
@@ -977,7 +977,7 @@ const SOS_DATA = [
     ],
     action1h:"prochain repas normal. pas de 'compensation'. pas de restriction. repas normal dans le bon ordre.",
     mecanisme:"la culpabilité après un craquage est le piège le plus courant. elle augmente le cortisol. le cortisol aggrave la résistance à l'insuline. qui aggrave les fringales. qui mène à un nouveau craquage. briser ce cycle — c'est ne pas culpabiliser.",
-    kamila:"le prochain repas recommence tout. pas lundi. le prochain repas. 🌿",
+    kamila:"le prochain repas recommence tout. pas lundi. le prochain repas.",
     secret:"un craquage suit presque toujours une restriction ou une glycémie en montagnes russes — pas un manque de volonté. plus tu te prives en journée, plus le cerveau réclame le soir. la solution n'est pas de te serrer encore plus la ceinture : c'est de manger ASSEZ et équilibré plus tôt, pour que le craquage n'ait plus de raison d'exister.",
     monMot:"pendant des années, j'ai cru que je manquais simplement de volonté. je tenais, puis je craquais, puis venait la culpabilité, puis la promesse de recommencer lundi — et le même scénario encore. ce que personne ne m'avait expliqué, c'est qu'un corps privé, épuisé ou soumis à des montagnes russes glycémiques finit souvent par réclamer de l'énergie. fort. très fort. aujourd'hui je vois ça autrement : un craquage n'est pas une preuve que tu es faible, c'est souvent une information, un message, une conséquence. quand j'ai commencé à chercher les causes plutôt qu'à me punir, j'ai enfin commencé à sortir du cycle.",
     liens:["ta mission \"l'ordre dans l'assiette\"","tes recettes collations anti-fringale","la fiche SOS \"fringale sucrée\""]
@@ -992,7 +992,7 @@ const SOS_DATA = [
     ],
     action1h:"une chose à la fois. écrire sur papier la liste de ce qui stresse. puis choisir une seule chose. une.",
     mecanisme:"le stress active l'axe HPA. cortisol produit. cortisol élevé = résistance à l'insuline aggravée + surrénales qui sur-produisent des androgènes. un jour de stress intense peut aggraver tes symptômes SOPK pendant 48-72h.",
-    kamila:"ce que tu ressens là est réel. et biologique. la cohérence cardiaque n'est pas du yoga — c'est de la neurobiologie appliquée. 🌿",
+    kamila:"ce que tu ressens là est réel. et biologique. la cohérence cardiaque n'est pas du yoga — c'est de la neurobiologie appliquée.",
     secret:"le SMOP et le stress s'aggravent mutuellement — c'est une relation bidirectionnelle bien documentée. un cortisol élevé en continu perturbe la glycémie et les hormones. ce n'est pas « juste dans la tête » : agir sur le stress (respiration, sommeil) agit aussi, concrètement, sur ton terrain hormonal.",
     monMot:"longtemps, j'ai cru que j'étais simplement quelqu'un de stressée. avec le recul, je vois surtout un corps qui tirait sur la corde depuis des années : les douleurs, les symptômes, les rendez-vous, les analyses, les inquiétudes. à force, le système d'alarme finit par rester allumé en permanence. le moindre imprévu me vidait, et je culpabilisais de ne pas gérer comme les autres. aujourd'hui je sais que quand un corps lutte depuis longtemps, il devient plus sensible aux signaux de danger. ça ne veut pas dire que tu es faible. ça veut souvent dire que tu es épuisée depuis trop longtemps.",
     liens:["le coach mindset de Kamila","la fiche SOS \"crise d'angoisse\" si ça monte fort","ton Journal pour relâcher la pression par écrit"]
@@ -1007,7 +1007,7 @@ const SOS_DATA = [
     ],
     action1h:"protéine + légumes + féculent en dernier si tu veux. dessert si t'en as envie — deux bouchées conscientes valent mieux que frustration.",
     mecanisme:"l'ordre des aliments dans l'assiette change la courbe glycémique de tout le repas. légumes en premier = fibre qui ralentit l'absorption. protéines ensuite. féculents en dernier. même au restaurant. même avec les autres qui mangent différemment.",
-    kamila:"une sortie ne brise pas un protocole. profite. et applique juste l'ordre des aliments. 🌿",
+    kamila:"une sortie ne brise pas un protocole. profite. et applique juste l'ordre des aliments.",
     secret:"au restaurant, ce qui compte n'est pas d'être parfaite — c'est l'ordre des aliments. commence par les légumes et les protéines, garde le féculent et le dessert pour après : tu lisses ton pic glycémique sans rien sacrifier du plaisir. un seul réflexe change tout, sans privation.",
     monMot:"je me souviens quand sortir manger devenait une source de stress. j'avais l'impression de devoir choisir entre profiter du moment ou prendre soin de moi — alors je culpabilisais avant, ou après. avec le temps, j'ai compris une chose importante : ce n'est pas un repas qui crée le problème, c'est ce qu'on fait 95% du temps qui compte. aujourd'hui je vais au restaurant, je profite, et je fais simplement les meilleurs choix possibles sans chercher la perfection. parce que la santé doit aussi laisser une place à la vie.",
     liens:["ta mission \"l'ordre dans l'assiette\"","la fiche SOS \"buffet / fête\"","la fiche SOS \"craquage alimentaire\""]
@@ -1022,7 +1022,7 @@ const SOS_DATA = [
     ],
     action1h:"deuxième avis. ce n'est pas trahir ton médecin. c'est prendre soin de toi.",
     mecanisme:"le SOPK est encore mal enseigné en faculté de médecine. beaucoup de médecins appliquent les protocoles standards — pilule ou perte de poids — sans aller plus loin. ce n'est pas de la mauvaise volonté. c'est un manque de formation spécifique. tu as le droit de chercher mieux.",
-    kamila:"tu mérites un médecin qui te prend au sérieux. si c'est pas celui-là — il y en a un autre. 🌿",
+    kamila:"tu mérites un médecin qui te prend au sérieux. si c'est pas celui-là — il y en a un autre.",
     secret:"le délai moyen de diagnostic du SMOP en France est de 2 à 4 ans, et 70% des femmes concernées l'ignorent encore. si tu sens qu'on ne t'écoute pas, tu n'es ni difficile ni « trop » : tu fais face à une vraie errance médicale documentée. arriver avec tes symptômes notés et tes questions écrites change radicalement une consultation.",
     monMot:"si je pouvais parler à la version plus jeune de moi, je lui dirais : tu n'inventes rien, tu n'exagères rien, et tu as le droit de poser des questions. j'ai passé des années à entendre des réponses à mes symptômes, mais rarement des explications. on traitait l'acné, les douleurs, les règles — mais personne ne reliait les points, personne ne me racontait l'histoire complète. ce n'est qu'en rencontrant les bonnes personnes que j'ai compris ce qui se passait. si aujourd'hui tu sens qu'on ne t'écoute pas, ne remets pas ton ressenti en question. tu vis dans ton corps tous les jours. ta voix compte. tes symptômes comptent. tes questions comptent.",
     liens:["tes scripts médecin prêts à l'emploi","l'onglet Analyses pour préparer ton bilan","ton Journal pour documenter tes symptômes"]
@@ -1037,7 +1037,7 @@ const SOS_DATA = [
     ],
     action1h:"pas de solution rapide ici. juste — une action du protocole. n'importe laquelle. pour dire à ton corps que tu travailles pour lui.",
     mecanisme:"l'acné, la pilosité, la chute de cheveux, la prise de poids — ce sont des manifestations physiques de déséquilibres hormonaux. ton corps n'a pas changé de caractère. il envoie des signaux de détresse hormonale. le protocole s'attaque à ces signaux à la source.",
-    kamila:"ton corps n'est pas ton ennemi. il essaie de te dire quelque chose. maintenant tu comprends la langue. 🌿",
+    kamila:"ton corps n'est pas ton ennemi. il essaie de te dire quelque chose. maintenant tu comprends la langue.",
     secret:"ne plus se reconnaître, ce n'est pas de la coquetterie — c'est l'effet d'une accumulation de symptômes visibles (peau, poils, poids) qui ont tous une même racine hormonale. travailler la cause commune, plutôt que chaque symptôme isolément, est ce qui te fait peu à peu te retrouver. tu n'as pas disparu : tu es enfouie sous des symptômes explicables.",
     monMot:"« je ne me reconnais plus. » cette phrase résume une grande partie de mon histoire. les poils, l'acné, le ventre, le visage gonflé, les sautes d'humeur, les douleurs. à force d'accumuler les symptômes, j'avais l'impression que mon corps devenait quelqu'un d'autre. je regardais les autres filles et je me demandais pourquoi ça semblait tellement plus simple pour elles. ce que je ne savais pas, c'est que je n'avais pas disparu : j'étais simplement enfouie sous des symptômes que personne ne m'avait appris à comprendre. et le jour où j'ai commencé à comprendre mon corps, j'ai commencé à me retrouver. pas parfaitement, pas tout de suite, mais assez pour savoir que je n'étais pas perdue.",
     liens:["l'encart \"ton parcours, fait pour toi\" sur l'accueil","le coach mindset de Kamila","ton Journal pour mesurer ton évolution réelle"]
@@ -1052,7 +1052,7 @@ const SOS_DATA = [
     ],
     action1h:"repérer protéines + légumes disponibles dans l'endroit où tu es. supermarché, restaurant, room service. une option est toujours possible.",
     mecanisme:"le voyage stresse le corps — changement de rythme, de nourriture, de sommeil. le cortisol monte. les habitudes sautent. c'est normal. cinq choses suffisent : eau, protéines, compléments, sommeil, et une marche par jour.",
-    kamila:"le protocole voyage avec toi. adapté. pas parfait. mais présent. 🌿",
+    kamila:"le protocole voyage avec toi. adapté. pas parfait. mais présent.",
     secret:"en voyage, l'objectif n'est pas le protocole à 100% — c'est de garder 2-3 repères simples (protéines au petit-déj, ordre des aliments, marche). la vraie réussite, ce n'est pas la perfection pendant une semaine, c'est de revenir naturellement à tes habitudes après. la rigidité, elle, mène au craquage.",
     monMot:"avant, les voyages me stressaient. comment manger ? comment garder mes habitudes ? comment éviter de tout perdre ? puis un jour j'ai réalisé quelque chose : je ne pars pas en voyage pour être parfaite, je pars pour vivre. aujourd'hui j'emporte quelques repères simples, mais je laisse la perfection à la maison. parce que la vraie réussite, ce n'est pas de suivre un protocole à 100% pendant une semaine — c'est d'être capable de revenir naturellement à ses habitudes après. et ça, c'est une liberté que j'ai mis des années à construire.",
     liens:["tes recettes nomades à emporter","la fiche SOS \"restaurant / sortie\"","ta mission \"l'ordre dans l'assiette\""]
@@ -1067,7 +1067,7 @@ const SOS_DATA = [
     ],
     action1h:"si tu ne te rendors pas en 20 min — lève-toi 15 minutes. lumière tamisée. pas d'écran. retourne te coucher.",
     mecanisme:"deux causes fréquentes du réveil nocturne quand on a un SMOP : le cortisol élevé la nuit qui freine la mélatonine, et l'hypoglycémie nocturne qui déclenche une alerte adrénaline. les deux sont biologiques. les deux répondent au protocole sur plusieurs semaines.",
-    kamila:"demain tu seras fatiguée. et tu continueras quand même. parce que t'as prouvé que tu peux. 🌿",
+    kamila:"demain tu seras fatiguée. et tu continueras quand même. parce que t'as prouvé que tu peux.",
     secret:"le réveil nocturne vers 3-4h est souvent lié à une chute de glycémie pendant la nuit ou à un cortisol qui grimpe trop tôt. une collation protéinée légère le soir (pas sucrée) aide parfois à éviter la chute. ce n'est pas « juste du stress » : ton corps a des raisons physiologiques que tu peux apaiser.",
     monMot:"longtemps, je croyais que dormir était censé me reposer. sauf que je me réveillais en pleine nuit — 3h, 4h — les yeux grands ouverts, le cerveau en marche alors que mon corps était épuisé. je calculais combien d'heures il me restait, et plus je m'inquiétais, moins je me rendormais. je pensais que c'était le stress. parfois oui. mais j'ai découvert que les hormones, la glycémie, le cortisol et même les carences pouvaient jouer leur rôle. ce n'était pas que dans ma tête : c'était mon corps qui essayait de me parler. le jour où j'ai arrêté de me traiter comme une machine défectueuse, j'ai commencé à écouter les messages derrière les symptômes.",
     liens:["tes recettes collations du soir","la fiche SOS \"stress aigu\"","l'onglet Analyses pour vérifier tes carences"]
@@ -1082,7 +1082,7 @@ const SOS_DATA = [
     ],
     action1h:"sers-toi une assiette dans le bon ordre : légumes, protéines, puis une part de ce qui te fait plaisir. mange lentement. tu as le droit de te régaler sans culpabiliser.",
     mecanisme:"face à l'abondance, le cerveau passe en mode \"prends tout maintenant\". ce n'est pas de la gourmandise — c'est un réflexe ancien. en mangeant les légumes et protéines en premier, tu lisses ta glycémie et tu coupes les fringales qui te pousseraient au rab de sucré.",
-    kamila:"un repas de fête ne défait pas des semaines de cohérence. profite, savoure, et reprends ton rythme demain. 🌿",
+    kamila:"un repas de fête ne défait pas des semaines de cohérence. profite, savoure, et reprends ton rythme demain.",
     secret:"l'envie de tout dévorer à un buffet vient souvent de la restriction — plus on s'est privée avant, plus le cerveau compense. se servir ce qui fait vraiment envie, lentement, sans interdit, désamorce justement la compulsion. la perfection alimentaire crée le craquage qu'elle prétend éviter.",
     monMot:"les buffets étaient mon piège préféré. tout avait l'air bon, tout donnait envie, et cette petite voix me disait : « profites-en, après tu recommenceras sérieusement. » je connais cette voix, je l'ai écoutée pendant des années. puis j'ai compris qu'elle venait souvent de la restriction : quand on se sent privée, le cerveau cherche à compenser. aujourd'hui je me sers ce qui me fait vraiment envie, je mange lentement, je profite, et je repars sans avoir besoin de me punir le lendemain. parce qu'un buffet ne définit pas ta santé, pas plus qu'un repas ne définit ta valeur.",
     liens:["la fiche SOS \"craquage alimentaire\"","la fiche SOS \"restaurant / sortie\"","ta mission \"l'ordre dans l'assiette\""]
@@ -1097,7 +1097,7 @@ const SOS_DATA = [
     ],
     action1h:"reviens à tes fondamentaux sans punition : un repas dans le bon ordre, une marche douce, du sommeil. pas de restriction brutale — ça aggrave tout avec un SMOP.",
     mecanisme:"avec un SMOP, le poids peut grimper vite à cause de la rétention d'eau, des variations hormonales du cycle, du stress (cortisol) ou d'une nuit courte. ce n'est presque jamais de la \"vraie\" graisse installée en quelques jours. la restriction sévère, elle, fait flamber le cortisol et empire la situation.",
-    kamila:"ton corps traverse une vague, pas une marée. sois douce avec lui — la dureté n'a jamais rien réglé. 🌿"
+    kamila:"ton corps traverse une vague, pas une marée. sois douce avec lui — la dureté n'a jamais rien réglé."
   },
   {
     id:"fatigue-repas", emoji:"🥱", titre:"Fatigue après le repas", couleur:"#7A5C45",
@@ -1109,7 +1109,7 @@ const SOS_DATA = [
     ],
     action1h:"au prochain repas, change l'ordre : légumes et protéines d'abord, féculents en dernier et en quantité modérée. le coup de barre vient souvent d'un repas trop riche en sucres rapides.",
     mecanisme:"après un repas riche en glucides rapides, ta glycémie monte fort puis redescend brutalement. cette chute déclenche la somnolence. avec un SMOP et une insuline déjà sollicitée, le phénomène est amplifié. manger dans le bon ordre lisse la courbe et garde ton énergie stable.",
-    kamila:"ce n'est pas \"normal\" d'avoir besoin d'une sieste après chaque repas. tu peux changer ça, repas après repas. 🌿"
+    kamila:"ce n'est pas \"normal\" d'avoir besoin d'une sieste après chaque repas. tu peux changer ça, repas après repas."
   },
   {
     id:"angoisse", emoji:"💗", titre:"Crise d'angoisse", couleur:"#5B7FA6",
@@ -1121,7 +1121,7 @@ const SOS_DATA = [
     ],
     action1h:"une fois la vague passée, sois douce : une boisson chaude, un endroit calme, pas d'écran anxiogène. l'angoisse épuise — laisse-toi récupérer sans culpabiliser.",
     mecanisme:"le SMOP et l'anxiété sont liés : les variations hormonales et un cortisol souvent élevé rendent le système nerveux plus réactif. une crise d'angoisse est une fausse alarme du corps — intense, mais sans danger réel. la respiration lente envoie au cerveau le signal que la menace est passée.",
-    kamila:"ce que tu ressens est réel et tu n'exagères pas. mais ça va passer, comme à chaque fois. tu es plus solide que cette vague. 🌿",
+    kamila:"ce que tu ressens est réel et tu n'exagères pas. mais ça va passer, comme à chaque fois. tu es plus solide que cette vague.",
     secret:"une crise d'angoisse est une fausse alarme du système nerveux — terrifiante sur le coup, mais sans danger réel. le SMOP, via les variations hormonales et un cortisol souvent élevé, rend ce système plus réactif. l'expiration longue (plus longue que l'inspiration) envoie au cerveau le signal physiologique que la menace est passée.",
     monMot:"je me souviens surtout de cette sensation de perdre le contrôle. le cœur qui s'emballe, la poitrine serrée, l'impression qu'il se passe quelque chose de grave — et plus tu essaies de te calmer, plus ton corps semble paniquer. quand ça m'arrivait, je croyais parfois avoir un vrai problème physique grave. puis j'ai compris qu'une crise d'angoisse est souvent un système d'alarme qui se déclenche au mauvais moment. sur le coup c'est terrifiant, mais ça ne définit pas qui tu es, et ça ne veut pas dire que tu deviens folle. aujourd'hui encore, quand mon corps me lance ce signal, j'essaie de me rappeler une chose : ce que je ressens est réel, mais le danger que mon cerveau imagine ne l'est pas forcément.",
     liens:["le coach mindset de Kamila","la fiche SOS \"stress aigu\"","ton Journal pour poser ce que tu ressens"]
@@ -1136,7 +1136,7 @@ const SOS_DATA = [
     ],
     action1h:"contacte une personne de confiance, même juste pour parler d'autre chose. l'isolement nourrit la solitude — un seul lien, même petit, change la journée.",
     mecanisme:"le SMOP est souvent invisible et incompris, ce qui crée un vrai sentiment d'isolement. s'y ajoutent les effets hormonaux sur l'humeur. ce n'est pas \"dans ta tête\" : c'est une charge réelle. mais elle s'allège dès qu'elle est partagée avec des personnes qui vivent la même chose.",
-    kamila:"tu as construit une communauté entière de femmes qui te ressemblent. tu n'as jamais été aussi entourée que maintenant. 🤍",
+    kamila:"tu as construit une communauté entière de femmes qui te ressemblent. tu n'as jamais été aussi entourée que maintenant.",
     secret:"le sentiment de solitude vient du fait que le SMOP est invisible et incompris — ce n'est pas « dans ta tête », c'est une charge réelle. et 70% des femmes concernées ignorent même qu'elles l'ont. tu fais partie d'une immense communauté silencieuse. mettre des mots et partager, c'est ce qui allège le plus vite ce poids.",
     monMot:"le pire avec le SMOP, ce ne sont pas toujours les symptômes. c'est parfois le sentiment que personne ne comprend vraiment. les autres voient les boutons, les poils, le poids — mais pas les heures passées à chercher des réponses, les analyses, les rendez-vous, les inquiétudes, les larmes. longtemps je me suis sentie seule. puis j'ai découvert d'autres femmes qui vivaient exactement la même chose, et ça a changé quelque chose d'immense. parce qu'à partir du moment où quelqu'un met des mots sur ce que tu vis, tu te sens un peu moins seule à le porter.",
     liens:["la communauté Cysters","le coach mindset de Kamila","ton Journal pour déposer ce que tu portes"]
@@ -1452,7 +1452,7 @@ observes:["aujourd'hui : tu vois l'ampleur réelle de ta progression","dans 2-3 
 victoire:"tu n'es plus la même femme qu'au Jour 1."},
   {day:30,emoji:"🌸",theme:"ce que tu emmènes",
 mission:"écris deux choses aujourd'hui : ce que tu emmènes de ces 30 jours, et ce que tu laisses derrière toi.",
-msg:"tu avances peut-être plus lentement que tu le voudrais.\n\nmais tu avances.\n\net c'est tout ce qui compte.\n\nKamila 🌿",
+msg:"tu avances peut-être plus lentement que tu le voudrais.\n\nmais tu avances.\n\net c'est tout ce qui compte.\n\nKamila",
 pourquoi:"en 30 jours, tu n'as pas suivi un régime. tu as construit un système. une alimentation qui soutient ton insuline au lieu de l'affoler. un foie mieux soutenu. du muscle qui gère ta glycémie en continu. un protocole de compléments adapté à ton profil. des tisanes qui agissent en couches. et surtout : des mots pour parler à ton médecin, et une compréhension de ton propre corps que personne ne pourra plus t'enlever.\n\nle SMOP est chronique — aucun programme ne le 'guérit', et méfie-toi de quiconque te le promet. mais ce que tu as appris ici, tu le gardes à vie. tu sais maintenant comment soutenir ton corps, jour après jour.\n\nces 30 jours ne sont pas une ligne d'arrivée. c'est ta nouvelle base de départ.",
 source:"le SMOP est une condition chronique qui se gère par le mode de vie sur le long terme, sans guérison définitive (Marsh et al., 2010 ; Diamanti-Kandarakis & Dunaif, 2012).",
 comment:["prends un moment au calme pour cet exercice","écris ce que tu emmènes : les gestes, les compréhensions, les habitudes","écris ce que tu laisses : la culpabilité, les fausses croyances, l'attente passive","relis tes bilans des Jours 7, 14, 21, 29","choisis 2 ou 3 gestes que tu veux garder pour toujours"],
@@ -1851,9 +1851,9 @@ pourquoi:"félicitations, Cyster. 30 jours à comprendre et à apaiser ton terra
 source:"se concentrer sur quelques habitudes clés favorise leur maintien durable, mieux que de vouloir tout tenir à la fois.",
 comment:["choisis les 3 habitudes qui t'ont fait le plus de bien","écris-les, affiche-les si tu veux","garde-les comme ta base, le reste viendra en bonus","reviens au protocole quand tu en as besoin","sois fière : tu as pris soin de toi pendant 30 jours"],
 pieges:["vouloir tout garder : choisis l'essentiel, c'est ça qui tient","croire que « c'est fini » : c'est un début, ton terrain se soigne sur la durée","oublier de célébrer : 30 jours de constance, c'est immense"],
-plus:"tu es passée de « je ne comprends rien à ce qui m'arrive » à « je sais comment prendre soin de mon terrain ». c'est le plus beau cadeau que tu pouvais te faire. et quoi qu'il arrive maintenant, cette compréhension, personne ne pourra te l'enlever. tu n'es plus seule face à ton SMOP — tu as les clés. 🌿",
+plus:"tu es passée de « je ne comprends rien à ce qui m'arrive » à « je sais comment prendre soin de mon terrain ». c'est le plus beau cadeau que tu pouvais te faire. et quoi qu'il arrive maintenant, cette compréhension, personne ne pourra te l'enlever. tu n'es plus seule face à ton SMOP — tu as les clés.",
 observes:["aujourd'hui : tu repars avec tes 3 habitudes clés","dans les mois à venir : les changements continuent, visibles cette fois","pour la vie : une compréhension de ton corps qui ne te quittera plus"],
-victoire:"tu as terminé. tu comprends ton terrain, tu as tes outils, tu es ta propre alliée. je suis fière de toi, Cyster. 🌸",
+victoire:"tu as terminé. tu comprends ton terrain, tu as tes outils, tu es ta propre alliée. je suis fière de toi, Cyster.",
 outil:null,
 tisane:{nom:"Inflamma Tea",timing:"milieu de journée",lien:"https://sopklife.com/products/inflamma-tea",texte:"l'Inflamma Tea et l'Équilibre Féminin restent ton duo de fond, bien au-delà de ces 30 jours — ton rituel de soin pour ton terrain."}},
 
@@ -2245,9 +2245,9 @@ pourquoi:"félicitations, Cyster. 30 jours à agir sur tes androgènes par toute
 source:"se concentrer sur quelques habitudes clés favorise leur maintien ; sur l'hyperandrogénie, la durée est la clé des résultats.",
 comment:["choisis les 3 habitudes qui t'ont fait le plus de bien","écris-les, affiche-les si tu veux","garde-les comme ta base, le reste viendra en bonus","continue tes tisanes : les résultats androgéniques se jouent sur la durée","reviens au protocole quand tu en as besoin"],
 pieges:["vouloir tout garder : choisis l'essentiel, c'est ça qui tient","croire que « c'est fini » : sur ce profil, les résultats arrivent APRÈS","abandonner avant les résultats visibles : tu es sur la bonne voie, tiens bon"],
-plus:"tu es passée de « je ne comprends rien à ce qui m'arrive » à « je sais comment apaiser mon terrain ». sur ton profil, les plus beaux résultats sont encore devant toi — ta peau, tes cheveux, ta confiance. continue, sois patiente et douce avec toi. tu as les clés, et tu n'es plus seule. 🌿",
+plus:"tu es passée de « je ne comprends rien à ce qui m'arrive » à « je sais comment apaiser mon terrain ». sur ton profil, les plus beaux résultats sont encore devant toi — ta peau, tes cheveux, ta confiance. continue, sois patiente et douce avec toi. tu as les clés, et tu n'es plus seule.",
 observes:["aujourd'hui : tu repars avec tes 3 habitudes clés","dans les mois à venir : les résultats visibles s'installent","pour la vie : une compréhension de ton corps qui ne te quittera plus"],
-victoire:"tu as terminé. tu comprends ton terrain, tu as tes outils, tu es ta propre alliée. je suis fière de toi, Cyster. 🌸",
+victoire:"tu as terminé. tu comprends ton terrain, tu as tes outils, tu es ta propre alliée. je suis fière de toi, Cyster.",
 outil:null,
 tisane:{nom:"Andro Tea",timing:"le soir, 1h après le dîner",lien:"https://sopklife.com/products/andro-tea",texte:"l'Andro Tea et l'Équilibre Féminin restent ton duo de fond, bien au-delà de ces 30 jours — c'est la constance qui fera tes résultats."}},
 
@@ -2929,6 +2929,7 @@ export default function App() {
   const [authMode, setAuthMode] = useState("login");
   const [authEmail, setAuthEmail] = useState("");
   const [authPw, setAuthPw] = useState("");
+  const [authPw2, setAuthPw2] = useState("");
   const [authErr, setAuthErr] = useState("");
   const [authMsg, setAuthMsg] = useState("");
   const [authBusy, setAuthBusy] = useState(false);
@@ -2947,7 +2948,7 @@ export default function App() {
     getSupabase().then(client=>{
       setSb(client);
       client.auth.getSession().then(({data})=>setSession(data.session||null)).catch(()=>setSession(null));
-      const r=client.auth.onAuthStateChange((evt,s)=>{ setSession(s||null); if(evt==="PASSWORD_RECOVERY"){ setShowAccount(true); setAccMsg("Choisis ton nouveau mot de passe ci-dessous 🌿"); } });
+      const r=client.auth.onAuthStateChange((evt,s)=>{ setSession(s||null); if(evt==="PASSWORD_RECOVERY"){ setShowAccount(true); setAccMsg("Choisis ton nouveau mot de passe ci-dessous"); } });
       subref=r.data?.subscription;
     }).catch(()=>{ setSbError(true); });
     return ()=>{ try{ subref&&subref.unsubscribe(); }catch(e){} };
@@ -2986,14 +2987,16 @@ export default function App() {
   },[sb,session,hydrated]);
 
   const doAuth = async () => {
-    if(!sb||authBusy) return; setAuthErr(""); setAuthMsg(""); setAuthBusy(true);
+    if(!sb||authBusy) return; setAuthErr(""); setAuthMsg("");
+    if(authMode==="signup" && authPw!==authPw2){ setAuthErr("Les deux mots de passe ne correspondent pas."); return; }
+    setAuthBusy(true);
     try{
       const email=authEmail.trim().toLowerCase();
       const { data, error } = authMode==="signup"
         ? await sb.auth.signUp({ email, password:authPw })
         : await sb.auth.signInWithPassword({ email, password:authPw });
       if(error){ setAuthErr(authErrFr(error.message)); }
-      else if(authMode==="signup" && !data.session){ setAuthMsg("Compte créé 🌿 vérifie ta boîte mail pour le confirmer, puis connecte-toi."); setAuthMode("login"); }
+      else if(authMode==="signup" && !data.session){ setAuthMsg("Compte créé vérifie ta boîte mail pour le confirmer, puis connecte-toi."); setAuthMode("login"); }
     }catch(e){ setAuthErr("Une erreur est survenue, réessaie."); }
     setAuthBusy(false);
   };
@@ -3002,7 +3005,7 @@ export default function App() {
     if(!email){ setAuthErr("Entre d'abord ton email, puis clique sur « mot de passe oublié »."); return; }
     setAuthErr(""); setAuthMsg(""); setAuthBusy(true);
     try{ await sb.auth.resetPasswordForEmail(email, { redirectTo: window.location.origin });
-      setAuthMsg("Si un compte existe avec cet email, tu vas recevoir un lien pour réinitialiser ton mot de passe 🌿");
+      setAuthMsg("Si un compte existe avec cet email, tu vas recevoir un lien pour réinitialiser ton mot de passe");
     }catch(e){ setAuthErr("Impossible d'envoyer l'email, réessaie."); }
     setAuthBusy(false);
   };
@@ -3011,11 +3014,11 @@ export default function App() {
     if(newPw.length<6){ setAccErr("Ton mot de passe doit faire au moins 6 caractères."); return; }
     setAccBusy(true);
     try{ const { error } = await sb.auth.updateUser({ password:newPw });
-      if(error){ setAccErr(authErrFr(error.message)); } else { setAccMsg("Mot de passe mis à jour 🌿"); setNewPw(""); }
+      if(error){ setAccErr(authErrFr(error.message)); } else { setAccMsg("Mot de passe mis à jour"); setNewPw(""); }
     }catch(e){ setAccErr("Une erreur est survenue, réessaie."); }
     setAccBusy(false);
   };
-  const savePrenom = () => { const v=accPrenom.trim(); setAccErr(""); setPrenom(v); save("prenom",v); setAccMsg("Prénom enregistré 🌿"); };
+  const savePrenom = () => { const v=accPrenom.trim(); setAccErr(""); setPrenom(v); save("prenom",v); setAccMsg("Prénom enregistré"); };
   const changeEmail = async () => {
     if(!sb||accBusy) return; setAccErr(""); setAccMsg(""); const email=accNewEmail.trim().toLowerCase();
     if(!email||!email.includes("@")){ setAccErr("Entre un email valide."); return; }
@@ -3160,7 +3163,7 @@ export default function App() {
     try {
       const res = await callAPI(`Tu es Kamila, fondatrice de SOPK Life. Grande sœur. Voix orale directe. Ton : proche, "Cyster".\n\nAnalyses de ${prenom||"cette Cyster"} :\n${lines}\n\nRéponds en 4 parties séparées par une ligne vide :\n\nCE QUE ÇA DIT EN LANGAGE HUMAIN\nChaque valeur avec normes fonctionnelles (insuline idéal < 8 µUI/mL, vitamine D idéal > 40 ng/mL, SHBG idéal > 60 nmol/L). Direct. Pas de jargon.\n\nCE QUI MÉRITE TON ATTENTION MAINTENANT\nMax 3 priorités concrètes.\n\nCE QUI EST RASSURANT\nCe qui est dans des zones satisfaisantes.\n\nLES QUESTIONS À POSER À TON MÉDECIN\n2-3 formulations exactes. Inclus HGPO si insuline ou glycémie limites.`);
       setTranslation(res);
-    } catch(e) { setTransErr("réessaie dans quelques secondes Cyster 🌿"); }
+    } catch(e) { setTransErr("réessaie dans quelques secondes Cyster"); }
     setTranslating(false);
   };
 
@@ -3187,7 +3190,7 @@ export default function App() {
   );
   if(session===undefined) return (
     <div style={{fontFamily:"'DM Sans',sans-serif",background:C.cream,minHeight:"100vh",maxWidth:430,margin:"0 auto",display:"flex",alignItems:"center",justifyContent:"center"}}>
-      <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.2rem",color:C.light,fontStyle:"italic"}}>un instant 🌿</div>
+      <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.2rem",color:C.light,fontStyle:"italic"}}>un instant</div>
     </div>
   );
   if(session===null) return (
@@ -3195,30 +3198,39 @@ export default function App() {
       <div style={{textAlign:"center",marginBottom:28}}>
         <div style={{width:54,height:54,borderRadius:"50%",background:`linear-gradient(135deg,${C.mauve},${C.terra})`,margin:"0 auto 16px",display:"flex",alignItems:"center",justifyContent:"center"}}><Icon name="leaf" size={26} color="#fff"/></div>
         <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.6rem",color:C.brown,fontWeight:600}}>SMOP Map</div>
-        <div style={{fontSize:12,color:C.light,marginTop:4}}>{authMode==="signup"?"crée ton compte pour commencer":"contente de te revoir 🌿"}</div>
+        <div style={{fontSize:12,color:C.light,marginTop:4}}>{authMode==="signup"?"crée ton compte pour commencer":"contente de te revoir"}</div>
       </div>
       <div style={{display:"flex",gap:6,background:C.bubble,borderRadius:13,padding:4,marginBottom:14}}>
-        <button onClick={()=>{setAuthMode("login");setAuthErr("");setAuthMsg("");}}
+        <button onClick={()=>{setAuthMode("login");setAuthErr("");setAuthMsg("");setAuthPw2("");}}
           style={{flex:1,textAlign:"center",padding:"10px",borderRadius:10,border:"none",cursor:"pointer",fontFamily:"inherit",fontSize:12.5,fontWeight:authMode==="login"?700:500,background:authMode==="login"?C.white:"transparent",color:authMode==="login"?C.brown:C.mid,boxShadow:authMode==="login"?"0 2px 6px rgba(0,0,0,.05)":"none"}}>Me connecter</button>
-        <button onClick={()=>{setAuthMode("signup");setAuthErr("");setAuthMsg("");}}
+        <button onClick={()=>{setAuthMode("signup");setAuthErr("");setAuthMsg("");setAuthPw2("");}}
           style={{flex:1,textAlign:"center",padding:"10px",borderRadius:10,border:"none",cursor:"pointer",fontFamily:"inherit",fontSize:12.5,fontWeight:authMode==="signup"?700:500,background:authMode==="signup"?C.white:"transparent",color:authMode==="signup"?C.brown:C.mid,boxShadow:authMode==="signup"?"0 2px 6px rgba(0,0,0,.05)":"none"}}>Créer un compte</button>
       </div>
       <div style={{background:C.white,borderRadius:18,padding:"1.3rem",border:`1px solid ${C.border}`}}>
-        {authMode==="signup" && <div style={{fontSize:11,color:C.mid,background:C.mauveSoft,borderRadius:10,padding:"9px 12px",marginBottom:14,lineHeight:1.5}}>première visite ? crée ton compte ici 🌿 c'est lui qui gardera ton suivi.</div>}
+        {authMode==="signup" && <div style={{fontSize:11,color:C.mid,background:C.mauveSoft,borderRadius:10,padding:"9px 12px",marginBottom:14,lineHeight:1.5}}>première visite ? crée ton compte ici c'est lui qui gardera ton suivi.</div>}
         <div style={{fontSize:10,letterSpacing:1,textTransform:"uppercase",color:C.light,marginBottom:6}}>Email</div>
         <input type="email" value={authEmail} onChange={e=>setAuthEmail(e.target.value)} autoComplete="email" placeholder="ton@email.fr"
           style={{width:"100%",border:`1px solid ${C.border}`,borderRadius:11,padding:"12px",fontSize:14,fontFamily:"inherit",color:C.brown,marginBottom:14,outline:"none",background:C.cream}}/>
         <div style={{fontSize:10,letterSpacing:1,textTransform:"uppercase",color:C.light,marginBottom:6}}>Mot de passe</div>
         <input type="password" value={authPw} onChange={e=>setAuthPw(e.target.value)} autoComplete={authMode==="signup"?"new-password":"current-password"} placeholder="••••••••"
-          onKeyDown={e=>{ if(e.key==="Enter") doAuth(); }}
+          onKeyDown={e=>{ if(e.key==="Enter"&&authMode!=="signup") doAuth(); }}
           style={{width:"100%",border:`1px solid ${C.border}`,borderRadius:11,padding:"12px",fontSize:14,fontFamily:"inherit",color:C.brown,marginBottom:6,outline:"none",background:C.cream}}/>
-        {authMode==="signup" && <div style={{fontSize:9.5,color:C.light,marginBottom:10}}>au moins 6 caractères</div>}
+        {authMode==="signup" && <div style={{fontSize:9.5,color:C.light,marginBottom:12}}>au moins 6 caractères</div>}
+        {authMode==="signup" && <>
+          <div style={{fontSize:10,letterSpacing:1,textTransform:"uppercase",color:C.light,marginBottom:6}}>Confirme ton mot de passe</div>
+          <input type="password" value={authPw2} onChange={e=>setAuthPw2(e.target.value)} autoComplete="new-password" placeholder="••••••••"
+            onKeyDown={e=>{ if(e.key==="Enter") doAuth(); }}
+            style={{width:"100%",border:`1px solid ${authPw2&&authPw2!==authPw?"#E3B8AC":C.border}`,borderRadius:11,padding:"12px",fontSize:14,fontFamily:"inherit",color:C.brown,marginBottom:6,outline:"none",background:C.cream}}/>
+          {authPw2&&authPw2!==authPw && <div style={{fontSize:9.5,color:"#B5553F",marginBottom:10}}>les deux mots de passe ne correspondent pas</div>}
+        </>}
         {authErr && <div style={{fontSize:11,color:"#B5553F",background:"#FDF0E8",borderRadius:9,padding:"8px 11px",margin:"8px 0",lineHeight:1.5}}>{authErr}</div>}
         {authMsg && <div style={{fontSize:11,color:"#4A7A52",background:"#EAF3EA",borderRadius:9,padding:"8px 11px",margin:"8px 0",lineHeight:1.5}}>{authMsg}</div>}
-        <button onClick={doAuth} disabled={authBusy||!authEmail||!authPw}
-          style={{width:"100%",marginTop:10,background:(authBusy||!authEmail||!authPw)?C.light:C.brown,color:"#fff",border:"none",borderRadius:12,padding:"13px",fontFamily:"inherit",fontSize:13,fontWeight:700,cursor:(authBusy||!authEmail||!authPw)?"default":"pointer"}}>
+        {(()=>{ const bad=authBusy||!authEmail||!authPw||(authMode==="signup"&&(!authPw2||authPw!==authPw2)); return (
+        <button onClick={doAuth} disabled={bad}
+          style={{width:"100%",marginTop:10,background:bad?C.light:C.brown,color:"#fff",border:"none",borderRadius:12,padding:"13px",fontFamily:"inherit",fontSize:13,fontWeight:700,cursor:bad?"default":"pointer"}}>
           {authBusy?"un instant…":(authMode==="signup"?"créer mon compte":"me connecter")}
         </button>
+        ); })()}
       </div>
       {authMode==="login" && <button onClick={forgotPw} disabled={authBusy}
         style={{marginTop:6,background:"none",border:"none",color:C.light,fontSize:11,cursor:"pointer",fontFamily:"inherit",textAlign:"center",textDecoration:"underline"}}>
@@ -3486,7 +3498,7 @@ export default function App() {
           <div style={{fontFamily:"'Playfair Display',serif",fontSize:13,color:C.brown,lineHeight:1.7,fontStyle:"italic"}}>
             "j'ai construit ce protocole parce que j'aurais eu besoin de quelque chose comme ça quand j'ai reçu mon diagnostic. voilà tes 3 priorités du quotidien, de la plus importante à la moins urgente — celles-là, tu les fais ensemble, chaque jour. tes dimensions de fond, elles, on les explore une à la fois."
           </div>
-          <div style={{fontSize:10,color:C.light,marginTop:6}}>— Kamila 🌿</div>
+          <div style={{fontSize:10,color:C.light,marginTop:6}}>— Kamila</div>
         </div>
 
         <div style={{background:C.bubble,borderRadius:12,padding:"10px 14px",marginBottom:12,border:`1px solid ${C.border}`}}>
@@ -3545,7 +3557,7 @@ export default function App() {
         </div>
       ))}
       <div style={{marginTop:"3rem",fontFamily:"'Playfair Display',serif",fontSize:13,color:C.light,fontStyle:"italic",lineHeight:1.7}}>
-        "c'est tout pour maintenant.<br/>demain on reprend." — Kamila 🌿
+        "c'est tout pour maintenant.<br/>demain on reprend." — Kamila
       </div>
       <button onClick={()=>{setCriseMode(false);setTab("sos");}} style={{marginTop:"2.2rem",background:pc.p,border:"none",borderRadius:12,padding:"12px 20px",fontFamily:"inherit",fontSize:12.5,fontWeight:600,color:"#fff",cursor:"pointer"}}>
         voir toutes mes fiches SOS →
@@ -3596,13 +3608,13 @@ export default function App() {
           )}
           {sos.monMot&&(
             <div style={{background:`${sos.couleur}15`,borderRadius:12,padding:"12px 14px",marginBottom:10,borderLeft:`3px solid ${sos.couleur}`}}>
-              <div style={{fontSize:10,fontWeight:700,color:sos.couleur,marginBottom:5}}>🤍 le mot de ta grande sœur</div>
+              <div style={{fontSize:10,fontWeight:700,color:sos.couleur,marginBottom:5}}>le mot de ta grande sœur</div>
               <div style={{fontSize:12,color:C.brown,lineHeight:1.7,fontStyle:"italic"}}>{sos.monMot}</div>
             </div>
           )}
           {sos.liens&&sos.liens.length>0&&(
             <div style={{background:C.white,borderRadius:12,padding:"12px 14px",marginBottom:10,border:`1px solid ${C.border}`}}>
-              <div style={{fontSize:10,fontWeight:700,color:C.brown,marginBottom:7}}>👉 pour aller plus loin dans l'app</div>
+              <div style={{fontSize:10,fontWeight:700,color:C.brown,marginBottom:7}}>pour aller plus loin dans l'app</div>
               {sos.liens.map((l,i)=>(
                 <div key={i} style={{fontSize:11,color:sos.couleur,lineHeight:1.8,fontWeight:500}}>→ {l}</div>
               ))}
@@ -3689,7 +3701,7 @@ export default function App() {
                 "Brouillard mental — quand ta tête tourne au ralenti",
               ]},
             ],
-            kamila:"garde ces fiches à portée de main. elles ne te jugent jamais, elles te tendent juste la main au bon moment. 🌿",
+            kamila:"garde ces fiches à portée de main. elles ne te jugent jamais, elles te tendent juste la main au bon moment.",
           },
         ];
         const e=ETAPES[fatigueStep];
@@ -3724,7 +3736,7 @@ export default function App() {
                 </div>
               ))}
               <div style={{background:"#7A5C4515",borderRadius:14,padding:"13px 15px",borderLeft:"3px solid #7A5C45",marginTop:6,marginBottom:8}}>
-                <div style={{fontSize:10,fontWeight:700,color:"#7A5C45",marginBottom:4}}>🤍 le mot de Kamila</div>
+                <div style={{fontSize:10,fontWeight:700,color:"#7A5C45",marginBottom:4}}>le mot de Kamila</div>
                 <div style={{fontSize:12.5,color:C.brown,lineHeight:1.7,fontStyle:"italic"}}>{e.kamila}</div>
               </div>
             </div>
@@ -3736,7 +3748,7 @@ export default function App() {
               {fatigueStep<ETAPES.length-1?(
                 <button onClick={()=>setFatigueStep(s=>s+1)} style={{flex:2,padding:"13px",borderRadius:12,border:"none",background:"#7A5C45",color:"white",fontSize:13,fontWeight:700,cursor:"pointer",fontFamily:"inherit"}}>Continuer</button>
               ):(
-                <button onClick={()=>setFatigueOpen(false)} style={{flex:2,padding:"13px",borderRadius:12,border:"none",background:"#7A5C45",color:"white",fontSize:13,fontWeight:700,cursor:"pointer",fontFamily:"inherit"}}>Terminer 🌿</button>
+                <button onClick={()=>setFatigueOpen(false)} style={{flex:2,padding:"13px",borderRadius:12,border:"none",background:"#7A5C45",color:"white",fontSize:13,fontWeight:700,cursor:"pointer",fontFamily:"inherit"}}>Terminer</button>
               )}
             </div>
           </div>
@@ -3754,7 +3766,7 @@ export default function App() {
             </div>
 
             {[
-              {n:"1",t:"Commence par ta mission du jour",d:"chaque jour, une seule action concrète t'attend dans l'onglet Kamila 🌿. fais-la, c'est tout. le reste viendra naturellement."},
+              {n:"1",t:"Commence par ta mission du jour",d:"chaque jour, une seule action concrète t'attend dans l'onglet Kamila. fais-la, c'est tout. le reste viendra naturellement."},
               {n:"2",t:"Explore les autres onglets quand tu veux",d:"SOS ⚡ quand ça ne va pas, Outils 🧰 pour chercher un aliment ou une idée repas, Analyses 🔬 pour comprendre tes prises de sang."},
               {n:"3",t:"Avance à ton rythme",d:"pas de pression, pas de perfection. un petit geste par jour suffit. je suis là pour t'accompagner, pas pour te juger."},
             ].map((s,i)=>(
@@ -3817,7 +3829,7 @@ export default function App() {
             <div style={{width:42,height:42,borderRadius:"50%",background:`linear-gradient(135deg,${pc.p},${C.terra})`,display:"flex",alignItems:"center",justifyContent:"center",color:"#fff",fontWeight:700,fontSize:15,fontFamily:"'Playfair Display',serif",flexShrink:0}}>{(prenom||"·").slice(0,1).toUpperCase()}</div>
             <div>
               <div style={{fontSize:10,color:C.light}}>{new Date().toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long"})}</div>
-              <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.3rem",color:C.brown,fontWeight:600,lineHeight:1.05}}>Bonjour {prenom||"🌿"}</div>
+              <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.3rem",color:C.brown,fontWeight:600,lineHeight:1.05}}>Bonjour {prenom||"Cyster"}</div>
             </div>
           </button>
           <div style={{display:"flex",alignItems:"center",gap:8}}>
@@ -4014,12 +4026,12 @@ export default function App() {
                   if(!wasChecked){
                     // mission validée — calcule les jalons
                     const newCount=Object.values({...checked,[day]:true}).filter(Boolean).length;
-                    if(day===7) showToast("Première semaine complète 💛","sept jours de cohérence — c'est énorme, bravo.");
-                    else if(day===14) showToast("Mi-parcours atteint 🌿","la moitié du chemin. ton corps enregistre déjà les changements.");
-                    else if(day===21) showToast("Trois semaines 🌸","tu tiens le rythme. la plupart abandonnent avant. pas toi.");
+                    if(day===7) showToast("Première semaine complète","sept jours de cohérence — c'est énorme, bravo.");
+                    else if(day===14) showToast("Mi-parcours atteint","la moitié du chemin. ton corps enregistre déjà les changements.");
+                    else if(day===21) showToast("Trois semaines","tu tiens le rythme. la plupart abandonnent avant. pas toi.");
                     else if(day===30) showToast("Protocole terminé 🎉","30 jours. tu n'es plus la même qu'au départ. fière de toi.");
-                    else if(day%7===0) showToast(`Semaine ${Math.ceil(day/7)} complète 🌿`,"une semaine de plus dans la cohérence.");
-                    else showToast(`Jour ${day} validé 🌿`, todayData.victoire);
+                    else if(day%7===0) showToast(`Semaine ${Math.ceil(day/7)} complète`,"une semaine de plus dans la cohérence.");
+                    else showToast(`Jour ${day} validé`, todayData.victoire);
                   }
                 }}
                   style={{width:36,height:36,borderRadius:"50%",border:`2px solid ${checked[day]?pc.p:C.border}`,background:checked[day]?pc.p:"transparent",cursor:"pointer",fontSize:15,color:"white",flexShrink:0,transition:"all 0.25s",fontFamily:"inherit"}}>
@@ -4032,12 +4044,12 @@ export default function App() {
                   const wasChecked=checked[day];
                   setChecked(p=>({...p,[day]:!p[day]}));
                   if(!wasChecked){
-                    if(day===7) showToast("Première semaine complète 💛","sept jours de cohérence — c'est énorme, bravo.");
-                    else if(day===14) showToast("Mi-parcours atteint 🌿","la moitié du chemin. ton corps enregistre déjà les changements.");
-                    else if(day===21) showToast("Trois semaines 🌸","tu tiens le rythme. la plupart abandonnent avant. pas toi.");
+                    if(day===7) showToast("Première semaine complète","sept jours de cohérence — c'est énorme, bravo.");
+                    else if(day===14) showToast("Mi-parcours atteint","la moitié du chemin. ton corps enregistre déjà les changements.");
+                    else if(day===21) showToast("Trois semaines","tu tiens le rythme. la plupart abandonnent avant. pas toi.");
                     else if(day===30) showToast("Protocole terminé 🎉","30 jours. tu n'es plus la même qu'au départ. fière de toi.");
-                    else if(day%7===0) showToast(`Semaine ${Math.ceil(day/7)} complète 🌿`,"une semaine de plus dans la cohérence.");
-                    else showToast(`Jour ${day} validé 🌿`, todayData.victoire);
+                    else if(day%7===0) showToast(`Semaine ${Math.ceil(day/7)} complète`,"une semaine de plus dans la cohérence.");
+                    else showToast(`Jour ${day} validé`, todayData.victoire);
                   }
                 }}
                 style={{width:"100%",padding:"12px",borderRadius:12,border:`2px solid ${pc.p}`,background:checked[day]?pc.p:"transparent",color:checked[day]?"white":pc.p,fontFamily:"inherit",fontSize:13,fontWeight:700,cursor:"pointer",marginBottom:4,transition:"all 0.25s"}}>
@@ -4086,7 +4098,7 @@ export default function App() {
               {/* LE + DE KAMILA */}
               {todayData.plus&&(
                 <div style={{marginTop:12}}>
-                  <div style={{fontSize:9,letterSpacing:1,textTransform:"uppercase",color:"#5A7040",fontWeight:600,marginBottom:5}}>🌿 le + de Kamila</div>
+                  <div style={{fontSize:9,letterSpacing:1,textTransform:"uppercase",color:"#5A7040",fontWeight:600,marginBottom:5}}>le + de Kamila</div>
                   <div style={{background:`${C.sage}22`,borderRadius:10,padding:"10px 12px",border:`1px solid ${C.sage}`}}>
                     <div style={{fontSize:11,color:"#4F6038",lineHeight:1.6,fontStyle:"italic"}}>{todayData.plus}</div>
                   </div>
@@ -4141,7 +4153,7 @@ export default function App() {
             {/* Tisane */}
             {todayData.tisane&&(
               <div style={{background:`linear-gradient(135deg,${C.bubble},#ECD8C4)`,borderRadius:14,padding:"1rem",marginBottom:10,border:`1.5px solid ${pc.p}`}}>
-                <div style={{fontSize:9,letterSpacing:1.5,textTransform:"uppercase",color:pc.p,marginBottom:5}}>🌿 option recommandée — {todayData.tisane.nom}</div>
+                <div style={{fontSize:9,letterSpacing:1.5,textTransform:"uppercase",color:pc.p,marginBottom:5}}>option recommandée — {todayData.tisane.nom}</div>
                 <div style={{fontSize:11,color:C.mid,lineHeight:1.6,marginBottom:8}}>{todayData.tisane.texte}</div>
                 <div style={{fontSize:9,color:C.light,marginBottom:8}}>timing : {todayData.tisane.timing}</div>
                 <a href={todayData.tisane.lien} target="_blank" rel="noreferrer"
@@ -4196,8 +4208,8 @@ export default function App() {
 
             {/* ── COACH MINDSET ── */}
             <div style={{background:`linear-gradient(135deg,${pc.l},${C.cream})`,borderRadius:16,padding:"1rem",marginBottom:10,border:`1px solid ${C.border}`}}>
-              <div style={{fontSize:12,fontWeight:700,color:C.brown,marginBottom:3}}>🤍 Comment tu te sens, là ?</div>
-              <div style={{fontSize:10.5,color:C.mid,marginBottom:11,lineHeight:1.5}}>dis-moi ton humeur du moment, et je te réponds. 🌿</div>
+              <div style={{fontSize:12,fontWeight:700,color:C.brown,marginBottom:3}}>Comment tu te sens, là ?</div>
+              <div style={{fontSize:10.5,color:C.mid,marginBottom:11,lineHeight:1.5}}>dis-moi ton humeur du moment, et je te réponds.</div>
               <div style={{display:"flex",flexWrap:"wrap",gap:6}}>
                 {MINDSET.map(m=>{
                   const sel=mindsetOpen===m.id;
@@ -4215,7 +4227,7 @@ export default function App() {
                   <div style={{marginTop:12,background:C.white,borderRadius:12,padding:"13px",border:`1px solid ${pc.p}`,animation:"fadeUp 0.3s ease"}}>
                     <div style={{fontSize:12,color:C.brown,lineHeight:1.7,whiteSpace:"pre-line",marginBottom:10}}>{m.message}</div>
                     <div style={{background:`${pc.p}10`,borderRadius:10,padding:"9px 11px",display:"flex",gap:8,alignItems:"flex-start"}}>
-                      <div style={{fontSize:13,flexShrink:0}}>👉</div>
+                      <div style={{fontSize:13,flexShrink:0}}></div>
                       <div style={{fontSize:11,color:C.mid,lineHeight:1.5,fontWeight:500}}>{m.geste}</div>
                     </div>
                     <div style={{fontSize:9.5,color:C.light,textAlign:"right",marginTop:7,fontStyle:"italic"}}>— Kamila</div>
@@ -4244,7 +4256,7 @@ export default function App() {
             <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.2rem",color:C.brown,marginBottom:4}}>Fiches SOS</div>
             <div style={{fontSize:12,color:C.mid,marginBottom:6,lineHeight:1.5}}>la réponse immédiate aux moments difficiles.</div>
             <div style={{background:C.bubble,borderRadius:12,padding:"10px 14px",marginBottom:14,fontSize:11,color:C.mid,lineHeight:1.6,fontStyle:"italic",border:`1px solid ${C.border}`}}>
-              "t'as pas à gérer ça seule. chaque fiche SOS est là pour le moment exact où tu en as besoin." — Kamila 🌿
+              "t'as pas à gérer ça seule. chaque fiche SOS est là pour le moment exact où tu en as besoin." — Kamila
             </div>
             <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8}}>
               {SOS_DATA.map((sos,i)=>(
@@ -4305,7 +4317,7 @@ export default function App() {
             {outilOpen==="aliments"&&(
               <div className="fu">
                 <div style={{background:C.bubble,borderRadius:12,padding:"10px 14px",marginBottom:12,fontSize:11,color:C.mid,lineHeight:1.6,border:`1px solid ${C.border}`}}>
-                  tape un aliment pour voir son index glycémique, ses protéines, et s'il est bon pour ton SMOP. 🌿
+                  tape un aliment pour voir son index glycémique, ses protéines, et s'il est bon pour ton SMOP.
                 </div>
                 <input type="text" placeholder="ex: lentilles, riz, banane…" value={foodSearch}
                   onChange={e=>setFoodSearch(e.target.value)}
@@ -4325,7 +4337,7 @@ export default function App() {
                     : ALIMENTS;
                   if(filtered.length===0) return(
                     <div style={{textAlign:"center",padding:"24px",color:C.light,fontSize:12}}>
-                      aucun aliment trouvé pour "{foodSearch}".<br/>essaie un autre mot 🌿
+                      aucun aliment trouvé pour "{foodSearch}".<br/>essaie un autre mot
                     </div>
                   );
                   // Group by category
@@ -4360,7 +4372,7 @@ export default function App() {
             {outilOpen==="repas"&&(
               <div className="fu">
                 <div style={{background:C.bubble,borderRadius:12,padding:"10px 14px",marginBottom:12,fontSize:11,color:C.mid,lineHeight:1.6,border:`1px solid ${C.border}`}}>
-                  des idées de repas concrets, pensés pour le SMOP. tous conviennent à toutes les Cysters — l'étoile ⭐ signale un atout spécifique pour ton profil. 🌿
+                  des idées de repas concrets, pensés pour le SMOP. tous conviennent à toutes les Cysters — l'étoile ⭐ signale un atout spécifique pour ton profil.
                 </div>
 
                 {/* Filtre par moment */}
@@ -4433,7 +4445,7 @@ export default function App() {
                                 </div>
                                 {rec.astuce&&(
                                   <div style={{background:`${C.sage}22`,borderRadius:9,padding:"8px 10px",border:`1px solid ${C.sage}`}}>
-                                    <div style={{fontSize:10.5,color:"#4F6038",lineHeight:1.5}}>🌿 {rec.astuce}</div>
+                                    <div style={{fontSize:10.5,color:"#4F6038",lineHeight:1.5}}>{rec.astuce}</div>
                                   </div>
                                 )}
                               </div>
@@ -4461,7 +4473,7 @@ export default function App() {
               return(
                 <div className="fu">
                   <div style={{background:C.bubble,borderRadius:12,padding:"10px 14px",marginBottom:12,fontSize:11,color:C.mid,lineHeight:1.6,border:`1px solid ${C.border}`}}>
-                    {filtrees.length} recettes pensées SMOP — filtre par moment ou par besoin. en déplacement ? choisis 🎒 nomade. 🌿
+                    {filtrees.length} recettes pensées SMOP — filtre par moment ou par besoin. en déplacement ? choisis 🎒 nomade.
                   </div>
                   {/* Filtres moment */}
                   <div style={{display:"flex",gap:6,marginBottom:8,overflowX:"auto",paddingBottom:2}}>
@@ -4483,7 +4495,7 @@ export default function App() {
                   </div>
                   {/* Liste recettes */}
                   {filtrees.length===0&&(
-                    <div style={{textAlign:"center",padding:"30px 20px",color:C.light,fontSize:12}}>aucune recette avec ces filtres. essaie une autre combinaison. 🌿</div>
+                    <div style={{textAlign:"center",padding:"30px 20px",color:C.light,fontSize:12}}>aucune recette avec ces filtres. essaie une autre combinaison.</div>
                   )}
                   {filtrees.map(nom=>{
                     const r=RECETTES[nom];
@@ -4525,7 +4537,7 @@ export default function App() {
                             </div>
                             {r.astuce&&(
                               <div style={{background:`${C.sage}22`,borderRadius:9,padding:"8px 10px",border:`1px solid ${C.sage}`}}>
-                                <div style={{fontSize:10.5,color:"#4F6038",lineHeight:1.5}}>🌿 {r.astuce}</div>
+                                <div style={{fontSize:10.5,color:"#4F6038",lineHeight:1.5}}>{r.astuce}</div>
                               </div>
                             )}
                           </div>
@@ -4541,7 +4553,7 @@ export default function App() {
             {outilOpen==="sucres"&&(
               <div className="fu">
                 <div style={{background:C.bubble,borderRadius:12,padding:"12px 14px",marginBottom:14,fontSize:11,color:C.mid,lineHeight:1.6,border:`1px solid ${C.border}`}}>
-                  le sucre se cache sous des dizaines de noms sur les étiquettes. si tu vois l'un de ces mots dans les premiers ingrédients — méfie-toi. 🌿
+                  le sucre se cache sous des dizaines de noms sur les étiquettes. si tu vois l'un de ces mots dans les premiers ingrédients — méfie-toi.
                 </div>
                 <div style={{display:"flex",flexWrap:"wrap",gap:7}}>
                   {SUCRES_CACHES.map((s,i)=>(
@@ -4560,7 +4572,7 @@ export default function App() {
             {outilOpen==="complements"&&(
               <div className="fu">
                 <div style={{background:C.bubble,borderRadius:12,padding:"12px 14px",marginBottom:14,fontSize:11,color:C.mid,lineHeight:1.6,border:`1px solid ${C.border}`}}>
-                  les compléments adaptés à ton profil ({pc.label}). dosage, timing, et délai d'action. 🌿
+                  les compléments adaptés à ton profil ({pc.label}). dosage, timing, et délai d'action.
                 </div>
                 {COMPLEMENTS.filter(c=>c.pour.includes(profil)).map((c,i)=>(
                   <div key={i} style={{background:C.white,borderRadius:14,padding:"13px",marginBottom:8,border:`1px solid ${C.border}`}}>
@@ -4592,7 +4604,7 @@ export default function App() {
             {outilOpen==="assiette"&&(
               <div className="fu">
                 <div style={{background:C.bubble,borderRadius:12,padding:"12px 14px",marginBottom:14,fontSize:11,color:C.mid,lineHeight:1.6,border:`1px solid ${C.border}`}}>
-                  le modèle de l'assiette SOPK — pour composer un repas qui stabilise ta glycémie, sans rien peser. 🌿
+                  le modèle de l'assiette SOPK — pour composer un repas qui stabilise ta glycémie, sans rien peser.
                 </div>
                 {[
                   {pct:"½",t:"Légumes & fibres",c:"#7A9A5A",ex:"légumes verts, crucifères, salade, légumes colorés — à manger en premier"},
@@ -4678,7 +4690,7 @@ export default function App() {
               return(
                 <div className="fu">
                   <div style={{background:C.bubble,borderRadius:12,padding:"12px 14px",marginBottom:14,fontSize:11,color:C.mid,lineHeight:1.6,border:`1px solid ${C.border}`}}>
-                    des guides concrets pour les vraies situations de ta vie — pas de la théorie, du réel. 🌿
+                    des guides concrets pour les vraies situations de ta vie — pas de la théorie, du réel.
                   </div>
                   {guides.map((g,i)=>{
                     const ouvert=situationOpen===g.id;
@@ -4734,7 +4746,7 @@ export default function App() {
               return(
                 <div className="fu">
                   <div style={{background:C.bubble,borderRadius:12,padding:"12px 14px",marginBottom:14,fontSize:11,color:C.mid,lineHeight:1.6,border:`1px solid ${C.border}`}}>
-                    tes fiches à télécharger, imprimer et afficher sur ton frigo. elles sont à toi, pour toujours. 🌿
+                    tes fiches à télécharger, imprimer et afficher sur ton frigo. elles sont à toi, pour toujours.
                   </div>
                   {FICHES_DL.map((f,i)=>(
                     f.cat?(
@@ -4798,7 +4810,7 @@ export default function App() {
               return(
                 <div className="fu">
                   <div style={{background:C.bubble,borderRadius:12,padding:"12px 14px",marginBottom:14,fontSize:11,color:C.mid,lineHeight:1.6,border:`1px solid ${C.border}`}}>
-                    tes fiches SMOP pour comprendre ton corps en profondeur — chaque thème expliqué simplement, sans jargon. 🌿
+                    tes fiches SMOP pour comprendre ton corps en profondeur — chaque thème expliqué simplement, sans jargon.
                   </div>
                   {FICHES.map((f,i)=>{
                     const ouvert=ficheOpen===f.id;
@@ -4827,7 +4839,7 @@ export default function App() {
                                 ))}
                               </div>
                             ))}
-                            <div style={{fontSize:9.5,color:C.light,fontStyle:"italic",marginTop:4,lineHeight:1.5}}>information éducative, ne remplace pas un avis médical. parles-en à ton professionnel de santé. 🌿</div>
+                            <div style={{fontSize:9.5,color:C.light,fontStyle:"italic",marginTop:4,lineHeight:1.5}}>information éducative, ne remplace pas un avis médical. parles-en à ton professionnel de santé.</div>
                           </div>
                         )}
                       </div>
@@ -4841,7 +4853,7 @@ export default function App() {
             {outilOpen==="comprendre"&&(
               <div className="fu">
                 <div style={{background:C.bubble,borderRadius:12,padding:"12px 14px",marginBottom:14,fontSize:11,color:C.mid,lineHeight:1.6,border:`1px solid ${C.border}`}}>
-                  comprendre POURQUOI certains aliments t'aident et d'autres t'épuisent — pour choisir en connaissance de cause, pas par règles aveugles. 🌿
+                  comprendre POURQUOI certains aliments t'aident et d'autres t'épuisent — pour choisir en connaissance de cause, pas par règles aveugles.
                 </div>
                 {[
                   {emoji:"🟢",titre:"À privilégier",coul:"#7A9A5A",items:[
@@ -4868,7 +4880,7 @@ export default function App() {
                 ))}
                 <div style={{background:`${C.sage}22`,borderRadius:12,padding:"12px 14px",border:`1px solid ${C.sage}`}}>
                   <div style={{fontSize:11,color:"#4F6038",lineHeight:1.6}}>
-                    <strong>l'esprit, pas les règles :</strong> il n'y a pas d'aliment « interdit ». il y a des choix qui apaisent ton corps et d'autres qui le sollicitent. tu apprends à doser, pas à te priver. 🌿
+                    <strong>l'esprit, pas les règles :</strong> il n'y a pas d'aliment « interdit ». il y a des choix qui apaisent ton corps et d'autres qui le sollicitent. tu apprends à doser, pas à te priver.
                   </div>
                 </div>
               </div>
@@ -4878,7 +4890,7 @@ export default function App() {
             {outilOpen==="courses"&&(
               <div className="fu">
                 <div style={{background:C.bubble,borderRadius:12,padding:"12px 14px",marginBottom:14,fontSize:11,color:C.mid,lineHeight:1.6,border:`1px solid ${C.border}`}}>
-                  ta liste de courses SOPK : remplis ton caddie avec les bons réflexes, et apprends à déjouer les pièges du supermarché. 🌿
+                  ta liste de courses SOPK : remplis ton caddie avec les bons réflexes, et apprends à déjouer les pièges du supermarché.
                 </div>
 
                 {/* Liste de courses type */}
@@ -5008,7 +5020,7 @@ export default function App() {
               </div>
             )}
 
-            <div style={{fontSize:10.5,color:C.mid,background:`${C.sage}22`,borderRadius:10,padding:"11px 13px",lineHeight:1.6}}>🤍 avec un SOPK, ces repères sont des estimations — l'ovulation peut se décaler, et un cycle long (même 60 jours ou plus) est une info, pas une faute. c'est ton ressenti et tes vraies règles qui comptent. noter tes cycles, même irréguliers, est une mine d'or pour ton médecin.</div>
+            <div style={{fontSize:10.5,color:C.mid,background:`${C.sage}22`,borderRadius:10,padding:"11px 13px",lineHeight:1.6}}>avec un SOPK, ces repères sont des estimations — l'ovulation peut se décaler, et un cycle long (même 60 jours ou plus) est une info, pas une faute. c'est ton ressenti et tes vraies règles qui comptent. noter tes cycles, même irréguliers, est une mine d'or pour ton médecin.</div>
           </div>
           );
         })()}
@@ -5111,7 +5123,7 @@ export default function App() {
             </div>
 
             <button onClick={()=>setTab("tendances")} style={{width:"100%",background:`${pc.p}10`,border:`1px solid ${pc.p}40`,borderRadius:12,padding:"11px 14px",marginBottom:14,display:"flex",alignItems:"center",justifyContent:"space-between",cursor:"pointer",fontFamily:"inherit"}}>
-              <span style={{fontSize:12.5,fontWeight:600,color:C.brown}}>🤍 Mes tendances, expliquées par Kamila</span>
+              <span style={{fontSize:12.5,fontWeight:600,color:C.brown}}>Mes tendances, expliquées par Kamila</span>
               <span style={{fontSize:13,color:pc.p}}>→</span>
             </button>
 
@@ -5185,7 +5197,7 @@ export default function App() {
                 <span style={{display:"inline-block",fontSize:9,letterSpacing:.5,background:`${pc.p}18`,color:pc.p,borderRadius:99,padding:"3px 10px",marginBottom:8}}>tendance · {t.tag}</span>
                 <div style={{fontSize:14,color:C.brown,lineHeight:1.45,marginBottom:10}}>{t.text}</div>
                 <div style={{background:"#F7EFE6",borderLeft:`3px solid ${pc.p}`,borderRadius:"0 10px 10px 0",padding:"11px 13px"}}>
-                  <div style={{fontSize:9,fontWeight:700,color:pc.p,marginBottom:3}}>🤍 le mot de Kamila</div>
+                  <div style={{fontSize:9,fontWeight:700,color:pc.p,marginBottom:3}}>le mot de Kamila</div>
                   <div style={{fontSize:12.5,fontStyle:"italic",fontFamily:"'Playfair Display',serif",color:C.mid,lineHeight:1.6}}>« {t.kamila} »</div>
                 </div>
               </div>
@@ -5210,7 +5222,7 @@ export default function App() {
             <div style={{fontSize:12,color:C.light,marginBottom:14}}>optionnel — seulement si ça t'aide.</div>
 
             <div style={{background:"#F1EEF6",borderLeft:"3px solid #A89AB8",borderRadius:"0 12px 12px 0",padding:"12px 14px",marginBottom:14}}>
-              <div style={{fontSize:9,fontWeight:700,color:"#8B7BA0",marginBottom:4}}>🤍 le mot de Kamila</div>
+              <div style={{fontSize:9,fontWeight:700,color:"#8B7BA0",marginBottom:4}}>le mot de Kamila</div>
               <div style={{fontSize:12,color:C.mid,lineHeight:1.6,fontStyle:"italic"}}>le poids n'est qu'un indicateur parmi beaucoup d'autres — jamais un juge. ton énergie, tes symptômes, tes cycles racontent bien plus sur ta santé. si le chiffre te fait du mal, tu as le droit de ne pas le suivre du tout.</div>
             </div>
 
@@ -5224,7 +5236,7 @@ export default function App() {
                 <div style={{fontSize:11,letterSpacing:1,textTransform:"uppercase",color:pc.p,fontWeight:600,marginBottom:10}}>Ton poids aujourd'hui</div>
                 <div style={{display:"flex",gap:8}}>
                   <input value={poidsInput} onChange={e=>setPoidsInput(e.target.value)} type="number" inputMode="decimal" placeholder="kg" style={{flex:1,border:`1.5px solid ${C.border}`,borderRadius:11,padding:"11px 14px",fontFamily:"inherit",fontSize:15,color:C.brown,background:C.cream,outline:"none"}}/>
-                  <button onClick={()=>{ const v=parseFloat(String(poidsInput).replace(",",".")); if(!isNaN(v)&&v>0){ setMesures(m=>{ const arr=(m.poids||[]).filter(p=>p.d!==todayKey); return {...m,poids:[...arr,{d:todayKey,v:Math.round(v*10)/10}]}; }); setPoidsInput(""); showToast("poids enregistré 🌿"); } }} style={{background:pc.p,border:"none",borderRadius:11,padding:"0 18px",color:"white",fontFamily:"inherit",fontSize:13,fontWeight:600,cursor:"pointer"}}>enregistrer</button>
+                  <button onClick={()=>{ const v=parseFloat(String(poidsInput).replace(",",".")); if(!isNaN(v)&&v>0){ setMesures(m=>{ const arr=(m.poids||[]).filter(p=>p.d!==todayKey); return {...m,poids:[...arr,{d:todayKey,v:Math.round(v*10)/10}]}; }); setPoidsInput(""); showToast("poids enregistré"); } }} style={{background:pc.p,border:"none",borderRadius:11,padding:"0 18px",color:"white",fontFamily:"inherit",fontSize:13,fontWeight:600,cursor:"pointer"}}>enregistrer</button>
                 </div>
               </div>
 
@@ -5309,7 +5321,7 @@ export default function App() {
               {transErr&&<div style={{background:`${pc.p}12`,borderRadius:10,padding:"10px 12px",fontSize:11,color:C.brown,lineHeight:1.5}}>{transErr}</div>}
               {translation&&(
                 <div style={{background:C.bubble,borderRadius:12,padding:"12px 14px"}}>
-                  <div style={{fontSize:9,letterSpacing:1.5,textTransform:"uppercase",color:C.light,marginBottom:6}}>🌿 Kamila te répond</div>
+                  <div style={{fontSize:9,letterSpacing:1.5,textTransform:"uppercase",color:C.light,marginBottom:6}}>Kamila te répond</div>
                   <div style={{fontSize:12,lineHeight:1.85,color:C.brown,whiteSpace:"pre-wrap"}}>{translation}</div>
                 </div>
               )}
@@ -5350,7 +5362,7 @@ export default function App() {
             <div style={{fontSize:12,color:C.mid,marginBottom:14}}>entre préparée. pose les bonnes questions.</div>
 
             <div style={{background:C.bubble,borderRadius:12,padding:"10px 14px",marginBottom:12,fontSize:11,color:C.mid,lineHeight:1.6,fontStyle:"italic",border:`1px solid ${C.border}`}}>
-              "tu n'attends plus qu'on te sauve. tu collabores avec ton médecin. c'est très différent." — Kamila 🌿
+              "tu n'attends plus qu'on te sauve. tu collabores avec ton médecin. c'est très différent." — Kamila
             </div>
 
             {SCRIPTS.map((sc,i)=>(
@@ -5490,11 +5502,11 @@ profil · 3 priorités · analyses à demander · ton suivi & tes tendances · s
                   )}
                   <button
                     onClick={async()=>{
-                      const text=`Mon terrain SOPK après ${completedCount} missions\n\n${diff>0?`-${diff} points de brouillard 🌿`:"Je commence mon protocole SOPK Life 🌿"}\n\n@sopk.life — Protocole SOPK Life`;
+                      const text=`Mon terrain SOPK après ${completedCount} missions\n\n${diff>0?`-${diff} points de brouillard`:"Je commence mon protocole SOPK Life"}\n\n@sopk.life — Protocole SOPK Life`;
                       try{
                         if(navigator.share){ await navigator.share({text}); }
-                        else if(navigator.clipboard){ await navigator.clipboard.writeText(text); showToast("Copié ! Colle-le dans ta story 🌿"); }
-                        else { showToast("Copie ce texte pour ta story 🌿"); }
+                        else if(navigator.clipboard){ await navigator.clipboard.writeText(text); showToast("Copié ! Colle-le dans ta story"); }
+                        else { showToast("Copie ce texte pour ta story"); }
                       }catch(e){ /* partage annulé par l'utilisatrice — on ne fait rien */ }
                     }}
                     style={{width:"100%",background:pc.p,border:"none",borderRadius:10,padding:"9px",color:"white",fontFamily:"inherit",fontSize:11,fontWeight:600,cursor:"pointer"}}>
@@ -5512,7 +5524,7 @@ profil · 3 priorités · analyses à demander · ton suivi & tes tendances · s
                 {VICTORIES_LIST.map((v,i)=>{
                   const sel=weekWins.includes(i);
                   return(
-                    <button key={i} onClick={()=>{if(!sel)showToast("Victoire notée 🌸","chaque petit pas compte. continue.");setVictories(p=>{const c=p[journalWeek]||[];return{...p,[journalWeek]:sel?c.filter(x=>x!==i):[...c,i]};});}}
+                    <button key={i} onClick={()=>{if(!sel)showToast("Victoire notée","chaque petit pas compte. continue.");setVictories(p=>{const c=p[journalWeek]||[];return{...p,[journalWeek]:sel?c.filter(x=>x!==i):[...c,i]};});}}
                       style={{display:"flex",alignItems:"center",gap:9,padding:"8px 10px",border:`1.5px solid ${sel?pc.p:C.border}`,borderRadius:11,background:sel?`${pc.p}10`:C.white,cursor:"pointer",fontFamily:"inherit",fontSize:11,color:C.brown,textAlign:"left",transition:"all 0.15s"}}>
                       <div style={{width:16,height:16,borderRadius:"50%",border:`1.5px solid ${sel?pc.p:C.border}`,background:sel?pc.p:"transparent",flexShrink:0,display:"flex",alignItems:"center",justifyContent:"center"}}>
                         {sel&&<span style={{color:"white",fontSize:9}}>✓</span>}
@@ -5717,11 +5729,11 @@ profil · 3 priorités · analyses à demander · ton suivi & tes tendances · s
               {q.length<2&&(
                 <div style={{textAlign:"center",padding:"40px 20px",color:C.light}}>
                   <div style={{fontSize:30,marginBottom:10}}>🔍</div>
-                  <div style={{fontSize:12.5,lineHeight:1.6}}>tape un mot pour chercher partout dans l'app :<br/>tes fiches SOS, tes recettes, les aliments, les jours du protocole. 🌿</div>
+                  <div style={{fontSize:12.5,lineHeight:1.6}}>tape un mot pour chercher partout dans l'app :<br/>tes fiches SOS, tes recettes, les aliments, les jours du protocole.</div>
                 </div>
               )}
               {q.length>=2&&total===0&&(
-                <div style={{textAlign:"center",padding:"40px 20px",color:C.light,fontSize:12.5,lineHeight:1.6}}>aucun résultat pour « {searchQ} ».<br/>essaie un autre mot (ex : fatigue, fringale, saumon, sommeil). 🌿</div>
+                <div style={{textAlign:"center",padding:"40px 20px",color:C.light,fontSize:12.5,lineHeight:1.6}}>aucun résultat pour « {searchQ} ».<br/>essaie un autre mot (ex : fatigue, fringale, saumon, sommeil).</div>
               )}
               {/* SOS */}
               {rSos.length>0&&(
@@ -5776,7 +5788,7 @@ profil · 3 priorités · analyses à demander · ton suivi & tes tendances · s
               {/* Jours du protocole */}
               {rJours.length>0&&(
                 <div style={{marginBottom:18}}>
-                  <div style={{fontSize:10,fontWeight:700,letterSpacing:1,textTransform:"uppercase",color:pc.p,marginBottom:8}}>🌿 Jours du protocole</div>
+                  <div style={{fontSize:10,fontWeight:700,letterSpacing:1,textTransform:"uppercase",color:pc.p,marginBottom:8}}>Jours du protocole</div>
                   {rJours.map((m,k)=>(
                     <button key={k} onClick={()=>{setDay(m.day);setTab("kamila");setSearchOpen(false);setSearchQ("");}}
                       style={{width:"100%",textAlign:"left",background:C.white,border:`1px solid ${C.border}`,borderRadius:12,padding:"11px 13px",marginBottom:7,cursor:"pointer",fontFamily:"inherit",display:"flex",alignItems:"center",gap:10}}>
