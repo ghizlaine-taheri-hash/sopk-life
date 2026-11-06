@@ -3798,9 +3798,9 @@ export default function App() {
         </div>
         {[
           {g:"Où j'en suis",items:[{id:"kamila",ic:"home",l:"Mon accueil"},{id:"carte",ic:"map",l:"Ma carte SMOP"}]},
-          {g:"Mon suivi",items:[{id:"suivi",ic:"chart",l:"Journal & habitudes"},{id:"cycle",ic:"moon",l:"Mon cycle"},{id:"apercu",ic:"calendar",l:"Vue d'ensemble"},{id:"tendances",ic:"pulse",l:"Mes tendances"},{id:"mesures",ic:"heart",l:"Mes mesures"}]},
+          {g:"Mon suivi",items:[{id:"suivi",ic:"chart",l:"Ta journée"},{id:"cycle",ic:"moon",l:"Mon cycle"},{id:"apercu",ic:"calendar",l:"Vue d'ensemble"},{id:"tendances",ic:"pulse",l:"Mes tendances"},{id:"mesures",ic:"heart",l:"Mes mesures"},{id:"journal",ic:"calendar",l:"Mon journal"}]},
           {g:"Mes ressources",items:[{id:"outils",ic:"book",l:"Outils & aliments"}]},
-          {g:"Mon dossier santé",items:[{id:"medecin",ic:"health",l:"Résumé médecin"},{id:"analyses",ic:"flask",l:"Analyses de sang"},{id:"journal",ic:"calendar",l:"Mon journal"}]},
+          {g:"Mon dossier santé",items:[{id:"medecin",ic:"health",l:"Résumé médecin"},{id:"analyses",ic:"flask",l:"Analyses de sang"}]},
         ].map((grp,gi)=>(
           <div key={gi} style={{marginBottom:14}}>
             <div style={{fontSize:8.5,letterSpacing:1.5,textTransform:"uppercase",opacity:.38,padding:"0 18px",marginBottom:6}}>{grp.g}</div>
@@ -5036,6 +5036,7 @@ export default function App() {
                 {id:"tendances",ic:"pulse",l:"Mes tendances"},
                 {id:"cycle",ic:"moon",l:"Mon cycle"},
                 {id:"mesures",ic:"heart",l:"Mes mesures"},
+                {id:"journal",ic:"calendar",l:"Mon journal"},
               ].map(x=>(
                 <button key={x.id} onClick={()=>setTab(x.id)} style={{display:"flex",alignItems:"center",gap:8,background:C.bubble,border:`1px solid ${C.border}`,borderRadius:12,padding:"11px 12px",cursor:"pointer",fontFamily:"inherit",textAlign:"left"}}>
                   <Icon name={x.ic} size={15} color={pc.p}/><span style={{fontSize:11.5,fontWeight:600,color:C.brown}}>{x.l}</span>
@@ -5372,14 +5373,9 @@ export default function App() {
               "tu n'attends plus qu'on te sauve. tu collabores avec ton médecin. c'est très différent." — Kamila
             </div>
 
-            <div style={{display:"flex",gap:8,marginBottom:14}}>
-              <button onClick={()=>setTab("analyses")} style={{flex:1,display:"flex",alignItems:"center",gap:8,background:C.white,border:`1px solid ${C.border}`,borderRadius:12,padding:"11px 12px",cursor:"pointer",fontFamily:"inherit",textAlign:"left"}}>
-                <Icon name="flask" size={16} color={pc.p}/><span style={{fontSize:11.5,fontWeight:600,color:C.brown}}>Analyses de sang</span>
-              </button>
-              <button onClick={()=>setTab("journal")} style={{flex:1,display:"flex",alignItems:"center",gap:8,background:C.white,border:`1px solid ${C.border}`,borderRadius:12,padding:"11px 12px",cursor:"pointer",fontFamily:"inherit",textAlign:"left"}}>
-                <Icon name="calendar" size={16} color={pc.p}/><span style={{fontSize:11.5,fontWeight:600,color:C.brown}}>Mon journal</span>
-              </button>
-            </div>
+            <button onClick={()=>setTab("analyses")} style={{width:"100%",display:"flex",alignItems:"center",gap:8,background:C.white,border:`1px solid ${C.border}`,borderRadius:12,padding:"12px 14px",marginBottom:14,cursor:"pointer",fontFamily:"inherit",textAlign:"left"}}>
+              <Icon name="flask" size={16} color={pc.p}/><span style={{fontSize:11.5,fontWeight:600,color:C.brown}}>Analyses de sang</span>
+            </button>
 
             {SCRIPTS.map((sc,i)=>(
               <div key={i} style={{background:C.white,borderRadius:12,padding:"12px",marginBottom:8,border:`1px solid ${C.border}`}}>
