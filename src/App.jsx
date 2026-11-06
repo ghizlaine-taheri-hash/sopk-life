@@ -5458,63 +5458,24 @@ profil · 3 priorités · analyses à demander · ton suivi & tes tendances · s
               <div style={{fontSize:9,color:C.light,marginTop:10,fontStyle:"italic"}}>fais défiler pour choisir ta semaine (une année complète) — le point coloré indique ta semaine en cours.</div>
             </div>
 
-            {/* ── SCORE TERRAIN VISUEL ── */}
-            {(()=>{
-              const scoreJ1=76;
-              const scoreMaintenant=Math.round(score);
-              const diff=scoreJ1-scoreMaintenant;
-              const pct=Math.round((diff/scoreJ1)*100);
-              const barWidth=Math.max(5,Math.round((scoreMaintenant/100)*100));
-              return(
-                <div style={{background:C.white,borderRadius:16,padding:"1.1rem",marginBottom:14,border:`1.5px solid ${C.border}`}}>
-                  <div style={{fontSize:9,letterSpacing:2,textTransform:"uppercase",color:C.light,marginBottom:10}}>Ton terrain SOPK — évolution</div>
-                  <div style={{display:"flex",gap:16,marginBottom:12}}>
-                    <div style={{flex:1,background:C.cream,borderRadius:12,padding:"10px",textAlign:"center"}}>
-                      <div style={{fontSize:24,fontWeight:800,color:"#B07050"}}>76</div>
-                      <div style={{fontSize:9,color:C.light}}>Jour 1</div>
-                    </div>
-                    <div style={{display:"flex",alignItems:"center",fontSize:16,color:C.border}}>→</div>
-                    <div style={{flex:1,background:`${pc.p}10`,borderRadius:12,padding:"10px",textAlign:"center",border:`1.5px solid ${pc.p}`}}>
-                      <div style={{fontSize:24,fontWeight:800,color:pc.p}}>{scoreMaintenant}</div>
-                      <div style={{fontSize:9,color:C.light}}>Aujourd'hui</div>
-                    </div>
-                  </div>
-                  <div style={{marginBottom:8}}>
-                    <div style={{display:"flex",justifyContent:"space-between",fontSize:9,color:C.light,marginBottom:4}}>
-                      <span>Score de brouillard</span>
-                      <span style={{color:diff>0?"#7A9A5A":C.light}}>
-                        {diff>0?`-${diff} points`:"Jour 1 — continue"}
-                      </span>
-                    </div>
-                    <div style={{height:8,background:C.border,borderRadius:99,overflow:"hidden"}}>
-                      <div style={{width:`${barWidth}%`,height:"100%",background:`linear-gradient(90deg,#7A9A5A,${pc.p})`,borderRadius:99,transition:"width 1s ease"}}/>
-                    </div>
-                  </div>
-                  {diff>0&&(
-                    <div style={{background:`${"#7A9A5A"}15`,borderRadius:10,padding:"8px 12px",border:`1px solid ${"#7A9A5A"}`,marginBottom:8}}>
-                      <div style={{fontSize:11,color:"#5A7040",fontWeight:500}}>
-                        🎯 {diff} points de brouillard éliminés depuis le Jour 1
-                      </div>
-                      <div style={{fontSize:9,color:"#7A9A5A",marginTop:2}}>
-                        {completedCount} missions complétées · semaine {week} en cours
-                      </div>
-                    </div>
-                  )}
-                  <button
-                    onClick={async()=>{
-                      const text=`Mon terrain SOPK après ${completedCount} missions\n\n${diff>0?`-${diff} points de brouillard`:"Je commence mon protocole SOPK Life"}\n\n@sopk.life — Protocole SOPK Life`;
-                      try{
-                        if(navigator.share){ await navigator.share({text}); }
-                        else if(navigator.clipboard){ await navigator.clipboard.writeText(text); showToast("Copié ! Colle-le dans ta story"); }
-                        else { showToast("Copie ce texte pour ta story"); }
-                      }catch(e){ /* partage annulé par l'utilisatrice — on ne fait rien */ }
-                    }}
-                    style={{width:"100%",background:pc.p,border:"none",borderRadius:10,padding:"9px",color:"white",fontFamily:"inherit",fontSize:11,fontWeight:600,cursor:"pointer"}}>
-                    📲 Partager ma progression en story
-                  </button>
+            {/* ── TON CHEMIN (honnête, sans score) ── */}
+            <div style={{background:C.white,borderRadius:16,padding:"1.1rem",marginBottom:14,border:`1.5px solid ${C.border}`}}>
+              <div style={{fontSize:9,letterSpacing:2,textTransform:"uppercase",color:C.light,marginBottom:12}}>Ton chemin</div>
+              <div style={{display:"flex",alignItems:"center",gap:12,marginBottom:12}}>
+                <div style={{width:44,height:44,borderRadius:12,background:`${pc.p}15`,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>
+                  <Icon name={PROFIL_ICON[profil]||"leaf"} size={20} color={pc.p}/>
                 </div>
-              );
-            })()}
+                <div style={{flex:1}}>
+                  <div style={{fontSize:14,fontWeight:700,color:C.brown}}>{completedCount} mission{completedCount>1?"s":""} accomplie{completedCount>1?"s":""}</div>
+                  <div style={{fontSize:10,color:C.light,marginTop:1}}>{day<=30?`Fondation · jour ${day}`:"au long cours"} · semaine {week}</div>
+                </div>
+              </div>
+              <div style={{fontSize:11,color:C.mid,lineHeight:1.6,background:C.bubble,borderRadius:12,padding:"11px 13px"}}>
+                {completedCount===0
+                  ? "ton chemin commence ici. une seule action aujourd'hui, et c'est déjà un pas."
+                  : "chaque mission que tu tiens travaille ton terrain en profondeur. ce n'est pas une note — c'est un repère de ce que tu as déjà construit, à ton rythme."}
+              </div>
+            </div>
 
             {/* Victoires */}
             <div style={{background:`linear-gradient(135deg,${C.bubble},${C.sage}33)`,borderRadius:16,padding:"1rem",marginBottom:12,border:`1px solid ${C.border}`}}>
