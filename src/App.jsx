@@ -2933,47 +2933,59 @@ export default function App() {
   const [authMsg, setAuthMsg] = useState("");
   const [authBusy, setAuthBusy] = useState(false);
   const pulledRef = useRef(false);
+  const [hydrated, setHydrated] = useState(false); // true quand les données cloud sont chargées (sécurité : on n'affiche pas l'app avant)
+  const [showAccount, setShowAccount] = useState(false);
+  const [newPw, setNewPw] = useState("");
+  const [accMsg, setAccMsg] = useState("");
+  const [accErr, setAccErr] = useState("");
+  const [accBusy, setAccBusy] = useState(false);
 
   useEffect(()=>{ let subref;
     getSupabase().then(client=>{
       setSb(client);
       client.auth.getSession().then(({data})=>setSession(data.session||null)).catch(()=>setSession(null));
-      const r=client.auth.onAuthStateChange((_e,s)=>setSession(s||null));
+      const r=client.auth.onAuthStateChange((evt,s)=>{ setSession(s||null); if(evt==="PASSWORD_RECOVERY"){ setShowAccount(true); setAccMsg("Choisis ton nouveau mot de passe ci-dessous 🌿"); } });
       subref=r.data?.subscription;
     }).catch(()=>{ setSbError(true); });
     return ()=>{ try{ subref&&subref.unsubscribe(); }catch(e){} };
   },[]);
 
-  // à la connexion : on récupère les données du cloud (ou on pousse le local la 1re fois)
+  // à la connexion : on récupère d'ABORD les données du cloud, puis seulement on affiche l'app (évite d'écraser les données sur un nouvel appareil)
   useEffect(()=>{ if(!sb||!session||pulledRef.current) return; pulledRef.current=true;
+    const finish=()=>setHydrated(true);
+    const safety=setTimeout(finish, 9000); // si le réseau traîne, on ne reste pas bloquée sur le splash
     sb.from("user_data").select("data").eq("user_id",session.user.id).maybeSingle().then(({data,error})=>{
-      if(error) return;
+      clearTimeout(safety);
+      if(error){ finish(); return; }
       if(data && data.data && Object.keys(data.data).length){
         const before=JSON.stringify(collectLocal());
         applyLocal(data.data);
         if(JSON.stringify(collectLocal())!==before && !sessionStorage.getItem("sopklife_hydrated")){
           try{ sessionStorage.setItem("sopklife_hydrated","1"); }catch(e){}
-          window.location.reload();
+          window.location.reload(); // les useState relisent les données cloud au rechargement
+          return;
         }
+        finish();
       } else {
-        sb.from("user_data").upsert({user_id:session.user.id,data:collectLocal(),updated_at:new Date().toISOString()});
+        // pas de données cloud → première fois : on pousse le local actuel
+        sb.from("user_data").upsert({user_id:session.user.id,data:collectLocal(),updated_at:new Date().toISOString()}).then(finish, finish);
       }
-    });
+    }, ()=>{ clearTimeout(safety); finish(); });
   },[sb,session]);
 
-  // synchro continue : on pousse le local vers le cloud dès qu'il change
-  useEffect(()=>{ if(!sb||!session) return; let last=JSON.stringify(collectLocal()); let alive=true;
+  // synchro continue : on pousse le local vers le cloud dès qu'il change — SEULEMENT une fois hydratée
+  useEffect(()=>{ if(!sb||!session||!hydrated) return; let last=JSON.stringify(collectLocal()); let alive=true;
     const push=()=>{ try{ const cur=JSON.stringify(collectLocal()); if(cur!==last){ last=cur; sb.from("user_data").upsert({user_id:session.user.id,data:JSON.parse(cur),updated_at:new Date().toISOString()}); } }catch(e){} };
     const iv=setInterval(()=>{ if(alive) push(); }, 6000);
     const onHide=()=>push();
     window.addEventListener("beforeunload",onHide); document.addEventListener("visibilitychange",onHide);
     return ()=>{ alive=false; clearInterval(iv); window.removeEventListener("beforeunload",onHide); document.removeEventListener("visibilitychange",onHide); push(); };
-  },[sb,session]);
+  },[sb,session,hydrated]);
 
   const doAuth = async () => {
     if(!sb||authBusy) return; setAuthErr(""); setAuthMsg(""); setAuthBusy(true);
     try{
-      const email=authEmail.trim();
+      const email=authEmail.trim().toLowerCase();
       const { data, error } = authMode==="signup"
         ? await sb.auth.signUp({ email, password:authPw })
         : await sb.auth.signInWithPassword({ email, password:authPw });
@@ -2982,7 +2994,25 @@ export default function App() {
     }catch(e){ setAuthErr("Une erreur est survenue, réessaie."); }
     setAuthBusy(false);
   };
-  const logout = async () => { try{ sessionStorage.removeItem("sopklife_hydrated"); pulledRef.current=false; await sb?.auth.signOut(); }catch(e){} };
+  const forgotPw = async () => {
+    if(!sb) return; const email=authEmail.trim().toLowerCase();
+    if(!email){ setAuthErr("Entre d'abord ton email, puis clique sur « mot de passe oublié »."); return; }
+    setAuthErr(""); setAuthMsg(""); setAuthBusy(true);
+    try{ await sb.auth.resetPasswordForEmail(email, { redirectTo: window.location.origin });
+      setAuthMsg("Si un compte existe avec cet email, tu vas recevoir un lien pour réinitialiser ton mot de passe 🌿");
+    }catch(e){ setAuthErr("Impossible d'envoyer l'email, réessaie."); }
+    setAuthBusy(false);
+  };
+  const changePw = async () => {
+    if(!sb||accBusy) return; setAccErr(""); setAccMsg("");
+    if(newPw.length<6){ setAccErr("Ton mot de passe doit faire au moins 6 caractères."); return; }
+    setAccBusy(true);
+    try{ const { error } = await sb.auth.updateUser({ password:newPw });
+      if(error){ setAccErr(authErrFr(error.message)); } else { setAccMsg("Mot de passe mis à jour 🌿"); setNewPw(""); }
+    }catch(e){ setAccErr("Une erreur est survenue, réessaie."); }
+    setAccBusy(false);
+  };
+  const logout = async () => { try{ sessionStorage.removeItem("sopklife_hydrated"); pulledRef.current=false; setShowAccount(false); await sb?.auth.signOut(); }catch(e){} };
   const showToast = (titre, sousTitre) => { setToast({titre,sousTitre}); setTimeout(()=>setToast(null), 3400); };
   const [markers, setMarkers] = useState(() => load("markers",{}));
   const [translation, setTranslation] = useState(null);
@@ -3173,7 +3203,18 @@ export default function App() {
         style={{marginTop:16,background:"none",border:"none",color:C.mid,fontSize:12,cursor:"pointer",fontFamily:"inherit",textAlign:"center"}}>
         {authMode==="signup"?"j'ai déjà un compte · me connecter":"pas encore de compte · en créer un"}
       </button>
+      {authMode==="login" && <button onClick={forgotPw} disabled={authBusy}
+        style={{marginTop:6,background:"none",border:"none",color:C.light,fontSize:11,cursor:"pointer",fontFamily:"inherit",textAlign:"center",textDecoration:"underline"}}>
+        mot de passe oublié ?
+      </button>}
       <div style={{fontSize:9.5,color:C.light,textAlign:"center",marginTop:22,lineHeight:1.6}}>tes données sont enregistrées et te suivent sur tous tes appareils.</div>
+    </div>
+  );
+  // on attend que les données du cloud soient chargées avant d'afficher l'app (sécurité anti-écrasement)
+  if(session && !hydrated) return (
+    <div style={{fontFamily:"'DM Sans',sans-serif",background:C.cream,minHeight:"100vh",maxWidth:430,margin:"0 auto",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:10}}>
+      <Icon name="leaf" size={28} color={C.mauve}/>
+      <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.05rem",color:C.light,fontStyle:"italic"}}>on récupère tes données…</div>
     </div>
   );
 
@@ -3755,15 +3796,19 @@ export default function App() {
       {/* HEADER premium */}
       <div style={{background:C.cream,padding:"1.1rem 1.25rem 0.5rem"}}>
         <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
-          <div style={{display:"flex",alignItems:"center",gap:11}}>
+          <button onClick={()=>setShowAccount(true)} aria-label="mon compte" style={{display:"flex",alignItems:"center",gap:11,background:"none",border:"none",cursor:"pointer",fontFamily:"inherit",textAlign:"left",padding:0}}>
             <div style={{width:42,height:42,borderRadius:"50%",background:`linear-gradient(135deg,${pc.p},${C.terra})`,display:"flex",alignItems:"center",justifyContent:"center",color:"#fff",fontWeight:700,fontSize:15,fontFamily:"'Playfair Display',serif",flexShrink:0}}>{(prenom||"·").slice(0,1).toUpperCase()}</div>
             <div>
               <div style={{fontSize:10,color:C.light}}>{new Date().toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long"})}</div>
               <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.3rem",color:C.brown,fontWeight:600,lineHeight:1.05}}>Bonjour {prenom||"🌿"}</div>
             </div>
+          </button>
+          <div style={{display:"flex",alignItems:"center",gap:8}}>
+            <button onClick={()=>setSearchOpen(true)} aria-label="rechercher"
+              style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:"50%",width:38,height:38,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",color:C.mid,fontSize:17,lineHeight:1,fontFamily:"inherit"}}>⌕</button>
+            <button onClick={()=>setShowAccount(true)} aria-label="mon compte"
+              style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:"50%",width:38,height:38,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",color:C.mid,fontFamily:"inherit"}}><Icon name="gear" size={17} color={C.mid}/></button>
           </div>
-          <button onClick={()=>setSearchOpen(true)} aria-label="rechercher"
-            style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:"50%",width:38,height:38,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",color:C.mid,fontSize:17,lineHeight:1,fontFamily:"inherit"}}>⌕</button>
         </div>
       </div>
 
@@ -5582,6 +5627,40 @@ profil · 3 priorités · analyses à demander · ton suivi & tes tendances · s
           <div style={{background:`linear-gradient(135deg,${pc.p},#9A6040)`,borderRadius:16,padding:"13px 16px",boxShadow:"0 8px 28px rgba(0,0,0,0.28)",display:"flex",alignItems:"center",gap:12}}>
             <div style={{fontSize:13,fontWeight:700,color:"white",lineHeight:1.3}}>{toast.titre}</div>
             <div style={{flex:1,fontSize:11,color:"rgba(255,255,255,0.9)",lineHeight:1.4}}>{toast.sousTitre}</div>
+          </div>
+        </div>
+      )}
+
+      {/* PANNEAU MON COMPTE */}
+      {showAccount&&(
+        <div onClick={()=>setShowAccount(false)} style={{position:"fixed",inset:0,zIndex:300,background:"rgba(58,42,32,.45)",display:"flex",alignItems:"flex-end",justifyContent:"center"}}>
+          <div onClick={e=>e.stopPropagation()} style={{background:C.cream,width:"100%",maxWidth:430,borderRadius:"22px 22px 0 0",padding:"1.4rem 1.3rem 1.8rem",maxHeight:"88vh",overflowY:"auto"}}>
+            <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:16}}>
+              <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.3rem",color:C.brown,fontWeight:600}}>Mon compte</div>
+              <button onClick={()=>setShowAccount(false)} style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:"50%",width:32,height:32,cursor:"pointer",color:C.mid,fontSize:15,fontFamily:"inherit"}}>✕</button>
+            </div>
+
+            <div style={{background:C.white,borderRadius:14,padding:"13px 15px",border:`1px solid ${C.border}`,marginBottom:14}}>
+              <div style={{fontSize:9,letterSpacing:1,textTransform:"uppercase",color:C.light,marginBottom:3}}>Connectée en tant que</div>
+              <div style={{fontSize:13,color:C.brown,fontWeight:600,wordBreak:"break-all"}}>{session?.user?.email||"—"}</div>
+            </div>
+
+            <div style={{background:C.white,borderRadius:14,padding:"14px 15px",border:`1px solid ${C.border}`,marginBottom:14}}>
+              <div style={{fontSize:11,fontWeight:700,color:C.brown,marginBottom:10}}>Changer mon mot de passe</div>
+              <input type="password" value={newPw} onChange={e=>setNewPw(e.target.value)} autoComplete="new-password" placeholder="nouveau mot de passe (6 caractères min.)"
+                style={{width:"100%",border:`1px solid ${C.border}`,borderRadius:10,padding:"11px",fontSize:13,fontFamily:"inherit",color:C.brown,background:C.cream,outline:"none",marginBottom:8}}/>
+              {accErr&&<div style={{fontSize:11,color:"#B5553F",background:"#FDF0E8",borderRadius:9,padding:"7px 10px",marginBottom:8,lineHeight:1.5}}>{accErr}</div>}
+              {accMsg&&<div style={{fontSize:11,color:"#4A7A52",background:"#EAF3EA",borderRadius:9,padding:"7px 10px",marginBottom:8,lineHeight:1.5}}>{accMsg}</div>}
+              <button onClick={changePw} disabled={accBusy||newPw.length<6}
+                style={{width:"100%",background:(accBusy||newPw.length<6)?C.light:pc.p,color:"#fff",border:"none",borderRadius:10,padding:"11px",fontFamily:"inherit",fontSize:12,fontWeight:700,cursor:(accBusy||newPw.length<6)?"default":"pointer"}}>
+                {accBusy?"un instant…":"mettre à jour mon mot de passe"}
+              </button>
+            </div>
+
+            <button onClick={logout} style={{width:"100%",display:"flex",alignItems:"center",justifyContent:"center",gap:8,background:C.white,border:`1px solid ${C.border}`,borderRadius:12,padding:"13px",fontFamily:"inherit",fontSize:12.5,fontWeight:600,color:"#B5553F",cursor:"pointer"}}>
+              se déconnecter
+            </button>
+            <div style={{fontSize:9.5,color:C.light,textAlign:"center",marginTop:14,lineHeight:1.6}}>tes données sont sauvegardées automatiquement sur ton compte.</div>
           </div>
         </div>
       )}
