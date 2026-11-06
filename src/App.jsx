@@ -5030,11 +5030,18 @@ export default function App() {
             <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.3rem",color:C.brown,marginBottom:2}}>Ta journée</div>
             <div style={{fontSize:12,color:C.light,marginBottom:14,textTransform:"capitalize"}}>{todayLabel}</div>
 
-            <button onClick={()=>setTab("apercu")} style={{width:"100%",background:C.bubble,border:`1px solid ${C.border}`,borderRadius:12,padding:"11px 14px",marginBottom:10,display:"flex",alignItems:"center",justifyContent:"space-between",cursor:"pointer",fontFamily:"inherit"}}>
-              <span style={{fontSize:12.5,fontWeight:600,color:C.brown,display:"flex",alignItems:"center",gap:7}}><Icon name="chart" size={14} color={pc.p}/>Ma vue d'ensemble</span>
-              <span style={{fontSize:13,color:pc.p}}>→</span>
-            </button>
-            <button onClick={()=>setTab("mesures")} style={{width:"100%",background:"none",border:"none",color:C.light,fontSize:11,textDecoration:"underline",cursor:"pointer",fontFamily:"inherit",textAlign:"center",marginBottom:14}}>suivre mes mesures (optionnel)</button>
+            <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8,marginBottom:14}}>
+              {[
+                {id:"apercu",ic:"chart",l:"Vue d'ensemble"},
+                {id:"tendances",ic:"pulse",l:"Mes tendances"},
+                {id:"cycle",ic:"moon",l:"Mon cycle"},
+                {id:"mesures",ic:"heart",l:"Mes mesures"},
+              ].map(x=>(
+                <button key={x.id} onClick={()=>setTab(x.id)} style={{display:"flex",alignItems:"center",gap:8,background:C.bubble,border:`1px solid ${C.border}`,borderRadius:12,padding:"11px 12px",cursor:"pointer",fontFamily:"inherit",textAlign:"left"}}>
+                  <Icon name={x.ic} size={15} color={pc.p}/><span style={{fontSize:11.5,fontWeight:600,color:C.brown}}>{x.l}</span>
+                </button>
+              ))}
+            </div>
 
             <div style={{background:C.white,borderRadius:16,padding:"16px",marginBottom:14,border:`1px solid ${C.border}`}}>
               <div style={{fontSize:11,letterSpacing:1,textTransform:"uppercase",color:pc.p,fontWeight:600,marginBottom:12}}>Comment s'est passée ta journée</div>
