@@ -5373,8 +5373,13 @@ export default function App() {
               "tu n'attends plus qu'on te sauve. tu collabores avec ton médecin. c'est très différent." — Kamila
             </div>
 
-            <button onClick={()=>setTab("analyses")} style={{width:"100%",display:"flex",alignItems:"center",gap:8,background:C.white,border:`1px solid ${C.border}`,borderRadius:12,padding:"12px 14px",marginBottom:14,cursor:"pointer",fontFamily:"inherit",textAlign:"left"}}>
-              <Icon name="flask" size={16} color={pc.p}/><span style={{fontSize:11.5,fontWeight:600,color:C.brown}}>Analyses de sang</span>
+            <button onClick={()=>setTab("analyses")} style={{width:"100%",display:"flex",alignItems:"center",gap:12,background:`${pc.p}10`,border:`1.5px solid ${pc.p}`,borderRadius:14,padding:"14px 15px",marginBottom:14,cursor:"pointer",fontFamily:"inherit",textAlign:"left"}}>
+              <div style={{width:38,height:38,borderRadius:11,background:C.white,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><Icon name="flask" size={18} color={pc.p}/></div>
+              <div style={{flex:1}}>
+                <div style={{fontSize:13,fontWeight:700,color:C.brown}}>Mes analyses de sang</div>
+                <div style={{fontSize:10,color:C.mid,marginTop:1}}>noter et suivre tes bilans dans le temps</div>
+              </div>
+              <div style={{fontSize:16,color:pc.p}}>›</div>
             </button>
 
             {SCRIPTS.map((sc,i)=>(
