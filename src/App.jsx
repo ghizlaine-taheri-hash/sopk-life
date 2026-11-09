@@ -3262,6 +3262,7 @@ export default function App() {
   const [profilSwitch, setProfilSwitch] = useState(null); // {key,label} dimension qu'on envisage d'explorer
   const [journal, setJournal] = useState(() => load("journalQuotidien",{}));
   const [journalMoment, setJournalMoment] = useState("matin"); // rituel guidé : matin / soir
+  const [dayOffset, setDayOffset] = useState(0); // navigation jour par jour dans « Ta journée »
   const [apercuPeriode, setApercuPeriode] = useState("mois");
   const [apercuMetric, setApercuMetric] = useState("symptomes");
   const [mesures, setMesures] = useState(() => load("mesures",{actif:false,poids:[]}));
@@ -3316,6 +3317,13 @@ export default function App() {
   const setSymp = (key,value)=> setJournal(p=>({...p,[todayKey]:{...(p[todayKey]||{}),symptomes:{...((p[todayKey]||{}).symptomes||{}),[key]:value}}}));
   const setJArr = (field,idx,value)=>{ const a=[...((journal[todayKey]||{})[field]||["","",""])]; a[idx]=value; setJ(field,a); };
   const toggleAction = (idx)=>{ const a=[...((journal[todayKey]||{}).actionsDone||[false,false,false])]; a[idx]=!a[idx]; setJ("actionsDone",a); };
+  // « Ta journée » : navigation jour par jour (0 = aujourd'hui, négatif = jours passés)
+  const viewDate = new Date(); viewDate.setDate(viewDate.getDate()+dayOffset);
+  const viewKey = viewDate.toISOString().slice(0,10);
+  const viewLabel = viewDate.toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long"});
+  const jView = journal[viewKey] || {};
+  const setJV = (field,value)=> setJournal(p=>({...p,[viewKey]:{...(p[viewKey]||{}),[field]:value}}));
+  const setSympV = (key,value)=> setJournal(p=>({...p,[viewKey]:{...(p[viewKey]||{}),symptomes:{...((p[viewKey]||{}).symptomes||{}),[key]:value}}}));
   const periodBuckets = (period)=>{
     const out=[]; const now=new Date();
     if(period==="annee"){
@@ -5538,8 +5546,21 @@ export default function App() {
 
         {tab==="suivi"&&(
           <div className="fu">
-            <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.3rem",color:C.brown,marginBottom:2}}>Ta journée</div>
-            <div style={{fontSize:12,color:C.light,marginBottom:14,textTransform:"capitalize"}}>{todayLabel}</div>
+            <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.3rem",color:C.brown,marginBottom:10}}>Ta journée</div>
+
+            {/* Navigation jour par jour */}
+            <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",gap:8,background:C.white,border:`1px solid ${C.border}`,borderRadius:12,padding:"8px 10px",marginBottom:6}}>
+              <button onClick={()=>setDayOffset(o=>o-1)} aria-label="jour précédent" style={{width:30,height:30,borderRadius:9,border:`1px solid ${C.border}`,background:C.cream,color:C.brown,cursor:"pointer",fontFamily:"inherit",fontSize:15,lineHeight:1,flexShrink:0}}>‹</button>
+              <div style={{flex:1,textAlign:"center"}}>
+                <div style={{fontSize:12.5,fontWeight:700,color:C.brown,textTransform:"capitalize"}}>{dayOffset===0?"Aujourd'hui":viewLabel}</div>
+                {dayOffset!==0&&<div style={{fontSize:9.5,color:C.light,textTransform:"capitalize"}}>{viewLabel}</div>}
+              </div>
+              <button onClick={()=>setDayOffset(o=>Math.min(0,o+1))} disabled={dayOffset>=0} aria-label="jour suivant" style={{width:30,height:30,borderRadius:9,border:`1px solid ${C.border}`,background:dayOffset>=0?C.bubble:C.cream,color:dayOffset>=0?C.light:C.brown,cursor:dayOffset>=0?"default":"pointer",fontFamily:"inherit",fontSize:15,lineHeight:1,flexShrink:0}}>›</button>
+            </div>
+            <div style={{fontSize:9.5,color:C.light,textAlign:"center",marginBottom:14,display:"flex",alignItems:"center",justifyContent:"center",gap:8,flexWrap:"wrap"}}>
+              <span style={{display:"inline-flex",alignItems:"center",gap:4}}><Icon name="check" size={11} color={C.sage}/> enregistré automatiquement — chaque jour a sa page</span>
+              {dayOffset!==0&&<button onClick={()=>setDayOffset(0)} style={{background:"none",border:"none",color:pc.p,fontSize:9.5,fontWeight:700,cursor:"pointer",fontFamily:"inherit",textDecoration:"underline"}}>revenir à aujourd'hui</button>}
+            </div>
 
             <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8,marginBottom:14}}>
               {[
@@ -5563,9 +5584,9 @@ export default function App() {
                   <div style={{fontSize:12,fontWeight:500,color:C.brown,marginBottom:6}}>{sc.label}</div>
                   <div style={{display:"flex",gap:5}}>
                     {sc.opts.map((opt,i)=>{
-                      const val=i+1; const sel=jToday[key]===val;
+                      const val=i+1; const sel=jView[key]===val;
                       return (
-                        <button key={i} onClick={()=>setJ(key, sel?null:val)}
+                        <button key={i} onClick={()=>setJV(key, sel?null:val)}
                           style={{flex:1,padding:"8px 2px",borderRadius:9,border:`1.5px solid ${sel?sc.col:C.border}`,background:sel?sc.col:C.white,color:sel?"white":C.mid,cursor:"pointer",fontFamily:"inherit",display:"flex",flexDirection:"column",alignItems:"center",gap:1}}>
                           <span style={{fontSize:12,fontWeight:sel?700:500}}>{val}</span>
                           <span style={{fontSize:7.5,opacity:.85}}>{opt}</span>
@@ -5580,9 +5601,9 @@ export default function App() {
                   <div key={m.k} style={{background:C.bubble,borderRadius:11,padding:"9px 11px"}}>
                     <div style={{fontSize:9,letterSpacing:.5,textTransform:"uppercase",color:C.light,marginBottom:4}}>{m.lab}</div>
                     <div style={{display:"flex",alignItems:"center",gap:6}}>
-                      <button onClick={()=>setJ(m.k, Math.max(0,Math.round(((jToday[m.k]||0)-m.step)*10)/10))} style={{width:24,height:24,borderRadius:7,border:`1px solid ${C.border}`,background:C.white,color:C.mid,cursor:"pointer",fontSize:15,lineHeight:1,fontFamily:"inherit",flexShrink:0}}>−</button>
-                      <span style={{flex:1,textAlign:"center",fontSize:14,fontWeight:600,color:C.brown}}>{jToday[m.k]!==undefined?`${jToday[m.k]}${m.unit?" "+m.unit:""}`:"—"}</span>
-                      <button onClick={()=>setJ(m.k, Math.round(((jToday[m.k]||0)+m.step)*10)/10)} style={{width:24,height:24,borderRadius:7,border:`1px solid ${C.border}`,background:C.white,color:C.mid,cursor:"pointer",fontSize:15,lineHeight:1,fontFamily:"inherit",flexShrink:0}}>+</button>
+                      <button onClick={()=>setJV(m.k, Math.max(0,Math.round(((jView[m.k]||0)-m.step)*10)/10))} style={{width:24,height:24,borderRadius:7,border:`1px solid ${C.border}`,background:C.white,color:C.mid,cursor:"pointer",fontSize:15,lineHeight:1,fontFamily:"inherit",flexShrink:0}}>−</button>
+                      <span style={{flex:1,textAlign:"center",fontSize:14,fontWeight:600,color:C.brown}}>{jView[m.k]!==undefined?`${jView[m.k]}${m.unit?" "+m.unit:""}`:"—"}</span>
+                      <button onClick={()=>setJV(m.k, Math.round(((jView[m.k]||0)+m.step)*10)/10)} style={{width:24,height:24,borderRadius:7,border:`1px solid ${C.border}`,background:C.white,color:C.mid,cursor:"pointer",fontSize:15,lineHeight:1,fontFamily:"inherit",flexShrink:0}}>+</button>
                     </div>
                   </div>
                 ))}
@@ -5604,10 +5625,10 @@ export default function App() {
                       </div>
                       <div style={{display:"flex",gap:3,flexShrink:0}}>
                         {[0,1,2,3,4,5].map(v=>{
-                          const sym=jToday.symptomes||{}; const sel=sym[sy.k]===v;
+                          const sym=jView.symptomes||{}; const sel=sym[sy.k]===v;
                           const col = v===0?"#2E7D4F":v<=2?"#D9A066":"#C0603F";
                           return (
-                            <button key={v} onClick={()=>setSymp(sy.k, sel?null:v)}
+                            <button key={v} onClick={()=>setSympV(sy.k, sel?null:v)}
                               style={{width:26,height:26,borderRadius:7,border:`1px solid ${sel?col:C.border}`,background:sel?col:C.white,color:sel?"white":C.mid,fontSize:11,cursor:"pointer",fontFamily:"inherit"}}>{v}</button>
                           );
                         })}
@@ -6263,7 +6284,7 @@ profil · 3 priorités · analyses à demander · ton suivi & tes tendances · s
               return(
                 <div style={{background:C.white,borderRadius:14,padding:"1rem",marginBottom:10,border:`1.5px solid ${pc.p}`}}>
                   <div style={{fontSize:11,fontWeight:700,color:C.brown,marginBottom:3}}>{"📈"} Ton évolution dans le temps</div>
-                  <div style={{fontSize:10,color:C.light,marginBottom:12}}>regarde comment tes symptômes bougent, semaine après semaine</div>
+                  <div style={{fontSize:10,color:C.light,marginBottom:12,lineHeight:1.5}}>chaque barre = une semaine de ton suivi. « S1 » c'est ta 1re semaine, « S2 » la 2e, et ainsi de suite — pas des jours.</div>
                   {symNoms.map((sym,i)=>{
                     const vals=[1,2,3,4].map(w=>symptoms[`${w}_${i}`]||0);
                     const filled=vals.filter(v=>v>0);
