@@ -4204,31 +4204,6 @@ export default function App() {
               </div>
             )}
 
-            {/* ══ EN HAUT — Ton avancée (jours) ══ */}
-            <div style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:12,padding:"11px 13px",marginBottom:10}}>
-              <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:8}}>
-                <div style={{fontSize:11.5,fontWeight:700,color:C.brown}}>Jour {day} <span style={{color:C.light,fontWeight:500,fontSize:10}}>· {day<=30?"Fondation":"au long cours"}</span></div>
-                <div style={{fontSize:9.5,color:C.light}}>{Object.values(checked).filter(Boolean).length} missions accomplies</div>
-              </div>
-              <div style={{height:6,background:C.bubble,borderRadius:99,marginBottom:11,overflow:"hidden"}}>
-                <div style={{height:"100%",width:`${Math.min(100,(Object.values(checked).filter(Boolean).length/30)*100)}%`,background:`linear-gradient(90deg,${pc.p},${pc.p}CC)`,borderRadius:99,transition:"width 0.4s"}}/>
-              </div>
-              <div style={{display:"flex",alignItems:"center",gap:6}}>
-                <button onClick={()=>setDay(d=>Math.max(1,d-1))} disabled={day<=1}
-                  style={{flexShrink:0,width:28,height:28,borderRadius:"50%",border:`1.5px solid ${C.border}`,background:C.cream,color:day<=1?C.border:pc.p,fontSize:14,cursor:day<=1?"default":"pointer",fontFamily:"inherit",display:"flex",alignItems:"center",justifyContent:"center"}}>{"‹"}</button>
-                <div style={{display:"flex",gap:5,overflowX:"auto",paddingBottom:2,flex:1}}>
-                  {Array.from({length:Math.max(30,day+5)},(_,i)=>i+1).slice(Math.max(0,day-4),day+5).map(d=>(
-                    <button key={d} onClick={()=>setDay(d)}
-                      style={{flexShrink:0,width:30,height:30,borderRadius:"50%",border:`2px solid ${d===day?pc.p:checked[d]?pc.p:C.border}`,background:d===day?pc.p:checked[d]?`${pc.p}20`:C.white,color:d===day?"white":C.brown,fontSize:10,fontWeight:500,cursor:"pointer",fontFamily:"inherit"}}>
-                      {checked[d]&&d!==day?"✓":d}
-                    </button>
-                  ))}
-                </div>
-                <button onClick={()=>setDay(d=>Math.min(400,d+1))} disabled={day>=400}
-                  style={{flexShrink:0,width:28,height:28,borderRadius:"50%",border:`1.5px solid ${day>=400?C.border:pc.p}`,background:day>=400?C.white:pc.p,color:day>=400?C.border:"white",fontSize:14,cursor:day>=400?"default":"pointer",fontFamily:"inherit",display:"flex",alignItems:"center",justifyContent:"center"}}>{"›"}</button>
-              </div>
-            </div>
-
             {/* ══ 1. TA PRIORITÉ ══ */}
             {(()=>{
               const prios=PRIORITES_PROFIL[profil]||PRIORITES_PROFIL.metabolique;
@@ -4259,6 +4234,31 @@ export default function App() {
             })()}
 
             {/* ══ 2. TON ACTION DU JOUR (la mission) ══ */}
+            {/* ══ Ton avancée (jours) — juste au-dessus de la mission ══ */}
+            <div style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:12,padding:"11px 13px",marginBottom:10}}>
+              <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:8}}>
+                <div style={{fontSize:11.5,fontWeight:700,color:C.brown}}>Jour {day} <span style={{color:C.light,fontWeight:500,fontSize:10}}>· {day<=30?"Fondation":"au long cours"}</span></div>
+                <div style={{fontSize:9.5,color:C.light}}>{Object.values(checked).filter(Boolean).length} missions accomplies</div>
+              </div>
+              <div style={{height:6,background:C.bubble,borderRadius:99,marginBottom:11,overflow:"hidden"}}>
+                <div style={{height:"100%",width:`${Math.min(100,(Object.values(checked).filter(Boolean).length/30)*100)}%`,background:`linear-gradient(90deg,${pc.p},${pc.p}CC)`,borderRadius:99,transition:"width 0.4s"}}/>
+              </div>
+              <div style={{display:"flex",alignItems:"center",gap:6}}>
+                <button onClick={()=>setDay(d=>Math.max(1,d-1))} disabled={day<=1}
+                  style={{flexShrink:0,width:28,height:28,borderRadius:"50%",border:`1.5px solid ${C.border}`,background:C.cream,color:day<=1?C.border:pc.p,fontSize:14,cursor:day<=1?"default":"pointer",fontFamily:"inherit",display:"flex",alignItems:"center",justifyContent:"center"}}>{"‹"}</button>
+                <div style={{display:"flex",gap:5,overflowX:"auto",paddingBottom:2,flex:1}}>
+                  {Array.from({length:Math.max(30,day+5)},(_,i)=>i+1).slice(Math.max(0,day-4),day+5).map(d=>(
+                    <button key={d} onClick={()=>setDay(d)}
+                      style={{flexShrink:0,width:30,height:30,borderRadius:"50%",border:`2px solid ${d===day?pc.p:checked[d]?pc.p:C.border}`,background:d===day?pc.p:checked[d]?`${pc.p}20`:C.white,color:d===day?"white":C.brown,fontSize:10,fontWeight:500,cursor:"pointer",fontFamily:"inherit"}}>
+                      {checked[d]&&d!==day?"✓":d}
+                    </button>
+                  ))}
+                </div>
+                <button onClick={()=>setDay(d=>Math.min(400,d+1))} disabled={day>=400}
+                  style={{flexShrink:0,width:28,height:28,borderRadius:"50%",border:`1.5px solid ${day>=400?C.border:pc.p}`,background:day>=400?C.white:pc.p,color:day>=400?C.border:"white",fontSize:14,cursor:day>=400?"default":"pointer",fontFamily:"inherit",display:"flex",alignItems:"center",justifyContent:"center"}}>{"›"}</button>
+              </div>
+            </div>
+
             {/* Mission — hero action du jour */}
             <div style={{background:C.white,borderRadius:20,padding:"1.3rem",marginBottom:12,border:`1.5px solid ${checked[day]?pc.p:C.border}`,transition:"border-color 0.3s",boxShadow:`0 8px 24px ${pc.p}14`}}>
               <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:12}}>
