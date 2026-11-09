@@ -3001,30 +3001,39 @@ export default function App() {
   useEffect(()=>{ if(!sb||!session||pulledRef.current) return; pulledRef.current=true;
     const finish=()=>setHydrated(true);
     const safety=setTimeout(finish, 9000); // si le réseau traîne, on ne reste pas bloquée sur le splash
-    let localHasData=false; try{ localHasData = !!localStorage.getItem("sopklife_onboardingDone") || Object.keys(collectLocal()).length>2; }catch(e){}
-    sb.from("user_data").select("data").eq("user_id",session.user.id).maybeSingle().then(({data,error})=>{
+    const ms=(s)=>{ const t=Date.parse(s); return isNaN(t)?0:t; };
+    const localOnb = (()=>{ try{ return !!localStorage.getItem("sopklife_onboardingDone"); }catch(e){ return false; } })();
+    const seenTs = (()=>{ try{ return localStorage.getItem("smop_seenTs")||""; }catch(e){ return ""; } })();
+    // restaure le cloud sur ce device puis recharge une fois pour que l'app relise tout
+    const restore=(cloud,ts)=>{ applyLocal(cloud); try{ if(ts) localStorage.setItem("smop_seenTs",ts); }catch(e){}
+      if(!sessionStorage.getItem("sopklife_hydrated")){ try{ sessionStorage.setItem("sopklife_hydrated","1"); }catch(e){} window.location.reload(); return true; }
+      return false; };
+    const pushLocal=(ts)=>{ sb.from("user_data").upsert({user_id:session.user.id,data:collectLocal(),updated_at:ts})
+      .then(()=>{ try{ localStorage.setItem("smop_seenTs",ts); }catch(e){} finish(); }, finish); };
+    sb.from("user_data").select("data, updated_at").eq("user_id",session.user.id).maybeSingle().then(({data,error})=>{
       clearTimeout(safety);
       if(error){ finish(); return; }
       const cloud = (data && data.data && Object.keys(data.data).length) ? data.data : null;
-      if(cloud && !localHasData){
-        // appareil vierge : on charge le cloud puis on recharge une fois pour que l'app relise les données
-        applyLocal(cloud);
-        if(!sessionStorage.getItem("sopklife_hydrated")){
-          try{ sessionStorage.setItem("sopklife_hydrated","1"); }catch(e){}
-          window.location.reload();
-          return;
-        }
-        finish();
-      } else {
-        // appareil déjà utilisé (ou pas de cloud) : le local fait foi → on le pousse, on n'écrase rien
-        sb.from("user_data").upsert({user_id:session.user.id,data:collectLocal(),updated_at:new Date().toISOString()}).then(finish, finish);
+      const cloudOnb = !!(cloud && cloud["sopklife_onboardingDone"]);
+      const cloudTs = (data && data.updated_at) ? String(data.updated_at) : "";
+      const now = new Date().toISOString();
+      // 1) appareil vidé (iOS a effacé le local) mais le cloud a de vraies données → on restaure
+      if(cloudOnb && !localOnb){ if(restore(cloud,cloudTs)) return; finish(); return; }
+      // 2) le local a les données, le cloud est vide → on pousse (jamais d'écrasement de cloud riche par un local vide)
+      if(localOnb && !cloudOnb){ pushLocal(now); return; }
+      // 3) les deux ont des données → le plus récent gagne
+      if(localOnb && cloudOnb){
+        if(cloudTs && (!seenTs || ms(cloudTs) > ms(seenTs))){ if(restore(cloud,cloudTs)) return; finish(); return; }
+        pushLocal(now); return;
       }
+      // 4) aucun des deux n'a de vraies données (nouvelle utilisatrice)
+      pushLocal(now);
     }, ()=>{ clearTimeout(safety); finish(); });
   },[sb,session]);
 
   // synchro continue : on pousse le local vers le cloud dès qu'il change — SEULEMENT une fois hydratée
   useEffect(()=>{ if(!sb||!session||!hydrated) return; let last=JSON.stringify(collectLocal()); let alive=true;
-    const push=()=>{ try{ const cur=JSON.stringify(collectLocal()); if(cur!==last){ last=cur; sb.from("user_data").upsert({user_id:session.user.id,data:JSON.parse(cur),updated_at:new Date().toISOString()}); } }catch(e){} };
+    const push=()=>{ try{ const cur=JSON.stringify(collectLocal()); if(cur!==last){ last=cur; const ts=new Date().toISOString(); sb.from("user_data").upsert({user_id:session.user.id,data:JSON.parse(cur),updated_at:ts}); try{ localStorage.setItem("smop_seenTs",ts); }catch(e){} } }catch(e){} };
     const iv=setInterval(()=>{ if(alive) push(); }, 6000);
     const onHide=()=>push();
     window.addEventListener("beforeunload",onHide); document.addEventListener("visibilitychange",onHide);
