@@ -789,6 +789,8 @@ const COMPLEMENTS = [
   {nom:"Oméga-3 (EPA/DHA)",pour:["inflammatoire","mixte_mi","mixte_ai"],dose:"1 à 2g d'EPA+DHA",timing:"avec un repas",effet:"réduit l'inflammation de fond, soutient l'humeur",delai:"4 à 8 semaines",note:"privilégie une source purifiée en métaux lourds"},
   {nom:"Oméga-3",pour:["metabolique","androgenique","surrenalien","mixte_ma"],dose:"1g d'EPA+DHA",timing:"avec un repas",effet:"soutien anti-inflammatoire général, soutien de l'humeur",delai:"4 à 8 semaines",note:"utile pour tous les profils en soutien"},
   {nom:"Ashwagandha (extrait standardisé)",pour:["surrenalien"],dose:"300 à 600mg d'extrait",timing:"le soir, ou matin et soir",effet:"contribue à réduire le cortisol et la perception du stress (données générales, hors SMOP)",delai:"4 à 8 semaines",note:"pas d'étude spécifique au SMOP : agit sur le terrain stress, pas sur les ovaires. à éviter / demander un avis médical si traitement thyroïdien, sédatifs, grossesse ou allaitement. c'est la plante au cœur de ta Serenitea."},
+  {nom:"N-acétylcystéine (NAC)",pour:["metabolique","androgenique","inflammatoire","mixte_ma","mixte_mi","mixte_ai"],dose:"600mg, 2 à 3x/jour",timing:"avec les repas",effet:"antioxydant ; étudié pour soutenir la sensibilité à l'insuline et l'ovulation dans le SMOP",delai:"8 à 12 semaines",note:"données encourageantes mais à confirmer ; demande un avis médical, surtout en cas de traitement."},
+  {nom:"Berbérine",pour:["metabolique","mixte_ma","mixte_mi"],dose:"500mg, 2 à 3x/jour",timing:"avant les repas",effet:"soutient la glycémie et la sensibilité à l'insuline (effets observés dans plusieurs études sur le SMOP)",delai:"8 à 12 semaines",note:"interactions médicamenteuses possibles (dont diabète) ; déconseillée en grossesse/allaitement. avis médical requis avant de commencer."},
 ];
 
 // ─── LOCALSTORAGE ─────────────────────────────────────────────────────────────
@@ -2879,6 +2881,25 @@ const MOUVEMENT = [
     ]},
 ];
 
+// ── COMPRENDRE MON SMOP : les mécanismes expliqués simplement ───────────────
+const MECANISMES = [
+  { nom:"La résistance à l'insuline", em:"⚡", couleur:"#CB9A79", court:"le moteur central, chez beaucoup de Cysters",
+    texte:"ton corps produit de l'insuline pour faire entrer le sucre dans les cellules. Quand elles y répondent mal, le pancréas en produit encore plus. Cette insuline haute pousse les ovaires à fabriquer plus d'androgènes, favorise le stockage au niveau du ventre et déclenche les fringales. C'est souvent le premier levier sur lequel agir — par l'assiette, le mouvement et le sommeil.",
+    signes:"fringales de 15h, coup de barre après les repas, prise de poids abdominale malgré les efforts." },
+  { nom:"L'hyperandrogénie", em:"🌙", couleur:"#A89AB8", court:"l'excès d'androgènes et ses signes visibles",
+    texte:"les androgènes (dont la testostérone) sont normaux en petite quantité. En excès, ils agissent sur la peau et les poils. Une enzyme, la 5-alpha-réductase, convertit la testostérone en DHT, une forme plus active responsable de l'acné de la mâchoire et de la chute de cheveux. Agir sur cette conversion, et sur ce qui neutralise les androgènes, fait partie de l'accompagnement.",
+    signes:"acné sur le bas du visage, pilosité, cheveux qui s'affinent ou tombent." },
+  { nom:"Le foie et la SHBG", em:"🌿", couleur:"#A9BC8E", court:"l'angle que personne n'explique",
+    texte:"le foie produit la SHBG, une protéine qui attrape et neutralise les hormones actives en excès. Il aide aussi à éliminer le surplus d'androgènes. Quand le foie est surchargé, il fabrique moins de SHBG : plus d'androgènes circulent librement. C'est pourquoi soutenir le foie est souvent le point de départ d'une routine.",
+    signes:"digestion lourde, teint terne, sensation d'être « encrassée »." },
+  { nom:"L'axe stress-cortisol", em:"🌾", couleur:"#9FB3C9", court:"le SMOP surrénalien, souvent oublié",
+    texte:"le stress chronique maintient le cortisol élevé. Ce cortisol aggrave la résistance à l'insuline ET pousse les surrénales à produire des androgènes (DHEA). Résultat : un SMOP qui flambe sous stress. C'est un cercle vicieux — mais aussi un vrai levier, par le sommeil, la respiration et la récupération.",
+    signes:"réveils à 3h du matin, SMOP qui empire dans les périodes difficiles, épuisement nerveux." },
+  { nom:"L'inflammation de bas grade", em:"🔥", couleur:"#CB7E6B", court:"le feu silencieux",
+    texte:"une inflammation chronique et discrète, invisible sur la plupart des bilans standards, qui sollicite le système immunitaire en continu. Elle perturbe les hormones, aggrave la résistance à l'insuline et peut gêner l'ovulation. C'est souvent ce qui explique une fatigue profonde malgré un bon sommeil.",
+    signes:"fatigue qui ne passe pas, douleurs diffuses, intestin sensible." },
+];
+
 // ── TISANES SOPK LIFE (compléments alimentaires à base de plantes — cadrage : soutient/accompagne, jamais traite) ──
 const TISANES = [
   { nom:"Cure Détox — Organisme Clean", em:"🌿", role:"Le point de départ universel", couleur:"#A9BC8E",
@@ -3215,6 +3236,7 @@ export default function App() {
   const [outilCat, setOutilCat] = useState(null);
   const [mouvOpen, setMouvOpen] = useState(null);
   const [tisaneOpen, setTisaneOpen] = useState(null);
+  const [mecaOpen, setMecaOpen] = useState(null);
   const [recFiltreMoment, setRecFiltreMoment] = useState("tous");
   const [recFiltreTag, setRecFiltreTag] = useState("tous");
   const [recetteFiche, setRecetteFiche] = useState(null);
@@ -4998,11 +5020,14 @@ export default function App() {
                 <div style={{height:1,background:C.border,margin:"16px 0"}}/>
                 <div style={{fontSize:10,letterSpacing:1.5,textTransform:"uppercase",color:C.terra,fontWeight:700,marginBottom:4}}>Les compléments utiles</div>
                 <div style={{background:C.bubble,borderRadius:12,padding:"12px 14px",marginBottom:14,fontSize:11,color:C.mid,lineHeight:1.6,border:`1px solid ${C.border}`}}>
-                  les compléments adaptés à ton profil ({pc.label}). dosage, timing, et délai d'action — à valider avec ton médecin.
+                  les compléments les plus étudiés dans le SMOP. ceux marqués <span style={{color:pc.p,fontWeight:700}}>pour ton profil</span> ({pc.label}) sont prioritaires pour toi. dosage et timing indicatifs — à valider avec ton médecin.
                 </div>
-                {COMPLEMENTS.filter(c=>c.pour.includes(profil)).map((c,i)=>(
-                  <div key={i} style={{background:C.white,borderRadius:14,padding:"13px",marginBottom:8,border:`1px solid ${C.border}`}}>
-                    <div style={{fontSize:13,fontWeight:600,color:C.brown,marginBottom:6}}>💊 {c.nom}</div>
+                {[...COMPLEMENTS].sort((a,b)=>(b.pour.includes(profil)?1:0)-(a.pour.includes(profil)?1:0)).map((c,i)=>(
+                  <div key={i} style={{background:C.white,borderRadius:14,padding:"13px",marginBottom:8,border:`1px solid ${c.pour.includes(profil)?pc.p:C.border}`}}>
+                    <div style={{display:"flex",alignItems:"center",gap:7,marginBottom:6,flexWrap:"wrap"}}>
+                      <div style={{fontSize:13,fontWeight:600,color:C.brown}}>💊 {c.nom}</div>
+                      {c.pour.includes(profil)&&<span style={{fontSize:8,fontWeight:700,color:"#fff",background:pc.p,borderRadius:99,padding:"2px 8px"}}>pour ton profil</span>}
+                    </div>
                     <div style={{fontSize:11,color:C.mid,lineHeight:1.6,marginBottom:8}}>{c.effet}</div>
                     <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:6,marginBottom:8}}>
                       <div style={{background:C.cream,borderRadius:8,padding:"6px 9px"}}>
@@ -5278,6 +5303,37 @@ export default function App() {
             {/* OUTIL : COMPRENDRE LES ALIMENTS */}
             {outilOpen==="comprendre"&&(
               <div className="fu">
+                {/* ── LES MÉCANISMES DU SMOP ── */}
+                <div style={{fontSize:10,letterSpacing:1.5,textTransform:"uppercase",color:C.terra,fontWeight:700,marginBottom:4}}>Comment marche ton SMOP</div>
+                <div style={{fontSize:11,color:C.mid,lineHeight:1.6,marginBottom:12}}>pas pour te faire peur — pour que tu comprennes ce qui se joue dans ton corps, et pourquoi chaque geste compte. touche un mécanisme pour l'ouvrir.</div>
+                {MECANISMES.map((m,i)=>{
+                  const open=mecaOpen===m.nom;
+                  return(
+                    <div key={i} style={{background:C.white,border:`1.5px solid ${open?m.couleur:C.border}`,borderRadius:14,marginBottom:9,overflow:"hidden"}}>
+                      <button onClick={()=>setMecaOpen(open?null:m.nom)}
+                        style={{width:"100%",display:"flex",alignItems:"center",gap:11,padding:"12px 13px",background:"none",border:"none",cursor:"pointer",fontFamily:"inherit",textAlign:"left"}}>
+                        <div style={{width:38,height:38,borderRadius:11,background:`${m.couleur}22`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:17,flexShrink:0}}>{m.em}</div>
+                        <div style={{flex:1}}>
+                          <div style={{fontSize:12.5,fontWeight:700,color:C.brown}}>{m.nom}</div>
+                          <div style={{fontSize:9.5,color:C.light,marginTop:1}}>{m.court}</div>
+                        </div>
+                        <div style={{fontSize:15,color:C.light,transform:open?"rotate(90deg)":"none",transition:"transform .2s"}}>›</div>
+                      </button>
+                      {open&&(
+                        <div style={{padding:"0 13px 13px"}}>
+                          <div style={{fontSize:11.5,color:C.brown,lineHeight:1.65,marginBottom:10}}>{m.texte}</div>
+                          <div style={{background:`${m.couleur}18`,borderRadius:9,padding:"8px 11px"}}>
+                            <div style={{fontSize:8.5,letterSpacing:1,textTransform:"uppercase",color:m.couleur,fontWeight:700,marginBottom:2}}>ce que ça donne au quotidien</div>
+                            <div style={{fontSize:10.5,color:C.mid,lineHeight:1.5}}>{m.signes}</div>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+
+                <div style={{height:1,background:C.border,margin:"16px 0"}}/>
+                <div style={{fontSize:10,letterSpacing:1.5,textTransform:"uppercase",color:C.terra,fontWeight:700,marginBottom:8}}>Bien manger pour ton SMOP</div>
                 <div style={{background:C.bubble,borderRadius:12,padding:"12px 14px",marginBottom:14,fontSize:11,color:C.mid,lineHeight:1.6,border:`1px solid ${C.border}`}}>
                   comprendre POURQUOI certains aliments t'aident et d'autres t'épuisent — pour choisir en connaissance de cause, pas par règles aveugles.
                 </div>
