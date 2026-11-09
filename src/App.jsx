@@ -4370,7 +4370,11 @@ export default function App() {
                       style={{flex:1,padding:"8px 4px",borderRadius:9,border:`1.5px solid ${energie===o.k?pc.p:C.border}`,background:energie===o.k?`${pc.p}15`:C.white,color:energie===o.k?pc.p:C.mid,fontFamily:"inherit",fontSize:11,fontWeight:600,cursor:"pointer"}}>{o.l}</button>
                   ))}
                 </div>
-                {sel&&(<div style={{fontSize:10.5,color:C.mid,lineHeight:1.5}}>{sel.tip}</div>)}
+                {sel&&(<div style={{fontSize:10.5,color:C.mid,lineHeight:1.5,marginBottom:9}}>{sel.tip}</div>)}
+                <button onClick={()=>setTab("cycle")}
+                  style={{width:"100%",marginTop:sel?0:9,background:"none",border:`1px solid ${pc.p}`,borderRadius:9,padding:"8px",cursor:"pointer",fontFamily:"inherit",fontSize:10.5,fontWeight:600,color:pc.p,display:"flex",alignItems:"center",justifyContent:"center",gap:6}}>
+                  <Icon name="moon" size={13} color={pc.p}/>suivre mon cycle{regles.length>0?` · dernières règles le ${new Date([...regles].sort().reverse()[0]).toLocaleDateString("fr-FR")}`:""} →
+                </button>
               </div>
               );
             })()}
