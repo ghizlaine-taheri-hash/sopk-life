@@ -3894,7 +3894,7 @@ export default function App() {
         </div>
         {[
           {g:"Où j'en suis",items:[{id:"kamila",ic:"home",l:"Mon accueil"},{id:"carte",ic:"map",l:"Ma carte SMOP"}]},
-          {g:"Mon suivi",items:[{id:"suivi",ic:"chart",l:"Ta journée"},{id:"cycle",ic:"moon",l:"Mon cycle"},{id:"apercu",ic:"calendar",l:"Vue d'ensemble"},{id:"tendances",ic:"pulse",l:"Mes tendances"},{id:"mesures",ic:"heart",l:"Mes mesures"},{id:"journal",ic:"calendar",l:"Mon journal"}]},
+          {g:"Mon suivi",items:[{id:"suivi",ic:"chart",l:"Ta journée"},{id:"cycle",ic:"moon",l:"Mon cycle"},{id:"apercu",ic:"calendar",l:"Vue d'ensemble"},{id:"tendances",ic:"pulse",l:"Mes tendances"},{id:"journal",ic:"calendar",l:"Mon journal"},{id:"mouvement",ic:"steps",l:"Mes mouvements"},{id:"mesures",ic:"heart",l:"Mes mesures"}]},
           {g:"Mes ressources",items:[{id:"outils",ic:"book",l:"Outils & aliments"}]},
           {g:"Mon dossier santé",items:[{id:"medecin",ic:"health",l:"Résumé médecin"},{id:"analyses",ic:"flask",l:"Analyses de sang"}]},
         ].map((grp,gi)=>(
@@ -4403,7 +4403,6 @@ export default function App() {
             {/* Sélecteur d'outil */}
             <div style={{display:"flex",gap:6,marginBottom:14,overflowX:"auto",paddingBottom:2}}>
               {[
-                {id:"mouvement",label:"🤸 Mouvement"},
                 {id:"aliments",label:"🍽️ Aliments"},
                 {id:"repas",label:"🍲 Idées repas"},
                 {id:"recettes",label:"📖 Recettes"},
@@ -4422,57 +4421,6 @@ export default function App() {
                 </button>
               ))}
             </div>
-
-            {/* OUTIL : MOUVEMENT ADAPTÉ */}
-            {outilOpen==="mouvement"&&(
-              <div className="fu">
-                <div style={{background:`linear-gradient(135deg,${pc.p},${pc.p}CC)`,borderRadius:16,padding:"1.1rem 1.2rem",marginBottom:14,color:"#fff"}}>
-                  <div style={{fontSize:9,letterSpacing:2,textTransform:"uppercase",opacity:.8,marginBottom:4}}>Pilier bien-être</div>
-                  <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.15rem",fontWeight:600,marginBottom:6}}>Mouvement adapté</div>
-                  <div style={{fontSize:11,lineHeight:1.6,opacity:.95}}>bouger pour ta sensibilité à l'insuline, ton énergie et ton moral — jamais pour « sculpter » ou punir ton corps. tu choisis, tu adaptes, tu écoutes.</div>
-                </div>
-
-                {MOUVEMENT.map(r=>{
-                  const open=mouvOpen===r.id;
-                  return(
-                    <div key={r.id} style={{background:C.white,border:`1.5px solid ${open?pc.p:C.border}`,borderRadius:16,marginBottom:10,overflow:"hidden"}}>
-                      <button onClick={()=>setMouvOpen(open?null:r.id)}
-                        style={{width:"100%",display:"flex",alignItems:"center",gap:12,padding:"13px 14px",background:"none",border:"none",cursor:"pointer",fontFamily:"inherit",textAlign:"left"}}>
-                        <div style={{width:42,height:42,borderRadius:12,background:`${pc.p}15`,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>
-                          <Icon name={r.ic} size={19} color={pc.p}/>
-                        </div>
-                        <div style={{flex:1}}>
-                          <div style={{fontSize:13,fontWeight:700,color:C.brown}}>{r.nom}</div>
-                          <div style={{display:"flex",gap:6,marginTop:3}}>
-                            <span style={{fontSize:9,fontWeight:600,color:pc.p,background:`${pc.p}12`,borderRadius:99,padding:"2px 8px"}}>{r.duree}</span>
-                            <span style={{fontSize:9,fontWeight:600,color:C.sage,background:`${C.sage}22`,borderRadius:99,padding:"2px 8px"}}>{r.niveau}</span>
-                          </div>
-                        </div>
-                        <div style={{fontSize:15,color:C.light,transform:open?"rotate(90deg)":"none",transition:"transform 0.2s"}}>›</div>
-                      </button>
-                      {open&&(
-                        <div style={{padding:"0 14px 14px"}}>
-                          <div style={{fontSize:11,color:C.mid,lineHeight:1.6,background:C.bubble,borderRadius:11,padding:"10px 12px",marginBottom:12}}>{r.intro}</div>
-                          {r.exercices.map((ex,i)=>(
-                            <div key={i} style={{display:"flex",gap:11,marginBottom:i<r.exercices.length-1?12:0}}>
-                              <div style={{width:24,height:24,borderRadius:"50%",background:`${pc.p}12`,color:pc.p,fontSize:11,fontWeight:700,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>{i+1}</div>
-                              <div style={{flex:1}}>
-                                <div style={{fontSize:12.5,fontWeight:600,color:C.brown}}>{ex.n}</div>
-                                <div style={{fontSize:11,color:C.mid,marginTop:2,lineHeight:1.5}}>{ex.d}</div>
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
-
-                <div style={{background:C.mauveSoft,borderRadius:14,padding:"12px 14px",marginTop:4}}>
-                  <div style={{fontSize:11,color:C.mid,lineHeight:1.6}}>le mouvement régulier et doux améliore la sensibilité à l'insuline et l'humeur. on écoute son corps : la fatigue normale n'est pas la douleur. en cas de doute médical, demande l'avis de ton médecin avant de commencer.</div>
-                </div>
-              </div>
-            )}
 
             {/* OUTIL : RECHERCHE D'ALIMENTS */}
             {outilOpen==="aliments"&&(
@@ -5196,8 +5144,9 @@ export default function App() {
                 {id:"apercu",ic:"chart",l:"Vue d'ensemble"},
                 {id:"tendances",ic:"pulse",l:"Mes tendances"},
                 {id:"cycle",ic:"moon",l:"Mon cycle"},
-                {id:"mesures",ic:"heart",l:"Mes mesures"},
                 {id:"journal",ic:"calendar",l:"Mon journal"},
+                {id:"mouvement",ic:"steps",l:"Mes mouvements"},
+                {id:"mesures",ic:"heart",l:"Mes mesures"},
               ].map(x=>(
                 <button key={x.id} onClick={()=>setTab(x.id)} style={{display:"flex",alignItems:"center",gap:8,background:C.bubble,border:`1px solid ${C.border}`,borderRadius:12,padding:"11px 12px",cursor:"pointer",fontFamily:"inherit",textAlign:"left"}}>
                   <Icon name={x.ic} size={15} color={pc.p}/><span style={{fontSize:11.5,fontWeight:600,color:C.brown}}>{x.l}</span>
@@ -5608,6 +5557,60 @@ profil · 3 priorités · analyses à demander · ton suivi & tes tendances · s
                 style={{width:"100%",background:pc.p,border:"none",padding:"10px",borderRadius:10,color:"white",fontFamily:"inherit",fontSize:11,fontWeight:600,cursor:"pointer"}}>
                 Générer mon dossier PDF →
               </button>
+            </div>
+          </div>
+        )}
+
+        {/* ── MOUVEMENT ADAPTÉ ── */}
+        {tab==="mouvement"&&(
+          <div className="fu">
+            <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.3rem",color:C.brown,marginBottom:2}}>Mes mouvements</div>
+            <div style={{fontSize:12,color:C.light,marginBottom:14}}>bouger pour toi, à ton rythme.</div>
+
+            <div style={{background:`linear-gradient(135deg,${pc.p},${pc.p}CC)`,borderRadius:16,padding:"1.1rem 1.2rem",marginBottom:14,color:"#fff"}}>
+              <div style={{fontSize:9,letterSpacing:2,textTransform:"uppercase",opacity:.8,marginBottom:4}}>Pilier bien-être</div>
+              <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.15rem",fontWeight:600,marginBottom:6}}>Mouvement adapté</div>
+              <div style={{fontSize:11,lineHeight:1.6,opacity:.95}}>bouger pour ta sensibilité à l'insuline, ton énergie et ton moral — jamais pour « sculpter » ou punir ton corps. tu choisis, tu adaptes, tu écoutes.</div>
+            </div>
+
+            {MOUVEMENT.map(r=>{
+              const open=mouvOpen===r.id;
+              return(
+                <div key={r.id} style={{background:C.white,border:`1.5px solid ${open?pc.p:C.border}`,borderRadius:16,marginBottom:10,overflow:"hidden"}}>
+                  <button onClick={()=>setMouvOpen(open?null:r.id)}
+                    style={{width:"100%",display:"flex",alignItems:"center",gap:12,padding:"13px 14px",background:"none",border:"none",cursor:"pointer",fontFamily:"inherit",textAlign:"left"}}>
+                    <div style={{width:42,height:42,borderRadius:12,background:`${pc.p}15`,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>
+                      <Icon name={r.ic} size={19} color={pc.p}/>
+                    </div>
+                    <div style={{flex:1}}>
+                      <div style={{fontSize:13,fontWeight:700,color:C.brown}}>{r.nom}</div>
+                      <div style={{display:"flex",gap:6,marginTop:3}}>
+                        <span style={{fontSize:9,fontWeight:600,color:pc.p,background:`${pc.p}12`,borderRadius:99,padding:"2px 8px"}}>{r.duree}</span>
+                        <span style={{fontSize:9,fontWeight:600,color:C.sage,background:`${C.sage}22`,borderRadius:99,padding:"2px 8px"}}>{r.niveau}</span>
+                      </div>
+                    </div>
+                    <div style={{fontSize:15,color:C.light,transform:open?"rotate(90deg)":"none",transition:"transform 0.2s"}}>›</div>
+                  </button>
+                  {open&&(
+                    <div style={{padding:"0 14px 14px"}}>
+                      <div style={{fontSize:11,color:C.mid,lineHeight:1.6,background:C.bubble,borderRadius:11,padding:"10px 12px",marginBottom:12}}>{r.intro}</div>
+                      {r.exercices.map((ex,i)=>(
+                        <div key={i} style={{display:"flex",gap:11,marginBottom:i<r.exercices.length-1?12:0}}>
+                          <div style={{width:24,height:24,borderRadius:"50%",background:`${pc.p}12`,color:pc.p,fontSize:11,fontWeight:700,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>{i+1}</div>
+                          <div style={{flex:1}}>
+                            <div style={{fontSize:12.5,fontWeight:600,color:C.brown}}>{ex.n}</div>
+                            <div style={{fontSize:11,color:C.mid,marginTop:2,lineHeight:1.5}}>{ex.d}</div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+
+            <div style={{background:C.mauveSoft,borderRadius:14,padding:"12px 14px",marginTop:4}}>
+              <div style={{fontSize:11,color:C.mid,lineHeight:1.6}}>le mouvement régulier et doux améliore la sensibilité à l'insuline et l'humeur. on écoute son corps : la fatigue normale n'est pas la douleur. en cas de doute médical, demande l'avis de ton médecin avant de commencer.</div>
             </div>
           </div>
         )}
