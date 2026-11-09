@@ -3113,6 +3113,7 @@ export default function App() {
   const [showManualProfils, setShowManualProfils] = useState(false);
   const [profilSwitch, setProfilSwitch] = useState(null); // {key,label} dimension qu'on envisage d'explorer
   const [journal, setJournal] = useState(() => load("journalQuotidien",{}));
+  const [journalMoment, setJournalMoment] = useState("matin"); // rituel guidé : matin / soir
   const [apercuPeriode, setApercuPeriode] = useState("mois");
   const [apercuMetric, setApercuMetric] = useState("symptomes");
   const [mesures, setMesures] = useState(() => load("mesures",{actif:false,poids:[]}));
@@ -3161,6 +3162,8 @@ export default function App() {
   const todayLabel = new Date().toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long"});
   const setJ = (field,value)=> setJournal(p=>({...p,[todayKey]:{...(p[todayKey]||{}),[field]:value}}));
   const setSymp = (key,value)=> setJournal(p=>({...p,[todayKey]:{...(p[todayKey]||{}),symptomes:{...((p[todayKey]||{}).symptomes||{}),[key]:value}}}));
+  const setJArr = (field,idx,value)=>{ const a=[...((journal[todayKey]||{})[field]||["","",""])]; a[idx]=value; setJ(field,a); };
+  const toggleAction = (idx)=>{ const a=[...((journal[todayKey]||{}).actionsDone||[false,false,false])]; a[idx]=!a[idx]; setJ("actionsDone",a); };
   const periodBuckets = (period)=>{
     const out=[]; const now=new Date();
     if(period==="annee"){
@@ -5521,7 +5524,82 @@ profil · 3 priorités · analyses à demander · ton suivi & tes tendances · s
         {/* ── JOURNAL ── */}
         {tab==="journal"&&(
           <div className="fu">
-            <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.2rem",color:C.brown,marginBottom:10}}>Mon journal</div>
+            <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.2rem",color:C.brown,marginBottom:3}}>Mon journal</div>
+            <div style={{fontSize:10,color:C.light,marginBottom:14}}>{todayLabel} · ton rituel du jour</div>
+
+            {/* ── RITUEL GUIDÉ (matin / soir) ── */}
+            <div style={{marginBottom:18}}>
+              <div style={{display:"flex",gap:6,background:C.bubble,borderRadius:12,padding:4,marginBottom:14}}>
+                {[{id:"matin",l:"Le matin"},{id:"soir",l:"Le soir"}].map(m=>{
+                  const on=journalMoment===m.id;
+                  return <button key={m.id} onClick={()=>setJournalMoment(m.id)}
+                    style={{flex:1,padding:"9px",borderRadius:9,border:"none",cursor:"pointer",fontFamily:"inherit",fontSize:12,fontWeight:on?700:500,color:on?C.brown:C.mid,background:on?C.white:"transparent",boxShadow:on?"0 2px 6px rgba(0,0,0,.05)":"none"}}>{m.l}</button>;
+                })}
+              </div>
+
+              {journalMoment==="matin"?(
+                <div>
+                  <div style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:16,padding:"1rem",marginBottom:11}}>
+                    <div style={{fontSize:9,letterSpacing:1.5,textTransform:"uppercase",color:C.terra,fontWeight:700,marginBottom:9}}>Comment je me sens ce matin</div>
+                    <textarea value={jToday.matinRessenti||""} onChange={e=>setJ("matinRessenti",e.target.value)} placeholder="mes premières pensées…" rows={2}
+                      style={{width:"100%",border:"none",outline:"none",resize:"vertical",fontFamily:"inherit",fontSize:12.5,color:C.brown,background:"transparent",lineHeight:1.6}}/>
+                  </div>
+
+                  <div style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:16,padding:"1rem",marginBottom:11}}>
+                    <div style={{fontSize:9,letterSpacing:1.5,textTransform:"uppercase",color:C.terra,fontWeight:700,marginBottom:11}}>3 gratitudes</div>
+                    {[0,1,2].map(i=>(
+                      <div key={i} style={{display:"flex",alignItems:"center",gap:10,marginBottom:i<2?10:0}}>
+                        <div style={{width:22,height:22,borderRadius:"50%",background:C.mauveSoft,color:C.mauve,fontSize:11,fontWeight:700,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>{i+1}</div>
+                        <input value={(jToday.gratitudes||[])[i]||""} onChange={e=>setJArr("gratitudes",i,e.target.value)} placeholder="ce qui va bien, même tout petit…"
+                          style={{flex:1,border:"none",borderBottom:`1.5px dotted ${C.border}`,outline:"none",fontFamily:"inherit",fontSize:12,color:C.brown,background:"transparent",padding:"3px 0"}}/>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:16,padding:"1rem"}}>
+                    <div style={{fontSize:9,letterSpacing:1.5,textTransform:"uppercase",color:C.terra,fontWeight:700,marginBottom:11}}>Mes 3 actions pour aujourd'hui</div>
+                    {[0,1,2].map(i=>{
+                      const done=(jToday.actionsDone||[])[i];
+                      return(
+                        <div key={i} style={{display:"flex",alignItems:"center",gap:10,marginBottom:i<2?10:0}}>
+                          <button onClick={()=>toggleAction(i)} aria-label="fait"
+                            style={{width:22,height:22,borderRadius:7,border:`1.5px solid ${done?C.sage:C.border}`,background:done?C.sage:"transparent",cursor:"pointer",flexShrink:0,display:"flex",alignItems:"center",justifyContent:"center",padding:0}}>
+                            {done&&<span style={{color:"#fff",fontSize:11,fontWeight:700}}>✓</span>}
+                          </button>
+                          <input value={(jToday.actions||[])[i]||""} onChange={e=>setJArr("actions",i,e.target.value)} placeholder={i===0?"mon action la plus importante…":"une action pour moi…"}
+                            style={{flex:1,border:"none",borderBottom:`1.5px dotted ${C.border}`,outline:"none",fontFamily:"inherit",fontSize:12,color:done?C.light:C.brown,textDecoration:done?"line-through":"none",background:"transparent",padding:"3px 0"}}/>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              ):(
+                <div>
+                  <div style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:16,padding:"1rem",marginBottom:11}}>
+                    <div style={{fontSize:9,letterSpacing:1.5,textTransform:"uppercase",color:C.terra,fontWeight:700,marginBottom:9}}>Comment s'est passée ma journée</div>
+                    <textarea value={jToday.soirBilan||""} onChange={e=>setJ("soirBilan",e.target.value)} placeholder="sans filtre, comme ça vient…" rows={2}
+                      style={{width:"100%",border:"none",outline:"none",resize:"vertical",fontFamily:"inherit",fontSize:12.5,color:C.brown,background:"transparent",lineHeight:1.6}}/>
+                  </div>
+
+                  <div style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:16,padding:"1rem",marginBottom:11}}>
+                    <div style={{fontSize:9,letterSpacing:1.5,textTransform:"uppercase",color:C.terra,fontWeight:700,marginBottom:9}}>Ma petite victoire du jour</div>
+                    <input value={jToday.soirVictoire||""} onChange={e=>setJ("soirVictoire",e.target.value)} placeholder="une chose dont je suis fière, même minuscule…"
+                      style={{width:"100%",border:"none",borderBottom:`1.5px dotted ${C.border}`,outline:"none",fontFamily:"inherit",fontSize:12.5,color:C.brown,background:"transparent",padding:"3px 0"}}/>
+                  </div>
+
+                  <div style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:16,padding:"1rem"}}>
+                    <div style={{fontSize:9,letterSpacing:1.5,textTransform:"uppercase",color:C.terra,fontWeight:700,marginBottom:9}}>Ce que je pose pour la nuit</div>
+                    <textarea value={jToday.soirLacher||""} onChange={e=>setJ("soirLacher",e.target.value)} placeholder="dépose ici ce qui tourne en boucle. une fois écrit, tu peux le laisser partir." rows={2}
+                      style={{width:"100%",border:"none",outline:"none",resize:"vertical",fontFamily:"inherit",fontSize:12.5,color:C.brown,background:"transparent",lineHeight:1.6}}/>
+                  </div>
+                </div>
+              )}
+
+              <div style={{fontSize:10,color:C.light,textAlign:"center",marginTop:12,lineHeight:1.6}}>ton journal se remplit à ton rythme — rien n'est obligatoire.</div>
+            </div>
+
+            <div style={{height:1,background:C.border,margin:"4px 0 18px"}}/>
+            <div style={{fontSize:9,letterSpacing:2,textTransform:"uppercase",color:C.light,marginBottom:12}}>Mon suivi semaine après semaine</div>
 
             {/* Sélecteur de semaine */}
             <div style={{marginBottom:14}}>
