@@ -2881,6 +2881,22 @@ const MOUVEMENT = [
     ]},
 ];
 
+// ── BANQUE DE CONNAISSANCES SMOP (contenu original, voix SOPK Life, cadrage prudent) ──
+const SAVOIRS = [
+  { t:"Pourquoi suivre ton cycle, même irrégulier", em:"🌙", couleur:"#A89AB8",
+    corps:["avec un SMOP, l'ovulation peut se décaler ou ne pas avoir lieu certains mois — c'est fréquent, et ce n'est pas un échec de ton corps.","noter tes règles, même en désordre, révèle des schémas : la longueur de tes cycles, les moments où ton corps « répond » mieux, l'effet de ton assiette ou de ton stress.","c'est aussi une mine d'or pour ton médecin : des cycles notés valent mille fois mieux qu'un « je sais plus trop »."] },
+  { t:"L'intestin et ton SMOP", em:"🌱", couleur:"#A9BC8E",
+    corps:["70 % de ton système immunitaire vit dans ton intestin. un microbiote déséquilibré peut entretenir l'inflammation de bas grade, qui elle-même pèse sur tes hormones et ta sensibilité à l'insuline.","concrètement : des fibres variées (légumes, légumineuses), des aliments fermentés si tu les tolères, et le moins d'ultra-transformé possible soutiennent ton terrain digestif.","un ventre qui gonfle, des digestions difficiles ne sont pas « dans ta tête » — c'est une piste à explorer, en douceur."] },
+  { t:"Peau, poils et cheveux : pourquoi, et quoi faire", em:"✨", couleur:"#CB9A79",
+    corps:["acné sur la mâchoire et le bas du visage, poils plus drus, cheveux qui s'affinent : ce sont des signes d'hyperandrogénie, pas un manque d'hygiène ou de volonté.","le travail de fond passe par ton terrain (insuline, inflammation, stress) — c'est lui qui nourrit ces signes.","la peau et les poils bougent lentement : compte plusieurs semaines pour l'acné, plusieurs mois pour les poils et les cheveux. la patience fait partie du traitement."] },
+  { t:"SMOP et fertilité : ce qu'on oublie de te dire", em:"🤍", couleur:"#D4A5A5",
+    corps:["« vous devrez passer par la PMA » est une phrase trop vite lâchée. beaucoup de femmes avec un SMOP conçoivent, parfois naturellement — souvent en travaillant le terrain (insuline, poids si besoin, stress, cycle).","le SMOP est l'une des causes d'infertilité les plus *réversibles* : l'ovulation peut revenir.","si un projet bébé est là, un suivi médical spécialisé en parallèle est précieux. ici, on t'aide à comprendre et à préparer le terrain, jamais à promettre."] },
+  { t:"La pilule et le SMOP : ce qu'elle fait (et ne fait pas)", em:"💊", couleur:"#9FB3C9",
+    corps:["la pilule apporte des hormones de synthèse : elle régularise les saignements, peut améliorer l'acné et la pilosité tant qu'on la prend. c'est un choix valable pour certaines, à décider avec ton médecin.","ce qu'elle ne fait pas : elle ne « soigne » pas le SMOP et n'agit pas sur la résistance à l'insuline. les symptômes reviennent souvent à l'arrêt, car le terrain n'a pas changé.","la connaître pour ce qu'elle est — un outil, pas une fatalité ni une solution unique — te permet de choisir en conscience."] },
+  { t:"Le poids et le SMOP : sortir de la culpabilité", em:"🌾", couleur:"#B8A98E",
+    corps:["« perdez du poids » est le conseil le plus donné et le moins expliqué. or avec un SMOP, la résistance à l'insuline rend la perte de poids plus difficile — ce n'est pas un manque de volonté.","l'objectif n'est pas un chiffre : c'est d'apaiser ton terrain (glycémie stable, moins d'inflammation, meilleur sommeil). le reste suit, à son rythme.","ton corps n'est pas ton ennemi. il réagit à un déséquilibre — et il répond quand on lui donne les bons signaux."] },
+];
+
 // ── COMPRENDRE MON SMOP : les mécanismes expliqués simplement ───────────────
 const MECANISMES = [
   { nom:"La résistance à l'insuline", em:"⚡", couleur:"#CB9A79", court:"le moteur central, chez beaucoup de Cysters",
@@ -3239,6 +3255,7 @@ export default function App() {
   const [mouvOpen, setMouvOpen] = useState(null);
   const [tisaneOpen, setTisaneOpen] = useState(null);
   const [mecaOpen, setMecaOpen] = useState(null);
+  const [savoirOpen, setSavoirOpen] = useState(null);
   const [recFiltreMoment, setRecFiltreMoment] = useState("tous");
   const [recFiltreTag, setRecFiltreTag] = useState("tous");
   const [recetteFiche, setRecetteFiche] = useState(null);
@@ -5402,6 +5419,32 @@ export default function App() {
                     <strong>l'esprit, pas les règles :</strong> il n'y a pas d'aliment « interdit ». il y a des choix qui apaisent ton corps et d'autres qui le sollicitent. tu apprends à doser, pas à te priver.
                   </div>
                 </div>
+
+                {/* ── BANQUE DE CONNAISSANCES ── */}
+                <div style={{height:1,background:C.border,margin:"18px 0"}}/>
+                <div style={{fontSize:10,letterSpacing:1.5,textTransform:"uppercase",color:C.terra,fontWeight:700,marginBottom:4}}>Ta banque de connaissances</div>
+                <div style={{fontSize:11,color:C.mid,lineHeight:1.6,marginBottom:12}}>les sujets qu'on ne t'a jamais vraiment expliqués. ouvre celui qui te parle, à ton rythme.</div>
+                {SAVOIRS.map((s,i)=>{
+                  const open=savoirOpen===s.t;
+                  return(
+                    <div key={i} style={{background:C.white,border:`1.5px solid ${open?s.couleur:C.border}`,borderRadius:14,marginBottom:9,overflow:"hidden"}}>
+                      <button onClick={()=>setSavoirOpen(open?null:s.t)}
+                        style={{width:"100%",display:"flex",alignItems:"center",gap:11,padding:"12px 13px",background:"none",border:"none",cursor:"pointer",fontFamily:"inherit",textAlign:"left"}}>
+                        <div style={{width:36,height:36,borderRadius:10,background:`${s.couleur}22`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:16,flexShrink:0}}>{s.em}</div>
+                        <div style={{flex:1,fontSize:12.5,fontWeight:700,color:C.brown,lineHeight:1.25}}>{s.t}</div>
+                        <div style={{fontSize:15,color:C.light,transform:open?"rotate(90deg)":"none",transition:"transform .2s"}}>›</div>
+                      </button>
+                      {open&&(
+                        <div style={{padding:"0 14px 14px"}}>
+                          {s.corps.map((p,j)=>(
+                            <div key={j} style={{fontSize:11.5,color:C.brown,lineHeight:1.65,marginBottom:j<s.corps.length-1?9:0}}>{p}</div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+                <div style={{fontSize:9.5,color:C.light,lineHeight:1.5,marginTop:6,textAlign:"center"}}>ces repères t'aident à comprendre — ils ne remplacent pas l'avis de ton médecin.</div>
               </div>
             )}
 
