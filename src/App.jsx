@@ -4294,7 +4294,8 @@ export default function App() {
                 </button>
               )}
 
-              {/* BOUTON VALIDER — bien visible */}
+              {missionOpen && (<>
+              {/* BOUTON VALIDER — visible une fois déplié */}
               <button onClick={()=>{
                   const wasChecked=checked[day];
                   setChecked(p=>({...p,[day]:!p[day]}));
@@ -4311,7 +4312,6 @@ export default function App() {
                 {checked[day]?"✓ Mission validée — bravo !":"Valider ma mission du jour"}
               </button>
 
-              {missionOpen && (<>
               {/* POURQUOI */}
               <div style={{marginTop:10}}>
                 <div style={{fontSize:9,letterSpacing:1,textTransform:"uppercase",color:pc.p,fontWeight:600,marginBottom:4}}>💡 pourquoi — ce qui se passe dans ton corps</div>
