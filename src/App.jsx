@@ -3026,6 +3026,22 @@ const TISANES = [
     prudence:"à arrêter dès confirmation de grossesse ; traitement de fertilité en cours : demande l'avis de ton médecin. On ne promet jamais de résultat sur la fertilité." },
 ];
 
+// ── MON ANCRAGE — affirmations (contenu original, voix SOPK Life, à personnaliser) ──
+const AFFIRMATIONS = [
+  "je prends soin de moi, un petit pas à la fois.",
+  "mon corps n'est pas mon ennemi — il essaie de me parler, et j'apprends à l'écouter.",
+  "je n'ai pas à être parfaite pour avancer.",
+  "ma fatigue, mes douleurs, mes questions sont légitimes.",
+  "chaque geste pour mon terrain compte, même le plus petit.",
+  "je remplace la culpabilité par la compréhension.",
+  "mon diagnostic n'est pas une fatalité — c'est le début de ma reprise en main.",
+  "je mérite d'être écoutée, informée et accompagnée.",
+  "je vais à mon rythme, et mon rythme est le bon.",
+  "je ne subis plus mon corps : j'apprends à le comprendre.",
+  "un jour sans tout réussir reste un jour où j'ai pris soin de moi.",
+  "je suis plus forte que ce syndrome, et je ne suis pas seule.",
+];
+
 // ── AUDIT MAISON — perturbateurs endocriniens (prudence : réduire l'exposition) ──
 const PERTURBATEURS = [
   { piece:"Cuisine", em:"🍳", couleur:"#CB9A79", items:[
@@ -3366,6 +3382,8 @@ export default function App() {
   const [coursesRemoved, setCoursesRemoved] = useState(() => load("coursesRemoved",{})); // articles auto retirés
   const [coursesInput, setCoursesInput] = useState("");
   const [perturbCheck, setPerturbCheck] = useState(() => load("perturbCheck",{}));
+  const [lettre, setLettre] = useState(() => load("lettre",""));
+  const [vidage, setVidage] = useState(() => load("vidage",""));
   const [quizAns, setQuizAns] = useState(() => load("quizAns",{}));
   const [quizResult, setQuizResult] = useState(() => load("quizResult",null));
   const [showManualProfils, setShowManualProfils] = useState(false);
@@ -3409,6 +3427,8 @@ export default function App() {
   useEffect(()=>{ save("coursesCustom",coursesCustom); },[coursesCustom]);
   useEffect(()=>{ save("coursesRemoved",coursesRemoved); },[coursesRemoved]);
   useEffect(()=>{ save("perturbCheck",perturbCheck); },[perturbCheck]);
+  useEffect(()=>{ save("lettre",lettre); },[lettre]);
+  useEffect(()=>{ save("vidage",vidage); },[vidage]);
   useEffect(()=>{ try{ window.scrollTo(0,0); }catch(e){} },[tab,outilOpen,outilCat]);
   useEffect(()=>{ save("mesures",mesures); },[mesures]);
   useEffect(()=>{ save("quizAns",quizAns); },[quizAns]);
@@ -4129,7 +4149,7 @@ export default function App() {
         </div>
         {[
           {g:"Où j'en suis",items:[{id:"kamila",ic:"home",l:"Mon accueil"},{id:"carte",ic:"map",l:"Ma carte SMOP"}]},
-          {g:"Mon suivi",items:[{id:"suivi",ic:"chart",l:"Ta journée"},{id:"cycle",ic:"moon",l:"Mon cycle"},{id:"apercu",ic:"calendar",l:"Vue d'ensemble"},{id:"tendances",ic:"pulse",l:"Mes tendances"},{id:"journal",ic:"calendar",l:"Mon journal"},{id:"mouvement",ic:"steps",l:"Mes mouvements"},{id:"mesures",ic:"heart",l:"Mes mesures"}]},
+          {g:"Mon suivi",items:[{id:"suivi",ic:"chart",l:"Ta journée"},{id:"cycle",ic:"moon",l:"Mon cycle"},{id:"apercu",ic:"calendar",l:"Vue d'ensemble"},{id:"tendances",ic:"pulse",l:"Mes tendances"},{id:"journal",ic:"calendar",l:"Mon journal"},{id:"mouvement",ic:"steps",l:"Mes mouvements"},{id:"ancrage",ic:"heart",l:"Mon ancrage"},{id:"mesures",ic:"heart",l:"Mes mesures"}]},
           {g:"Mes ressources",items:[{id:"outils",ic:"book",l:"Outils & aliments"}]},
           {g:"Mon dossier santé",items:[{id:"medecin",ic:"health",l:"Résumé médecin"},{id:"analyses",ic:"flask",l:"Analyses de sang"}]},
         ].map((grp,gi)=>(
@@ -5775,6 +5795,7 @@ export default function App() {
                 {id:"cycle",ic:"moon",l:"Mon cycle"},
                 {id:"journal",ic:"calendar",l:"Mon journal"},
                 {id:"mouvement",ic:"steps",l:"Mes mouvements"},
+                {id:"ancrage",ic:"heart",l:"Mon ancrage"},
                 {id:"mesures",ic:"heart",l:"Mes mesures"},
               ].map(x=>(
                 <button key={x.id} onClick={()=>setTab(x.id)} style={{display:"flex",alignItems:"center",gap:8,background:C.bubble,border:`1px solid ${C.border}`,borderRadius:12,padding:"11px 12px",cursor:"pointer",fontFamily:"inherit",textAlign:"left"}}>
@@ -6260,6 +6281,45 @@ profil · 3 priorités · analyses à demander · ton suivi & tes tendances · s
             </div>
           </div>
         )}
+
+        {/* ── MON ANCRAGE (affirmation + lettre + vidage de cerveau) ── */}
+        {tab==="ancrage"&&(()=>{
+          const now=new Date(); const doy=Math.floor((now-new Date(now.getFullYear(),0,0))/86400000);
+          const affi=AFFIRMATIONS[doy%AFFIRMATIONS.length];
+          return(
+          <div className="fu">
+            <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.3rem",color:C.brown,marginBottom:2}}>Mon ancrage</div>
+            <div style={{fontSize:12,color:C.light,marginBottom:16}}>pourquoi tu fais ça — à relire dans les jours durs.</div>
+
+            {/* Affirmation du jour */}
+            <div style={{background:`linear-gradient(135deg,${C.mauve},#8B7BA0)`,borderRadius:18,padding:"22px 20px",color:"#fff",textAlign:"center",marginBottom:16}}>
+              <div style={{fontSize:8.5,letterSpacing:2,textTransform:"uppercase",opacity:.75,marginBottom:10}}>Ton affirmation du jour</div>
+              <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.15rem",lineHeight:1.45,fontWeight:500,fontStyle:"italic"}}>« {affi} »</div>
+            </div>
+
+            {/* Lettre de détermination */}
+            <div style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:16,padding:"1rem 1.1rem",marginBottom:14}}>
+              <div style={{fontSize:9,letterSpacing:1.5,textTransform:"uppercase",color:C.terra,fontWeight:700,marginBottom:4}}>Ma lettre de détermination</div>
+              <div style={{fontSize:10.5,color:C.light,lineHeight:1.5,marginBottom:10}}>écris-toi une lettre : pourquoi tu prends soin de toi, ce que tu veux retrouver. relis-la quand tu doutes.</div>
+              <textarea value={lettre} onChange={e=>setLettre(e.target.value)} placeholder={"aujourd'hui, je m'engage à prendre soin de ma santé et à accompagner mon SMOP.\nje fais ça parce que…"} rows={6}
+                style={{width:"100%",border:`1px solid ${C.border}`,borderRadius:12,padding:"12px",resize:"vertical",fontFamily:"'Playfair Display',serif",fontSize:13,color:C.brown,background:C.cream,lineHeight:1.7,outline:"none",fontStyle:"italic"}}/>
+              <div style={{fontSize:9.5,color:C.light,marginTop:6,textAlign:"right"}}>{lettre?"enregistré automatiquement":"ta lettre se garde toute seule"}</div>
+            </div>
+
+            {/* Vidage de cerveau */}
+            <div style={{background:C.white,border:`1px dashed ${C.light}`,borderRadius:16,padding:"1rem 1.1rem"}}>
+              <div style={{fontSize:9,letterSpacing:1.5,textTransform:"uppercase",color:C.mauve,fontWeight:700,marginBottom:4}}>Vidage de cerveau</div>
+              <div style={{fontSize:10.5,color:C.light,lineHeight:1.5,marginBottom:10}}>dépose ici ce qui tourne en boucle. une fois posé, tu peux l'effacer et le laisser partir.</div>
+              <textarea value={vidage} onChange={e=>setVidage(e.target.value)} placeholder="tout ce qui t'encombre la tête, sans filtre…" rows={4}
+                style={{width:"100%",border:`1px solid ${C.border}`,borderRadius:12,padding:"12px",resize:"vertical",fontFamily:"inherit",fontSize:12.5,color:C.brown,background:C.cream,lineHeight:1.6,outline:"none"}}/>
+              {vidage&&(
+                <button onClick={()=>{ setVidage(""); showToast("c'est posé","tu peux le laisser partir."); }}
+                  style={{width:"100%",marginTop:10,background:C.mauveSoft,border:"none",borderRadius:11,padding:"11px",fontFamily:"inherit",fontSize:12,fontWeight:700,color:C.mauve,cursor:"pointer"}}>effacer et laisser partir</button>
+              )}
+            </div>
+          </div>
+          );
+        })()}
 
         {/* ── MOUVEMENT ADAPTÉ ── */}
         {tab==="mouvement"&&(
