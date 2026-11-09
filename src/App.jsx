@@ -3026,6 +3026,30 @@ const TISANES = [
     prudence:"à arrêter dès confirmation de grossesse ; traitement de fertilité en cours : demande l'avis de ton médecin. On ne promet jamais de résultat sur la fertilité." },
 ];
 
+// ── AUDIT MAISON — perturbateurs endocriniens (prudence : réduire l'exposition) ──
+const PERTURBATEURS = [
+  { piece:"Cuisine", em:"🍳", couleur:"#CB9A79", items:[
+    {id:"cui1", t:"Je remplace mes poêles antiadhésives rayées", d:"un revêtement abîmé peut relarguer — passe à l'inox ou la fonte"},
+    {id:"cui2", t:"Je ne chauffe jamais le plastique", d:"pas de plastique au micro-ondes ni d'aliment chaud dedans — préfère le verre"},
+    {id:"cui3", t:"Je range mes restes dans du verre", d:"le plastique migre surtout avec le gras et la chaleur"},
+    {id:"cui4", t:"Je limite les boîtes de conserve", d:"le revêtement intérieur contient souvent du BPA — préfère le bocal, le surgelé ou le frais"},
+    {id:"cui5", t:"Je fais attention à mon eau", d:"carafe filtrante ou eau de source, et j'évite la bouteille plastique laissée au chaud"},
+  ]},
+  { piece:"Salle de bain", em:"🛁", couleur:"#A89AB8", items:[
+    {id:"sdb1", t:"Je traque la mention « parfum » / « fragrance »", d:"elle cache souvent des phtalates — choisis « sans parfum » ou un parfum naturel"},
+    {id:"sdb2", t:"J'évite les parabènes", d:"listés en -paraben sur l'étiquette, à visée œstrogénique"},
+    {id:"sdb3", t:"Je simplifie ma routine", d:"moins de produits = moins d'exposition, c'est le levier le plus simple"},
+    {id:"sdb4", t:"Je choisis des protections hygiéniques saines", d:"coton bio ou cup — en contact direct avec une muqueuse, c'est important"},
+    {id:"sdb5", t:"Je vérifie mon maquillage et mon vernis", d:"une appli de scan d'ingrédients aide à repérer les plus problématiques"},
+  ]},
+  { piece:"Ménage", em:"🧽", couleur:"#A9BC8E", items:[
+    {id:"men1", t:"J'aère 10 minutes par jour", d:"l'air intérieur concentre les polluants — le geste le plus efficace et gratuit"},
+    {id:"men2", t:"J'allège mes produits ménagers", d:"vinaigre blanc et bicarbonate font l'essentiel, sans cocktail chimique"},
+    {id:"men3", t:"Je fuis désodorisants et bougies parfumées", d:"ils diffusent des phtalates dans l'air que tu respires"},
+    {id:"men4", t:"Je fais attention aux insecticides maison", d:"les sprays laissent des résidus — préfère les solutions mécaniques"},
+  ]},
+];
+
 // ── RESSOURCES : rangées en familles (navigation à 2 niveaux) ───────────────
 const OUTIL_CATS = {
   alimentation: { label:"Mon alimentation", em:"🍽️", dotBg:"#F6ECE2", hero:"de quoi manger pour ton SMOP sans te prendre la tête — on planifie, on pioche, on cuisine.",
@@ -3046,7 +3070,10 @@ const OUTIL_CATS = {
       {id:"fiches", em:"📚", nm:"Fiches SMOP", td:"les repères essentiels à garder"},
     ]},
   quotidien: { label:"Au quotidien", em:"📍", dotBg:"#F6ECE2", hero:"les situations de la vraie vie : resto, voyage, fatigue, imprévus.",
-    tools:[ {id:"situations", em:"📍", nm:"Au quotidien", td:"gérer les moments pas évidents"} ]},
+    tools:[
+      {id:"situations", em:"📍", nm:"Gérer les situations", td:"resto, voyage, fatigue, imprévus"},
+      {id:"perturbateurs", em:"🏠", nm:"Audit maison", td:"les perturbateurs endocriniens, pièce par pièce"},
+    ]},
   fiches_imp: { label:"Mes fiches à imprimer", em:"📥", dotBg:"#EDE7F0", hero:"à imprimer et garder sous la main.",
     tools:[ {id:"telechargements", em:"📥", nm:"Mes fiches à imprimer", td:"tes documents prêts à imprimer"} ]},
 };
@@ -3338,6 +3365,7 @@ export default function App() {
   const [coursesCustom, setCoursesCustom] = useState(() => load("coursesCustom",[])); // articles ajoutés à la main
   const [coursesRemoved, setCoursesRemoved] = useState(() => load("coursesRemoved",{})); // articles auto retirés
   const [coursesInput, setCoursesInput] = useState("");
+  const [perturbCheck, setPerturbCheck] = useState(() => load("perturbCheck",{}));
   const [quizAns, setQuizAns] = useState(() => load("quizAns",{}));
   const [quizResult, setQuizResult] = useState(() => load("quizResult",null));
   const [showManualProfils, setShowManualProfils] = useState(false);
@@ -3380,6 +3408,7 @@ export default function App() {
   useEffect(()=>{ save("repasPlan",repasPlan); },[repasPlan]);
   useEffect(()=>{ save("coursesCustom",coursesCustom); },[coursesCustom]);
   useEffect(()=>{ save("coursesRemoved",coursesRemoved); },[coursesRemoved]);
+  useEffect(()=>{ save("perturbCheck",perturbCheck); },[perturbCheck]);
   useEffect(()=>{ try{ window.scrollTo(0,0); }catch(e){} },[tab,outilOpen,outilCat]);
   useEffect(()=>{ save("mesures",mesures); },[mesures]);
   useEffect(()=>{ save("quizAns",quizAns); },[quizAns]);
@@ -4694,6 +4723,57 @@ export default function App() {
                   style={{display:"flex",alignItems:"center",gap:6,background:"none",border:"none",cursor:"pointer",fontFamily:"inherit",color:C.mid,fontSize:12,fontWeight:600,padding:"2px 0",marginBottom:12}}>
                   <Icon name="arrowL" size={16} color={C.mid}/> retour · {lbl}
                 </button>
+              );
+            })()}
+
+            {/* OUTIL : AUDIT MAISON — PERTURBATEURS ENDOCRINIENS */}
+            {outilOpen==="perturbateurs"&&(()=>{
+              const all=PERTURBATEURS.flatMap(p=>p.items);
+              const done=all.filter(it=>perturbCheck[it.id]).length;
+              return(
+                <div className="fu">
+                  <div style={{background:`linear-gradient(135deg,${C.sage},#8CA06E)`,borderRadius:16,padding:"1.1rem 1.2rem",marginBottom:14,color:"#fff"}}>
+                    <div style={{fontSize:9,letterSpacing:2,textTransform:"uppercase",opacity:.85,marginBottom:4}}>Audit maison</div>
+                    <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.15rem",fontWeight:600,marginBottom:6}}>Tes perturbateurs endocriniens</div>
+                    <div style={{fontSize:11,lineHeight:1.6,opacity:.95}}>certaines substances du quotidien imitent ou dérèglent nos hormones. on ne vise pas le zéro parfait — juste réduire l'exposition, pièce par pièce, à ton rythme.</div>
+                  </div>
+
+                  <div style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:12,padding:"11px 13px",marginBottom:14}}>
+                    <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:8}}>
+                      <div style={{fontSize:11,fontWeight:700,color:C.brown}}>Ton avancée</div>
+                      <div style={{fontSize:10,color:C.light}}>{done} / {all.length} gestes adoptés</div>
+                    </div>
+                    <div style={{height:6,background:C.bubble,borderRadius:99,overflow:"hidden"}}>
+                      <div style={{height:"100%",width:`${all.length?(done/all.length)*100:0}%`,background:`linear-gradient(90deg,${C.sage},#8CA06E)`,borderRadius:99,transition:"width .4s"}}/>
+                    </div>
+                  </div>
+
+                  {PERTURBATEURS.map((p,i)=>(
+                    <div key={i} style={{marginBottom:16}}>
+                      <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:9}}>
+                        <div style={{width:30,height:30,borderRadius:9,background:`${p.couleur}22`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:15,flexShrink:0}}>{p.em}</div>
+                        <div style={{fontSize:13,fontWeight:700,color:C.brown}}>{p.piece}</div>
+                      </div>
+                      {p.items.map((it,j)=>{
+                        const ch=perturbCheck[it.id];
+                        return(
+                          <button key={it.id} onClick={()=>setPerturbCheck(prev=>({...prev,[it.id]:!prev[it.id]}))}
+                            style={{width:"100%",display:"flex",alignItems:"flex-start",gap:11,background:C.white,border:`1px solid ${ch?p.couleur:C.border}`,borderRadius:12,padding:"11px 12px",marginBottom:8,cursor:"pointer",fontFamily:"inherit",textAlign:"left"}}>
+                            <div style={{width:20,height:20,borderRadius:6,border:`1.5px solid ${ch?p.couleur:C.border}`,background:ch?p.couleur:"transparent",flexShrink:0,display:"flex",alignItems:"center",justifyContent:"center",marginTop:1}}>{ch&&<span style={{color:"#fff",fontSize:11,fontWeight:700}}>✓</span>}</div>
+                            <div style={{flex:1}}>
+                              <div style={{fontSize:12,fontWeight:600,color:ch?C.light:C.brown,textDecoration:ch?"line-through":"none"}}>{it.t}</div>
+                              <div style={{fontSize:10.5,color:C.mid,marginTop:2,lineHeight:1.5}}>{it.d}</div>
+                            </div>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  ))}
+
+                  <div style={{background:C.mauveSoft,borderRadius:12,padding:"11px 13px"}}>
+                    <div style={{fontSize:10.5,color:C.mid,lineHeight:1.6}}>pas de culpabilité : on ne contrôle pas tout, et l'exposition zéro n'existe pas. chaque petit geste compte, et c'est déjà agir sur ton terrain.</div>
+                  </div>
+                </div>
               );
             })()}
 
