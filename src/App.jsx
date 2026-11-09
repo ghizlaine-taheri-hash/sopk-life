@@ -2954,24 +2954,27 @@ export default function App() {
     return ()=>{ try{ subref&&subref.unsubscribe(); }catch(e){} };
   },[]);
 
-  // à la connexion : on récupère d'ABORD les données du cloud, puis seulement on affiche l'app (évite d'écraser les données sur un nouvel appareil)
+  // à la connexion : le LOCAL fait foi sur un appareil déjà utilisé (on n'écrase jamais tes changements récents).
+  // on ne charge le cloud QUE sur un appareil vierge (pas encore de données ici).
   useEffect(()=>{ if(!sb||!session||pulledRef.current) return; pulledRef.current=true;
     const finish=()=>setHydrated(true);
     const safety=setTimeout(finish, 9000); // si le réseau traîne, on ne reste pas bloquée sur le splash
+    let localHasData=false; try{ localHasData = !!localStorage.getItem("sopklife_onboardingDone") || Object.keys(collectLocal()).length>2; }catch(e){}
     sb.from("user_data").select("data").eq("user_id",session.user.id).maybeSingle().then(({data,error})=>{
       clearTimeout(safety);
       if(error){ finish(); return; }
-      if(data && data.data && Object.keys(data.data).length){
-        const before=JSON.stringify(collectLocal());
-        applyLocal(data.data);
-        if(JSON.stringify(collectLocal())!==before && !sessionStorage.getItem("sopklife_hydrated")){
+      const cloud = (data && data.data && Object.keys(data.data).length) ? data.data : null;
+      if(cloud && !localHasData){
+        // appareil vierge : on charge le cloud puis on recharge une fois pour que l'app relise les données
+        applyLocal(cloud);
+        if(!sessionStorage.getItem("sopklife_hydrated")){
           try{ sessionStorage.setItem("sopklife_hydrated","1"); }catch(e){}
-          window.location.reload(); // les useState relisent les données cloud au rechargement
+          window.location.reload();
           return;
         }
         finish();
       } else {
-        // pas de données cloud → première fois : on pousse le local actuel
+        // appareil déjà utilisé (ou pas de cloud) : le local fait foi → on le pousse, on n'écrase rien
         sb.from("user_data").upsert({user_id:session.user.id,data:collectLocal(),updated_at:new Date().toISOString()}).then(finish, finish);
       }
     }, ()=>{ clearTimeout(safety); finish(); });
