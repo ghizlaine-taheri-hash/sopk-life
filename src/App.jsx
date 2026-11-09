@@ -868,6 +868,66 @@ const SOS_DATA = [
     liens:["ta mission \"l'ordre dans l'assiette\" (Jour 1)","tes recettes collations anti-fringale","la fiche SOS \"fatigue après repas\" si ça t'arrive souvent"]
   },
   {
+    id:"coupdebarre", emoji:"🔋", titre:"Coup de barre de 16h", couleur:"#CB9A79",
+    validation:"ce n'est pas que tu manques de sommeil ou de volonté.\nc'est ta glycémie qui dégringole après le repas de midi.\nton corps réclame de l'énergie — c'est de la physiologie, pas de la paresse.",
+    actions5min:[
+      {em:"🚶‍♀️", t:"Marche 5 à 10 minutes", why:"tes muscles brûlent le sucre directement et te relancent"},
+      {em:"🥜", t:"Une poignée d'amandes", why:"protéines + gras = remonte l'énergie sans nouveau pic"},
+      {em:"💧", t:"Un grand verre d'eau", why:"la déshydratation aggrave le coup de barre"},
+    ],
+    action1h:"si le creux persiste, un vrai goûter : protéine + fibres (yaourt grec + quelques noix). pas de sucre seul, ça relancerait la chute.",
+    mecanisme:"ton déjeuner a fait monter ta glycémie, ton insuline a sur-corrigé, et vers 15-16h le sucre sanguin chute : c'est le coup de barre. très classique quand on est sensible à l'insuline.",
+    kamila:"ton énergie de 16h se joue souvent à midi. tu n'es pas fatiguée « pour rien ».",
+    secret:"le coup de barre de l'après-midi se règle rarement à 16h — il se règle au déjeuner. commence ton repas de midi par les protéines et les légumes avant les féculents, et la chute s'adoucit souvent toute seule.",
+    monMot:"à mettre dans ta voix : raconte le moment où tu as compris que ton coup de barre de 16h ne venait pas de toi, mais de ton assiette du midi.",
+    liens:["ta fiche L'assiette SMOP (l'ordre des aliments)","le planificateur de repas pour anticiper ton déjeuner","la fiche SOS \"fringale sucrée\" si le creux donne envie de sucre"]
+  },
+  {
+    id:"reveil3h", emoji:"🌙", titre:"Réveil à 3h du matin", couleur:"#9FB3C9",
+    validation:"ce n'est pas dans ta tête.\nce réveil à heure quasi fixe a une cause biologique — souvent un pic de cortisol ou une chute de glycémie nocturne.\ntu ne « dors pas mal exprès ».",
+    actions5min:[
+      {em:"🌑", t:"Ne rallume pas ton écran", why:"la lumière dit à ton cerveau qu'il est l'heure de se réveiller"},
+      {em:"🫁", t:"Respiration lente allongée", why:"expire plus longtemps que tu n'inspires — ça calme le système nerveux"},
+      {em:"🧦", t:"Si tu as faim ou froid, une petite protéine", why:"une chute de sucre nocturne peut déclencher le réveil"},
+    ],
+    action1h:"ne lutte pas contre le réveil, ça l'entretient. au matin, note l'heure : repérer le schéma sur quelques nuits aide à comprendre la cause.",
+    mecanisme:"vers 3-4h, si ta glycémie chute, ton corps libère du cortisol et de l'adrénaline pour la remonter — et ça te réveille. un cortisol déjà déréglé par le stress rend ce réveil plus fréquent. c'est le lien stress-sommeil-SMOP (SOPK).",
+    kamila:"ton sommeil n'est pas cassé. il réagit à un déséquilibre qu'on peut apaiser.",
+    secret:"un dîner trop léger ou trop sucré favorise la chute nocturne. pour certaines, une petite collation protéinée au coucher (un yaourt grec, quelques amandes) suffit à tenir la nuit.",
+    monMot:"à mettre dans ta voix : raconte tes nuits coupées à 3h, et ce que ça change de comprendre que ce n'est pas « de l'insomnie dans ta tête ».",
+    liens:["ta tisane Serenitea (stress et sommeil)","la fiche SOS \"stress aigu\"","ton Journal du soir pour poser ce qui tourne en boucle"]
+  },
+  {
+    id:"ventre", emoji:"🎈", titre:"Ventre gonflé", couleur:"#A9BC8E",
+    validation:"ce n'est pas « tu as trop mangé ».\nle ventre gonflé est très fréquent avec le SMOP (SOPK) — digestion, inflammation, hormones.\nton corps n'est pas contre toi, il réagit.",
+    actions5min:[
+      {em:"🍵", t:"Une tisane menthe ou gingembre", why:"apaise les spasmes et le gonflement"},
+      {em:"🚶‍♀️", t:"Marche douce 10 minutes", why:"relance le transit et dégonfle"},
+      {em:"🫁", t:"Respiration par le ventre", why:"masse les intestins et détend la sangle abdominale"},
+    ],
+    action1h:"repas léger, mâche lentement, évite les crudités en grande quantité et les boissons gazeuses le temps que ça passe.",
+    mecanisme:"l'inflammation de bas grade, une digestion sensible et les variations hormonales ralentissent le transit et font retenir l'eau. le ventre gonfle surtout le soir et en 2e partie de cycle.",
+    kamila:"ton ventre te parle. le gonflement est un message, pas une punition.",
+    secret:"si le gonflement revient toujours après les mêmes repas, c'est une piste d'intolérance (souvent gluten ou laitages) à explorer calmement — pas une fatalité, et surtout pas « c'est dans ta tête ».",
+    monMot:"à mettre dans ta voix : raconte ce rapport au ventre gonflé, le soir, et ce que tu aurais aimé qu'on t'explique.",
+    liens:["le sujet \"L'intestin et ton SMOP\" dans Comprendre","ta tisane Inflamma Tea","l'onglet Chercher un aliment pour repérer ce qui te gonfle"]
+  },
+  {
+    id:"spm", emoji:"🌷", titre:"SPM et humeur", couleur:"#C2AEBA",
+    validation:"ces montagnes russes d'humeur avant les règles ne font pas de toi quelqu'un de « trop ».\nc'est la chute hormonale, pas ton caractère.\ntu n'exagères pas.",
+    actions5min:[
+      {em:"🫁", t:"Trois minutes de respiration lente", why:"calme la réactivité émotionnelle"},
+      {em:"🤍", t:"Isole-toi un instant, sans culpabiliser", why:"ton système nerveux est plus à vif, c'est normal"},
+      {em:"📝", t:"Écris ce que tu ressens", why:"poser l'émotion la désamorce"},
+    ],
+    action1h:"douceur avec toi : reporte les décisions ou conversations lourdes si tu peux, bouge un peu, mange stable. ce n'est pas le moment de te juger.",
+    mecanisme:"en 2e partie de cycle, la chute des œstrogènes et de la progestérone fait baisser la sérotonine — d'où irritabilité, tristesse, anxiété. avec le SMOP (SOPK), ces variations sont souvent amplifiées.",
+    kamila:"tu n'es pas « invivable » quelques jours par mois. tu traverses une vague hormonale, et elle redescend.",
+    secret:"anticiper change tout : repère ces jours dans ton cycle, et protège ton sommeil + ton magnésium en phase lutéale. savoir que la vague arrive, c'est déjà moins la subir.",
+    monMot:"à mettre dans ta voix : raconte ce que le SPM a fait vivre à ton couple ou à ton entourage, et le soulagement de comprendre que c'était hormonal.",
+    liens:["ton onglet Mon cycle pour repérer ta phase lutéale","ta tisane Équilibre Féminin","ton Journal pour suivre ton humeur au fil du cycle"]
+  },
+  {
     id:"fatigue", emoji:"😴", titre:"Fatigue profonde", couleur:"#7A5C45",
     validation:"t'es pas paresseuse.\nt'es pas faible.\nton corps porte une charge invisible que personne ne voit.",
     actions5min:[
