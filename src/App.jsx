@@ -2879,6 +2879,31 @@ const MOUVEMENT = [
     ]},
 ];
 
+// ── RESSOURCES : rangées en familles (navigation à 2 niveaux) ───────────────
+const OUTIL_CATS = {
+  alimentation: { label:"Mon alimentation", em:"🍽️", dotBg:"#F6ECE2", hero:"de quoi manger pour ton SMOP sans te prendre la tête — on planifie, on pioche, on cuisine.",
+    tools:[
+      {id:"planif", em:"🗓️", nm:"Planifier ma semaine", td:"compose tes repas, ta liste de courses se remplit toute seule", star:true},
+      {id:"repas", em:"🍲", nm:"Idées repas", td:"inspiration classée par moment"},
+      {id:"recettes", em:"📖", nm:"Recettes", td:"pas à pas, SMOP-friendly"},
+      {id:"aliments", em:"🍽️", nm:"Chercher un aliment", td:"index glycémique, protéines"},
+      {id:"sucres", em:"🔍", nm:"Sucres cachés", td:"repérer les pièges"},
+      {id:"assiette", em:"🍴", nm:"L'assiette SMOP", td:"la bonne proportion dans ton assiette"},
+    ]},
+  complements: { label:"Mes compléments & tisanes", em:"🌿", dotBg:"#EFF3E8", hero:"ce qui soutient ton terrain, en complément de ton assiette.",
+    tools:[ {id:"complements", em:"🌿", nm:"Compléments & tisanes", td:"ce qui peut t'aider, et comment"} ]},
+  comprendre: { label:"Comprendre mon SMOP", em:"🎓", dotBg:"#F2EEF6", hero:"le pourquoi des choses, en clair — pour avancer en confiance.",
+    tools:[
+      {id:"comprendre", em:"🎓", nm:"Comprendre", td:"les mécanismes, expliqués simplement"},
+      {id:"fiches", em:"📚", nm:"Fiches SMOP", td:"les repères essentiels à garder"},
+    ]},
+  quotidien: { label:"Au quotidien", em:"📍", dotBg:"#F6ECE2", hero:"les situations de la vraie vie : resto, voyage, fatigue, imprévus.",
+    tools:[ {id:"situations", em:"📍", nm:"Au quotidien", td:"gérer les moments pas évidents"} ]},
+  fiches_imp: { label:"Mes fiches à imprimer", em:"📥", dotBg:"#EDE7F0", hero:"à imprimer et garder sous la main.",
+    tools:[ {id:"telechargements", em:"📥", nm:"Mes fiches à imprimer", td:"tes documents prêts à imprimer"} ]},
+};
+const OUTIL_CAT_OF = (oid)=>Object.keys(OUTIL_CATS).find(ck=>OUTIL_CATS[ck].tools.some(t=>t.id===oid));
+
 // ── PLANIFICATEUR DE REPAS ──────────────────────────────────────────────────
 const JOURS = [["lun","Lundi"],["mar","Mardi"],["mer","Mercredi"],["jeu","Jeudi"],["ven","Vendredi"],["sam","Samedi"],["dim","Dimanche"]];
 const SLOTS = [["matin","Petit-déj"],["midi","Déjeuner"],["soir","Dîner"]];
@@ -3140,7 +3165,8 @@ export default function App() {
   const [prenomInput, setPrenomInput] = useState("");
   const [showOnboarding, setShowOnboarding] = useState(() => load("onboardingDone","no")==="no");
   const [foodSearch, setFoodSearch] = useState("");
-  const [outilOpen, setOutilOpen] = useState("aliments");
+  const [outilOpen, setOutilOpen] = useState(null);
+  const [outilCat, setOutilCat] = useState(null);
   const [mouvOpen, setMouvOpen] = useState(null);
   const [recFiltreMoment, setRecFiltreMoment] = useState("tous");
   const [recFiltreTag, setRecFiltreTag] = useState("tous");
@@ -4409,41 +4435,75 @@ export default function App() {
         {/* ── OUTILS ── */}
         {tab==="outils"&&(
           <div className="fu">
-            <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.2rem",color:C.brown,marginBottom:4}}>Tes outils</div>
-            <div style={{fontSize:12,color:C.light,marginBottom:14}}>tes références pratiques, toujours à portée.</div>
+            <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.2rem",color:C.brown,marginBottom:4}}>Mes ressources</div>
+            <div style={{fontSize:12,color:C.light,marginBottom:14}}>tout ce dont tu as besoin, bien rangé.</div>
 
-            {/* Accès fiches SOS */}
+            {/* Accès fiches SOS (toujours visible, au niveau hub) */}
+            {!outilOpen && !outilCat && (
             <button onClick={()=>setTab("sos")} style={{width:"100%",display:"flex",alignItems:"center",gap:11,background:"#FDF0E8",border:"1px solid #F0D5C5",borderRadius:14,padding:"13px 14px",marginBottom:14,cursor:"pointer",fontFamily:"inherit",textAlign:"left"}}>
               <div style={{width:34,height:34,borderRadius:10,background:"#fff",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><Icon name="alert" size={16} color="#B5553F"/></div>
               <div style={{flex:1}}>
-                <div style={{fontSize:12.5,fontWeight:700,color:"#8A4430"}}>Mes fiches SOS</div>
+                <div style={{fontSize:12.5,fontWeight:700,color:"#8A4430"}}>Mode crise</div>
                 <div style={{fontSize:10,color:"#A86B55",marginTop:1}}>fringale, fatigue, stress, mauvaise nuit… le bon geste sur le moment</div>
               </div>
               <div style={{fontSize:14,color:"#C98B6E"}}>›</div>
             </button>
+            )}
 
-            {/* Sélecteur d'outil */}
-            <div style={{display:"flex",gap:6,marginBottom:14,overflowX:"auto",paddingBottom:2}}>
-              {[
-                {id:"planif",label:"🗓️ Planifier"},
-                {id:"aliments",label:"🍽️ Aliments"},
-                {id:"repas",label:"🍲 Idées repas"},
-                {id:"recettes",label:"📖 Recettes"},
-                {id:"sucres",label:"🔍 Sucres cachés"},
-                {id:"complements",label:"💊 Compléments"},
-                {id:"assiette",label:"🍴 L'assiette"},
-                {id:"comprendre",label:"🎓 Comprendre"},
-                {id:"courses",label:"🛒 Mes courses"},
-                {id:"situations",label:"📍 Au quotidien"},
-                {id:"fiches",label:"📚 Fiches SOPK"},
-                {id:"telechargements",label:"📥 Mes fiches à imprimer"},
-              ].map(o=>(
-                <button key={o.id} onClick={()=>setOutilOpen(o.id)}
-                  style={{flexShrink:0,padding:"8px 12px",borderRadius:99,border:`1.5px solid ${outilOpen===o.id?pc.p:C.border}`,background:outilOpen===o.id?`${pc.p}12`:C.white,color:outilOpen===o.id?pc.p:C.mid,fontSize:11,fontWeight:500,cursor:"pointer",fontFamily:"inherit",whiteSpace:"nowrap"}}>
-                  {o.label}
+            {/* NIVEAU 1 — les familles */}
+            {!outilOpen && !outilCat && Object.keys(OUTIL_CATS).map(ck=>{
+              const cat=OUTIL_CATS[ck];
+              return(
+                <button key={ck} onClick={()=>setOutilCat(ck)}
+                  style={{width:"100%",display:"flex",alignItems:"center",gap:13,background:C.white,border:`1px solid ${C.border}`,borderRadius:16,padding:"15px",marginBottom:11,cursor:"pointer",fontFamily:"inherit",textAlign:"left"}}>
+                  <div style={{width:46,height:46,borderRadius:13,background:cat.dotBg,display:"flex",alignItems:"center",justifyContent:"center",fontSize:21,flexShrink:0}}>{cat.em}</div>
+                  <div style={{flex:1}}>
+                    <div style={{fontSize:14,fontWeight:700,color:C.brown}}>{cat.label}</div>
+                    <div style={{fontSize:10,color:C.light,marginTop:2,lineHeight:1.4}}>{cat.tools.map(t=>t.nm).join(" · ")}</div>
+                  </div>
+                  <div style={{fontSize:17,color:C.light}}>›</div>
                 </button>
-              ))}
-            </div>
+              );
+            })}
+
+            {/* NIVEAU 2 — la famille ouverte (liste d'outils) */}
+            {!outilOpen && outilCat && OUTIL_CATS[outilCat] && (()=>{
+              const cat=OUTIL_CATS[outilCat];
+              return(
+                <div className="fu">
+                  <button onClick={()=>setOutilCat(null)} style={{display:"flex",alignItems:"center",gap:6,background:"none",border:"none",cursor:"pointer",fontFamily:"inherit",color:C.mid,fontSize:12,fontWeight:600,padding:"2px 0",marginBottom:12}}>
+                    <Icon name="arrowL" size={16} color={C.mid}/> retour · Ressources
+                  </button>
+                  <div style={{background:`linear-gradient(135deg,${C.terra},#B07C55)`,borderRadius:16,padding:"16px 17px",color:"#fff",marginBottom:16}}>
+                    <div style={{fontSize:8.5,letterSpacing:2,textTransform:"uppercase",opacity:.8}}>Famille</div>
+                    <div style={{fontFamily:"'Playfair Display',serif",fontSize:18,fontWeight:600,marginTop:4}}>{cat.label}</div>
+                    <div style={{fontSize:10.5,opacity:.95,marginTop:5,lineHeight:1.5}}>{cat.hero}</div>
+                  </div>
+                  {cat.tools.map(t=>(
+                    <button key={t.id} onClick={()=>setOutilOpen(t.id)}
+                      style={{width:"100%",display:"flex",alignItems:"center",gap:12,background:C.white,border:`1px solid ${C.border}`,borderRadius:13,padding:"13px 14px",marginBottom:9,cursor:"pointer",fontFamily:"inherit",textAlign:"left"}}>
+                      <div style={{width:36,height:36,borderRadius:10,background:C.mauveSoft,display:"flex",alignItems:"center",justifyContent:"center",fontSize:16,flexShrink:0}}>{t.em}</div>
+                      <div style={{flex:1}}>
+                        <div style={{fontSize:12.5,fontWeight:600,color:C.brown}}>{t.nm}{t.star&&<span style={{fontSize:8,fontWeight:700,color:"#fff",background:C.terra,borderRadius:99,padding:"2px 7px",marginLeft:6}}>le cœur</span>}</div>
+                        <div style={{fontSize:9.5,color:C.light,marginTop:1}}>{t.td}</div>
+                      </div>
+                      <div style={{fontSize:14,color:C.light}}>›</div>
+                    </button>
+                  ))}
+                </div>
+              );
+            })()}
+
+            {/* NIVEAU 3 — un outil ouvert : bouton retour vers sa famille */}
+            {outilOpen && (()=>{
+              const ck=OUTIL_CAT_OF(outilOpen); const lbl=ck?OUTIL_CATS[ck].label:"Ressources";
+              return(
+                <button onClick={()=>{ setOutilOpen(null); setOutilCat(ck||null); }}
+                  style={{display:"flex",alignItems:"center",gap:6,background:"none",border:"none",cursor:"pointer",fontFamily:"inherit",color:C.mid,fontSize:12,fontWeight:600,padding:"2px 0",marginBottom:12}}>
+                  <Icon name="arrowL" size={16} color={C.mid}/> retour · {lbl}
+                </button>
+              );
+            })()}
 
             {/* OUTIL : PLANIFICATEUR DE REPAS */}
             {outilOpen==="planif"&&(
