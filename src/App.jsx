@@ -2879,6 +2879,52 @@ const MOUVEMENT = [
     ]},
 ];
 
+// ── TISANES SOPK LIFE (compléments alimentaires à base de plantes — cadrage : soutient/accompagne, jamais traite) ──
+const TISANES = [
+  { nom:"Cure Détox — Organisme Clean", em:"🌿", role:"Le point de départ universel", couleur:"#A9BC8E",
+    soutient:"soutient les fonctions du foie et le drainage naturel — le foie est le premier maillon du SMOP (il aide à éliminer l'excès d'androgènes et à produire la SHBG).",
+    plantes:"pissenlit, chardon-marie, ortie piquante, menthe poivrée, prêle des champs.",
+    quand:"1 tasse à jeun le matin, 10 min d'infusion. Cure de 7, 14 ou 21 jours (21 j recommandé).",
+    profil:"tous les profils, en tout début de routine.",
+    prudence:"déconseillée pendant la grossesse (chardon-marie, prêle) ; allaitement, anticoagulants ou pathologie hépatique : demande l'avis de ton médecin ; allergie aux Astéracées." },
+  { nom:"Équilibre Féminin — La fondation", em:"🌸", role:"La tisane centrale, pour tous les profils", couleur:"#A89AB8",
+    soutient:"accompagne l'équilibre hormonal global : cycle, glycémie, androgènes et système nerveux. 8 plantes bio qui agissent en synergie.",
+    plantes:"luzerne, menthe poivrée, gingembre, ortie, mélisse, cannelle de Ceylan, framboisier, alchémille.",
+    quand:"en milieu de journée, après la phase de Détox (à partir de J8).",
+    profil:"tous les profils — idéale aussi quand le profil n'est pas encore identifié.",
+    prudence:"déconseillée en grossesse (alchémille, framboisier) ; allaitement (la menthe poivrée réduit la lactation), traitement hormonal, maladie auto-immune (luzerne) : demande l'avis de ton médecin." },
+  { nom:"Andro Tea", em:"🌙", role:"Profil androgénique", couleur:"#C2AEBA",
+    soutient:"accompagne l'équilibre des androgènes (acné de la mâchoire, pilosité, chute de cheveux) en agissant sur deux voies : production et neutralisation.",
+    plantes:"menthe verte, réglisse, ortie, thé vert, romarin.",
+    quand:"le soir, 1 h après le dîner. En duo avec l'Équilibre Féminin en journée.",
+    profil:"androgénique (ou mixte avec cette composante).",
+    prudence:"déconseillée en grossesse/allaitement ; la réglisse est contre-indiquée en cas d'hypertension, d'hypokaliémie ou de corticoïdes — demande l'avis de ton médecin." },
+  { nom:"Stabilitea", em:"⚡", role:"Profil métabolique", couleur:"#CB9A79",
+    soutient:"aide à soutenir une glycémie plus stable et la sensibilité à l'insuline (fringales de 15h, coup de barre après les repas).",
+    plantes:"eucalyptus, cannelle de Ceylan, gingembre, feuilles de mûrier, menthe douce.",
+    quand:"après les repas principaux, 1 à 2 tasses/jour.",
+    profil:"métabolique (ou mixte avec cette composante).",
+    prudence:"diabète traité, grossesse, anticoagulants : demande l'avis de ton médecin (cannelle)." },
+  { nom:"Serenitea", em:"🌾", role:"Stress, cortisol, sommeil", couleur:"#9FB3C9",
+    soutient:"accompagne l'axe stress-cortisol : le stress chronique peut aggraver l'insulinorésistance et stimuler les surrénales. Aide à l'endormissement et à un sommeil plus réparateur.",
+    plantes:"ashwagandha, passiflore, aubépine, elsholtzia, coquelicot des champs.",
+    quand:"le soir, 30 à 45 min avant le coucher, comme un rituel.",
+    profil:"inflammatoire et mixte, ou dès que le SMOP réagit fortement au stress.",
+    prudence:"déconseillée en grossesse (ashwagandha) ; hypothyroïdie traitée, sédatifs/anxiolytiques : demande l'avis de ton médecin." },
+  { nom:"Inflamma Tea", em:"🔥", role:"Profil inflammatoire", couleur:"#CB7E6B",
+    soutient:"accompagne la réponse inflammatoire de bas grade — ce « feu silencieux » qui épuise et peut perturber l'ovulation.",
+    plantes:"curcuma, gingembre, menthe poivrée, ortie, églantier.",
+    quand:"en milieu de journée, entre les repas.",
+    profil:"inflammatoire (ou mixte avec cette composante).",
+    prudence:"grossesse, anticoagulants, calculs biliaires (curcuma) : demande l'avis de ton médecin ; allergie aux Astéracées." },
+  { nom:"FertiliTea — Pack 3 mois", em:"🤍", role:"Accompagnement fertilité", couleur:"#D4A5A5",
+    soutient:"accompagne la préparation à la conception sur un cycle complet, en approche phasée (une infusion par phase). N'est pas un traitement de fertilité.",
+    plantes:"3 infusions (folliculaire, ovulatoire, lutéale) + e-book d'accompagnement.",
+    quand:"selon les phases du cycle, sur 3 mois.",
+    profil:"préparation grossesse, cycles irréguliers — toujours en parallèle d'un suivi médical.",
+    prudence:"à arrêter dès confirmation de grossesse ; traitement de fertilité en cours : demande l'avis de ton médecin. On ne promet jamais de résultat sur la fertilité." },
+];
+
 // ── RESSOURCES : rangées en familles (navigation à 2 niveaux) ───────────────
 const OUTIL_CATS = {
   alimentation: { label:"Mon alimentation", em:"🍽️", dotBg:"#F6ECE2", hero:"de quoi manger pour ton SMOP sans te prendre la tête — on planifie, on pioche, on cuisine.",
@@ -3168,6 +3214,7 @@ export default function App() {
   const [outilOpen, setOutilOpen] = useState(null);
   const [outilCat, setOutilCat] = useState(null);
   const [mouvOpen, setMouvOpen] = useState(null);
+  const [tisaneOpen, setTisaneOpen] = useState(null);
   const [recFiltreMoment, setRecFiltreMoment] = useState("tous");
   const [recFiltreTag, setRecFiltreTag] = useState("tous");
   const [recetteFiche, setRecetteFiche] = useState(null);
@@ -4914,8 +4961,44 @@ export default function App() {
             {/* OUTIL : COMPLÉMENTS */}
             {outilOpen==="complements"&&(
               <div className="fu">
+                {/* ── TES TISANES SOPK LIFE ── */}
+                <div style={{fontSize:10,letterSpacing:1.5,textTransform:"uppercase",color:C.terra,fontWeight:700,marginBottom:4}}>Mes tisanes SOPK Life</div>
+                <div style={{fontSize:11,color:C.mid,lineHeight:1.6,marginBottom:12}}>des compléments à base de plantes qui accompagnent ton terrain — elles ne remplacent pas un suivi médical. la séquence : Détox, puis Équilibre Féminin, puis ta tisane de profil.</div>
+                {TISANES.map((t,i)=>{
+                  const open=tisaneOpen===t.nom;
+                  return(
+                    <div key={i} style={{background:C.white,border:`1.5px solid ${open?t.couleur:C.border}`,borderRadius:14,marginBottom:9,overflow:"hidden"}}>
+                      <button onClick={()=>setTisaneOpen(open?null:t.nom)}
+                        style={{width:"100%",display:"flex",alignItems:"center",gap:11,padding:"12px 13px",background:"none",border:"none",cursor:"pointer",fontFamily:"inherit",textAlign:"left"}}>
+                        <div style={{width:38,height:38,borderRadius:11,background:`${t.couleur}22`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:17,flexShrink:0}}>{t.em}</div>
+                        <div style={{flex:1}}>
+                          <div style={{fontSize:12.5,fontWeight:700,color:C.brown}}>{t.nom}</div>
+                          <div style={{fontSize:9.5,color:C.light,marginTop:1}}>{t.role}</div>
+                        </div>
+                        <div style={{fontSize:15,color:C.light,transform:open?"rotate(90deg)":"none",transition:"transform .2s"}}>›</div>
+                      </button>
+                      {open&&(
+                        <div style={{padding:"0 13px 13px"}}>
+                          <div style={{fontSize:11,color:C.mid,lineHeight:1.6,marginBottom:10}}>{t.soutient}</div>
+                          {[["Plantes",t.plantes],["Quand la boire",t.quand],["Pour qui",t.profil]].map(([k,v],j)=>(
+                            <div key={j} style={{marginBottom:8}}>
+                              <div style={{fontSize:8.5,letterSpacing:1,textTransform:"uppercase",color:t.couleur,fontWeight:700,marginBottom:2}}>{k}</div>
+                              <div style={{fontSize:10.5,color:C.brown,lineHeight:1.5}}>{v}</div>
+                            </div>
+                          ))}
+                          <div style={{background:"#FEF9E7",borderRadius:9,padding:"8px 10px",marginTop:4}}>
+                            <div style={{fontSize:9.5,color:"#8A6D2A",lineHeight:1.55}}><b>Précautions</b> — {t.prudence}</div>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+
+                <div style={{height:1,background:C.border,margin:"16px 0"}}/>
+                <div style={{fontSize:10,letterSpacing:1.5,textTransform:"uppercase",color:C.terra,fontWeight:700,marginBottom:4}}>Les compléments utiles</div>
                 <div style={{background:C.bubble,borderRadius:12,padding:"12px 14px",marginBottom:14,fontSize:11,color:C.mid,lineHeight:1.6,border:`1px solid ${C.border}`}}>
-                  les compléments adaptés à ton profil ({pc.label}). dosage, timing, et délai d'action.
+                  les compléments adaptés à ton profil ({pc.label}). dosage, timing, et délai d'action — à valider avec ton médecin.
                 </div>
                 {COMPLEMENTS.filter(c=>c.pour.includes(profil)).map((c,i)=>(
                   <div key={i} style={{background:C.white,borderRadius:14,padding:"13px",marginBottom:8,border:`1px solid ${C.border}`}}>
