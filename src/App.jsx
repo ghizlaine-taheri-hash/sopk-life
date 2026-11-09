@@ -3180,7 +3180,11 @@ export default function App() {
   const [repasPlan, setRepasPlan] = useState(() => load("repasPlan",{}));
   const [planTab, setPlanTab] = useState("semaine"); // semaine / idees / courses
   const [planPicker, setPlanPicker] = useState(null); // {jour, moment} slot à remplir
+  const [planCustom, setPlanCustom] = useState(""); // saisie repas libre dans le sélecteur
   const [coursesChecked, setCoursesChecked] = useState({});
+  const [coursesCustom, setCoursesCustom] = useState(() => load("coursesCustom",[])); // articles ajoutés à la main
+  const [coursesRemoved, setCoursesRemoved] = useState(() => load("coursesRemoved",{})); // articles auto retirés
+  const [coursesInput, setCoursesInput] = useState("");
   const [quizAns, setQuizAns] = useState(() => load("quizAns",{}));
   const [quizResult, setQuizResult] = useState(() => load("quizResult",null));
   const [showManualProfils, setShowManualProfils] = useState(false);
@@ -3220,6 +3224,9 @@ export default function App() {
   useEffect(()=>{ save("markers",markers); },[markers]);
   useEffect(()=>{ save("journalQuotidien",journal); },[journal]);
   useEffect(()=>{ save("repasPlan",repasPlan); },[repasPlan]);
+  useEffect(()=>{ save("coursesCustom",coursesCustom); },[coursesCustom]);
+  useEffect(()=>{ save("coursesRemoved",coursesRemoved); },[coursesRemoved]);
+  useEffect(()=>{ try{ window.scrollTo(0,0); }catch(e){} },[tab,outilOpen,outilCat]);
   useEffect(()=>{ save("mesures",mesures); },[mesures]);
   useEffect(()=>{ save("quizAns",quizAns); },[quizAns]);
   useEffect(()=>{ save("quizResult",quizResult); },[quizResult]);
@@ -4567,34 +4574,49 @@ export default function App() {
 
                 {/* COURSES */}
                 {planTab==="courses"&&(()=>{
-                  const items=[]; const seen={};
-                  JOURS.forEach(([jk])=>{ const d=repasPlan[jk]||{}; SLOTS.forEach(([sk])=>{ const nom=d[sk]; if(!nom) return; const r=REPAS.find(x=>x.nom===nom); let ings=[]; if(r&&r.recette&&r.recette.ingredients) ings=r.recette.ingredients; else if(r&&r.compo) ings=r.compo.split("+").map(s=>s.trim()).filter(Boolean); ings.forEach(ing=>{ const key=ing.toLowerCase().replace(/\s+/g," ").trim(); if(!seen[key]){ seen[key]=true; items.push(ing); } }); }); });
-                  if(items.length===0) return(
-                    <div style={{background:C.bubble,borderRadius:14,padding:"1.4rem 1rem",textAlign:"center",border:`1px dashed ${C.border}`}}>
-                      <div style={{fontSize:26,marginBottom:8}}>🛒</div>
-                      <div style={{fontSize:12,color:C.mid,lineHeight:1.6}}>ta liste se remplira toute seule dès que tu auras planifié des repas dans « Ma semaine ».</div>
-                    </div>
-                  );
-                  const nbChecked=items.filter((_,i)=>coursesChecked[items[i].toLowerCase()]).length;
+                  const auto=[]; const seen={};
+                  JOURS.forEach(([jk])=>{ const d=repasPlan[jk]||{}; SLOTS.forEach(([sk])=>{ const nom=d[sk]; if(!nom) return; const r=REPAS.find(x=>x.nom===nom); let ings=[]; if(r&&r.recette&&r.recette.ingredients) ings=r.recette.ingredients; else if(r&&r.compo) ings=r.compo.split("+").map(s=>s.trim()).filter(Boolean); ings.forEach(ing=>{ const key=ing.toLowerCase().replace(/\s+/g," ").trim(); if(!seen[key]){ seen[key]=true; auto.push(ing); } }); }); });
+                  const autoVisible=auto.filter(ing=>!coursesRemoved[ing.toLowerCase()]);
+                  const rows=[...autoVisible.map(ing=>({ing,custom:false})), ...coursesCustom.map(ing=>({ing,custom:true}))];
+                  const nbChecked=rows.filter(r=>coursesChecked[r.ing.toLowerCase()]).length;
+                  const addItem=()=>{ const v=coursesInput.trim(); if(!v) return; if(!coursesCustom.some(x=>x.toLowerCase()===v.toLowerCase())&&!autoVisible.some(x=>x.toLowerCase()===v.toLowerCase())) setCoursesCustom(p=>[...p,v]); setCoursesInput(""); };
                   return(
                     <div>
-                      <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:12}}>
-                        <div style={{fontSize:11,color:C.mid}}>{items.length} ingrédient{items.length>1?"s":""} · {nbChecked} coché{nbChecked>1?"s":""}</div>
-                        <button onClick={()=>setCoursesChecked({})} style={{background:"none",border:`1px solid ${C.border}`,borderRadius:8,padding:"5px 10px",fontSize:10,color:C.mid,cursor:"pointer",fontFamily:"inherit"}}>tout décocher</button>
+                      <div style={{display:"flex",gap:8,marginBottom:12}}>
+                        <input value={coursesInput} onChange={e=>setCoursesInput(e.target.value)} onKeyDown={e=>{ if(e.key==="Enter") addItem(); }} placeholder="ajouter un article à ma liste…"
+                          style={{flex:1,border:`1px solid ${C.border}`,borderRadius:10,padding:"11px",fontSize:12.5,fontFamily:"inherit",color:C.brown,background:C.white,outline:"none"}}/>
+                        <button onClick={addItem} style={{background:pc.p,color:"#fff",border:"none",borderRadius:10,padding:"0 16px",fontFamily:"inherit",fontSize:14,fontWeight:700,cursor:"pointer"}}>+</button>
                       </div>
-                      <div style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:14,padding:"8px 6px"}}>
-                        {items.map((ing,i)=>{
-                          const key=ing.toLowerCase(); const ch=coursesChecked[key];
-                          return(
-                            <button key={i} onClick={()=>setCoursesChecked(p=>({...p,[key]:!p[key]}))}
-                              style={{width:"100%",display:"flex",alignItems:"center",gap:10,padding:"9px 8px",background:"none",border:"none",borderBottom:i<items.length-1?`1px solid ${C.border}`:"none",cursor:"pointer",fontFamily:"inherit",textAlign:"left"}}>
-                              <div style={{width:19,height:19,borderRadius:6,border:`1.5px solid ${ch?C.sage:C.border}`,background:ch?C.sage:"transparent",flexShrink:0,display:"flex",alignItems:"center",justifyContent:"center"}}>{ch&&<span style={{color:"#fff",fontSize:10,fontWeight:700}}>✓</span>}</div>
-                              <span style={{flex:1,fontSize:12,color:ch?C.light:C.brown,textDecoration:ch?"line-through":"none"}}>{ing}</span>
-                            </button>
-                          );
-                        })}
-                      </div>
-                      <div style={{fontSize:9.5,color:C.light,marginTop:10,lineHeight:1.5,textAlign:"center"}}>liste générée depuis tes repas de la semaine — les quantités sont indicatives, à ajuster selon ton foyer.</div>
+
+                      {rows.length===0?(
+                        <div style={{background:C.bubble,borderRadius:14,padding:"1.4rem 1rem",textAlign:"center",border:`1px dashed ${C.border}`}}>
+                          <div style={{fontSize:26,marginBottom:8}}>🛒</div>
+                          <div style={{fontSize:12,color:C.mid,lineHeight:1.6}}>planifie des repas dans « Ma semaine » pour remplir ta liste automatiquement — ou ajoute tes articles à la main ci-dessus.</div>
+                        </div>
+                      ):(
+                        <div>
+                          <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:10}}>
+                            <div style={{fontSize:11,color:C.mid}}>{rows.length} article{rows.length>1?"s":""} · {nbChecked} coché{nbChecked>1?"s":""}</div>
+                            <button onClick={()=>setCoursesChecked({})} style={{background:"none",border:`1px solid ${C.border}`,borderRadius:8,padding:"5px 10px",fontSize:10,color:C.mid,cursor:"pointer",fontFamily:"inherit"}}>tout décocher</button>
+                          </div>
+                          <div style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:14,padding:"4px 6px"}}>
+                            {rows.map((row,i)=>{
+                              const ing=row.ing; const key=ing.toLowerCase(); const ch=coursesChecked[key];
+                              return(
+                                <div key={key+i} style={{display:"flex",alignItems:"center",gap:10,padding:"9px 6px",borderBottom:i<rows.length-1?`1px solid ${C.border}`:"none"}}>
+                                  <button onClick={()=>setCoursesChecked(p=>({...p,[key]:!p[key]}))} aria-label="coché" style={{background:"none",border:"none",cursor:"pointer",padding:0,flexShrink:0}}>
+                                    <div style={{width:19,height:19,borderRadius:6,border:`1.5px solid ${ch?C.sage:C.border}`,background:ch?C.sage:"transparent",display:"flex",alignItems:"center",justifyContent:"center"}}>{ch&&<span style={{color:"#fff",fontSize:10,fontWeight:700}}>✓</span>}</div>
+                                  </button>
+                                  <span style={{flex:1,fontSize:12,color:ch?C.light:C.brown,textDecoration:ch?"line-through":"none"}}>{ing}{row.custom&&<span style={{fontSize:8.5,color:C.terra,marginLeft:6}}>ajouté</span>}</span>
+                                  <button onClick={()=>{ if(row.custom) setCoursesCustom(p=>p.filter(x=>x!==ing)); else setCoursesRemoved(p=>({...p,[key]:true})); }} aria-label="retirer" style={{background:"none",border:"none",color:C.light,fontSize:14,cursor:"pointer",fontFamily:"inherit",padding:"0 4px",flexShrink:0}}>✕</button>
+                                </div>
+                              );
+                            })}
+                          </div>
+                          {Object.keys(coursesRemoved).length>0&&<button onClick={()=>setCoursesRemoved({})} style={{background:"none",border:"none",color:C.light,fontSize:10,cursor:"pointer",fontFamily:"inherit",marginTop:8,textDecoration:"underline"}}>remettre les articles retirés</button>}
+                          <div style={{fontSize:9.5,color:C.light,marginTop:10,lineHeight:1.5,textAlign:"center"}}>liste générée depuis tes repas — retire d'un ✕ ce dont tu n'as pas besoin, ajoute tes articles. les quantités sont indicatives.</div>
+                        </div>
+                      )}
                     </div>
                   );
                 })()}
@@ -4605,8 +4627,22 @@ export default function App() {
                     <div onClick={e=>e.stopPropagation()} style={{background:C.cream,width:"100%",maxWidth:430,borderRadius:"22px 22px 0 0",padding:"1.3rem 1.2rem 1.8rem",maxHeight:"80vh",overflowY:"auto"}}>
                       <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:12}}>
                         <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.15rem",color:C.brown,fontWeight:600}}>{SLOTS.find(s=>s[0]===planPicker.moment)?.[1]} · {JOURS.find(j=>j[0]===planPicker.jour)?.[1]}</div>
-                        <button onClick={()=>setPlanPicker(null)} style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:"50%",width:30,height:30,cursor:"pointer",color:C.mid,fontSize:14,fontFamily:"inherit"}}>✕</button>
+                        <button onClick={()=>{setPlanPicker(null);setPlanCustom("");}} style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:"50%",width:30,height:30,cursor:"pointer",color:C.mid,fontSize:14,fontFamily:"inherit"}}>✕</button>
                       </div>
+
+                      {/* Repas libre */}
+                      <div style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:12,padding:"11px 12px",marginBottom:14}}>
+                        <div style={{fontSize:9,letterSpacing:1,textTransform:"uppercase",color:C.terra,fontWeight:700,marginBottom:8}}>Mon propre repas</div>
+                        <div style={{display:"flex",gap:8}}>
+                          <input value={planCustom} onChange={e=>setPlanCustom(e.target.value)} placeholder="ex: mon petit-déj maison…"
+                            onKeyDown={e=>{ if(e.key==="Enter"&&planCustom.trim()){ setRepasPlan(p=>({...p,[planPicker.jour]:{...(p[planPicker.jour]||{}),[planPicker.moment]:planCustom.trim()}})); setPlanPicker(null); setPlanCustom(""); showToast("repas ajouté"); } }}
+                            style={{flex:1,border:`1px solid ${C.border}`,borderRadius:10,padding:"10px",fontSize:12,fontFamily:"inherit",color:C.brown,background:C.cream,outline:"none"}}/>
+                          <button onClick={()=>{ if(planCustom.trim()){ setRepasPlan(p=>({...p,[planPicker.jour]:{...(p[planPicker.jour]||{}),[planPicker.moment]:planCustom.trim()}})); setPlanPicker(null); setPlanCustom(""); showToast("repas ajouté"); } }}
+                            style={{background:pc.p,color:"#fff",border:"none",borderRadius:10,padding:"0 15px",fontFamily:"inherit",fontSize:12,fontWeight:700,cursor:"pointer"}}>ok</button>
+                        </div>
+                      </div>
+
+                      <div style={{fontSize:9,letterSpacing:1,textTransform:"uppercase",color:C.light,fontWeight:600,marginBottom:9}}>ou pioche une idée</div>
                       {REPAS.filter(r=>r.moment===planPicker.moment).map((r,i)=>(
                         <button key={i} onClick={()=>{ setRepasPlan(p=>({...p,[planPicker.jour]:{...(p[planPicker.jour]||{}),[planPicker.moment]:r.nom}})); setPlanPicker(null); showToast("repas ajouté","ta liste de courses se met à jour."); }}
                           style={{width:"100%",textAlign:"left",background:C.white,border:`1px solid ${C.border}`,borderRadius:12,padding:"11px 12px",marginBottom:8,cursor:"pointer",fontFamily:"inherit"}}>
