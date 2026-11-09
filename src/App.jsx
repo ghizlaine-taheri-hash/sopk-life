@@ -2879,6 +2879,10 @@ const MOUVEMENT = [
     ]},
 ];
 
+// ── PLANIFICATEUR DE REPAS ──────────────────────────────────────────────────
+const JOURS = [["lun","Lundi"],["mar","Mardi"],["mer","Mercredi"],["jeu","Jeudi"],["ven","Vendredi"],["sam","Samedi"],["dim","Dimanche"]];
+const SLOTS = [["matin","Petit-déj"],["midi","Déjeuner"],["soir","Dîner"]];
+
 const callAPI = async (prompt) => {
   const r = await fetch("https://api.anthropic.com/v1/messages",{
     method:"POST",
@@ -3147,6 +3151,10 @@ export default function App() {
   const [searchQ, setSearchQ] = useState("");
   const [repasMoment, setRepasMoment] = useState("matin");
   const [recetteOpen, setRecetteOpen] = useState(null);
+  const [repasPlan, setRepasPlan] = useState(() => load("repasPlan",{}));
+  const [planTab, setPlanTab] = useState("semaine"); // semaine / idees / courses
+  const [planPicker, setPlanPicker] = useState(null); // {jour, moment} slot à remplir
+  const [coursesChecked, setCoursesChecked] = useState({});
   const [quizAns, setQuizAns] = useState(() => load("quizAns",{}));
   const [quizResult, setQuizResult] = useState(() => load("quizResult",null));
   const [showManualProfils, setShowManualProfils] = useState(false);
@@ -3185,6 +3193,7 @@ export default function App() {
   useEffect(()=>{ setJournalWeek(Math.ceil(day/7)); },[day]);
   useEffect(()=>{ save("markers",markers); },[markers]);
   useEffect(()=>{ save("journalQuotidien",journal); },[journal]);
+  useEffect(()=>{ save("repasPlan",repasPlan); },[repasPlan]);
   useEffect(()=>{ save("mesures",mesures); },[mesures]);
   useEffect(()=>{ save("quizAns",quizAns); },[quizAns]);
   useEffect(()=>{ save("quizResult",quizResult); },[quizResult]);
@@ -4416,6 +4425,7 @@ export default function App() {
             {/* Sélecteur d'outil */}
             <div style={{display:"flex",gap:6,marginBottom:14,overflowX:"auto",paddingBottom:2}}>
               {[
+                {id:"planif",label:"🗓️ Planifier"},
                 {id:"aliments",label:"🍽️ Aliments"},
                 {id:"repas",label:"🍲 Idées repas"},
                 {id:"recettes",label:"📖 Recettes"},
@@ -4434,6 +4444,121 @@ export default function App() {
                 </button>
               ))}
             </div>
+
+            {/* OUTIL : PLANIFICATEUR DE REPAS */}
+            {outilOpen==="planif"&&(
+              <div className="fu">
+                <div style={{display:"flex",gap:6,background:C.bubble,borderRadius:12,padding:4,marginBottom:14}}>
+                  {[["semaine","Ma semaine"],["idees","Idées"],["courses","Mes courses"]].map(([id,l])=>{
+                    const on=planTab===id;
+                    return <button key={id} onClick={()=>setPlanTab(id)}
+                      style={{flex:1,padding:"9px 4px",borderRadius:9,border:"none",cursor:"pointer",fontFamily:"inherit",fontSize:11.5,fontWeight:on?700:500,color:on?C.brown:C.mid,background:on?C.white:"transparent",boxShadow:on?"0 2px 6px rgba(0,0,0,.05)":"none"}}>{l}</button>;
+                  })}
+                </div>
+
+                {/* MA SEMAINE */}
+                {planTab==="semaine"&&(
+                  <div>
+                    <div style={{fontSize:11,color:C.mid,lineHeight:1.6,background:C.bubble,borderRadius:11,padding:"10px 12px",marginBottom:14}}>compose ta semaine : touche « + » pour piocher un repas. ta liste de courses se remplit toute seule.</div>
+                    {JOURS.map(([jk,jl])=>{
+                      const d=repasPlan[jk]||{};
+                      return(
+                        <div key={jk} style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:14,padding:"12px 13px",marginBottom:10}}>
+                          <div style={{fontSize:12,fontWeight:700,color:pc.p,marginBottom:9,letterSpacing:.3}}>{jl}</div>
+                          {SLOTS.map(([sk,sl])=>{
+                            const meal=d[sk];
+                            return(
+                              <div key={sk} style={{display:"flex",alignItems:"center",gap:9,marginBottom:sk!=="soir"?8:0}}>
+                                <div style={{width:62,fontSize:9,color:C.light,textTransform:"uppercase",letterSpacing:.5,flexShrink:0}}>{sl}</div>
+                                {meal?(
+                                  <div style={{flex:1,display:"flex",alignItems:"center",gap:6,background:C.bubble,borderRadius:9,padding:"8px 10px"}}>
+                                    <span style={{flex:1,fontSize:11,color:C.brown,lineHeight:1.3}}>{meal}</span>
+                                    <button onClick={()=>setRepasPlan(p=>({...p,[jk]:{...(p[jk]||{}),[sk]:null}}))} aria-label="retirer" style={{background:"none",border:"none",color:C.light,fontSize:13,cursor:"pointer",fontFamily:"inherit",padding:"0 2px",flexShrink:0}}>✕</button>
+                                  </div>
+                                ):(
+                                  <button onClick={()=>setPlanPicker({jour:jk,moment:sk})} style={{flex:1,textAlign:"left",background:"none",border:`1px dashed ${C.border}`,borderRadius:9,padding:"8px 10px",fontSize:11,color:C.light,cursor:"pointer",fontFamily:"inherit"}}>+ ajouter</button>
+                                )}
+                              </div>
+                            );
+                          })}
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+
+                {/* IDÉES */}
+                {planTab==="idees"&&(
+                  <div>
+                    <div style={{fontSize:11,color:C.mid,lineHeight:1.6,background:C.bubble,borderRadius:11,padding:"10px 12px",marginBottom:14}}>de l'inspiration SMOP, classée par moment. pour planifier, va dans « Ma semaine » et touche « + ».</div>
+                    {SLOTS.map(([sk,sl])=>(
+                      <div key={sk} style={{marginBottom:16}}>
+                        <div style={{fontSize:10,letterSpacing:1,textTransform:"uppercase",color:C.light,fontWeight:600,marginBottom:8}}>{sl}</div>
+                        {REPAS.filter(r=>r.moment===sk).map((r,i)=>(
+                          <div key={i} style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:12,padding:"10px 12px",marginBottom:7}}>
+                            <div style={{fontSize:12,fontWeight:600,color:C.brown}}>{r.nom}</div>
+                            <div style={{fontSize:10,color:C.mid,marginTop:2,lineHeight:1.5}}>{r.compo}</div>
+                          </div>
+                        ))}
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {/* COURSES */}
+                {planTab==="courses"&&(()=>{
+                  const items=[]; const seen={};
+                  JOURS.forEach(([jk])=>{ const d=repasPlan[jk]||{}; SLOTS.forEach(([sk])=>{ const nom=d[sk]; if(!nom) return; const r=REPAS.find(x=>x.nom===nom); let ings=[]; if(r&&r.recette&&r.recette.ingredients) ings=r.recette.ingredients; else if(r&&r.compo) ings=r.compo.split("+").map(s=>s.trim()).filter(Boolean); ings.forEach(ing=>{ const key=ing.toLowerCase().replace(/\s+/g," ").trim(); if(!seen[key]){ seen[key]=true; items.push(ing); } }); }); });
+                  if(items.length===0) return(
+                    <div style={{background:C.bubble,borderRadius:14,padding:"1.4rem 1rem",textAlign:"center",border:`1px dashed ${C.border}`}}>
+                      <div style={{fontSize:26,marginBottom:8}}>🛒</div>
+                      <div style={{fontSize:12,color:C.mid,lineHeight:1.6}}>ta liste se remplira toute seule dès que tu auras planifié des repas dans « Ma semaine ».</div>
+                    </div>
+                  );
+                  const nbChecked=items.filter((_,i)=>coursesChecked[items[i].toLowerCase()]).length;
+                  return(
+                    <div>
+                      <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:12}}>
+                        <div style={{fontSize:11,color:C.mid}}>{items.length} ingrédient{items.length>1?"s":""} · {nbChecked} coché{nbChecked>1?"s":""}</div>
+                        <button onClick={()=>setCoursesChecked({})} style={{background:"none",border:`1px solid ${C.border}`,borderRadius:8,padding:"5px 10px",fontSize:10,color:C.mid,cursor:"pointer",fontFamily:"inherit"}}>tout décocher</button>
+                      </div>
+                      <div style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:14,padding:"8px 6px"}}>
+                        {items.map((ing,i)=>{
+                          const key=ing.toLowerCase(); const ch=coursesChecked[key];
+                          return(
+                            <button key={i} onClick={()=>setCoursesChecked(p=>({...p,[key]:!p[key]}))}
+                              style={{width:"100%",display:"flex",alignItems:"center",gap:10,padding:"9px 8px",background:"none",border:"none",borderBottom:i<items.length-1?`1px solid ${C.border}`:"none",cursor:"pointer",fontFamily:"inherit",textAlign:"left"}}>
+                              <div style={{width:19,height:19,borderRadius:6,border:`1.5px solid ${ch?C.sage:C.border}`,background:ch?C.sage:"transparent",flexShrink:0,display:"flex",alignItems:"center",justifyContent:"center"}}>{ch&&<span style={{color:"#fff",fontSize:10,fontWeight:700}}>✓</span>}</div>
+                              <span style={{flex:1,fontSize:12,color:ch?C.light:C.brown,textDecoration:ch?"line-through":"none"}}>{ing}</span>
+                            </button>
+                          );
+                        })}
+                      </div>
+                      <div style={{fontSize:9.5,color:C.light,marginTop:10,lineHeight:1.5,textAlign:"center"}}>liste générée depuis tes repas de la semaine — les quantités sont indicatives, à ajuster selon ton foyer.</div>
+                    </div>
+                  );
+                })()}
+
+                {/* SÉLECTEUR DE REPAS (overlay) */}
+                {planPicker&&(
+                  <div onClick={()=>setPlanPicker(null)} style={{position:"fixed",inset:0,zIndex:310,background:"rgba(58,42,32,.45)",display:"flex",alignItems:"flex-end",justifyContent:"center"}}>
+                    <div onClick={e=>e.stopPropagation()} style={{background:C.cream,width:"100%",maxWidth:430,borderRadius:"22px 22px 0 0",padding:"1.3rem 1.2rem 1.8rem",maxHeight:"80vh",overflowY:"auto"}}>
+                      <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:12}}>
+                        <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.15rem",color:C.brown,fontWeight:600}}>{SLOTS.find(s=>s[0]===planPicker.moment)?.[1]} · {JOURS.find(j=>j[0]===planPicker.jour)?.[1]}</div>
+                        <button onClick={()=>setPlanPicker(null)} style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:"50%",width:30,height:30,cursor:"pointer",color:C.mid,fontSize:14,fontFamily:"inherit"}}>✕</button>
+                      </div>
+                      {REPAS.filter(r=>r.moment===planPicker.moment).map((r,i)=>(
+                        <button key={i} onClick={()=>{ setRepasPlan(p=>({...p,[planPicker.jour]:{...(p[planPicker.jour]||{}),[planPicker.moment]:r.nom}})); setPlanPicker(null); showToast("repas ajouté","ta liste de courses se met à jour."); }}
+                          style={{width:"100%",textAlign:"left",background:C.white,border:`1px solid ${C.border}`,borderRadius:12,padding:"11px 12px",marginBottom:8,cursor:"pointer",fontFamily:"inherit"}}>
+                          <div style={{fontSize:12.5,fontWeight:600,color:C.brown}}>{r.nom}</div>
+                          <div style={{fontSize:10,color:C.mid,marginTop:2,lineHeight:1.5}}>{r.compo}</div>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
 
             {/* OUTIL : RECHERCHE D'ALIMENTS */}
             {outilOpen==="aliments"&&(
