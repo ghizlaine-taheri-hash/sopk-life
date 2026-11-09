@@ -4189,46 +4189,7 @@ export default function App() {
         {/* ── KAMILA ── */}
         {tab==="kamila"&&(
           <div className="fu">
-            {/* CARTE ENTRÉE PARCOURS FATIGUE */}
-            <button onClick={()=>{setFatigueOpen(true);setFatigueStep(0);}}
-              style={{width:"100%",textAlign:"left",border:"none",cursor:"pointer",fontFamily:"inherit",
-              background:"linear-gradient(135deg,#7A5C45,#5E4636)",borderRadius:16,padding:"15px 16px",marginBottom:14,
-              display:"flex",alignItems:"center",gap:13,boxShadow:"0 6px 20px rgba(122,92,69,0.3)"}}>
-              <span style={{fontSize:30,flexShrink:0}}>😴</span>
-              <span style={{flex:1}}>
-                <span style={{display:"block",fontSize:14,fontWeight:700,color:"white",marginBottom:2}}>Épuisée ? Commence ici.</span>
-                <span style={{display:"block",fontSize:11,color:"#E8DDD5",lineHeight:1.4}}>le parcours complet pour comprendre et retrouver ton énergie</span>
-              </span>
-              <span style={{fontSize:18,color:"#E8DDD5",flexShrink:0}}>→</span>
-            </button>
-
-            {/* Compteur de progression */}
-            <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:8}}>
-              <div style={{fontSize:12,fontWeight:700,color:C.brown}}>Jour {day} <span style={{color:C.light,fontWeight:500}}>· {day<=30?"Fondation":"au long cours"}</span></div>
-              <div style={{fontSize:10,color:C.light}}>{Object.values(checked).filter(Boolean).length} missions accomplies</div>
-            </div>
-            {/* Barre de progression */}
-            <div style={{height:6,background:C.border,borderRadius:99,marginBottom:12,overflow:"hidden"}}>
-              <div style={{height:"100%",width:`${Math.min(100,(Object.values(checked).filter(Boolean).length/30)*100)}%`,background:`linear-gradient(90deg,${pc.p},${pc.p}CC)`,borderRadius:99,transition:"width 0.4s"}}/>
-            </div>
-
-            {/* Sélecteur jours */}
-            <div style={{display:"flex",alignItems:"center",gap:6,marginBottom:14}}>
-              <button onClick={()=>setDay(d=>Math.max(1,d-1))} disabled={day<=1}
-                style={{flexShrink:0,width:30,height:30,borderRadius:"50%",border:`1.5px solid ${C.border}`,background:C.white,color:day<=1?C.border:pc.p,fontSize:15,cursor:day<=1?"default":"pointer",fontFamily:"inherit",display:"flex",alignItems:"center",justifyContent:"center"}}>{"‹"}</button>
-              <div style={{display:"flex",gap:5,overflowX:"auto",paddingBottom:2,flex:1}}>
-                {Array.from({length:Math.max(30,day+5)},(_,i)=>i+1).slice(Math.max(0,day-4),day+5).map(d=>(
-                  <button key={d} onClick={()=>setDay(d)}
-                    style={{flexShrink:0,width:32,height:32,borderRadius:"50%",border:`2px solid ${d===day?pc.p:checked[d]?pc.p:C.border}`,background:d===day?pc.p:checked[d]?`${pc.p}20`:C.white,color:d===day?"white":C.brown,fontSize:10,fontWeight:500,cursor:"pointer",fontFamily:"inherit"}}>
-                    {checked[d]&&d!==day?"✓":d}
-                  </button>
-                ))}
-              </div>
-              <button onClick={()=>setDay(d=>Math.min(400,d+1))} disabled={day>=400}
-                style={{flexShrink:0,width:30,height:30,borderRadius:"50%",border:`1.5px solid ${day>=400?C.border:pc.p}`,background:day>=400?C.white:pc.p,color:day>=400?C.border:"white",fontSize:15,cursor:day>=400?"default":"pointer",fontFamily:"inherit",display:"flex",alignItems:"center",justifyContent:"center",boxShadow:day>=400?"none":`0 2px 8px ${pc.p}50`}}>{"›"}</button>
-            </div>
-
-            {/* ── TON PARCOURS, FAIT POUR TOI (personnalisation) ── */}
+            {/* ══ 1. TA PRIORITÉ ══ */}
             {(()=>{
               const prios=PRIORITES_PROFIL[profil]||PRIORITES_PROFIL.metabolique;
               const prio1=prios[0];
@@ -4257,42 +4218,7 @@ export default function App() {
               );
             })()}
 
-            {/* ── AUJOURD'HUI TON CORPS ── */}
-            {(()=>{
-              const OPTS=[{k:"basse",l:"Basse",tip:"sois douce avec toi — vise des missions légères, du repos actif, et pas de culpabilité."},{k:"moyenne",l:"Moyenne",tip:"rythme normal, écoute ton corps au fil de la journée."},{k:"haute",l:"Haute",tip:"profites-en pour bouger un peu plus et avancer sur ta mission."}];
-              const sel=OPTS.find(o=>o.k===energie);
-              return(
-              <div style={{background:C.bubble,border:`1px solid ${C.border}`,borderRadius:12,padding:"11px 13px",marginBottom:10}}>
-                <div style={{fontSize:10.5,fontWeight:600,color:C.brown,marginBottom:8,display:"flex",alignItems:"center",gap:6}}><Icon name="bolt" size={13} color={pc.p}/>Comment est ton énergie aujourd'hui ?</div>
-                <div style={{display:"flex",gap:6,marginBottom:sel?9:8}}>
-                  {OPTS.map(o=>(
-                    <button key={o.k} onClick={()=>setEnergie(energie===o.k?null:o.k)}
-                      style={{flex:1,padding:"8px 4px",borderRadius:9,border:`1.5px solid ${energie===o.k?pc.p:C.border}`,background:energie===o.k?`${pc.p}15`:C.white,color:energie===o.k?pc.p:C.mid,fontFamily:"inherit",fontSize:11,fontWeight:600,cursor:"pointer"}}>{o.l}</button>
-                  ))}
-                </div>
-                {sel&&(<div style={{fontSize:10.5,color:C.mid,lineHeight:1.5,marginBottom:9}}>{sel.tip}</div>)}
-                <button onClick={()=>setTab("cycle")}
-                  style={{width:"100%",background:"none",border:`1px solid ${pc.p}`,borderRadius:9,padding:"8px",cursor:"pointer",fontFamily:"inherit",fontSize:10.5,fontWeight:600,color:pc.p,display:"flex",alignItems:"center",justifyContent:"center",gap:6}}>
-                  <Icon name="moon" size={13} color={pc.p}/>suivre mon cycle{regles.length>0?` · dernières règles le ${new Date([...regles].sort().reverse()[0]).toLocaleDateString("fr-FR")}`:""} →
-                </button>
-              </div>
-              );
-            })()}
-
-            {/* Entrée — Je viens d'être diagnostiquée */}
-            {!load("diagSeen",false)&&(
-              <div style={{display:"flex",alignItems:"center",gap:12,background:`${C.mauve}12`,border:`1px solid ${C.mauve}55`,borderRadius:16,padding:"13px 14px",marginBottom:12}}>
-                <button onClick={()=>setTab("diag")} style={{flex:1,display:"flex",alignItems:"center",gap:12,background:"none",border:"none",cursor:"pointer",fontFamily:"inherit",textAlign:"left",padding:0}}>
-                  <div style={{width:40,height:40,borderRadius:12,background:C.mauve,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><Icon name="heart" size={18} color="#fff"/></div>
-                  <div style={{flex:1}}>
-                    <div style={{fontSize:12.5,fontWeight:700,color:C.brown}}>Tu viens d'être diagnostiquée ?</div>
-                    <div style={{fontSize:10,color:C.mid,marginTop:1,lineHeight:1.4}}>commence ici — l'explication et l'accompagnement qu'on t'a pas donnés</div>
-                  </div>
-                </button>
-                <button onClick={()=>{ save("diagSeen",true); setJournal(p=>({...p})); showToast&&showToast("c'est noté"); }} aria-label="masquer" style={{background:"none",border:"none",color:C.light,fontSize:14,cursor:"pointer",fontFamily:"inherit",padding:"0 2px",flexShrink:0}}>✕</button>
-              </div>
-            )}
-
+            {/* ══ 2. TON ACTION DU JOUR (la mission) ══ */}
             {/* Mission — hero action du jour */}
             <div style={{background:C.white,borderRadius:20,padding:"1.3rem",marginBottom:12,border:`1.5px solid ${checked[day]?pc.p:C.border}`,transition:"border-color 0.3s",boxShadow:`0 8px 24px ${pc.p}14`}}>
               <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:12}}>
@@ -4404,19 +4330,6 @@ export default function App() {
               {checked[day]&&<div style={{marginTop:12,fontSize:11,color:pc.p,fontWeight:500,textAlign:"center",padding:"8px",background:`${pc.p}08`,borderRadius:8}}>✓ {todayData.victoire}</div>}
             </div>
 
-            {/* Message Kamila — compact, sous la mission */}
-            {todayData.msg&&(
-            <div style={{background:C.bubble,borderRadius:16,padding:"0.95rem 1.05rem",marginBottom:10,border:`1px solid ${C.border}`}}>
-              <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:7}}>
-                <div style={{width:28,height:28,borderRadius:"50%",background:pc.p,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><Icon name="leaf" size={13} color="#fff"/></div>
-                <div style={{fontSize:11,fontWeight:600,color:C.brown}}>Le mot de Kamila</div>
-              </div>
-              <div style={{fontFamily:"'Playfair Display',serif",fontSize:"0.95rem",color:C.mid,lineHeight:1.55,whiteSpace:"pre-line",fontStyle:"italic"}}>
-                {String(todayData.msg).replace(/\n{2,}/g,"\n")}
-              </div>
-            </div>
-            )}
-
             {/* Lien vers un outil */}
             {todayData.outil&&(
               <button onClick={()=>{setTab("outils");setOutilOpen(todayData.outil.cible);if(todayData.outil.recherche!==undefined)setFoodSearch(todayData.outil.recherche);if(todayData.outil.cible==="repas"&&todayData.outil.moment)setRepasMoment(todayData.outil.moment);}}
@@ -4442,6 +4355,82 @@ export default function App() {
                   Commander {todayData.tisane.nom} →
                 </a>
               </div>
+            )}
+
+            {/* ══ 3. TON ÉNERGIE (facultatif) ══ */}
+            {(()=>{
+              const OPTS=[{k:"basse",l:"Basse",tip:"sois douce avec toi — vise des missions légères, du repos actif, et pas de culpabilité."},{k:"moyenne",l:"Moyenne",tip:"rythme normal, écoute ton corps au fil de la journée."},{k:"haute",l:"Haute",tip:"profites-en pour bouger un peu plus et avancer sur ta mission."}];
+              const sel=OPTS.find(o=>o.k===energie);
+              return(
+              <div style={{background:C.bubble,border:`1px solid ${C.border}`,borderRadius:12,padding:"11px 13px",marginBottom:10}}>
+                <div style={{fontSize:10.5,fontWeight:600,color:C.brown,marginBottom:8,display:"flex",alignItems:"center",gap:6}}><Icon name="bolt" size={13} color={pc.p}/>Ton énergie aujourd'hui <span style={{fontSize:9,color:C.light,fontWeight:500,textTransform:"none"}}>· facultatif</span></div>
+                <div style={{display:"flex",gap:6,marginBottom:sel?9:0}}>
+                  {OPTS.map(o=>(
+                    <button key={o.k} onClick={()=>setEnergie(energie===o.k?null:o.k)}
+                      style={{flex:1,padding:"8px 4px",borderRadius:9,border:`1.5px solid ${energie===o.k?pc.p:C.border}`,background:energie===o.k?`${pc.p}15`:C.white,color:energie===o.k?pc.p:C.mid,fontFamily:"inherit",fontSize:11,fontWeight:600,cursor:"pointer"}}>{o.l}</button>
+                  ))}
+                </div>
+                {sel&&(<div style={{fontSize:10.5,color:C.mid,lineHeight:1.5}}>{sel.tip}</div>)}
+              </div>
+              );
+            })()}
+
+            {/* ══ 4. TON AVANCÉE DANS LE PARCOURS ══ */}
+            <div style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:12,padding:"11px 13px",marginBottom:10}}>
+              <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:8}}>
+                <div style={{fontSize:11.5,fontWeight:700,color:C.brown}}>Jour {day} <span style={{color:C.light,fontWeight:500,fontSize:10}}>· {day<=30?"Fondation":"au long cours"}</span></div>
+                <div style={{fontSize:9.5,color:C.light}}>{Object.values(checked).filter(Boolean).length} missions accomplies</div>
+              </div>
+              <div style={{height:6,background:C.bubble,borderRadius:99,marginBottom:11,overflow:"hidden"}}>
+                <div style={{height:"100%",width:`${Math.min(100,(Object.values(checked).filter(Boolean).length/30)*100)}%`,background:`linear-gradient(90deg,${pc.p},${pc.p}CC)`,borderRadius:99,transition:"width 0.4s"}}/>
+              </div>
+              <div style={{display:"flex",alignItems:"center",gap:6}}>
+                <button onClick={()=>setDay(d=>Math.max(1,d-1))} disabled={day<=1}
+                  style={{flexShrink:0,width:28,height:28,borderRadius:"50%",border:`1.5px solid ${C.border}`,background:C.cream,color:day<=1?C.border:pc.p,fontSize:14,cursor:day<=1?"default":"pointer",fontFamily:"inherit",display:"flex",alignItems:"center",justifyContent:"center"}}>{"‹"}</button>
+                <div style={{display:"flex",gap:5,overflowX:"auto",paddingBottom:2,flex:1}}>
+                  {Array.from({length:Math.max(30,day+5)},(_,i)=>i+1).slice(Math.max(0,day-4),day+5).map(d=>(
+                    <button key={d} onClick={()=>setDay(d)}
+                      style={{flexShrink:0,width:30,height:30,borderRadius:"50%",border:`2px solid ${d===day?pc.p:checked[d]?pc.p:C.border}`,background:d===day?pc.p:checked[d]?`${pc.p}20`:C.white,color:d===day?"white":C.brown,fontSize:10,fontWeight:500,cursor:"pointer",fontFamily:"inherit"}}>
+                      {checked[d]&&d!==day?"✓":d}
+                    </button>
+                  ))}
+                </div>
+                <button onClick={()=>setDay(d=>Math.min(400,d+1))} disabled={day>=400}
+                  style={{flexShrink:0,width:28,height:28,borderRadius:"50%",border:`1.5px solid ${day>=400?C.border:pc.p}`,background:day>=400?C.white:pc.p,color:day>=400?C.border:"white",fontSize:14,cursor:day>=400?"default":"pointer",fontFamily:"inherit",display:"flex",alignItems:"center",justifyContent:"center"}}>{"›"}</button>
+              </div>
+            </div>
+
+            {/* ══ 5. ACCÈS RAPIDE AU SUIVI ══ */}
+            <button onClick={()=>setTab("suivi")}
+              style={{width:"100%",display:"flex",alignItems:"center",gap:11,background:C.bubble,border:`1px solid ${C.border}`,borderRadius:13,padding:"12px 13px",marginBottom:10,cursor:"pointer",fontFamily:"inherit",textAlign:"left"}}>
+              <div style={{width:34,height:34,borderRadius:10,background:C.white,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><Icon name="chart" size={16} color={pc.p}/></div>
+              <div style={{flex:1}}>
+                <div style={{fontSize:12.5,fontWeight:700,color:C.brown}}>Mon suivi du jour</div>
+                <div style={{fontSize:9.5,color:C.light}}>humeur, symptômes, cycle, journal</div>
+              </div>
+              <div style={{fontSize:14,color:C.light}}>›</div>
+            </button>
+
+            {/* Accès discret — mode petite énergie */}
+            <button onClick={()=>{setFatigueOpen(true);setFatigueStep(0);}}
+              style={{width:"100%",background:"none",border:"none",cursor:"pointer",fontFamily:"inherit",textAlign:"center",padding:"6px",marginBottom:14,fontSize:11,color:C.mid}}>
+              aujourd'hui, tu manques d'énergie ? <span style={{color:C.terra,fontWeight:700}}>Adapter ma journée →</span>
+            </button>
+
+            {/* ── À RETROUVER QUAND TU VEUX ── */}
+            <div style={{fontSize:8.5,letterSpacing:1.5,textTransform:"uppercase",color:C.light,fontWeight:700,marginBottom:9}}>à retrouver quand tu veux</div>
+
+            {/* Message Kamila — compact */}
+            {todayData.msg&&(
+            <div style={{background:C.bubble,borderRadius:16,padding:"0.95rem 1.05rem",marginBottom:10,border:`1px solid ${C.border}`}}>
+              <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:7}}>
+                <div style={{width:28,height:28,borderRadius:"50%",background:pc.p,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><Icon name="leaf" size={13} color="#fff"/></div>
+                <div style={{fontSize:11,fontWeight:600,color:C.brown}}>Le mot de Kamila</div>
+              </div>
+              <div style={{fontFamily:"'Playfair Display',serif",fontSize:"0.95rem",color:C.mid,lineHeight:1.55,whiteSpace:"pre-line",fontStyle:"italic"}}>
+                {String(todayData.msg).replace(/\n{2,}/g,"\n")}
+              </div>
+            </div>
             )}
 
             {/* Vocaux Kamila — repliable */}
@@ -4517,17 +4506,13 @@ export default function App() {
               })()}
             </div>
 
-            {/* Navigation */}
-            <div style={{display:"flex",gap:8}}>
-              <button onClick={()=>setDay(d=>Math.max(1,d-1))} disabled={day<=1}
-                style={{flex:1,padding:"9px",border:`1.5px solid ${C.border}`,borderRadius:12,background:C.white,fontFamily:"inherit",fontSize:11,color:day<=1?C.light:C.mid,cursor:day<=1?"not-allowed":"pointer"}}>
-                ← précédent
+            {/* Entrée diagnostic — discrète */}
+            {!load("diagSeen",false)&&(
+              <button onClick={()=>setTab("diag")} style={{width:"100%",display:"flex",alignItems:"center",gap:9,background:"none",border:`1px dashed ${C.mauve}66`,borderRadius:12,padding:"11px 13px",cursor:"pointer",fontFamily:"inherit",textAlign:"left"}}>
+                <Icon name="heart" size={14} color={C.mauve}/>
+                <span style={{flex:1,fontSize:11,color:C.mid,lineHeight:1.4}}>tu viens d'être diagnostiquée ? <span style={{color:C.mauve,fontWeight:700}}>commence ici →</span></span>
               </button>
-              <button onClick={()=>setDay(d=>Math.min(400,d+1))} disabled={day>=400}
-                style={{flex:1,padding:"9px",border:`1.5px solid ${checked[day]?pc.p:C.border}`,borderRadius:12,background:checked[day]?`${pc.p}10`:C.white,fontFamily:"inherit",fontSize:11,color:day>=400?C.light:pc.p,cursor:day>=400?"not-allowed":"pointer",fontWeight:500}}>
-                suivant →
-              </button>
-            </div>
+            )}
           </div>
         )}
 
