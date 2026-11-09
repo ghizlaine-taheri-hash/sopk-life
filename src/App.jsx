@@ -3076,7 +3076,8 @@ export default function App() {
   const [journalWeek, setJournalWeek] = useState(() => load("journalWeek",1));
   const [toast, setToast] = useState(null);
   const [mindsetOpen, setMindsetOpen] = useState(null);
-  useEffect(()=>{ setMindsetOpen(null); }, [day]); // l'humeur du jour se réinitialise quand on change de jour
+  const [missionOpen, setMissionOpen] = useState(false); // détail de la mission replié par défaut
+  useEffect(()=>{ setMindsetOpen(null); setMissionOpen(false); }, [day]); // se réinitialise quand on change de jour
   const prevDayRef = useRef(day);
   useEffect(()=>{ if(prevDayRef.current!==day){ setEnergie(null); prevDayRef.current=day; } }, [day]); // l'énergie se vide quand on change de jour (gardée au rechargement du même jour)
 
@@ -4285,6 +4286,14 @@ export default function App() {
                 </button>
               </div>
 
+              {/* DÉCOUVRIR — déplie le détail (compact par défaut) */}
+              {!missionOpen && (
+                <button onClick={()=>setMissionOpen(true)}
+                  style={{width:"100%",marginBottom:8,padding:"12px",borderRadius:12,border:"none",background:pc.p,color:"#fff",fontFamily:"inherit",fontSize:13,fontWeight:700,cursor:"pointer"}}>
+                  Découvrir ma mission →
+                </button>
+              )}
+
               {/* BOUTON VALIDER — bien visible */}
               <button onClick={()=>{
                   const wasChecked=checked[day];
@@ -4302,6 +4311,7 @@ export default function App() {
                 {checked[day]?"✓ Mission validée — bravo !":"Valider ma mission du jour"}
               </button>
 
+              {missionOpen && (<>
               {/* POURQUOI */}
               <div style={{marginTop:10}}>
                 <div style={{fontSize:9,letterSpacing:1,textTransform:"uppercase",color:pc.p,fontWeight:600,marginBottom:4}}>💡 pourquoi — ce qui se passe dans ton corps</div>
@@ -4366,6 +4376,8 @@ export default function App() {
                 </div>
               )}
 
+              <button onClick={()=>setMissionOpen(false)} style={{width:"100%",marginTop:12,background:"none",border:"none",color:C.light,fontFamily:"inherit",fontSize:11,cursor:"pointer",textDecoration:"underline"}}>replier ↑</button>
+              </>)}
               {checked[day]&&<div style={{marginTop:12,fontSize:11,color:pc.p,fontWeight:500,textAlign:"center",padding:"8px",background:`${pc.p}08`,borderRadius:8}}>✓ {todayData.victoire}</div>}
             </div>
 
