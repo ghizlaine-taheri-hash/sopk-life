@@ -2961,6 +2961,7 @@ const OUTIL_CATS = {
     tools:[ {id:"complements", em:"🌿", nm:"Compléments & tisanes", td:"ce qui peut t'aider, et comment"} ]},
   comprendre: { label:"Comprendre mon SMOP", em:"🎓", dotBg:"#F2EEF6", hero:"le pourquoi des choses, en clair — pour avancer en confiance.",
     tools:[
+      {id:"diag", em:"🤍", nm:"Je viens d'être diagnostiquée", td:"l'accueil qu'on t'a pas donné", goTab:"diag"},
       {id:"comprendre", em:"🎓", nm:"Comprendre", td:"les mécanismes, expliqués simplement"},
       {id:"fiches", em:"📚", nm:"Fiches SMOP", td:"les repères essentiels à garder"},
     ]},
@@ -4245,6 +4246,20 @@ export default function App() {
               );
             })()}
 
+            {/* Entrée — Je viens d'être diagnostiquée */}
+            {!load("diagSeen",false)&&(
+              <div style={{display:"flex",alignItems:"center",gap:12,background:`${C.mauve}12`,border:`1px solid ${C.mauve}55`,borderRadius:16,padding:"13px 14px",marginBottom:12}}>
+                <button onClick={()=>setTab("diag")} style={{flex:1,display:"flex",alignItems:"center",gap:12,background:"none",border:"none",cursor:"pointer",fontFamily:"inherit",textAlign:"left",padding:0}}>
+                  <div style={{width:40,height:40,borderRadius:12,background:C.mauve,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><Icon name="heart" size={18} color="#fff"/></div>
+                  <div style={{flex:1}}>
+                    <div style={{fontSize:12.5,fontWeight:700,color:C.brown}}>Tu viens d'être diagnostiquée ?</div>
+                    <div style={{fontSize:10,color:C.mid,marginTop:1,lineHeight:1.4}}>commence ici — l'explication et l'accompagnement qu'on t'a pas donnés</div>
+                  </div>
+                </button>
+                <button onClick={()=>{ save("diagSeen",true); setJournal(p=>({...p})); showToast&&showToast("c'est noté"); }} aria-label="masquer" style={{background:"none",border:"none",color:C.light,fontSize:14,cursor:"pointer",fontFamily:"inherit",padding:"0 2px",flexShrink:0}}>✕</button>
+              </div>
+            )}
+
             {/* Mission — hero action du jour */}
             <div style={{background:C.white,borderRadius:20,padding:"1.3rem",marginBottom:12,border:`1.5px solid ${checked[day]?pc.p:C.border}`,transition:"border-color 0.3s",boxShadow:`0 8px 24px ${pc.p}14`}}>
               <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:12}}>
@@ -4556,7 +4571,7 @@ export default function App() {
                     <div style={{fontSize:10.5,opacity:.95,marginTop:5,lineHeight:1.5}}>{cat.hero}</div>
                   </div>
                   {cat.tools.map(t=>(
-                    <button key={t.id} onClick={()=>setOutilOpen(t.id)}
+                    <button key={t.id} onClick={()=>{ if(t.goTab) setTab(t.goTab); else setOutilOpen(t.id); }}
                       style={{width:"100%",display:"flex",alignItems:"center",gap:12,background:C.white,border:`1px solid ${C.border}`,borderRadius:13,padding:"13px 14px",marginBottom:9,cursor:"pointer",fontFamily:"inherit",textAlign:"left"}}>
                       <div style={{width:36,height:36,borderRadius:10,background:C.mauveSoft,display:"flex",alignItems:"center",justifyContent:"center",fontSize:16,flexShrink:0}}>{t.em}</div>
                       <div style={{flex:1}}>
@@ -5930,6 +5945,77 @@ profil · 3 priorités · analyses à demander · ton suivi & tes tendances · s
                 style={{width:"100%",background:pc.p,border:"none",padding:"10px",borderRadius:10,color:"white",fontFamily:"inherit",fontSize:11,fontWeight:600,cursor:"pointer"}}>
                 Générer mon dossier PDF →
               </button>
+            </div>
+          </div>
+        )}
+
+        {/* ── JE VIENS D'ÊTRE DIAGNOSTIQUÉE ── */}
+        {tab==="diag"&&(
+          <div className="fu">
+            <button onClick={()=>setTab("kamila")} style={{display:"flex",alignItems:"center",gap:6,background:"none",border:"none",cursor:"pointer",fontFamily:"inherit",color:C.mid,fontSize:12,fontWeight:600,padding:"2px 0",marginBottom:12}}>
+              <Icon name="arrowL" size={16} color={C.mid}/> retour · Accueil
+            </button>
+
+            <div style={{background:`linear-gradient(135deg,${C.mauve},#8B7BA0)`,borderRadius:18,padding:"22px 20px",color:"#fff",marginBottom:18}}>
+              <div style={{fontSize:9,letterSpacing:2,textTransform:"uppercase",opacity:.8,marginBottom:6}}>Tu viens d'être diagnostiquée</div>
+              <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.5rem",fontWeight:600,lineHeight:1.25,marginBottom:8}}>Souffle. Tu es au bon endroit.</div>
+              <div style={{fontSize:12,opacity:.95,lineHeight:1.6}}>on t'a peut-être lâché un mot et laissée repartir seule. ici, on prend le temps que personne n'a pris avec toi.</div>
+            </div>
+
+            {/* 1 — accueil émotionnel */}
+            <div style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:16,padding:"1rem 1.1rem",marginBottom:12}}>
+              <div style={{fontSize:13.5,fontWeight:700,color:C.brown,marginBottom:7}}>D'abord, respire</div>
+              <div style={{fontSize:12,color:C.mid,lineHeight:1.65}}>c'est normal d'être sous le choc, en colère ou perdue — surtout si on t'a expédiée en deux minutes. ce que tu ressens est légitime. mais retiens une chose : tu n'es pas seule, et ce diagnostic n'est pas une fatalité.</div>
+            </div>
+
+            {/* 2 — l'explication */}
+            <div style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:16,padding:"1rem 1.1rem",marginBottom:12}}>
+              <div style={{fontSize:13.5,fontWeight:700,color:C.brown,marginBottom:7}}>Ce que c'est vraiment</div>
+              <div style={{fontSize:12,color:C.mid,lineHeight:1.65,marginBottom:12}}>le SMOP, ce n'est pas « juste des kystes sur les ovaires ». c'est un déséquilibre hormonal et métabolique — un tout. ta fatigue, tes fringales, ton acné, tes cycles, ton moral : tout est lié, et tout a une explication. comprendre ces liens, c'est déjà reprendre du pouvoir.</div>
+              <button onClick={()=>{ setTab("outils"); setOutilCat("comprendre"); setOutilOpen("comprendre"); }}
+                style={{width:"100%",background:`${C.mauve}15`,color:C.mauve,border:`1px solid ${C.mauve}`,borderRadius:11,padding:"11px",fontFamily:"inherit",fontSize:12,fontWeight:700,cursor:"pointer"}}>Comprendre mon SMOP →</button>
+            </div>
+
+            {/* 3 — l'espoir / démonter les phrases qui blessent */}
+            <div style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:16,padding:"1rem 1.1rem",marginBottom:12}}>
+              <div style={{fontSize:13.5,fontWeight:700,color:C.brown,marginBottom:10}}>Ce qu'on a peut-être oublié de te dire</div>
+              {[
+                {faux:"« vous devrez passer par la PMA »",vrai:"beaucoup de femmes avec un SMOP conçoivent, parfois naturellement. le terrain se travaille."},
+                {faux:"« on vous met sous pilule, point »",vrai:"la pilule peut aider, mais ce n'est pas la seule voie. alimentation, mouvement, stress, plantes : il existe d'autres leviers."},
+                {faux:"« c'est comme ça, vivez avec »",vrai:"non. ton corps répond quand on lui donne le bon terrain. tu as des cartes en main."},
+              ].map((m,i)=>(
+                <div key={i} style={{marginBottom:i<2?12:0,paddingLeft:12,borderLeft:`3px solid ${C.sage}`}}>
+                  <div style={{fontSize:11,color:C.light,fontStyle:"italic",marginBottom:3}}>{m.faux}</div>
+                  <div style={{fontSize:11.5,color:C.brown,lineHeight:1.55,fontWeight:500}}>{m.vrai}</div>
+                </div>
+              ))}
+            </div>
+
+            {/* 4 — premiers pas */}
+            <div style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:16,padding:"1rem 1.1rem",marginBottom:12}}>
+              <div style={{fontSize:13.5,fontWeight:700,color:C.brown,marginBottom:3}}>Par où commencer, sans te noyer</div>
+              <div style={{fontSize:11,color:C.light,marginBottom:12}}>on ne change pas tout d'un coup. trois petits pas, à ton rythme.</div>
+              {[
+                {n:"1",t:"Découvre ton profil",d:"chaque SMOP est différent. ta carte te montre le tien.",go:()=>setTab("carte")},
+                {n:"2",t:"Un geste dans l'assiette",d:"commence par les légumes et les protéines à chaque repas.",go:()=>{ setTab("outils"); setOutilCat("alimentation"); setOutilOpen("assiette"); }},
+                {n:"3",t:"Un geste pour ton stress",d:"le stress nourrit le SMOP. un vrai temps calme chaque jour change déjà les choses.",go:()=>{ setTab("outils"); setOutilCat("comprendre"); setOutilOpen("comprendre"); }},
+              ].map((s,i)=>(
+                <button key={i} onClick={s.go} style={{width:"100%",display:"flex",alignItems:"center",gap:12,background:C.cream,border:`1px solid ${C.border}`,borderRadius:12,padding:"11px 12px",marginBottom:i<2?8:0,cursor:"pointer",fontFamily:"inherit",textAlign:"left"}}>
+                  <div style={{width:26,height:26,borderRadius:"50%",background:C.mauve,color:"#fff",fontSize:12,fontWeight:700,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>{s.n}</div>
+                  <div style={{flex:1}}>
+                    <div style={{fontSize:12.5,fontWeight:600,color:C.brown}}>{s.t}</div>
+                    <div style={{fontSize:10.5,color:C.mid,marginTop:1,lineHeight:1.45}}>{s.d}</div>
+                  </div>
+                  <div style={{fontSize:14,color:C.light}}>›</div>
+                </button>
+              ))}
+            </div>
+
+            {/* 5 — légitimité + CTA */}
+            <div style={{background:`${C.sage}1F`,border:`1px solid ${C.sage}`,borderRadius:16,padding:"1.1rem 1.1rem",marginBottom:4}}>
+              <div style={{fontSize:13.5,fontWeight:700,color:"#4F6038",marginBottom:7}}>Tu es légitime</div>
+              <div style={{fontSize:12,color:"#4F6038",lineHeight:1.65,marginBottom:14}}>tes douleurs, ta fatigue, tes questions sont réelles. tu as le droit de vouloir mieux comprendre et mieux vivre ton corps. ici, tu n'es jamais pressée, jamais jugée. on avance ensemble.</div>
+              <button onClick={()=>setTab("kamila")} style={{width:"100%",background:C.brown,color:"#fff",border:"none",borderRadius:12,padding:"13px",fontFamily:"inherit",fontSize:13,fontWeight:700,cursor:"pointer"}}>Commencer mon chemin</button>
             </div>
           </div>
         )}
