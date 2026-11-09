@@ -5676,9 +5676,13 @@ export default function App() {
               if(cycleDay < ovu-2){ phase="Phase folliculaire"; phaseCol="#B8C5A0"; }
               else if(cycleDay<=ovu+2){ phase="Fenêtre fertile estimée"; phaseCol="#D4A56A"; }
               else if(cycleDay<=typique+3){ phase="Phase lutéale"; phaseCol="#A89AB8"; }
-              else { phase="Cycle qui s'allonge"; phaseCol="#B07D4F"; phaseNote="ton cycle dépasse ta durée habituelle — l'ovulation a pu se décaler, ou ne pas avoir lieu ce mois-ci. c'est fréquent avec un SMOP (SOPK), et ce n'est pas un échec de ton corps."; }
-            } else { phase="Phase folliculaire"; phaseCol="#B8C5A0"; phaseNote="note une 2e période de règles et j'estimerai mieux tes phases."; }
+              else { const r=cycleDay-typique; phase="Règles en retard"; phaseCol="#B07D4F"; phaseNote=`ton cycle dépasse ta durée habituelle de ${r} jour${r>1?"s":""}. l'ovulation a pu se décaler, ou ne pas avoir lieu ce mois-ci — c'est fréquent avec un SMOP (SOPK), et ce n'est pas un échec de ton corps.`; }
+            } else {
+              if(cycleDay>40){ phase="Cycle long"; phaseCol="#B07D4F"; phaseNote="ton cycle s'allonge. avec un SMOP (SOPK), c'est fréquent et ce n'est pas un échec — note une prochaine période de règles et j'affinerai tes repères."; }
+              else { phase="Phase folliculaire"; phaseCol="#B8C5A0"; phaseNote="note une 2e période de règles et j'estimerai mieux tes phases."; }
+            }
           }
+          const longAbsence = !!(cycleDay && cycleDay>=90);
           const nextRange = (last&&gaps.length)? (()=>{ const f=(off)=>{const d=asDate(last);d.setDate(d.getDate()+off);return d.toLocaleDateString("fr-FR",{day:"numeric",month:"short"});}; return minG===maxG? f(minG) : `${f(minG)} – ${f(maxG)}`; })() : null;
           const tresIrregulier = (minG!=null && maxG-minG>20);
           const fmtD=(s)=>asDate(s).toLocaleDateString("fr-FR",{day:"numeric",month:"short",year:"numeric"});
@@ -5697,6 +5701,13 @@ export default function App() {
             ) : (
               <div style={{background:C.white,border:`1px dashed ${C.border}`,borderRadius:16,padding:"24px 18px",textAlign:"center",color:C.light,fontSize:12.5,lineHeight:1.6,marginBottom:14}}>
                 🌙 note le <b style={{color:C.mid}}>1er jour de tes dernières règles</b> pour voir ton jour de cycle et ta phase.
+              </div>
+            )}
+
+            {longAbsence && (
+              <div style={{background:"#FDF0E8",border:"1px solid #F0D5C5",borderRadius:14,padding:"13px 15px",marginBottom:14}}>
+                <div style={{fontSize:12,fontWeight:700,color:"#8A4430",marginBottom:4}}>Pas de règles depuis {cycleDay} jours</div>
+                <div style={{fontSize:11,color:"#A86B55",lineHeight:1.6}}>une absence de plus de 3 mois mérite d'en parler à ton médecin — c'est fréquent avec un SMOP (SOPK) et ça se prend en charge. en attendant, tu n'as rien fait de mal : ton corps t'envoie une information, et tu es en train de l'écouter.</div>
               </div>
             )}
 
