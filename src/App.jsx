@@ -2883,6 +2883,8 @@ const MOUVEMENT = [
 
 // ── BANQUE DE CONNAISSANCES SMOP (contenu original, voix SOPK Life, cadrage prudent) ──
 const SAVOIRS = [
+  { t:"La fatigue qui ne passe pas, même en dormant", em:"🔋", couleur:"#C98B6E",
+    corps:["se réveiller déjà épuisée après une nuit complète, le corps en plomb dès le matin : c'est la plainte numéro un, et ce n'est pas de la paresse. cette fatigue est biologique.","si elle est si tenace, c'est qu'elle n'a pas une seule cause — plusieurs mécanismes du SMOP tirent dessus en même temps : une glycémie en montagnes russes (le pic du soir, la chute de la nuit), l'inflammation de bas grade qui sollicite ton corps en continu, un cortisol déréglé qui t'épuise au lieu de te réveiller, parfois une thyroïde au ralenti ou des carences (fer, vitamine D).","ton sommeil peut aussi être « non réparateur » : tu dors les heures, mais pas la qualité.","ce qui aide, par petits bouts : un dîner qui ne fait pas flamber ta glycémie, un vrai sas calme le soir, bouger un peu en journée, et faire vérifier ton fer, ta vitamine D et ta thyroïde. mais d'abord, arrête de te culpabiliser : ton épuisement est un signal, pas un défaut."] },
   { t:"Pourquoi suivre ton cycle, même irrégulier", em:"🌙", couleur:"#A89AB8",
     corps:["avec un SMOP, l'ovulation peut se décaler ou ne pas avoir lieu certains mois — c'est fréquent, et ce n'est pas un échec de ton corps.","noter tes règles, même en désordre, révèle des schémas : la longueur de tes cycles, les moments où ton corps « répond » mieux, l'effet de ton assiette ou de ton stress.","c'est aussi une mine d'or pour ton médecin : des cycles notés valent mille fois mieux qu'un « je sais plus trop »."] },
   { t:"L'intestin et ton SMOP", em:"🌱", couleur:"#A9BC8E",
