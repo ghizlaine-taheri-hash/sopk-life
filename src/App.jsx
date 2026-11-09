@@ -2841,6 +2841,44 @@ const VICTORIES_LIST = [
   "j'ai pris soin de moi autrement","j'ai parlé de mon SOPK",
 ];
 
+// ── MOUVEMENT ADAPTÉ (pilier bien-être, jamais esthétique) ──────────────────
+// Contenu de départ, doux et non prescriptif. À remplacer par les routines du planner de Ghiz.
+const MOUVEMENT = [
+  { id:"matin", nom:"Routine douce du matin", duree:"8 min", niveau:"tous niveaux", ic:"coffee",
+    intro:"de quoi réveiller ton corps en douceur, sans forcer. parfaite les jours de petite énergie.",
+    exercices:[
+      {n:"Respiration profonde",d:"5 respirations lentes, mains sur le ventre, pour réveiller le système nerveux."},
+      {n:"Étirement des bras vers le ciel",d:"debout, étire-toi vers le haut, puis relâche. 5 fois, sans à-coups."},
+      {n:"Rotations douces des épaules",d:"10 rotations en arrière, pour dénouer le haut du dos."},
+      {n:"Flexion avant relâchée",d:"penche-toi doucement vers l'avant, genoux souples, laisse pendre la tête. respire."},
+      {n:"Marche sur place",d:"1 à 2 minutes, à ton rythme, pour activer la circulation."},
+    ]},
+  { id:"bas", nom:"Bas du corps", duree:"15 min", niveau:"doux", ic:"pulse",
+    intro:"renforce jambes et fessiers sans impact. le bas du corps est un grand consommateur de sucre — bouger ici soutient ta sensibilité à l'insuline.",
+    exercices:[
+      {n:"Squats lents contre un mur",d:"dos au mur, descends comme pour t'asseoir, remonte. 2 séries de 10, à ton rythme."},
+      {n:"Fentes appuyées",d:"une main sur une chaise pour l'équilibre, un pas en avant, descends doucement. 8 de chaque côté."},
+      {n:"Montées sur la pointe des pieds",d:"debout, monte sur les pointes, redescends lentement. 15 fois."},
+      {n:"Pont fessier au sol",d:"allongée, genoux pliés, soulève le bassin et redescends. 2 séries de 12."},
+    ]},
+  { id:"gainage", nom:"Gainage & posture", duree:"12 min", niveau:"doux", ic:"heart",
+    intro:"renforce ta ceinture abdominale et ton dos pour une meilleure posture au quotidien. jamais pour « un ventre plat » — pour te sentir solide.",
+    exercices:[
+      {n:"Gainage sur les genoux",d:"en planche, appuyée sur les avant-bras et les genoux. tiens 15-20 secondes, respire. 3 fois."},
+      {n:"Respiration abdominale engagée",d:"assise bien droite, inspire en gonflant le ventre, expire en le rentrant doucement. 10 fois."},
+      {n:"Superman au sol",d:"à plat ventre, soulève doucement bras et jambes opposés. 8 alternances."},
+      {n:"Étirement du dos (posture de l'enfant)",d:"à genoux, buste penché en avant, bras tendus. respire 30 secondes."},
+    ]},
+  { id:"cardio", nom:"Cardio court & doux", duree:"10 min", niveau:"tous niveaux", ic:"leaf",
+    intro:"une activation cardio courte, sans épuisement. l'idée n'est pas de « brûler », mais de faire du bien à ton cœur et à ton moral.",
+    exercices:[
+      {n:"Marche rapide",d:"sur place ou dehors, accélère un peu le pas pendant 3-4 minutes."},
+      {n:"Pas chassés doux",d:"d'un côté puis de l'autre, bras relâchés. 1 minute."},
+      {n:"Montées de genoux tranquilles",d:"alterne les genoux vers le haut, à un rythme confortable. 1 minute."},
+      {n:"Retour au calme",d:"ralentis progressivement, puis 5 respirations profondes pour redescendre."},
+    ]},
+];
+
 const callAPI = async (prompt) => {
   const r = await fetch("https://api.anthropic.com/v1/messages",{
     method:"POST",
@@ -3099,6 +3137,7 @@ export default function App() {
   const [showOnboarding, setShowOnboarding] = useState(() => load("onboardingDone","no")==="no");
   const [foodSearch, setFoodSearch] = useState("");
   const [outilOpen, setOutilOpen] = useState("aliments");
+  const [mouvOpen, setMouvOpen] = useState(null);
   const [recFiltreMoment, setRecFiltreMoment] = useState("tous");
   const [recFiltreTag, setRecFiltreTag] = useState("tous");
   const [recetteFiche, setRecetteFiche] = useState(null);
@@ -4364,6 +4403,7 @@ export default function App() {
             {/* Sélecteur d'outil */}
             <div style={{display:"flex",gap:6,marginBottom:14,overflowX:"auto",paddingBottom:2}}>
               {[
+                {id:"mouvement",label:"🤸 Mouvement"},
                 {id:"aliments",label:"🍽️ Aliments"},
                 {id:"repas",label:"🍲 Idées repas"},
                 {id:"recettes",label:"📖 Recettes"},
@@ -4382,6 +4422,57 @@ export default function App() {
                 </button>
               ))}
             </div>
+
+            {/* OUTIL : MOUVEMENT ADAPTÉ */}
+            {outilOpen==="mouvement"&&(
+              <div className="fu">
+                <div style={{background:`linear-gradient(135deg,${pc.p},${pc.p}CC)`,borderRadius:16,padding:"1.1rem 1.2rem",marginBottom:14,color:"#fff"}}>
+                  <div style={{fontSize:9,letterSpacing:2,textTransform:"uppercase",opacity:.8,marginBottom:4}}>Pilier bien-être</div>
+                  <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.15rem",fontWeight:600,marginBottom:6}}>Mouvement adapté</div>
+                  <div style={{fontSize:11,lineHeight:1.6,opacity:.95}}>bouger pour ta sensibilité à l'insuline, ton énergie et ton moral — jamais pour « sculpter » ou punir ton corps. tu choisis, tu adaptes, tu écoutes.</div>
+                </div>
+
+                {MOUVEMENT.map(r=>{
+                  const open=mouvOpen===r.id;
+                  return(
+                    <div key={r.id} style={{background:C.white,border:`1.5px solid ${open?pc.p:C.border}`,borderRadius:16,marginBottom:10,overflow:"hidden"}}>
+                      <button onClick={()=>setMouvOpen(open?null:r.id)}
+                        style={{width:"100%",display:"flex",alignItems:"center",gap:12,padding:"13px 14px",background:"none",border:"none",cursor:"pointer",fontFamily:"inherit",textAlign:"left"}}>
+                        <div style={{width:42,height:42,borderRadius:12,background:`${pc.p}15`,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>
+                          <Icon name={r.ic} size={19} color={pc.p}/>
+                        </div>
+                        <div style={{flex:1}}>
+                          <div style={{fontSize:13,fontWeight:700,color:C.brown}}>{r.nom}</div>
+                          <div style={{display:"flex",gap:6,marginTop:3}}>
+                            <span style={{fontSize:9,fontWeight:600,color:pc.p,background:`${pc.p}12`,borderRadius:99,padding:"2px 8px"}}>{r.duree}</span>
+                            <span style={{fontSize:9,fontWeight:600,color:C.sage,background:`${C.sage}22`,borderRadius:99,padding:"2px 8px"}}>{r.niveau}</span>
+                          </div>
+                        </div>
+                        <div style={{fontSize:15,color:C.light,transform:open?"rotate(90deg)":"none",transition:"transform 0.2s"}}>›</div>
+                      </button>
+                      {open&&(
+                        <div style={{padding:"0 14px 14px"}}>
+                          <div style={{fontSize:11,color:C.mid,lineHeight:1.6,background:C.bubble,borderRadius:11,padding:"10px 12px",marginBottom:12}}>{r.intro}</div>
+                          {r.exercices.map((ex,i)=>(
+                            <div key={i} style={{display:"flex",gap:11,marginBottom:i<r.exercices.length-1?12:0}}>
+                              <div style={{width:24,height:24,borderRadius:"50%",background:`${pc.p}12`,color:pc.p,fontSize:11,fontWeight:700,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>{i+1}</div>
+                              <div style={{flex:1}}>
+                                <div style={{fontSize:12.5,fontWeight:600,color:C.brown}}>{ex.n}</div>
+                                <div style={{fontSize:11,color:C.mid,marginTop:2,lineHeight:1.5}}>{ex.d}</div>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+
+                <div style={{background:C.mauveSoft,borderRadius:14,padding:"12px 14px",marginTop:4}}>
+                  <div style={{fontSize:11,color:C.mid,lineHeight:1.6}}>le mouvement régulier et doux améliore la sensibilité à l'insuline et l'humeur. on écoute son corps : la fatigue normale n'est pas la douleur. en cas de doute médical, demande l'avis de ton médecin avant de commencer.</div>
+                </div>
+              </div>
+            )}
 
             {/* OUTIL : RECHERCHE D'ALIMENTS */}
             {outilOpen==="aliments"&&(
