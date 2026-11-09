@@ -2943,6 +2943,28 @@ export default function App() {
   const [accPrenom, setAccPrenom] = useState("");
   const [accNewEmail, setAccNewEmail] = useState("");
   const [dossierInner, setDossierInner] = useState("");
+  // ─── INSTALLATION (PWA) + RAPPELS ───────────────────────────────────────────
+  const [showInstall, setShowInstall] = useState(false);
+  const [installDismissed, setInstallDismissed] = useState(()=>{ try{return localStorage.getItem("sopklife_installDismissed")==="1";}catch(e){return false;} });
+  const [canInstallAndroid, setCanInstallAndroid] = useState(false);
+  const deferredPromptRef = useRef(null);
+  const [notifPerm, setNotifPerm] = useState(()=>{ try{return (typeof Notification!=="undefined")?Notification.permission:"unavailable";}catch(e){return "unavailable";} });
+  const isIOS = /iphone|ipad|ipod/i.test(typeof navigator!=="undefined"?navigator.userAgent:"");
+  const isStandalone = (()=>{ try{ return window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone===true; }catch(e){ return false; } })();
+  useEffect(()=>{ const onBIP=(e)=>{ e.preventDefault(); deferredPromptRef.current=e; setCanInstallAndroid(true); };
+    window.addEventListener("beforeinstallprompt",onBIP); return ()=>window.removeEventListener("beforeinstallprompt",onBIP); },[]);
+  const triggerInstall=async()=>{ const d=deferredPromptRef.current; if(d){ d.prompt(); try{await d.userChoice;}catch(e){} deferredPromptRef.current=null; setCanInstallAndroid(false); setShowInstall(false);} };
+  const dismissInstall=()=>{ setInstallDismissed(true); try{localStorage.setItem("sopklife_installDismissed","1");}catch(e){} };
+  const enableNotif=async()=>{
+    if(isIOS && !isStandalone){ setShowInstall(true); return; } // iOS : il faut d'abord l'ajouter à l'écran d'accueil
+    try{
+      if(typeof Notification==="undefined"){ showToast("Notifications indisponibles ici"); return; }
+      const perm=await Notification.requestPermission(); setNotifPerm(perm);
+      if(perm==="granted"){ save("notif","yes"); showToast("Rappels activés","tu recevras un petit rappel chaque jour.");
+        try{ new Notification("SMOP Map",{body:"C'est tout bon, tes rappels sont en place.",icon:"/icon-192.png"}); }catch(e){}
+      } else { showToast("Rappels non activés","tu peux les activer plus tard dans Mon compte."); }
+    }catch(e){ showToast("Impossible d'activer les rappels ici"); }
+  };
 
   useEffect(()=>{ let subref;
     getSupabase().then(client=>{
@@ -3845,6 +3867,19 @@ export default function App() {
       </div>
 
       <div style={{padding:"0.75rem 1.25rem 1.25rem"}}>
+
+        {/* Bannière : ajouter à l'écran d'accueil */}
+        {!isStandalone && !installDismissed && (
+          <div style={{background:C.mauveSoft,border:`1px solid ${C.border}`,borderRadius:14,padding:"12px 14px",marginBottom:14,display:"flex",alignItems:"center",gap:11}}>
+            <div style={{width:36,height:36,borderRadius:10,background:`linear-gradient(135deg,${C.mauve},${C.terra})`,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><Icon name="leaf" size={18} color="#fff"/></div>
+            <div style={{flex:1}}>
+              <div style={{fontSize:11.5,fontWeight:700,color:C.brown}}>Ajoute SMOP Map à ton écran d'accueil</div>
+              <div style={{fontSize:9.5,color:C.mid,marginTop:1}}>pour l'ouvrir comme une app et recevoir tes rappels</div>
+            </div>
+            <button onClick={()=>canInstallAndroid?triggerInstall():setShowInstall(true)} style={{background:C.brown,color:"#fff",border:"none",borderRadius:9,padding:"8px 12px",fontSize:10.5,fontWeight:700,fontFamily:"inherit",cursor:"pointer",flexShrink:0}}>Installer</button>
+            <button onClick={dismissInstall} aria-label="fermer" style={{background:"none",border:"none",color:C.light,fontSize:15,cursor:"pointer",fontFamily:"inherit",padding:"0 2px"}}>✕</button>
+          </div>
+        )}
 
         {/* ── MA CARTE SMOP ── */}
         {tab==="carte"&&(()=>{
@@ -5663,10 +5698,64 @@ profil · 3 priorités · analyses à demander · ton suivi & tes tendances · s
               </button>
             </div>
 
+            <div style={{background:C.white,borderRadius:14,padding:"14px 15px",border:`1px solid ${C.border}`,marginBottom:14}}>
+              <div style={{fontSize:11,fontWeight:700,color:C.brown,marginBottom:4}}>Mes rappels</div>
+              <div style={{fontSize:10.5,color:C.mid,lineHeight:1.55,marginBottom:11}}>reçois un petit rappel doux chaque jour pour prendre soin de toi.</div>
+              {notifPerm==="granted"?(
+                <div style={{display:"flex",alignItems:"center",gap:8,background:"#EAF3EA",borderRadius:10,padding:"11px 13px",fontSize:12,color:"#4A7A52",fontWeight:600}}>
+                  <Icon name="check" size={16} color="#4A7A52"/> rappels activés
+                </div>
+              ):notifPerm==="denied"?(
+                <div style={{fontSize:10.5,color:C.mid,lineHeight:1.55,background:C.bubble,borderRadius:10,padding:"11px 13px"}}>les notifications sont bloquées sur ce téléphone. tu peux les réactiver dans les réglages de ton navigateur ou de ton téléphone.</div>
+              ):(
+                <button onClick={enableNotif} style={{width:"100%",background:pc.p,color:"#fff",border:"none",borderRadius:10,padding:"12px",fontFamily:"inherit",fontSize:12,fontWeight:700,cursor:"pointer"}}>activer mes rappels</button>
+              )}
+              {(isIOS&&!isStandalone)&&<div style={{fontSize:9.5,color:C.light,marginTop:8,lineHeight:1.55}}>sur iPhone, ajoute d'abord l'app à ton écran d'accueil pour recevoir les rappels. <button onClick={()=>{setShowAccount(false);setShowInstall(true);}} style={{background:"none",border:"none",color:pc.p,fontFamily:"inherit",fontSize:9.5,fontWeight:700,cursor:"pointer",padding:0,textDecoration:"underline"}}>voir comment</button></div>}
+            </div>
+
             <button onClick={logout} style={{width:"100%",display:"flex",alignItems:"center",justifyContent:"center",gap:8,background:C.white,border:`1px solid ${C.border}`,borderRadius:12,padding:"13px",fontFamily:"inherit",fontSize:12.5,fontWeight:600,color:"#B5553F",cursor:"pointer"}}>
               se déconnecter
             </button>
             <div style={{fontSize:9.5,color:C.light,textAlign:"center",marginTop:14,lineHeight:1.6}}>tes données sont sauvegardées automatiquement sur ton compte.</div>
+          </div>
+        </div>
+      )}
+
+      {/* PAGE D'INSTRUCTIONS — AJOUTER À L'ÉCRAN D'ACCUEIL */}
+      {showInstall&&(
+        <div onClick={()=>setShowInstall(false)} style={{position:"fixed",inset:0,zIndex:320,background:"rgba(58,42,32,.45)",display:"flex",alignItems:"flex-end",justifyContent:"center"}}>
+          <div onClick={e=>e.stopPropagation()} style={{background:C.cream,width:"100%",maxWidth:430,borderRadius:"22px 22px 0 0",padding:"1.4rem 1.3rem 1.9rem",maxHeight:"90vh",overflowY:"auto"}}>
+            <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:6}}>
+              <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.3rem",color:C.brown,fontWeight:600}}>Installe l'app</div>
+              <button onClick={()=>setShowInstall(false)} style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:"50%",width:32,height:32,cursor:"pointer",color:C.mid,fontSize:15,fontFamily:"inherit"}}>✕</button>
+            </div>
+            <div style={{fontSize:11.5,color:C.mid,lineHeight:1.6,marginBottom:16}}>ajoute SMOP Map à ton écran d'accueil : tu l'ouvres comme une vraie app, et tu peux recevoir un petit rappel chaque jour. Pas besoin d'App Store.</div>
+
+            {canInstallAndroid && (
+              <button onClick={triggerInstall} style={{width:"100%",background:C.brown,color:"#fff",border:"none",borderRadius:12,padding:"13px",fontFamily:"inherit",fontSize:13,fontWeight:700,cursor:"pointer",marginBottom:16}}>Installer maintenant</button>
+            )}
+
+            <div style={{fontSize:9,letterSpacing:1.5,textTransform:"uppercase",color:C.light,marginBottom:10}}>{isIOS?"Sur iPhone / iPad (Safari)":"Sur ton téléphone"}</div>
+            {(isIOS?[
+              {n:"1",t:"Appuie sur le bouton Partager",d:"l'icône carrée avec une flèche vers le haut, en bas de Safari."},
+              {n:"2",t:"Choisis « Sur l'écran d'accueil »",d:"fais défiler le menu si besoin pour la trouver."},
+              {n:"3",t:"Appuie sur « Ajouter »",d:"l'icône SMOP Map apparaît sur ton écran, comme une app."},
+              {n:"4",t:"Ouvre l'app depuis cette icône",d:"et active tes rappels dans Mon compte."},
+            ]:[
+              {n:"1",t:"Ouvre le menu de ton navigateur",d:"les trois points en haut à droite (Chrome)."},
+              {n:"2",t:"Choisis « Installer l'application »",d:"ou « Ajouter à l'écran d'accueil »."},
+              {n:"3",t:"Confirme",d:"l'icône SMOP Map apparaît sur ton écran d'accueil."},
+              {n:"4",t:"Ouvre l'app depuis cette icône",d:"et active tes rappels dans Mon compte."},
+            ]).map((s,i)=>(
+              <div key={i} style={{display:"flex",gap:12,marginBottom:14}}>
+                <div style={{width:26,height:26,borderRadius:"50%",background:pc.p,color:"#fff",fontSize:12,fontWeight:700,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>{s.n}</div>
+                <div style={{flex:1}}>
+                  <div style={{fontSize:12.5,fontWeight:600,color:C.brown}}>{s.t}</div>
+                  <div style={{fontSize:10.5,color:C.mid,marginTop:2,lineHeight:1.5}}>{s.d}</div>
+                </div>
+              </div>
+            ))}
+            <div style={{fontSize:9.5,color:C.light,textAlign:"center",marginTop:8,lineHeight:1.6}}>sur iPhone, les rappels ne fonctionnent qu'une fois l'app ajoutée à l'écran d'accueil.</div>
           </div>
         </div>
       )}
