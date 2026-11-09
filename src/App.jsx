@@ -798,6 +798,9 @@ const load = (key, def) => { try { const v = localStorage.getItem("sopklife_"+ke
 // ─── SUPABASE (comptes + sauvegarde cloud) ───────────────────────────────────
 const SUPABASE_URL = "https://jclummzuukxasfylzruy.supabase.co";
 const SUPABASE_KEY = "sb_publishable_wrT10HfVR6p2CeP7feMHUw_p1OD5E-C";
+// Clé publique VAPID (sans danger côté client — identifie l'app auprès des téléphones)
+const VAPID_PUBLIC = "BHV0QWrRB3Mf8NNBhpEhuPJD1SDhf7gaq1MUpFw1Sl6Mb_meU5IPK1ZrM7FolTxNTlG-9atSocCkjo_7QzUFUEM";
+const urlB64ToUint8 = (base64)=>{ const pad="=".repeat((4-base64.length%4)%4); const b=(base64+pad).replace(/-/g,"+").replace(/_/g,"/"); const raw=atob(b); const arr=new Uint8Array(raw.length); for(let i=0;i<raw.length;i++)arr[i]=raw.charCodeAt(i); return arr; };
 let _sbPromise = null;
 const getSupabase = () => {
   if(!_sbPromise){
@@ -2962,8 +2965,25 @@ export default function App() {
       const perm=await Notification.requestPermission(); setNotifPerm(perm);
       if(perm==="granted"){ save("notif","yes"); showToast("Rappels activés","tu recevras un petit rappel chaque jour.");
         try{ new Notification("SMOP Map",{body:"C'est tout bon, tes rappels sont en place.",icon:"/icon-192.png"}); }catch(e){}
+        subscribePush();
       } else { showToast("Rappels non activés","tu peux les activer plus tard dans Mon compte."); }
     }catch(e){ showToast("Impossible d'activer les rappels ici"); }
+  };
+  const subscribePush=async()=>{
+    try{
+      if(!("serviceWorker" in navigator)||!("PushManager" in window)) return;
+      const reg=await navigator.serviceWorker.ready;
+      let sub=await reg.pushManager.getSubscription();
+      if(!sub){ sub=await reg.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:urlB64ToUint8(VAPID_PUBLIC)}); }
+      if(sb&&session&&sub){
+        await sb.from("push_subscriptions").upsert({
+          user_id: session.user.id,
+          endpoint: sub.endpoint,
+          subscription: sub.toJSON(),
+          updated_at: new Date().toISOString()
+        }, { onConflict:"endpoint" });
+      }
+    }catch(e){}
   };
 
   useEffect(()=>{ let subref;
