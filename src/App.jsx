@@ -3952,6 +3952,19 @@ export default function App() {
           </div>
         )}
 
+        {/* Bouton retour sur les sous-écrans */}
+        {(()=>{
+          const SUB={cycle:"suivi",apercu:"suivi",tendances:"suivi",mesures:"suivi",journal:"suivi",mouvement:"suivi",sos:"outils"};
+          const parent=SUB[tab]; if(!parent) return null;
+          const labels={suivi:"Suivi",outils:"Ressources"};
+          return(
+            <button onClick={()=>setTab(parent)}
+              style={{display:"flex",alignItems:"center",gap:6,background:"none",border:"none",cursor:"pointer",fontFamily:"inherit",color:C.mid,fontSize:12,fontWeight:600,padding:"2px 0",marginBottom:12}}>
+              <Icon name="arrowL" size={16} color={C.mid}/> retour · {labels[parent]}
+            </button>
+          );
+        })()}
+
         {/* ── MA CARTE SMOP ── */}
         {tab==="carte"&&(()=>{
           const h=PROFIL_HIERARCHIE[profil];
@@ -5570,7 +5583,7 @@ profil · 3 priorités · analyses à demander · ton suivi & tes tendances · s
             <div style={{background:`linear-gradient(135deg,${pc.p},${pc.p}CC)`,borderRadius:16,padding:"1.1rem 1.2rem",marginBottom:14,color:"#fff"}}>
               <div style={{fontSize:9,letterSpacing:2,textTransform:"uppercase",opacity:.8,marginBottom:4}}>Pilier bien-être</div>
               <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.15rem",fontWeight:600,marginBottom:6}}>Mouvement adapté</div>
-              <div style={{fontSize:11,lineHeight:1.6,opacity:.95}}>bouger pour ta sensibilité à l'insuline, ton énergie et ton moral — jamais pour « sculpter » ou punir ton corps. tu choisis, tu adaptes, tu écoutes.</div>
+              <div style={{fontSize:11,lineHeight:1.6,opacity:.95}}>bouger pour ta sensibilité à l'insuline, ton énergie, ton moral — et pour te sentir bien dans ton corps, comme tu l'entends. ton objectif t'appartient : tu choisis, tu adaptes, tu écoutes ton corps.</div>
             </div>
 
             {MOUVEMENT.map(r=>{
