@@ -4189,6 +4189,45 @@ export default function App() {
         {/* ── KAMILA ── */}
         {tab==="kamila"&&(
           <div className="fu">
+            {/* ══ TOUT EN HAUT — Je viens d'être diagnostiquée ══ */}
+            {!load("diagSeen",false)&&(
+              <div style={{display:"flex",alignItems:"center",gap:12,background:`linear-gradient(135deg,${C.mauveSoft},#fff)`,border:`1.5px solid ${C.mauve}`,borderRadius:16,padding:"13px 14px",marginBottom:10}}>
+                <button onClick={()=>setTab("diag")} style={{flex:1,display:"flex",alignItems:"center",gap:12,background:"none",border:"none",cursor:"pointer",fontFamily:"inherit",textAlign:"left",padding:0}}>
+                  <div style={{width:40,height:40,borderRadius:12,background:C.mauve,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><Icon name="heart" size={18} color="#fff"/></div>
+                  <div style={{flex:1}}>
+                    <div style={{fontSize:12.5,fontWeight:700,color:C.brown}}>Tu viens d'être diagnostiquée ?</div>
+                    <div style={{fontSize:10,color:C.mid,marginTop:1,lineHeight:1.4}}>commence ici — l'explication et l'accompagnement qu'on t'a pas donnés</div>
+                  </div>
+                </button>
+                <button onClick={()=>{ save("diagSeen",true); setJournal(p=>({...p})); showToast&&showToast("c'est noté"); }} aria-label="masquer" style={{background:"none",border:"none",color:C.light,fontSize:14,cursor:"pointer",fontFamily:"inherit",padding:"0 2px",flexShrink:0}}>✕</button>
+              </div>
+            )}
+
+            {/* ══ EN HAUT — Ton avancée (jours) ══ */}
+            <div style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:12,padding:"11px 13px",marginBottom:10}}>
+              <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:8}}>
+                <div style={{fontSize:11.5,fontWeight:700,color:C.brown}}>Jour {day} <span style={{color:C.light,fontWeight:500,fontSize:10}}>· {day<=30?"Fondation":"au long cours"}</span></div>
+                <div style={{fontSize:9.5,color:C.light}}>{Object.values(checked).filter(Boolean).length} missions accomplies</div>
+              </div>
+              <div style={{height:6,background:C.bubble,borderRadius:99,marginBottom:11,overflow:"hidden"}}>
+                <div style={{height:"100%",width:`${Math.min(100,(Object.values(checked).filter(Boolean).length/30)*100)}%`,background:`linear-gradient(90deg,${pc.p},${pc.p}CC)`,borderRadius:99,transition:"width 0.4s"}}/>
+              </div>
+              <div style={{display:"flex",alignItems:"center",gap:6}}>
+                <button onClick={()=>setDay(d=>Math.max(1,d-1))} disabled={day<=1}
+                  style={{flexShrink:0,width:28,height:28,borderRadius:"50%",border:`1.5px solid ${C.border}`,background:C.cream,color:day<=1?C.border:pc.p,fontSize:14,cursor:day<=1?"default":"pointer",fontFamily:"inherit",display:"flex",alignItems:"center",justifyContent:"center"}}>{"‹"}</button>
+                <div style={{display:"flex",gap:5,overflowX:"auto",paddingBottom:2,flex:1}}>
+                  {Array.from({length:Math.max(30,day+5)},(_,i)=>i+1).slice(Math.max(0,day-4),day+5).map(d=>(
+                    <button key={d} onClick={()=>setDay(d)}
+                      style={{flexShrink:0,width:30,height:30,borderRadius:"50%",border:`2px solid ${d===day?pc.p:checked[d]?pc.p:C.border}`,background:d===day?pc.p:checked[d]?`${pc.p}20`:C.white,color:d===day?"white":C.brown,fontSize:10,fontWeight:500,cursor:"pointer",fontFamily:"inherit"}}>
+                      {checked[d]&&d!==day?"✓":d}
+                    </button>
+                  ))}
+                </div>
+                <button onClick={()=>setDay(d=>Math.min(400,d+1))} disabled={day>=400}
+                  style={{flexShrink:0,width:28,height:28,borderRadius:"50%",border:`1.5px solid ${day>=400?C.border:pc.p}`,background:day>=400?C.white:pc.p,color:day>=400?C.border:"white",fontSize:14,cursor:day>=400?"default":"pointer",fontFamily:"inherit",display:"flex",alignItems:"center",justifyContent:"center"}}>{"›"}</button>
+              </div>
+            </div>
+
             {/* ══ 1. TA PRIORITÉ ══ */}
             {(()=>{
               const prios=PRIORITES_PROFIL[profil]||PRIORITES_PROFIL.metabolique;
@@ -4330,31 +4369,6 @@ export default function App() {
               {checked[day]&&<div style={{marginTop:12,fontSize:11,color:pc.p,fontWeight:500,textAlign:"center",padding:"8px",background:`${pc.p}08`,borderRadius:8}}>✓ {todayData.victoire}</div>}
             </div>
 
-            {/* ══ TON AVANCÉE (jours) — juste sous la mission ══ */}
-            <div style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:12,padding:"11px 13px",marginBottom:10}}>
-              <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:8}}>
-                <div style={{fontSize:11.5,fontWeight:700,color:C.brown}}>Jour {day} <span style={{color:C.light,fontWeight:500,fontSize:10}}>· {day<=30?"Fondation":"au long cours"}</span></div>
-                <div style={{fontSize:9.5,color:C.light}}>{Object.values(checked).filter(Boolean).length} missions accomplies</div>
-              </div>
-              <div style={{height:6,background:C.bubble,borderRadius:99,marginBottom:11,overflow:"hidden"}}>
-                <div style={{height:"100%",width:`${Math.min(100,(Object.values(checked).filter(Boolean).length/30)*100)}%`,background:`linear-gradient(90deg,${pc.p},${pc.p}CC)`,borderRadius:99,transition:"width 0.4s"}}/>
-              </div>
-              <div style={{display:"flex",alignItems:"center",gap:6}}>
-                <button onClick={()=>setDay(d=>Math.max(1,d-1))} disabled={day<=1}
-                  style={{flexShrink:0,width:28,height:28,borderRadius:"50%",border:`1.5px solid ${C.border}`,background:C.cream,color:day<=1?C.border:pc.p,fontSize:14,cursor:day<=1?"default":"pointer",fontFamily:"inherit",display:"flex",alignItems:"center",justifyContent:"center"}}>{"‹"}</button>
-                <div style={{display:"flex",gap:5,overflowX:"auto",paddingBottom:2,flex:1}}>
-                  {Array.from({length:Math.max(30,day+5)},(_,i)=>i+1).slice(Math.max(0,day-4),day+5).map(d=>(
-                    <button key={d} onClick={()=>setDay(d)}
-                      style={{flexShrink:0,width:30,height:30,borderRadius:"50%",border:`2px solid ${d===day?pc.p:checked[d]?pc.p:C.border}`,background:d===day?pc.p:checked[d]?`${pc.p}20`:C.white,color:d===day?"white":C.brown,fontSize:10,fontWeight:500,cursor:"pointer",fontFamily:"inherit"}}>
-                      {checked[d]&&d!==day?"✓":d}
-                    </button>
-                  ))}
-                </div>
-                <button onClick={()=>setDay(d=>Math.min(400,d+1))} disabled={day>=400}
-                  style={{flexShrink:0,width:28,height:28,borderRadius:"50%",border:`1.5px solid ${day>=400?C.border:pc.p}`,background:day>=400?C.white:pc.p,color:day>=400?C.border:"white",fontSize:14,cursor:day>=400?"default":"pointer",fontFamily:"inherit",display:"flex",alignItems:"center",justifyContent:"center"}}>{"›"}</button>
-              </div>
-            </div>
-
             {/* Lien vers un outil */}
             {todayData.outil&&(
               <button onClick={()=>{setTab("outils");setOutilOpen(todayData.outil.cible);if(todayData.outil.recherche!==undefined)setFoodSearch(todayData.outil.recherche);if(todayData.outil.cible==="repas"&&todayData.outil.moment)setRepasMoment(todayData.outil.moment);}}
@@ -4404,30 +4418,16 @@ export default function App() {
               );
             })()}
 
-            {/* ══ 5. ACCÈS RAPIDE AU SUIVI ══ */}
+            {/* ══ 5. ACCÈS RAPIDE AU SUIVI (en évidence) ══ */}
             <button onClick={()=>setTab("suivi")}
-              style={{width:"100%",display:"flex",alignItems:"center",gap:11,background:C.bubble,border:`1px solid ${C.border}`,borderRadius:13,padding:"12px 13px",marginBottom:10,cursor:"pointer",fontFamily:"inherit",textAlign:"left"}}>
-              <div style={{width:34,height:34,borderRadius:10,background:C.white,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><Icon name="chart" size={16} color={pc.p}/></div>
+              style={{width:"100%",display:"flex",alignItems:"center",gap:12,background:`linear-gradient(135deg,${pc.l},${C.white})`,border:`1.5px solid ${pc.p}`,borderRadius:15,padding:"14px 15px",marginBottom:10,cursor:"pointer",fontFamily:"inherit",textAlign:"left",boxShadow:`0 4px 14px ${pc.p}18`}}>
+              <div style={{width:40,height:40,borderRadius:11,background:pc.p,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><Icon name="chart" size={18} color="#fff"/></div>
               <div style={{flex:1}}>
-                <div style={{fontSize:12.5,fontWeight:700,color:C.brown}}>Mon suivi du jour</div>
-                <div style={{fontSize:9.5,color:C.light}}>humeur, symptômes, cycle, journal</div>
+                <div style={{fontSize:13.5,fontWeight:700,color:C.brown}}>Mon suivi du jour</div>
+                <div style={{fontSize:10,color:C.mid,marginTop:1}}>humeur, symptômes, cycle, journal</div>
               </div>
-              <div style={{fontSize:14,color:C.light}}>›</div>
+              <div style={{fontSize:16,color:pc.p}}>›</div>
             </button>
-
-            {/* Entrée — Je viens d'être diagnostiquée (mise en évidence) */}
-            {!load("diagSeen",false)&&(
-              <div style={{display:"flex",alignItems:"center",gap:12,background:`linear-gradient(135deg,${C.mauveSoft},#fff)`,border:`1.5px solid ${C.mauve}`,borderRadius:16,padding:"13px 14px",marginBottom:10}}>
-                <button onClick={()=>setTab("diag")} style={{flex:1,display:"flex",alignItems:"center",gap:12,background:"none",border:"none",cursor:"pointer",fontFamily:"inherit",textAlign:"left",padding:0}}>
-                  <div style={{width:40,height:40,borderRadius:12,background:C.mauve,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><Icon name="heart" size={18} color="#fff"/></div>
-                  <div style={{flex:1}}>
-                    <div style={{fontSize:12.5,fontWeight:700,color:C.brown}}>Tu viens d'être diagnostiquée ?</div>
-                    <div style={{fontSize:10,color:C.mid,marginTop:1,lineHeight:1.4}}>commence ici — l'explication et l'accompagnement qu'on t'a pas donnés</div>
-                  </div>
-                </button>
-                <button onClick={()=>{ save("diagSeen",true); setJournal(p=>({...p})); showToast&&showToast("c'est noté"); }} aria-label="masquer" style={{background:"none",border:"none",color:C.light,fontSize:14,cursor:"pointer",fontFamily:"inherit",padding:"0 2px",flexShrink:0}}>✕</button>
-              </div>
-            )}
 
             {/* Accès discret — mode petite énergie */}
             <button onClick={()=>{setFatigueOpen(true);setFatigueStep(0);}}
