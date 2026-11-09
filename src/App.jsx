@@ -96,7 +96,7 @@ const PRIORITES_PROFIL = {
   ],
 };
 
-// ─── QUIZ "TON TYPE DE SOPK" ───────────────────────────────────────────────────
+// ─── QUIZ "TON TYPE DE SMOP (SOPK)" ───────────────────────────────────────────────────
 const QUIZ_AXES = {
   m:{label:"métabolique",emoji:"⚡",desc:"insuline · glycémie · fringales",col:"#CB9A79"},
   i:{label:"inflammatoire",emoji:"🔥",desc:"fatigue · douleurs · brouillard",col:"#D4A56A"},
@@ -200,7 +200,7 @@ const getPhase = (day) => {
 
 
 // ─── BASE ALIMENTS (index glycémique + protéines, source USDA) ────────────────
-// ig: "bas"|"modere"|"eleve" — prot: g/100g — verdict SOPK
+// ig: "bas"|"modere"|"eleve" — prot: g/100g — verdict SMOP (SOPK)
 const ALIMENTS = [
   // Protéines animales
   {nom:"Blanc de poulet",cat:"Protéines",ig:"bas",prot:32,kcal:157,sopk:"excellent",note:"protéine maigre idéale — stabilise la glycémie sans pic"},
@@ -210,15 +210,15 @@ const ALIMENTS = [
   {nom:"Saumon",cat:"Protéines",ig:"bas",prot:22,kcal:206,sopk:"excellent",note:"oméga-3 puissants — excellent pour le terrain inflammatoire"},
   {nom:"Cabillaud",cat:"Protéines",ig:"bas",prot:23,kcal:105,sopk:"excellent",note:"maigre, digeste, riche en protéines"},
   {nom:"Crevette",cat:"Protéines",ig:"bas",prot:24,kcal:99,sopk:"bon",note:"protéine très maigre, riche en zinc"},
-  {nom:"Œufs",cat:"Protéines",ig:"bas",prot:12.6,kcal:143,sopk:"excellent",note:"le petit-déjeuner SOPK par excellence — 6g de protéines par œuf"},
+  {nom:"Œufs",cat:"Protéines",ig:"bas",prot:12.6,kcal:143,sopk:"excellent",note:"le petit-déjeuner SMOP (SOPK) par excellence — 6g de protéines par œuf"},
   // Produits laitiers
   {nom:"Parmesan",cat:"Laitiers",ig:"bas",prot:29.6,kcal:392,sopk:"bon",note:"très protéiné, à consommer en petite quantité"},
   {nom:"Fromage blanc",cat:"Laitiers",ig:"bas",prot:8,kcal:72,sopk:"excellent",note:"parfait au petit-déjeuner avec des oléagineux"},
-  {nom:"Skyr",cat:"Laitiers",ig:"bas",prot:11,kcal:63,sopk:"excellent",note:"ultra protéiné, peu de sucre — idéal SOPK"},
+  {nom:"Skyr",cat:"Laitiers",ig:"bas",prot:11,kcal:63,sopk:"excellent",note:"ultra protéiné, peu de sucre — idéal SMOP (SOPK)"},
   {nom:"Feta",cat:"Laitiers",ig:"bas",prot:19.7,kcal:265,sopk:"bon",note:"protéinée, à intégrer dans une salade en entrée"},
   {nom:"Mozzarella",cat:"Laitiers",ig:"bas",prot:24,kcal:300,sopk:"bon",note:"bonne source de protéines"},
   // Légumineuses
-  {nom:"Lentilles",cat:"Légumineuses",ig:"bas",prot:9,kcal:116,sopk:"excellent",note:"fibres + protéines végétales — index glycémique bas, parfait SOPK"},
+  {nom:"Lentilles",cat:"Légumineuses",ig:"bas",prot:9,kcal:116,sopk:"excellent",note:"fibres + protéines végétales — index glycémique bas, parfait SMOP (SOPK)"},
   {nom:"Pois chiches",cat:"Légumineuses",ig:"bas",prot:8.9,kcal:164,sopk:"excellent",note:"fibres rassasiantes, lissent la glycémie"},
   {nom:"Haricots noirs",cat:"Légumineuses",ig:"bas",prot:8.9,kcal:132,sopk:"excellent",note:"riches en fibres et antioxydants"},
   {nom:"Haricots rouges",cat:"Légumineuses",ig:"bas",prot:8.7,kcal:127,sopk:"excellent",note:"excellente source de fibres et fer végétal"},
@@ -780,7 +780,7 @@ const SUCRES_CACHES = [
   "mélasse","sucre de coco","sirop d'érable","miel","sirop de blé",
 ];
 
-// ─── COMPLÉMENTS SOPK ─────────────────────────────────────────────────────────
+// ─── COMPLÉMENTS SMOP (SOPK) ─────────────────────────────────────────────────────────
 const COMPLEMENTS = [
   {nom:"Inositol (myo + D-chiro 40:1)",pour:["metabolique","mixte_ma","mixte_mi"],dose:"2g myo + 50mg D-chiro, 2x/jour",timing:"matin et soir",effet:"améliore la sensibilité à l'insuline et réduit les androgènes ovariens",delai:"8 à 12 semaines",note:"l'un des compléments les mieux étudiés dans le SMOP"},
   {nom:"Magnésium bisglycinate",pour:["metabolique","inflammatoire","androgenique","surrenalien","mixte_ma","mixte_mi","mixte_ai"],dose:"200 à 400mg",timing:"le soir au coucher",effet:"améliore la sensibilité à l'insuline, réduit le cortisol, améliore le sommeil",delai:"2 à 4 semaines",note:"carencé chez la majorité des femmes SMOP — particulièrement utile sur un terrain stress/sommeil"},
@@ -876,7 +876,7 @@ const SOS_DATA = [
       {em:"🧘", t:"Cohérence cardiaque 3 min", why:"5 sec inspiration · 5 sec expiration"},
     ],
     action1h:"une protéine. maintenant. œuf, fromage blanc, amandes. pas de sucre.",
-    mecanisme:"avec le SOPK, la fatigue peut venir de 6 endroits différents — l'insuline, l'inflammation, le cortisol, la thyroïde, les carences ou le rythme circadien. ce n'est pas une seule cause. c'est pour ça qu'elle résiste aux solutions simples.",
+    mecanisme:"avec le SMOP (SOPK), la fatigue peut venir de 6 endroits différents — l'insuline, l'inflammation, le cortisol, la thyroïde, les carences ou le rythme circadien. ce n'est pas une seule cause. c'est pour ça qu'elle résiste aux solutions simples.",
     kamila:"ton corps ne fait pas exprès. il essaie de te parler. aujourd'hui tu l'écoutes.",
     secret:"avant de penser « je dors mal », fais vérifier ta ferritine ET ta vitamine D. une fatigue de fond avec un SMOP cache très souvent une ferritine basse (< 70) ou une vitamine D insuffisante — même quand le médecin dit que c'est « normal ». ce sont les deux premières choses à regarder.",
     monMot:"la fatigue a été l'un de mes symptômes les plus violents. parce qu'elle est invisible : les gens voient ton visage, pas le poids que tu portes à l'intérieur. je culpabilisais énormément, je me traitais de paresseuse. puis j'ai compris qu'on peut dormir toute une nuit et être épuisée quand même, quand le corps lutte en permanence. le jour où j'ai arrêté de me juger, j'ai commencé à chercher les vraies causes. aujourd'hui encore, quand la fatigue revient, je ne me demande plus « qu'est-ce qui ne va pas chez moi ? » mais « qu'est-ce que mon corps essaie de me dire ? »",
@@ -929,7 +929,7 @@ const SOS_DATA = [
   },
   {
     id:"regles", emoji:"🌙", titre:"Règles absentes", couleur:"#A89AB8",
-    validation:"l'absence de règles avec un SOPK — c'est pas un oubli de ton corps.\nc'est ton corps qui dit que quelque chose n'est pas encore en place.\nc'est un signal. pas une défaillance.",
+    validation:"l'absence de règles avec un SMOP (SOPK) — c'est pas un oubli de ton corps.\nc'est ton corps qui dit que quelque chose n'est pas encore en place.\nc'est un signal. pas une défaillance.",
     actions5min:[
       {em:"📝", t:"Note la date du dernier cycle", why:"avoir des données précises pour le médecin"},
       {em:"🧘", t:"Cohérence cardiaque maintenant", why:"le cortisol élevé bloque l'ovulation directement"},
@@ -951,7 +951,7 @@ const SOS_DATA = [
       {em:"🫚", t:"Oméga-3 maintenant", why:"anti-inflammatoire naturel — même mécanisme que l'ibuprofène"},
     ],
     action1h:"ibuprofène si nécessaire — pas de culpabilité. et note l'intensité sur 10 pour ton dossier médecin.",
-    mecanisme:"les prostaglandines pro-inflammatoires provoquent les contractions utérines. avec un terrain inflammatoire SOPK, leur production est souvent excessive. les oméga-3 et le magnésium réduisent cette production progressivement.",
+    mecanisme:"les prostaglandines pro-inflammatoires provoquent les contractions utérines. avec un terrain inflammatoire SMOP (SOPK), leur production est souvent excessive. les oméga-3 et le magnésium réduisent cette production progressivement.",
     kamila:"ces douleurs méritent d'être prises au sérieux. par toi. et par ton médecin.",
     secret:"une douleur de règles qui te plie en deux, qui te réveille la nuit, n'est PAS « normale » — même si on te l'a répété. une douleur intense mérite toujours une vraie recherche de cause (et parfois un avis sur l'endométriose, fréquemment associée). soulager sans comprendre, ce n'est pas se soigner.",
     monMot:"ce qui me met encore en colère, c'est qu'on a longtemps cherché à calmer ma douleur sans chercher à la comprendre. des douleurs qui me réveillaient la nuit, qui me pliaient en deux. on me donnait des médicaments, on me disait que ça passerait — mais personne ne me disait pourquoi. pendant des années, j'ai cru que souffrir faisait partie du contrat. aujourd'hui je sais que non. la douleur est un signal. pas une personnalité, pas une fatalité, pas quelque chose qu'on doit simplement apprendre à supporter.",
@@ -966,7 +966,7 @@ const SOS_DATA = [
       {em:"🎙️", t:"Écoute le vocal Kamila 'jours difficiles'", why:"tu n'as pas à traverser ça seule"},
     ],
     action1h:"une seule mission. la plus petite. pas les 30 jours — juste la prochaine heure.",
-    mecanisme:"le découragement avec le SOPK est souvent biologique autant qu'émotionnel. le cortisol élevé, l'inflammation, la résistance à l'insuline — tout ça affecte la dopamine et la sérotonine. tu ne 'penses trop'. ton cerveau reçoit de mauvais signaux chimiques.",
+    mecanisme:"le découragement avec le SMOP (SOPK) est souvent biologique autant qu'émotionnel. le cortisol élevé, l'inflammation, la résistance à l'insuline — tout ça affecte la dopamine et la sérotonine. tu ne 'penses trop'. ton cerveau reçoit de mauvais signaux chimiques.",
     kamila:"t'es pas en train d'échouer Cyster. t'es en train de traverser quelque chose de difficile. c'est pas la même chose.",
     secret:"le découragement arrive presque toujours au même moment : autour de la 2e-3e semaine, quand l'effort est là mais que les résultats visibles ne sont pas encore arrivés. ce n'est pas que ça ne marche pas — c'est que ton corps change à l'intérieur avant que ça se voie dehors. ce creux est NORMAL et il annonce souvent que le tournant est proche.",
     monMot:"longtemps, j'ai cru que j'étais juste nulle en discipline. je recommençais chaque lundi, puis j'abandonnais — et chaque abandon devenait la preuve que je n'y arriverais jamais. ce que je ne comprenais pas, c'est que je me battais contre quelque chose que personne ne m'avait expliqué. le jour où j'ai découvert le SMOP, j'ai arrêté de me voir comme un échec, et j'ai commencé à me voir comme une femme qui avait enfin une explication. le découragement n'a pas disparu d'un coup. mais j'ai arrêté de confondre une journée difficile avec une vie ratée. aujourd'hui si t'as plus de force, ne pense pas aux 30 prochains jours. pense juste au prochain petit pas.",
@@ -989,14 +989,14 @@ const SOS_DATA = [
   },
   {
     id:"stress", emoji:"😤", titre:"Stress aigu", couleur:"#D97706",
-    validation:"ton corps est en mode survie là.\net avec un SOPK — le stress n'est pas juste inconfortable.\nil agit directement sur tes hormones.",
+    validation:"ton corps est en mode survie là.\net avec un SMOP (SOPK) — le stress n'est pas juste inconfortable.\nil agit directement sur tes hormones.",
     actions5min:[
       {em:"🧘", t:"Cohérence cardiaque maintenant", why:"5 sec inspiration · 5 sec expiration · 5 minutes"},
       {em:"🚫", t:"Pas de café pour les 3 prochaines heures", why:"caféine + cortisol = spiral anxieux"},
       {em:"📵", t:"Notifications off", why:"chaque notification = micro-spike de cortisol"},
     ],
     action1h:"une chose à la fois. écrire sur papier la liste de ce qui stresse. puis choisir une seule chose. une.",
-    mecanisme:"le stress active l'axe HPA. cortisol produit. cortisol élevé = résistance à l'insuline aggravée + surrénales qui sur-produisent des androgènes. un jour de stress intense peut aggraver tes symptômes SOPK pendant 48-72h.",
+    mecanisme:"le stress active l'axe HPA. cortisol produit. cortisol élevé = résistance à l'insuline aggravée + surrénales qui sur-produisent des androgènes. un jour de stress intense peut aggraver tes symptômes SMOP (SOPK) pendant 48-72h.",
     kamila:"ce que tu ressens là est réel. et biologique. la cohérence cardiaque n'est pas du yoga — c'est de la neurobiologie appliquée.",
     secret:"le SMOP et le stress s'aggravent mutuellement — c'est une relation bidirectionnelle bien documentée. un cortisol élevé en continu perturbe la glycémie et les hormones. ce n'est pas « juste dans la tête » : agir sur le stress (respiration, sommeil) agit aussi, concrètement, sur ton terrain hormonal.",
     monMot:"longtemps, j'ai cru que j'étais simplement quelqu'un de stressée. avec le recul, je vois surtout un corps qui tirait sur la corde depuis des années : les douleurs, les symptômes, les rendez-vous, les analyses, les inquiétudes. à force, le système d'alarme finit par rester allumé en permanence. le moindre imprévu me vidait, et je culpabilisais de ne pas gérer comme les autres. aujourd'hui je sais que quand un corps lutte depuis longtemps, il devient plus sensible aux signaux de danger. ça ne veut pas dire que tu es faible. ça veut souvent dire que tu es épuisée depuis trop longtemps.",
@@ -1023,10 +1023,10 @@ const SOS_DATA = [
     actions5min:[
       {em:"📝", t:"Note ce qui s'est passé exactement", why:"pour le prochain rendez-vous ou un deuxième avis"},
       {em:"📱", t:"Ouvre 'Plans d'action post-résultats'", why:"selon ce que le médecin a dit — il y a une réponse"},
-      {em:"🔍", t:"Cherche un gynéco spécialisé hormones", why:"un généraliste n'est pas formé au SOPK comme un spécialiste"},
+      {em:"🔍", t:"Cherche un gynéco spécialisé hormones", why:"un généraliste n'est pas formé au SMOP (SOPK) comme un spécialiste"},
     ],
     action1h:"deuxième avis. ce n'est pas trahir ton médecin. c'est prendre soin de toi.",
-    mecanisme:"le SOPK est encore mal enseigné en faculté de médecine. beaucoup de médecins appliquent les protocoles standards — pilule ou perte de poids — sans aller plus loin. ce n'est pas de la mauvaise volonté. c'est un manque de formation spécifique. tu as le droit de chercher mieux.",
+    mecanisme:"le SMOP (SOPK) est encore mal enseigné en faculté de médecine. beaucoup de médecins appliquent les protocoles standards — pilule ou perte de poids — sans aller plus loin. ce n'est pas de la mauvaise volonté. c'est un manque de formation spécifique. tu as le droit de chercher mieux.",
     kamila:"tu mérites un médecin qui te prend au sérieux. si c'est pas celui-là — il y en a un autre.",
     secret:"le délai moyen de diagnostic du SMOP en France est de 2 à 4 ans, et 70% des femmes concernées l'ignorent encore. si tu sens qu'on ne t'écoute pas, tu n'es ni difficile ni « trop » : tu fais face à une vraie errance médicale documentée. arriver avec tes symptômes notés et tes questions écrites change radicalement une consultation.",
     monMot:"si je pouvais parler à la version plus jeune de moi, je lui dirais : tu n'inventes rien, tu n'exagères rien, et tu as le droit de poser des questions. j'ai passé des années à entendre des réponses à mes symptômes, mais rarement des explications. on traitait l'acné, les douleurs, les règles — mais personne ne reliait les points, personne ne me racontait l'histoire complète. ce n'est qu'en rencontrant les bonnes personnes que j'ai compris ce qui se passait. si aujourd'hui tu sens qu'on ne t'écoute pas, ne remets pas ton ressenti en question. tu vis dans ton corps tous les jours. ta voix compte. tes symptômes comptent. tes questions comptent.",
@@ -1034,7 +1034,7 @@ const SOS_DATA = [
   },
   {
     id:"miroir", emoji:"🪞", titre:"Je ne me reconnais plus", couleur:"#C2AEBA",
-    validation:"ce que tu ressens devant ce miroir — c'est réel.\nc'est pas de la coquetterie.\nc'est une perte d'identité.\net c'est l'un des aspects les plus difficiles du SOPK dont personne ne parle.",
+    validation:"ce que tu ressens devant ce miroir — c'est réel.\nc'est pas de la coquetterie.\nc'est une perte d'identité.\net c'est l'un des aspects les plus difficiles du SMOP (SOPK) dont personne ne parle.",
     actions5min:[
       {em:"🚶‍♀️", t:"Sors de la pièce", why:"couper le cycle de rumination devant le miroir"},
       {em:"✍️", t:"Écris une chose que ton corps fait pour toi", why:"recadrer — pas toxic positivity, juste un fait"},
@@ -1064,7 +1064,7 @@ const SOS_DATA = [
   },
   {
     id:"insomnie", emoji:"🌙", titre:"Réveil nocturne", couleur:"#7A5C45",
-    validation:"3h du matin et le cerveau qui s'emballe.\nc'est l'un des symptômes les plus épuisants du SOPK.\net l'un des moins expliqués.",
+    validation:"3h du matin et le cerveau qui s'emballe.\nc'est l'un des symptômes les plus épuisants du SMOP (SOPK).\net l'un des moins expliqués.",
     actions5min:[
       {em:"📵", t:"Téléphone hors de portée — maintenant", why:"lumière bleue = mélatonine supprimée encore plus"},
       {em:"🧘", t:"Cohérence cardiaque allongée", why:"5 sec inspiration · 5 sec expiration · les yeux fermés"},
@@ -1160,7 +1160,7 @@ pieges:["mélanger tout dans la même bouchée annule l'effet — l'ordre compte
 plus:"si tu n'as vraiment aucun légume sous la main — une cuillère à soupe de vinaigre de cidre dans un verre d'eau, bue juste avant le repas, a un effet similaire sur le lissage du pic glycémique. mon astuce de secours les jours à l'arrache.",
 observes:["dès aujourd'hui : moins de coup de barre après le repas","dans quelques jours : moins de fringale 2h après manger","dans 2 semaines : une faim plus régulière, moins d'envies de sucre l'après-midi"],
 victoire:"tu viens de faire quelque chose que la plupart des médecins n'ont jamais pris le temps de t'expliquer.",
-outil:{emoji:"🍴",label:"Découvre le modèle de l'assiette SOPK",desc:"comment composer ton assiette sans rien peser",cible:"assiette"},
+outil:{emoji:"🍴",label:"Découvre le modèle de l'assiette SMOP (SOPK)",desc:"comment composer ton assiette sans rien peser",cible:"assiette"},
 tisane:{nom:"Cure Détox",timing:"matin à jeun",lien:"https://sopklife.com/products/cure-detox-organisme-clean",texte:"avant tout le reste — on prépare ton foie. c'est lui qui élimine l'excès d'androgènes. la Cure Détox commence aujourd'hui."}},
   {day:2,emoji:"🥚",theme:"le petit-déjeuner qui change tout",
 mission:"remplace ton petit-déjeuner sucré par une version riche en protéines — et note comment tu te sens à 11h.",
@@ -1480,7 +1480,7 @@ pieges:["« manger coloré » ne veut pas dire bonbons ou produits industriels c
 plus:"une astuce que j'adore : prépare un bocal de crudités déjà lavées et coupées le dimanche. les jours où t'as la flemme, t'as toujours de quoi remplir la moitié de ton assiette sans réfléchir.",
 observes:["dès aujourd'hui : un repas qui te laisse plus légère, moins ballonnée","dans quelques jours : une digestion plus calme","dans 2 semaines : des douleurs et une fatigue de fond qui commencent à desserrer"],
 victoire:"tu viens de donner à ton corps ses premières munitions anti-inflammatoires — sans te priver de rien.",
-outil:{emoji:"🍴",label:"Découvre le modèle de l'assiette SOPK",desc:"comment composer ton assiette sans rien peser",cible:"assiette"},
+outil:{emoji:"🍴",label:"Découvre le modèle de l'assiette SMOP (SOPK)",desc:"comment composer ton assiette sans rien peser",cible:"assiette"},
 tisane:{nom:"Cure Détox",timing:"matin à jeun",lien:"https://sopklife.com/products/cure-detox-organisme-clean",texte:"on commence par préparer ton foie — l'organe qui élimine l'excès d'hormones et les composés inflammatoires. la Cure Détox seule cette première semaine, à jeun."}},
 
   {day:2,emoji:"🌅",theme:"le petit-déjeuner qui n'enflamme pas",
@@ -1597,7 +1597,7 @@ pieges:["« détox » en poudre ou jus miracle : marketing, pas de la biologie �
 plus:"ta Cure Détox SOPK Life s'inscrit exactement dans cette logique : soutenir le foie, l'organe qui élimine l'excès d'androgènes et les composés inflammatoires. mais aucune tisane ne remplace l'assiette — elle l'accompagne.",
 observes:["dans quelques jours : une digestion plus légère","dans 2 semaines : une sensation de « corps moins encrassé »","au long cours : un terrain qui s'allège"],
 victoire:"tu viens de soutenir l'organe qui nettoie ton corps jour et nuit.",
-outil:{emoji:"🍴",label:"Voir l'assiette SOPK",desc:"composer un repas qui soutient ton terrain",cible:"assiette"},
+outil:{emoji:"🍴",label:"Voir l'assiette SMOP (SOPK)",desc:"composer un repas qui soutient ton terrain",cible:"assiette"},
 tisane:{nom:"Serenitea",timing:"le soir au coucher",lien:"https://sopklife.com/products/serenitea-detente-absolue",texte:"aujourd'hui on ajoute la Serenitea le soir. le stress et le cortisol entretiennent ton inflammation — la Serenitea aide à apaiser l'axe stress-cortisol et à mieux dormir. ton 3e pilier."}},
 
   {day:11,emoji:"🧘‍♀️",theme:"bouger pour désenflammer",
@@ -1877,7 +1877,7 @@ pieges:["mélanger tout dans la même bouchée annule l'effet — l'ordre compte
 plus:"si tu n'as vraiment aucun légume sous la main — une cuillère à soupe de vinaigre de cidre dans un verre d'eau juste avant le repas lisse aussi le pic. mon astuce de secours les jours à l'arrache.",
 observes:["dès aujourd'hui : moins de coup de barre après le repas","dans quelques jours : moins de fringales","dans 4 à 8 semaines : c'est le délai où la peau commence à répondre"],
 victoire:"tu viens d'agir sur la racine de tes symptômes androgéniques, pas juste sur la surface.",
-outil:{emoji:"🍴",label:"Découvre le modèle de l'assiette SOPK",desc:"comment composer ton assiette sans rien peser",cible:"assiette"},
+outil:{emoji:"🍴",label:"Découvre le modèle de l'assiette SMOP (SOPK)",desc:"comment composer ton assiette sans rien peser",cible:"assiette"},
 tisane:{nom:"Cure Détox",timing:"matin à jeun",lien:"https://sopklife.com/products/cure-detox-organisme-clean",texte:"avant tout le reste — on prépare ton foie. c'est lui qui élimine l'excès d'androgènes et produit la SHBG qui les neutralise. la Cure Détox commence aujourd'hui."}},
 
   {day:2,emoji:"🥚",theme:"le petit-déjeuner qui n'excite pas tes androgènes",
@@ -1916,7 +1916,7 @@ pieges:["les « détox » en poudre ou jus miracle : marketing, pas de biologie"
 plus:"ta Cure Détox SOPK Life s'inscrit exactement dans cette logique : soutenir le foie, l'organe qui élimine l'excès d'androgènes et fabrique la SHBG. mais aucune tisane ne remplace l'eau et les légumes — elle les accompagne.",
 observes:["dans quelques jours : une digestion plus légère","au fil des semaines : un terrain hormonal mieux « nettoyé »","sur la peau : un des leviers qui participe à l'amélioration"],
 victoire:"tu viens de soutenir l'organe qui neutralise tes androgènes jour et nuit.",
-outil:{emoji:"🍴",label:"Voir l'assiette SOPK",desc:"composer un repas qui soutient ton terrain",cible:"assiette"},
+outil:{emoji:"🍴",label:"Voir l'assiette SMOP (SOPK)",desc:"composer un repas qui soutient ton terrain",cible:"assiette"},
 tisane:{nom:"Cure Détox",timing:"matin à jeun",lien:"https://sopklife.com/products/cure-detox-organisme-clean",texte:"la Cure Détox soutient ton foie, l'organe qui élimine l'excès d'androgènes et produit la SHBG. en soutien d'une bonne hydratation et des crucifères."}},
 
   {day:5,emoji:"🚶‍♀️",theme:"le mouvement qui calme les androgènes",
@@ -2188,7 +2188,7 @@ pieges:["croire qu'un écart casse tout : une habitude ancrée encaisse les éca
 plus:"sur ton profil plus que tout autre, la patience et la constance sont tes meilleures armes. tu ne verras pas tout tout de suite — mais chaque jour de régularité travaille pour ta peau et tes cheveux des mois à venir. tu sèmes maintenant, tu récolteras.",
 observes:["aujourd'hui : tu mesures le chemin automatique parcouru","dans les mois à venir : ces habitudes continuent de calmer tes androgènes","au long cours : des résultats visibles qui s'installent"],
 victoire:"tu n'essaies plus — tu vis différemment. et c'est ça qui fera la différence sur la durée.",
-outil:{emoji:"🍴",label:"Revoir l'assiette SOPK",desc:"le modèle à garder à vie",cible:"assiette"},
+outil:{emoji:"🍴",label:"Revoir l'assiette SMOP (SOPK)",desc:"le modèle à garder à vie",cible:"assiette"},
 tisane:{nom:"Andro Tea",timing:"le soir, 1h après le dîner",lien:"https://sopklife.com/products/andro-tea",texte:"l'Andro Tea fait maintenant partie de ta routine du soir — ton geste anti-androgènes quotidien, ancré."}},
 
   {day:26,emoji:"📁",theme:"passer à l'action médicale",
@@ -2815,7 +2815,7 @@ const GPS_DATA = [
 ];
 
 const SCRIPTS = [
-  {t:"Insuline + HOMA-IR",s:"j'ai un SOPK avec des symptômes d'insulinorésistance — fringales, fatigue après les repas. est-ce qu'on peut ajouter l'insuline à jeun pour calculer le HOMA-IR ?",r:"est-ce que je peux le faire sans ordonnance pour avoir une mesure de départ ?"},
+  {t:"Insuline + HOMA-IR",s:"j'ai un SMOP (SOPK) avec des symptômes d'insulinorésistance — fringales, fatigue après les repas. est-ce qu'on peut ajouter l'insuline à jeun pour calculer le HOMA-IR ?",r:"est-ce que je peux le faire sans ordonnance pour avoir une mesure de départ ?"},
   {t:"HGPO — le test oublié",s:"j'aimerais faire une HGPO — hyperglycémie provoquée par voie orale. ma glycémie à jeun est normale mais j'ai tous les symptômes d'une insulinorésistance.",r:"c'est le test qui révèle ce que la glycémie à jeun seule ne voit pas encore."},
   {t:"Testostérone libre + SHBG",s:"j'aimerais la testostérone libre et la SHBG avec la testostérone totale. la SHBG basse peut révéler un excès d'androgènes actifs même avec une totale normale.",r:"la totale seule peut être trompeuse pour mon profil."},
   {t:"DHEAS — androgènes surrénaliens",s:"j'aimerais qu'on dose la DHEAS. je veux comprendre si mes androgènes viennent des ovaires ou des surrénales — ce n'est pas le même traitement.",r:"c'est une distinction importante pour mon profil spécifique."},
@@ -2840,7 +2840,7 @@ const VICTORIES_LIST = [
   "j'ai moins culpabilisé","j'ai bougé différemment","j'ai pris un rendez-vous",
   "j'ai dit non à quelque chose qui ne me faisait pas de bien",
   "j'ai remarqué une amélioration même petite","j'ai été constante",
-  "j'ai pris soin de moi autrement","j'ai parlé de mon SOPK",
+  "j'ai pris soin de moi autrement","j'ai parlé de mon SMOP (SOPK)",
 ];
 
 // ── MOUVEMENT ADAPTÉ (pilier bien-être, jamais esthétique) ──────────────────
@@ -2900,7 +2900,7 @@ const MECANISMES = [
     signes:"fatigue qui ne passe pas, douleurs diffuses, intestin sensible." },
 ];
 
-// ── TISANES SOPK LIFE (compléments alimentaires à base de plantes — cadrage : soutient/accompagne, jamais traite) ──
+// ── TISANES SMOP (SOPK) LIFE (compléments alimentaires à base de plantes — cadrage : soutient/accompagne, jamais traite) ──
 const TISANES = [
   { nom:"Cure Détox — Organisme Clean", em:"🌿", role:"Le point de départ universel", couleur:"#A9BC8E",
     soutient:"soutient les fonctions du foie et le drainage naturel — le foie est le premier maillon du SMOP (il aide à éliminer l'excès d'androgènes et à produire la SHBG).",
@@ -3068,6 +3068,7 @@ export default function App() {
   const [authEmail, setAuthEmail] = useState("");
   const [authPw, setAuthPw] = useState("");
   const [authPw2, setAuthPw2] = useState("");
+  const [showPw, setShowPw] = useState(false);
   const [authErr, setAuthErr] = useState("");
   const [authMsg, setAuthMsg] = useState("");
   const [authBusy, setAuthBusy] = useState(false);
@@ -3419,14 +3420,17 @@ export default function App() {
         <div style={{fontSize:10,letterSpacing:1,textTransform:"uppercase",color:C.light,marginBottom:6}}>Email</div>
         <input type="email" value={authEmail} onChange={e=>setAuthEmail(e.target.value)} autoComplete="email" placeholder="ton@email.fr"
           style={{width:"100%",border:`1px solid ${C.border}`,borderRadius:11,padding:"12px",fontSize:14,fontFamily:"inherit",color:C.brown,marginBottom:14,outline:"none",background:C.cream}}/>
-        <div style={{fontSize:10,letterSpacing:1,textTransform:"uppercase",color:C.light,marginBottom:6}}>Mot de passe</div>
-        <input type="password" value={authPw} onChange={e=>setAuthPw(e.target.value)} autoComplete={authMode==="signup"?"new-password":"current-password"} placeholder="••••••••"
+        <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:6}}>
+          <div style={{fontSize:10,letterSpacing:1,textTransform:"uppercase",color:C.light}}>Mot de passe</div>
+          <button onClick={()=>setShowPw(v=>!v)} style={{background:"none",border:"none",color:C.mid,fontSize:10,cursor:"pointer",fontFamily:"inherit"}}>{showPw?"masquer":"👁 afficher"}</button>
+        </div>
+        <input type={showPw?"text":"password"} value={authPw} onChange={e=>setAuthPw(e.target.value)} autoComplete={authMode==="signup"?"new-password":"current-password"} placeholder={showPw?"ton mot de passe":"••••••••"}
           onKeyDown={e=>{ if(e.key==="Enter"&&authMode!=="signup") doAuth(); }}
           style={{width:"100%",border:`1px solid ${C.border}`,borderRadius:11,padding:"12px",fontSize:14,fontFamily:"inherit",color:C.brown,marginBottom:6,outline:"none",background:C.cream}}/>
         {authMode==="signup" && <div style={{fontSize:9.5,color:C.light,marginBottom:12}}>au moins 6 caractères</div>}
         {authMode==="signup" && <>
           <div style={{fontSize:10,letterSpacing:1,textTransform:"uppercase",color:C.light,marginBottom:6}}>Confirme ton mot de passe</div>
-          <input type="password" value={authPw2} onChange={e=>setAuthPw2(e.target.value)} autoComplete="new-password" placeholder="••••••••"
+          <input type={showPw?"text":"password"} value={authPw2} onChange={e=>setAuthPw2(e.target.value)} autoComplete="new-password" placeholder={showPw?"retape ton mot de passe":"••••••••"}
             onKeyDown={e=>{ if(e.key==="Enter") doAuth(); }}
             style={{width:"100%",border:`1px solid ${authPw2&&authPw2!==authPw?"#E3B8AC":C.border}`,borderRadius:11,padding:"12px",fontSize:14,fontFamily:"inherit",color:C.brown,marginBottom:6,outline:"none",background:C.cream}}/>
           {authPw2&&authPw2!==authPw && <div style={{fontSize:9.5,color:"#B5553F",marginBottom:10}}>les deux mots de passe ne correspondent pas</div>}
@@ -3490,7 +3494,7 @@ export default function App() {
   if(screen==="quiz") return (
     <div style={{fontFamily:"'DM Sans',sans-serif",background:C.cream,minHeight:"100vh",maxWidth:560,margin:"0 auto",paddingBottom:92}}>
       <div style={{background:"linear-gradient(135deg,#7A5C45,#5E4636)",padding:"1.4rem 1.5rem",color:"white"}}>
-        <div style={{fontSize:9,letterSpacing:2,textTransform:"uppercase",opacity:.6}}>Ton type de SOPK</div>
+        <div style={{fontSize:9,letterSpacing:2,textTransform:"uppercase",opacity:.6}}>Ton type de SMOP (SOPK)</div>
         <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.5rem",marginTop:3}}>Trouvons ton profil</div>
         <div style={{fontSize:11.5,opacity:.85,marginTop:6,lineHeight:1.55}}>réponds honnêtement — pas comme tu voudrais être. ce n'est pas un diagnostic médical, c'est un raccourci pour décider par où commencer.</div>
       </div>
@@ -3501,7 +3505,7 @@ export default function App() {
               <span style={{fontSize:16}}>{QUIZ_AXES[ax].emoji}</span>
               <span style={{fontSize:13,fontWeight:700,color:C.brown,textTransform:"capitalize"}}>{ax==="pp"?"Contexte — après la pilule":QUIZ_AXES[ax].label}</span>
             </div>
-            {ax==="pp"&&<div style={{fontSize:10.5,color:C.light,marginBottom:10,lineHeight:1.5}}>ces deux-là ne changent pas ton profil — elles ajoutent une note si ton SOPK a une composante post-pilule.</div>}
+            {ax==="pp"&&<div style={{fontSize:10.5,color:C.light,marginBottom:10,lineHeight:1.5}}>ces deux-là ne changent pas ton profil — elles ajoutent une note si ton SMOP (SOPK) a une composante post-pilule.</div>}
             {QUIZ_SOPK.map((qq,idx)=> qq.ax===ax ? (
               <div key={idx} style={{background:C.white,borderRadius:14,padding:"12px 14px",marginBottom:8,border:`1px solid ${C.border}`}}>
                 <div style={{fontSize:12.5,color:C.brown,lineHeight:1.45,marginBottom:9}}>{qq.q}</div>
@@ -3540,7 +3544,7 @@ export default function App() {
     const r=quizResult; const prof=C.profils[r.profil]||C.profils.metabolique;
     return (
       <div style={{fontFamily:"'DM Sans',sans-serif",background:C.cream,minHeight:"100vh",maxWidth:480,margin:"0 auto",padding:"2.2rem 1.5rem",textAlign:"center"}}>
-        <div style={{fontSize:11,letterSpacing:2,textTransform:"uppercase",color:C.light,marginBottom:10}}>Ton type de SOPK</div>
+        <div style={{fontSize:11,letterSpacing:2,textTransform:"uppercase",color:C.light,marginBottom:10}}>Ton type de SMOP (SOPK)</div>
         <div style={{width:72,height:72,borderRadius:"50%",background:`${prof.p}20`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:34,margin:"0 auto 14px"}}>{prof.emoji}</div>
         <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.7rem",color:C.brown,lineHeight:1.2}}>{prof.label}</div>
         {r.mixte && <div style={{fontSize:13,color:prof.p,fontWeight:600,marginTop:6}}>à dominante {QUIZ_AXES[r.dominant].label} · {r.pct[r.dominant]}%</div>}
@@ -3660,7 +3664,7 @@ export default function App() {
         {(()=>{const h=PROFIL_HIERARCHIE[profil];if(!h)return null;return(
           <div style={{background:C.white,borderRadius:16,padding:"14px",marginBottom:14,border:`1.5px solid ${C.border}`}}>
             <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:10}}>
-              <div style={{fontSize:9,letterSpacing:2,textTransform:"uppercase",color:C.light}}>Ton profil SOPK</div>
+              <div style={{fontSize:9,letterSpacing:2,textTransform:"uppercase",color:C.light}}>Ton profil SMOP (SOPK)</div>
               <div style={{fontSize:8.5,color:C.light,fontStyle:"italic"}}>appuie pour explorer une dimension</div>
             </div>
             {[
@@ -4998,7 +5002,7 @@ export default function App() {
             {/* OUTIL : COMPLÉMENTS */}
             {outilOpen==="complements"&&(
               <div className="fu">
-                {/* ── TES TISANES SOPK LIFE ── */}
+                {/* ── TES TISANES SMOP (SOPK) LIFE ── */}
                 <div style={{fontSize:10,letterSpacing:1.5,textTransform:"uppercase",color:C.terra,fontWeight:700,marginBottom:4}}>Mes tisanes SOPK Life</div>
                 <div style={{fontSize:11,color:C.mid,lineHeight:1.6,marginBottom:12}}>des compléments à base de plantes qui accompagnent ton terrain — elles ne remplacent pas un suivi médical. la séquence : Détox, puis Équilibre Féminin, puis ta tisane de profil.</div>
                 {TISANES.map((t,i)=>{
@@ -5066,11 +5070,11 @@ export default function App() {
               </div>
             )}
 
-            {/* OUTIL : L'ASSIETTE SOPK */}
+            {/* OUTIL : L'ASSIETTE SMOP (SOPK) */}
             {outilOpen==="assiette"&&(
               <div className="fu">
                 <div style={{background:C.bubble,borderRadius:12,padding:"12px 14px",marginBottom:14,fontSize:11,color:C.mid,lineHeight:1.6,border:`1px solid ${C.border}`}}>
-                  le modèle de l'assiette SOPK — pour composer un repas qui stabilise ta glycémie, sans rien peser.
+                  le modèle de l'assiette SMOP (SOPK) — pour composer un repas qui stabilise ta glycémie, sans rien peser.
                 </div>
                 {[
                   {pct:"½",t:"Légumes & fibres",c:"#7A9A5A",ex:"légumes verts, crucifères, salade, légumes colorés — à manger en premier"},
@@ -5142,6 +5146,16 @@ export default function App() {
                     </div>
                   ))}
                 </div>
+
+                <button onClick={()=>{ setOutilCat("fiches_imp"); setOutilOpen("telechargements"); }}
+                  style={{width:"100%",display:"flex",alignItems:"center",gap:11,background:`${C.terra}14`,border:`1px solid ${C.terra}`,borderRadius:14,padding:"13px 14px",marginTop:4,cursor:"pointer",fontFamily:"inherit",textAlign:"left"}}>
+                  <div style={{width:34,height:34,borderRadius:10,background:"#fff",display:"flex",alignItems:"center",justifyContent:"center",fontSize:16,flexShrink:0}}>📥</div>
+                  <div style={{flex:1}}>
+                    <div style={{fontSize:12.5,fontWeight:700,color:C.brown}}>Imprime ta fiche « Composer mon assiette »</div>
+                    <div style={{fontSize:10,color:C.mid,marginTop:1}}>à garder sur le frigo</div>
+                  </div>
+                  <div style={{fontSize:14,color:C.terra}}>›</div>
+                </button>
               </div>
             )}
 
@@ -5149,7 +5163,7 @@ export default function App() {
             {outilOpen==="situations"&&(()=>{
               const guides=[
                 {id:"petitdej",emoji:"🌅",titre:"Réussir son petit-déj",intro:"le petit-déj programme ta glycémie de toute la journée. un matin trop sucré = fringale assurée à 16h.",points:["vise des PROTÉINES dès le matin : œufs, skyr, fromage blanc, tofu brouillé.","évite le sucre seul : pas de jus, pas de céréales sucrées, pas de tartines de confiture seules.","si tu manges du pain : au levain ou complet, avec de l'avocat ou un œuf.","le porridge OK s'il est accompagné de protéines (skyr, graines) et pas noyé de miel.","pas faim le matin ? une option protéinée légère vaut mieux que rien — ça coupe le grignotage."]},
-                {id:"alternatives",emoji:"🔄",titre:"Les échanges malins",intro:"manger SOPK-friendly, ce n'est pas se priver : c'est remplacer intelligemment.",points:["jus de fruits → fruit entier (les fibres changent tout)","céréales sucrées → flocons d'avoine + skyr + fruits rouges","pain blanc → pain au levain ou complet","bonbons → carré de chocolat 85% + amandes","soda → eau pétillante + citron ou thé glacé maison","yaourt aux fruits → yaourt nature + fruits frais"]},
+                {id:"alternatives",emoji:"🔄",titre:"Les échanges malins",intro:"manger SMOP (SOPK)-friendly, ce n'est pas se priver : c'est remplacer intelligemment.",points:["jus de fruits → fruit entier (les fibres changent tout)","céréales sucrées → flocons d'avoine + skyr + fruits rouges","pain blanc → pain au levain ou complet","bonbons → carré de chocolat 85% + amandes","soda → eau pétillante + citron ou thé glacé maison","yaourt aux fruits → yaourt nature + fruits frais"]},
                 {id:"dehors",emoji:"🍽️",titre:"Manger dehors sans stress",intro:"resto, cantine, invitation : tu peux profiter ET prendre soin de toi. pas besoin d'être parfaite.",points:["commence toujours par les légumes/la salade présents dans le plat.","choisis une protéine simple : grillée, au four, vapeur.","garde le féculent pour la fin du repas, en quantité raisonnable.","l'alcool : un verre, accompagné de nourriture, jamais l'estomac vide.","le dessert : partage-le, ou prends-le APRÈS un repas complet (le pic est moindre).","un repas ne défait rien. c'est ce que tu fais 95% du temps qui compte."]},
                 {id:"urgence",emoji:"⏱️",titre:"Quand t'as pas le temps",intro:"les jours pressés, garde des réflexes simples pour ne pas tomber dans l'ultra-transformé.",points:["aie toujours des œufs : 5 min, protéiné, rassasiant.","une boîte de thon ou sardines + crudités = repas express complet.","des légumes surgelés nature : aussi bons que frais, prêts en 5 min.","prépare en grande quantité le week-end (batch-cooking) : quinoa, légumes rôtis, protéines.","une poignée d'amandes + un fruit dépanne mieux qu'un paquet de biscuits."]},
               ];
@@ -5245,7 +5259,7 @@ export default function App() {
             {outilOpen==="fiches"&&(()=>{
               const FICHES=[
                 {id:"proteines",emoji:"🍗",titre:"Les protéines",sous:"ton meilleur allié anti-fringale",
-                 intro:"si tu ne devais retenir qu'une chose côté alimentation SOPK : mange assez de protéines, à chaque repas. c'est le levier numéro un pour stabiliser ta glycémie et couper les fringales.",
+                 intro:"si tu ne devais retenir qu'une chose côté alimentation SMOP (SOPK) : mange assez de protéines, à chaque repas. c'est le levier numéro un pour stabiliser ta glycémie et couper les fringales.",
                  sections:[
                    {t:"pourquoi c'est central",c:["les protéines ralentissent l'absorption du sucre du repas — donc moins de pics, moins de fringales.","elles prolongent la satiété : tu tiens entre les repas sans grignoter.","elles soutiennent la masse musculaire, qui aide ton corps à mieux gérer la glycémie."]},
                    {t:"où les trouver",c:["animales : œufs, poulet, dinde, poisson, fruits de mer, viande maigre.","végétales : légumineuses (lentilles, pois chiches), tofu, tempeh, edamame.","laitières : skyr, fromage blanc, yaourt grec (plus protéinés que les classiques)."]},
@@ -5387,7 +5401,7 @@ export default function App() {
             {outilOpen==="courses"&&(
               <div className="fu">
                 <div style={{background:C.bubble,borderRadius:12,padding:"12px 14px",marginBottom:14,fontSize:11,color:C.mid,lineHeight:1.6,border:`1px solid ${C.border}`}}>
-                  ta liste de courses SOPK : remplis ton caddie avec les bons réflexes, et apprends à déjouer les pièges du supermarché.
+                  ta liste de courses SMOP (SOPK) : remplis ton caddie avec les bons réflexes, et apprends à déjouer les pièges du supermarché.
                 </div>
 
                 {/* Liste de courses type */}
@@ -5459,7 +5473,7 @@ export default function App() {
               if(cycleDay < ovu-2){ phase="Phase folliculaire"; phaseCol="#B8C5A0"; }
               else if(cycleDay<=ovu+2){ phase="Fenêtre fertile estimée"; phaseCol="#D4A56A"; }
               else if(cycleDay<=typique+3){ phase="Phase lutéale"; phaseCol="#A89AB8"; }
-              else { phase="Cycle qui s'allonge"; phaseCol="#B07D4F"; phaseNote="ton cycle dépasse ta durée habituelle — l'ovulation a pu se décaler, ou ne pas avoir lieu ce mois-ci. c'est fréquent avec un SOPK, et ce n'est pas un échec de ton corps."; }
+              else { phase="Cycle qui s'allonge"; phaseCol="#B07D4F"; phaseNote="ton cycle dépasse ta durée habituelle — l'ovulation a pu se décaler, ou ne pas avoir lieu ce mois-ci. c'est fréquent avec un SMOP (SOPK), et ce n'est pas un échec de ton corps."; }
             } else { phase="Phase folliculaire"; phaseCol="#B8C5A0"; phaseNote="note une 2e période de règles et j'estimerai mieux tes phases."; }
           }
           const nextRange = (last&&gaps.length)? (()=>{ const f=(off)=>{const d=asDate(last);d.setDate(d.getDate()+off);return d.toLocaleDateString("fr-FR",{day:"numeric",month:"short"});}; return minG===maxG? f(minG) : `${f(minG)} – ${f(maxG)}`; })() : null;
@@ -5492,7 +5506,7 @@ export default function App() {
               </div>
             )}
 
-            {tresIrregulier && <div style={{fontSize:10.5,color:C.mid,marginBottom:14,lineHeight:1.5,fontStyle:"italic"}}>tes cycles vont de {minG} à {maxG} jours — c'est pour ça que la fourchette est large. c'est normal avec un SOPK : on ne peut pas prédire une date précise, juste une période probable.</div>}
+            {tresIrregulier && <div style={{fontSize:10.5,color:C.mid,marginBottom:14,lineHeight:1.5,fontStyle:"italic"}}>tes cycles vont de {minG} à {maxG} jours — c'est pour ça que la fourchette est large. c'est normal avec un SMOP (SOPK) : on ne peut pas prédire une date précise, juste une période probable.</div>}
 
             <div style={{background:C.white,borderRadius:16,padding:"16px",marginBottom:14,border:`1px solid ${C.border}`}}>
               <div style={{fontSize:11,letterSpacing:1,textTransform:"uppercase",color:pc.p,fontWeight:600,marginBottom:10}}>Noter mes règles</div>
@@ -5517,7 +5531,7 @@ export default function App() {
               </div>
             )}
 
-            <div style={{fontSize:10.5,color:C.mid,background:`${C.sage}22`,borderRadius:10,padding:"11px 13px",lineHeight:1.6}}>avec un SOPK, ces repères sont des estimations — l'ovulation peut se décaler, et un cycle long (même 60 jours ou plus) est une info, pas une faute. c'est ton ressenti et tes vraies règles qui comptent. noter tes cycles, même irréguliers, est une mine d'or pour ton médecin.</div>
+            <div style={{fontSize:10.5,color:C.mid,background:`${C.sage}22`,borderRadius:10,padding:"11px 13px",lineHeight:1.6}}>avec un SMOP (SOPK), ces repères sont des estimations — l'ovulation peut se décaler, et un cycle long (même 60 jours ou plus) est une info, pas une faute. c'est ton ressenti et tes vraies règles qui comptent. noter tes cycles, même irréguliers, est une mine d'or pour ton médecin.</div>
           </div>
           );
         })()}
@@ -5918,7 +5932,7 @@ profil · 3 priorités · analyses à demander · ton suivi & tes tendances · s
                   const poidsSection = (mesures.actif && poidsArr.length) ? `<h2>Poids</h2><p>Dernier : ${poidsArr[poidsArr.length-1].v} kg &middot; ${poidsArr.length} mesures sur la p&eacute;riode.</p>` : "";
                   const rows=prios.map((p,i)=>`<tr><td style="padding:6px 10px;border:1px solid #E8DDD3;font-weight:600">${i+1}. ${esc(p.t)}</td><td style="padding:6px 10px;border:1px solid #E8DDD3">${esc(p.geste)}</td></tr>`).join("");
                   const inner=`
-                  <h1>Mon dossier SOPK — à présenter à mon médecin</h1>
+                  <h1>Mon dossier SMOP (SOPK) — à présenter à mon médecin</h1>
                   <div><strong>${esc(prenom||"")}</strong> · ${esc(pc.label)} · progression : jour ${day}, ${completedCount} missions validées</div>
                   <h2>Mes 3 priorités en ce moment</h2>
                   <table><tr><th style="padding:6px 10px;border:1px solid #E8DDD3;text-align:left">Priorité</th><th style="padding:6px 10px;border:1px solid #E8DDD3;text-align:left">Premier geste</th></tr>${rows}</table>
