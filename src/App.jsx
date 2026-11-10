@@ -879,7 +879,7 @@ const SOS_DATA = [
     mecanisme:"ton déjeuner a fait monter ta glycémie, ton insuline a sur-corrigé, et vers 15-16h le sucre sanguin chute : c'est le coup de barre. très classique quand on est sensible à l'insuline.",
     kamila:"ton énergie de 16h se joue souvent à midi. tu n'es pas fatiguée « pour rien ».",
     secret:"le coup de barre de l'après-midi se règle rarement à 16h — il se règle au déjeuner. commence ton repas de midi par les protéines et les légumes avant les féculents, et la chute s'adoucit souvent toute seule.",
-    monMot:"à mettre dans ta voix : raconte le moment où tu as compris que ton coup de barre de 16h ne venait pas de toi, mais de ton assiette du midi.",
+    monMot:"le coup de barre de 16h, je l'ai pris pour de la paresse pendant des années. je me disais que je manquais de motivation, que les autres tenaient mieux que moi. alors je carburais au café et au carré de chocolat pour tenir l'après-midi, et ça ne faisait qu'empirer la chute suivante. le jour où j'ai compris que ce creux venait de mon déjeuner et pas de ma volonté, j'ai arrêté de m'en vouloir. j'ai juste changé l'ordre de mon assiette le midi, et mes après-midi sont devenues respirables. personne ne m'avait dit que mon énergie de 16h se jouait à midi.",
     liens:["ta fiche L'assiette SMOP (l'ordre des aliments)","le planificateur de repas pour anticiper ton déjeuner","la fiche SOS \"fringale sucrée\" si le creux donne envie de sucre"]
   },
   {
@@ -894,7 +894,7 @@ const SOS_DATA = [
     mecanisme:"vers 3-4h, si ta glycémie chute, ton corps libère du cortisol et de l'adrénaline pour la remonter — et ça te réveille. un cortisol déjà déréglé par le stress rend ce réveil plus fréquent. c'est le lien stress-sommeil-SMOP (SOPK).",
     kamila:"ton sommeil n'est pas cassé. il réagit à un déséquilibre qu'on peut apaiser.",
     secret:"un dîner trop léger ou trop sucré favorise la chute nocturne. pour certaines, une petite collation protéinée au coucher (un yaourt grec, quelques amandes) suffit à tenir la nuit.",
-    monMot:"à mettre dans ta voix : raconte tes nuits coupées à 3h, et ce que ça change de comprendre que ce n'est pas « de l'insomnie dans ta tête ».",
+    monMot:"combien de nuits je me suis réveillée à 3h, le cerveau en pleine ébullition, impossible de l'éteindre. je tournais dans mon lit, je m'agaçais de ne pas dormir, et plus je luttais, moins le sommeil revenait. je me croyais juste insomniaque, « stressée dans ma tête ». comprendre que ce réveil avait une vraie cause biologique — mon cortisol, ma glycémie qui chute la nuit — ça m'a enlevé un poids énorme. ce n'était pas moi, le problème. et une fois qu'on sait d'où ça vient, on peut enfin agir dessus au lieu de le subir, nuit après nuit.",
     liens:["ta tisane Serenitea (stress et sommeil)","la fiche SOS \"stress aigu\"","ton Journal du soir pour poser ce qui tourne en boucle"]
   },
   {
@@ -909,7 +909,7 @@ const SOS_DATA = [
     mecanisme:"l'inflammation de bas grade, une digestion sensible et les variations hormonales ralentissent le transit et font retenir l'eau. le ventre gonfle surtout le soir et en 2e partie de cycle.",
     kamila:"ton ventre te parle. le gonflement est un message, pas une punition.",
     secret:"si le gonflement revient toujours après les mêmes repas, c'est une piste d'intolérance (souvent gluten ou laitages) à explorer calmement — pas une fatalité, et surtout pas « c'est dans ta tête ».",
-    monMot:"à mettre dans ta voix : raconte ce rapport au ventre gonflé, le soir, et ce que tu aurais aimé qu'on t'explique.",
+    monMot:"le ventre gonflé du soir, c'est un truc dont on n'ose pas trop parler. je me sentais serrée dans mes vêtements en fin de journée, avec l'impression d'avoir « trop mangé » alors que non. longtemps j'ai cru que je mangeais mal, ou que c'était dans ma tête. comprendre que c'est lié au SMOP — l'inflammation, une digestion sensible, les hormones — m'a réconciliée avec mon corps. il ne me punissait pas, il réagissait à un déséquilibre. j'aurais tellement aimé qu'on me l'explique plus tôt, au lieu de me laisser croire que c'était ma faute.",
     liens:["le sujet \"L'intestin et ton SMOP\" dans Comprendre","ta tisane Inflamma Tea","l'onglet Chercher un aliment pour repérer ce qui te gonfle"]
   },
   {
@@ -924,7 +924,7 @@ const SOS_DATA = [
     mecanisme:"en 2e partie de cycle, la chute des œstrogènes et de la progestérone fait baisser la sérotonine — d'où irritabilité, tristesse, anxiété. avec le SMOP (SOPK), ces variations sont souvent amplifiées.",
     kamila:"tu n'es pas « invivable » quelques jours par mois. tu traverses une vague hormonale, et elle redescend.",
     secret:"anticiper change tout : repère ces jours dans ton cycle, et protège ton sommeil + ton magnésium en phase lutéale. savoir que la vague arrive, c'est déjà moins la subir.",
-    monMot:"à mettre dans ta voix : raconte ce que le SPM a fait vivre à ton couple ou à ton entourage, et le soulagement de comprendre que c'était hormonal.",
+    monMot:"quelques jours par mois, je devenais quelqu'un que je ne reconnaissais pas : à fleur de peau, triste sans raison, irritable avec les gens que j'aime le plus. et juste après, je culpabilisais d'avoir été « trop ». je pensais que c'était mon caractère, un défaut à corriger. comprendre que c'était la chute hormonale de la deuxième partie de cycle, et pas moi, ça a été un soulagement immense. aujourd'hui je repère ces jours à l'avance, je préviens mon entourage, et je m'accorde de la douceur au lieu de me juger. savoir que la vague va redescendre, ça change déjà tout.",
     liens:["ton onglet Mon cycle pour repérer ta phase lutéale","ta tisane Équilibre Féminin","ton Journal pour suivre ton humeur au fil du cycle"]
   },
   {
@@ -4028,7 +4028,7 @@ export default function App() {
           )}
           {sos.monMot&&(
             <div style={{background:`${sos.couleur}15`,borderRadius:12,padding:"12px 14px",marginBottom:10,borderLeft:`3px solid ${sos.couleur}`}}>
-              <div style={{fontSize:10,fontWeight:700,color:sos.couleur,marginBottom:5}}>le mot de ta grande sœur</div>
+              <div style={{fontSize:10,fontWeight:700,color:sos.couleur,marginBottom:5}}>le mot de ta cyster</div>
               <div style={{fontSize:12,color:C.brown,lineHeight:1.7,fontStyle:"italic"}}>{sos.monMot}</div>
             </div>
           )}
