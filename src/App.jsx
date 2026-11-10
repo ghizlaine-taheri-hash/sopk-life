@@ -4042,10 +4042,24 @@ export default function App() {
               {sos.liens.map((l,i)=>{
                 const low=l.toLowerCase();
                 const act={fontSize:11,color:sos.couleur,lineHeight:1.8,fontWeight:600,display:"block",background:"none",border:"none",padding:0,textAlign:"left",fontFamily:"inherit",cursor:"pointer",textDecoration:"underline",textDecorationColor:`${sos.couleur}66`};
+                const plain={fontSize:11,color:sos.couleur,lineHeight:1.8,fontWeight:500};
+                const goTab=(t)=>()=>{setSosOpen(null);setTab(t);};
+                const goOutil=(cat,id)=>()=>{setSosOpen(null);setTab("outils");setOutilCat(cat);setOutilOpen(id);};
+                const B=(fn)=><button key={i} onClick={fn} style={act}>→ {l}</button>;
                 if(low.includes("communauté")) return <a key={i} href={WHATSAPP_URL} target="_blank" rel="noopener" style={act}>→ {l}</a>;
-                if(low.includes("journal")) return <button key={i} onClick={()=>{setSosOpen(null);setTab("journal");}} style={act}>→ {l}</button>;
-                if(low.includes("mindset")) return <button key={i} onClick={()=>{setSosOpen(null);setTab("kamila");}} style={act}>→ {l}</button>;
-                return <div key={i} style={{fontSize:11,color:sos.couleur,lineHeight:1.8,fontWeight:500}}>→ {l}</div>;
+                if(low.includes("fiche sos")){ const t=SOS_DATA.find(s=>s.id!==sos.id&&low.includes(s.titre.toLowerCase())); return t?B(()=>setSosOpen(t.id)):<div key={i} style={plain}>→ {l}</div>; }
+                if(low.includes("journal")) return B(goTab("journal"));
+                if(low.includes("mindset")) return B(goTab("kamila"));
+                if(low.includes("analyses")) return B(goTab("analyses"));
+                if(low.includes("scripts")) return B(goTab("medecin"));
+                if(low.includes("mon cycle")) return B(goTab("cycle"));
+                if(low.includes("dans comprendre")) return B(goOutil("comprendre","comprendre"));
+                if(low.includes("assiette")) return B(goOutil("alimentation","assiette"));
+                if(low.includes("planificateur")||low.includes("planifier")) return B(goOutil("alimentation","planif"));
+                if(low.includes("chercher un aliment")) return B(goOutil("alimentation","aliments"));
+                if(low.includes("recettes")) return B(goOutil("alimentation","recettes"));
+                if(low.includes("sur l'accueil")||low.includes("parcours, fait pour toi")) return B(goTab("kamila"));
+                return <div key={i} style={plain}>→ {l}</div>;
               })}
             </div>
           )}
