@@ -2909,11 +2909,11 @@ const MOUVEMENT = [
   { id:"matin", nom:"Routine douce du matin", duree:"8 min", niveau:"tous niveaux", ic:"coffee",
     intro:"de quoi réveiller ton corps en douceur, sans forcer. parfaite les jours de petite énergie.",
     exercices:[
-      {n:"Respiration profonde",d:"5 respirations lentes, mains sur le ventre, pour réveiller le système nerveux."},
-      {n:"Étirement des bras vers le ciel",d:"debout, étire-toi vers le haut, puis relâche. 5 fois, sans à-coups."},
-      {n:"Rotations douces des épaules",d:"10 rotations en arrière, pour dénouer le haut du dos."},
-      {n:"Flexion avant relâchée",d:"penche-toi doucement vers l'avant, genoux souples, laisse pendre la tête. respire."},
-      {n:"Marche sur place",d:"1 à 2 minutes, à ton rythme, pour activer la circulation."},
+      {n:"Respiration profonde",d:"5 respirations lentes, mains sur le ventre, pour réveiller le système nerveux.",img:"breath"},
+      {n:"Étirement des bras vers le ciel",d:"debout, étire-toi vers le haut, puis relâche. 5 fois, sans à-coups.",img:"reachUp"},
+      {n:"Rotations douces des épaules",d:"10 rotations en arrière, pour dénouer le haut du dos.",img:"shoulderRoll"},
+      {n:"Flexion avant relâchée",d:"penche-toi doucement vers l'avant, genoux souples, laisse pendre la tête. respire.",img:"forwardFold"},
+      {n:"Marche sur place",d:"1 à 2 minutes, à ton rythme, pour activer la circulation.",img:"march"},
     ]},
   { id:"bas", nom:"Bas du corps", duree:"15 min", niveau:"doux", ic:"pulse",
     intro:"renforce jambes et fessiers sans impact. le bas du corps est un grand consommateur de sucre — bouger ici soutient ta sensibilité à l'insuline.",
@@ -2940,6 +2940,25 @@ const MOUVEMENT = [
       {n:"Retour au calme",d:"ralentis progressivement, puis 5 respirations profondes pour redescendre."},
     ]},
 ];
+
+// ── ILLUSTRATIONS D'EXERCICES (pictogrammes SVG, traits simples, palette SOPK Life) ──
+function ExIllus({ pose, color = "#A89AB8" }) {
+  const P = {
+    breath: (<g><circle cx="30" cy="12" r="5"/><path d="M30 17 V34"/><path d="M30 22 C26 24 24 28 26 32"/><path d="M30 22 C34 24 36 28 34 32"/><path d="M30 34 L24 52"/><path d="M30 34 L36 52"/><path d="M40 10 q4 2 0 5" opacity=".5"/><path d="M44 8 q5 3 0 7" opacity=".3"/></g>),
+    reachUp: (<g><circle cx="30" cy="15" r="5"/><path d="M30 20 V38"/><path d="M30 23 L22 8"/><path d="M30 23 L38 8"/><path d="M30 38 L24 52"/><path d="M30 38 L36 52"/></g>),
+    shoulderRoll: (<g><circle cx="30" cy="12" r="5"/><path d="M30 17 V36"/><path d="M30 22 L23 28 L25 35"/><path d="M30 22 L37 28 L35 35"/><path d="M30 36 L24 52"/><path d="M30 36 L36 52"/><path d="M40 20 a5 5 0 1 1 -2 -4" opacity=".55"/><path d="M38 15 l1 2 -2 1" opacity=".55"/></g>),
+    forwardFold: (<g><circle cx="41" cy="33" r="4.5"/><path d="M30 26 C34 31 38 33 39 35"/><path d="M30 26 L27 52"/><path d="M30 26 L33 52"/><path d="M39 36 L41 48"/><path d="M39 36 L37 48"/></g>),
+    march: (<g><circle cx="29" cy="12" r="5"/><path d="M29 17 V33"/><path d="M29 21 L22 29"/><path d="M29 21 L36 25"/><path d="M29 33 L29 52"/><path d="M29 33 L36 39 L32 48"/></g>),
+  };
+  const node = P[pose];
+  if (!node) return null;
+  return (
+    <svg viewBox="0 0 60 60" width="100%" height="100%" fill="none"
+      stroke={color} strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+      {node}
+    </svg>
+  );
+}
 
 // ── BANQUE DE CONNAISSANCES SMOP (contenu original, voix SOPK Life, cadrage prudent) ──
 const SAVOIRS = [
@@ -5572,7 +5591,32 @@ export default function App() {
 
                 {/* ── LES MÉCANISMES DU SMOP ── */}
                 <div style={{fontSize:10,letterSpacing:1.5,textTransform:"uppercase",color:C.terra,fontWeight:700,marginBottom:4}}>Comment marche ton SMOP</div>
-                <div style={{fontSize:11,color:C.mid,lineHeight:1.6,marginBottom:12}}>pas pour te faire peur — pour que tu comprennes ce qui se joue dans ton corps, et pourquoi chaque geste compte. touche un mécanisme pour l'ouvrir.</div>
+                <div style={{fontSize:11,color:C.mid,lineHeight:1.6,marginBottom:12}}>pas pour te faire peur — pour que tu comprennes ce qui se joue dans ton corps, et pourquoi chaque geste compte.</div>
+
+                {/* ── LES HORMONES EN 1 COUP D'ŒIL ── */}
+                <div style={{background:C.white,border:`1.5px solid ${C.border}`,borderRadius:14,padding:"13px 14px",marginBottom:12}}>
+                  <div style={{fontSize:12,fontWeight:700,color:C.brown,marginBottom:3}}>Les hormones en 1 coup d'œil</div>
+                  <div style={{fontSize:10.5,color:C.mid,lineHeight:1.55,marginBottom:11}}>le résumé avant le détail — ce qui se dérègle, et ce qui l'apaise. tu ouvres chaque mécanisme juste en dessous.</div>
+                  {[
+                    {h:"Insuline",coul:"#CB9A79",etat:"souvent trop haute",role:"pousse les ovaires à fabriquer des androgènes et déclenche les fringales",apaise:"assiette qui stabilise la glycémie · bouger après les repas · sommeil"},
+                    {h:"Androgènes",coul:"#A89AB8",etat:"en excès",role:"agissent sur la peau, les poils et les cheveux",apaise:"soutenir le foie · gérer l'insuline · les plantes de ton profil"},
+                    {h:"Cortisol",coul:"#9FB3C9",etat:"emballé par le stress",role:"aggrave la résistance à l'insuline et relance tout le cercle",apaise:"sommeil · respiration · récupération · un vrai temps calme"},
+                    {h:"SHBG",coul:"#A9BC8E",etat:"souvent trop basse",role:"quand le foie est surchargé, elle neutralise moins les androgènes libres",apaise:"soutenir le foie · alléger l'inflammation"},
+                  ].map((r,i)=>(
+                    <div key={i} style={{display:"flex",gap:10,paddingTop:i>0?10:0,marginTop:i>0?10:0,borderTop:i>0?`1px solid ${C.border}`:"none"}}>
+                      <div style={{width:4,alignSelf:"stretch",borderRadius:99,background:r.coul,flexShrink:0}}/>
+                      <div style={{flex:1}}>
+                        <div style={{display:"flex",alignItems:"baseline",gap:7,flexWrap:"wrap",marginBottom:3}}>
+                          <span style={{fontSize:12,fontWeight:700,color:C.brown}}>{r.h}</span>
+                          <span style={{fontSize:8.5,fontWeight:700,color:r.coul,background:`${r.coul}1C`,borderRadius:99,padding:"2px 8px"}}>{r.etat}</span>
+                        </div>
+                        <div style={{fontSize:10.5,color:C.mid,lineHeight:1.5,marginBottom:4}}>{r.role}</div>
+                        <div style={{fontSize:10,color:"#4F6038",lineHeight:1.45}}><span style={{fontWeight:700}}>on l'apaise par :</span> {r.apaise}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <div style={{fontSize:10.5,color:C.mid,lineHeight:1.6,marginBottom:12,fontStyle:"italic"}}>le détail de chaque mécanisme, en dessous — touche celui que tu veux ouvrir.</div>
                 {MECANISMES.map((m,i)=>{
                   const open=mecaOpen===m.nom;
                   return(
@@ -6373,6 +6417,35 @@ profil · 3 priorités · analyses à demander · ton suivi & tes tendances · s
               <div style={{fontSize:11,lineHeight:1.6,opacity:.95}}>bouger pour ta sensibilité à l'insuline, ton énergie, ton moral — et pour te sentir bien dans ton corps, comme tu l'entends. ton objectif t'appartient : tu choisis, tu adaptes, tu écoutes ton corps.</div>
             </div>
 
+            {/* ── QUELS SPORTS QUAND ON A UN SMOP ── */}
+            <div style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:16,padding:"14px 15px",marginBottom:14}}>
+              <div style={{fontSize:13,fontWeight:700,color:C.brown,marginBottom:3}}>Quels sports quand on a un SMOP ?</div>
+              <div style={{fontSize:11,color:C.mid,lineHeight:1.6,marginBottom:12}}>on te dit « fais du sport », jamais lequel ni comment. avec un SMOP, ce n'est pas l'intensité qui compte, c'est le bon dosage pour ton terrain.</div>
+              {[
+                {coul:"#7A9A5A",bg:"#EFF3E8",tag:"à privilégier",items:[
+                  {n:"Le renforcement musculaire doux",d:"le muscle est un grand consommateur de sucre : plus tu en as, mieux ton corps gère sa glycémie. c'est le levier n°1 pour l'insuline."},
+                  {n:"La marche, surtout après les repas",d:"10-15 min après manger lissent le pic de glycémie. simple, gratuit, redoutable."},
+                  {n:"Le yoga, le pilates, les étirements",d:"ils apaisent le système nerveux et le cortisol — précieux quand ton SMOP réagit au stress."},
+                ]},
+                {coul:"#D4A56A",bg:"#FBF3E8",tag:"à doser, à l'écoute",items:[
+                  {n:"Le cardio intense / HIIT",d:"pas interdit, mais à manier avec prudence : poussé trop fort quand tu es déjà fatiguée ou stressée, il peut faire grimper le cortisol et aller contre toi. en forme et ça te fait du bien ? vas-y. épuisée ? allège."},
+                ]},
+              ].map((cat,i)=>(
+                <div key={i} style={{marginBottom:i===0?12:0}}>
+                  <div style={{fontSize:9,letterSpacing:1,textTransform:"uppercase",color:cat.coul,fontWeight:700,marginBottom:7}}>{cat.tag}</div>
+                  {cat.items.map((it,j)=>(
+                    <div key={j} style={{background:cat.bg,borderRadius:11,padding:"10px 12px",marginBottom:7,borderLeft:`3px solid ${cat.coul}`}}>
+                      <div style={{fontSize:12,fontWeight:600,color:C.brown,marginBottom:2}}>{it.n}</div>
+                      <div style={{fontSize:10.5,color:C.mid,lineHeight:1.5}}>{it.d}</div>
+                    </div>
+                  ))}
+                </div>
+              ))}
+              <div style={{background:`${pc.p}10`,borderRadius:11,padding:"10px 12px",marginTop:4}}>
+                <div style={{fontSize:10.5,color:C.brown,lineHeight:1.6}}><strong>la règle d'or :</strong> régularité douce &gt; intensité. 20 min la plupart des jours valent mieux qu'une séance qui te met à terre une fois par semaine. tu construis dans la durée, pas dans la performance.</div>
+              </div>
+            </div>
+
             {MOUVEMENT.map(r=>{
               const open=mouvOpen===r.id;
               return(
@@ -6395,8 +6468,15 @@ profil · 3 priorités · analyses à demander · ton suivi & tes tendances · s
                     <div style={{padding:"0 14px 14px"}}>
                       <div style={{fontSize:11,color:C.mid,lineHeight:1.6,background:C.bubble,borderRadius:11,padding:"10px 12px",marginBottom:12}}>{r.intro}</div>
                       {r.exercices.map((ex,i)=>(
-                        <div key={i} style={{display:"flex",gap:11,marginBottom:i<r.exercices.length-1?12:0}}>
-                          <div style={{width:24,height:24,borderRadius:"50%",background:`${pc.p}12`,color:pc.p,fontSize:11,fontWeight:700,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>{i+1}</div>
+                        <div key={i} style={{display:"flex",gap:11,alignItems:"center",marginBottom:i<r.exercices.length-1?12:0}}>
+                          {ex.img?(
+                            <div style={{width:48,height:48,borderRadius:12,background:`${pc.p}10`,border:`1px solid ${pc.p}22`,padding:6,flexShrink:0,position:"relative"}}>
+                              <ExIllus pose={ex.img} color={pc.p}/>
+                              <div style={{position:"absolute",top:-6,left:-6,width:18,height:18,borderRadius:"50%",background:pc.p,color:"#fff",fontSize:9.5,fontWeight:700,display:"flex",alignItems:"center",justifyContent:"center"}}>{i+1}</div>
+                            </div>
+                          ):(
+                            <div style={{width:24,height:24,borderRadius:"50%",background:`${pc.p}12`,color:pc.p,fontSize:11,fontWeight:700,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>{i+1}</div>
+                          )}
                           <div style={{flex:1}}>
                             <div style={{fontSize:12.5,fontWeight:600,color:C.brown}}>{ex.n}</div>
                             <div style={{fontSize:11,color:C.mid,marginTop:2,lineHeight:1.5}}>{ex.d}</div>
@@ -6408,6 +6488,35 @@ profil · 3 priorités · analyses à demander · ton suivi & tes tendances · s
                 </div>
               );
             })}
+
+            {/* ── L'IMPACT DU STRESS + MA MÉTHODE ── */}
+            <div style={{background:`linear-gradient(135deg,#9FB3C9,#8299B2)`,borderRadius:16,padding:"15px 16px",marginTop:16,marginBottom:14,color:"#fff"}}>
+              <div style={{fontSize:9,letterSpacing:2,textTransform:"uppercase",opacity:.85,marginBottom:5}}>Le levier qu'on oublie</div>
+              <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.1rem",fontWeight:600,marginBottom:7}}>Le stress parle à ton SMOP</div>
+              <div style={{fontSize:11,lineHeight:1.65,opacity:.96}}>le stress chronique maintient ton cortisol élevé. et ce cortisol aggrave la résistance à l'insuline et pousse tes surrénales à produire des androgènes. résultat : un SMOP qui flambe dans les périodes dures. ce n'est pas dans ta tête — c'est de la chimie. donc apaiser ton stress, ce n'est pas du « bien-être » en option : c'est un vrai soin de ton terrain.</div>
+            </div>
+            <div style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:16,padding:"14px 15px",marginBottom:14}}>
+              <div style={{fontSize:13,fontWeight:700,color:C.brown,marginBottom:3}}>Ma méthode, celle qui m'a aidée</div>
+              <div style={{fontSize:11,color:C.mid,lineHeight:1.6,marginBottom:12}}>je te la partage comme mon expérience, pas comme une ordonnance. prends ce qui te parle, laisse le reste.</div>
+              {[
+                {n:"La respiration, mon outil d'urgence",d:"quand ça monte : 4 secondes d'inspiration, 6 d'expiration, pendant 3 minutes. l'expiration longue envoie à ton corps le signal « tout va bien ». c'est ce qui me ramène le plus vite."},
+                {n:"Des micro-pauses, pas une heure de méditation",d:"je ne cherche plus le temps parfait. 2 minutes les yeux fermés entre deux tâches, ça compte plus qu'une séance que je ne ferai jamais."},
+                {n:"Poser des limites, pour de vrai",d:"le stress, ce n'est pas que dans le corps : c'est aussi le trop-plein qu'on s'impose. apprendre à dire non, à déléguer, à ne pas tout porter — ça a été mon vrai tournant."},
+                {n:"Le sommeil, non négociable",d:"c'est là que le cortisol redescend. je protège mes nuits comme un rendez-vous médical (la routine complète est dans Comprendre)."},
+                {n:"Bouger pour évacuer",d:"une marche, quelques étirements : le mouvement doux fait baisser la tension nerveuse. pas pour performer — pour vider la cocotte."},
+              ].map((it,i)=>(
+                <div key={i} style={{display:"flex",gap:11,marginBottom:i<4?12:0}}>
+                  <div style={{width:24,height:24,borderRadius:"50%",background:"#9FB3C920",color:"#5E7488",fontSize:11,fontWeight:700,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>{i+1}</div>
+                  <div style={{flex:1}}>
+                    <div style={{fontSize:12.5,fontWeight:600,color:C.brown}}>{it.n}</div>
+                    <div style={{fontSize:11,color:C.mid,marginTop:2,lineHeight:1.5}}>{it.d}</div>
+                  </div>
+                </div>
+              ))}
+              <div style={{background:"#FBF3E8",borderRadius:11,padding:"10px 12px",marginTop:13,border:"1px dashed #D4A56A"}}>
+                <div style={{fontSize:10,color:"#8A6D2A",lineHeight:1.55}}><strong>à personnaliser :</strong> raconte ici, dans ta voix, le moment où le stress t'a fait flamber et comment ta méthode t'a sortie de là. ton histoire vraie vaudra mille conseils.</div>
+              </div>
+            </div>
 
             <div style={{background:C.mauveSoft,borderRadius:14,padding:"12px 14px",marginTop:4}}>
               <div style={{fontSize:11,color:C.mid,lineHeight:1.6}}>le mouvement régulier et doux améliore la sensibilité à l'insuline et l'humeur. on écoute son corps : la fatigue normale n'est pas la douleur. en cas de doute médical, demande l'avis de ton médecin avant de commencer.</div>
