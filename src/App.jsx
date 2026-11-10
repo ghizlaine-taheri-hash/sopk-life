@@ -2882,6 +2882,22 @@ const SCRIPTS = [
   {t:"CRP ultra-sensible",s:"une CRP ultra-sensible plutôt que standard pour évaluer une inflammation chronique de bas grade.",r:"la différence entre les deux est importante pour mon profil."},
 ];
 
+// ── DOSSIER MÉDECIN : listes par défaut (sélectionnables + personnalisables) ──
+const ANALYSES_MED = [
+  { id:"a_hormonal", t:"Bilan hormonal : testostérone totale et libre, SHBG, delta-4 androstènedione" },
+  { id:"a_surrenal", t:"Versant surrénalien : DHEA-S, cortisol, et 17-OH-progestérone (pour écarter une hyperplasie congénitale des surrénales)" },
+  { id:"a_metab", t:"Métabolique : glycémie à jeun, insuline à jeun (HOMA-IR)" },
+  { id:"a_inflam", t:"Inflammation : CRP ultra-sensible" },
+  { id:"a_carences", t:"Carences : ferritine, vitamine D, B12" },
+  { id:"a_thyroide", t:"Thyroïde : TSH (+ T4L, anti-TPO si besoin)" },
+];
+const QUESTIONS_MED = [
+  { id:"q_norme", t:"Mes résultats sont-ils dans la norme optimale, ou juste dans la norme du labo ?" },
+  { id:"q_insuline", t:"Y a-t-il un signe de résistance à l'insuline ?" },
+  { id:"q_pilule", t:"Quelles pistes au-delà de la pilule ?" },
+  { id:"q_specialiste", t:"Vers quel spécialiste m'orienter si besoin ?" },
+];
+
 const MARKERS = [
   {id:"insuline",label:"Insuline à jeun",unit:"µUI/mL",ph:"ex: 12"},
   {id:"glycemie",label:"Glycémie à jeun",unit:"mmol/L",ph:"ex: 5.2"},
@@ -3416,6 +3432,15 @@ export default function App() {
   const [coursesChecked, setCoursesChecked] = useState({});
   const [coursesCustom, setCoursesCustom] = useState(() => load("coursesCustom",[])); // articles ajoutés à la main
   const [coursesRemoved, setCoursesRemoved] = useState(() => load("coursesRemoved",{})); // articles auto retirés
+  // ── Dossier médecin personnalisable ──
+  const [medAnaOff, setMedAnaOff] = useState(() => load("medAnaOff",{}));       // analyses par défaut décochées
+  const [medAnaCustom, setMedAnaCustom] = useState(() => load("medAnaCustom",[]));// analyses ajoutées
+  const [medQOff, setMedQOff] = useState(() => load("medQOff",{}));             // questions par défaut décochées
+  const [medQCustom, setMedQCustom] = useState(() => load("medQCustom",[]));     // questions ajoutées
+  const [medPrioCustom, setMedPrioCustom] = useState(() => load("medPrioCustom",[])); // priorités ajoutées
+  const [medAnaInput, setMedAnaInput] = useState("");
+  const [medQInput, setMedQInput] = useState("");
+  const [medPrioInput, setMedPrioInput] = useState("");
   const [coursesInput, setCoursesInput] = useState("");
   const [perturbCheck, setPerturbCheck] = useState(() => load("perturbCheck",{}));
   const [lettre, setLettre] = useState(() => load("lettre",""));
@@ -3462,6 +3487,11 @@ export default function App() {
   useEffect(()=>{ save("repasPlan",repasPlan); },[repasPlan]);
   useEffect(()=>{ save("coursesCustom",coursesCustom); },[coursesCustom]);
   useEffect(()=>{ save("coursesRemoved",coursesRemoved); },[coursesRemoved]);
+  useEffect(()=>{ save("medAnaOff",medAnaOff); },[medAnaOff]);
+  useEffect(()=>{ save("medAnaCustom",medAnaCustom); },[medAnaCustom]);
+  useEffect(()=>{ save("medQOff",medQOff); },[medQOff]);
+  useEffect(()=>{ save("medQCustom",medQCustom); },[medQCustom]);
+  useEffect(()=>{ save("medPrioCustom",medPrioCustom); },[medPrioCustom]);
   useEffect(()=>{ save("perturbCheck",perturbCheck); },[perturbCheck]);
   useEffect(()=>{ save("lettre",lettre); },[lettre]);
   useEffect(()=>{ save("vidage",vidage); },[vidage]);
@@ -6257,6 +6287,51 @@ export default function App() {
               </div>
             ))}
 
+            {/* ── COMPOSER MON DOSSIER ── */}
+            <div style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:14,padding:"14px 15px",marginTop:8,marginBottom:12}}>
+              <div style={{fontSize:13,fontWeight:700,color:C.brown,marginBottom:3}}>Composer mon dossier</div>
+              <div style={{fontSize:10.5,color:C.mid,lineHeight:1.6,marginBottom:14}}>coche ce qui te concerne, retire le reste, ajoute ce qui te manque. ton dossier te ressemble, et seules les lignes cochées apparaissent dans le PDF.</div>
+
+              {[
+                {titre:"Mes priorités",sous:"les 3 de ton profil sont incluses — ajoute les tiennes",defauts:null,
+                 custom:medPrioCustom,setCustom:setMedPrioCustom,input:medPrioInput,setInput:setMedPrioInput,ph:"ex : parler de ma fatigue persistante"},
+                {titre:"Analyses à demander",sous:null,defauts:ANALYSES_MED,off:medAnaOff,setOff:setMedAnaOff,
+                 custom:medAnaCustom,setCustom:setMedAnaCustom,input:medAnaInput,setInput:setMedAnaInput,ph:"ex : vitamine B9 (folates)"},
+                {titre:"Mes questions",sous:null,defauts:QUESTIONS_MED,off:medQOff,setOff:setMedQOff,
+                 custom:medQCustom,setCustom:setMedQCustom,input:medQInput,setInput:setMedQInput,ph:"ex : est-ce compatible avec un projet bébé ?"},
+              ].map((sec,si)=>{
+                const addItem=()=>{ const v=sec.input.trim(); if(!v) return; sec.setCustom(p=>[...p,v]); sec.setInput(""); };
+                return(
+                <div key={si} style={{marginBottom:si<2?16:4}}>
+                  <div style={{fontSize:11.5,fontWeight:700,color:pc.p,marginBottom:sec.sous?1:7}}>{sec.titre}</div>
+                  {sec.sous&&<div style={{fontSize:9.5,color:C.light,marginBottom:7}}>{sec.sous}</div>}
+                  {sec.defauts&&sec.defauts.map(it=>{
+                    const on=!sec.off[it.id];
+                    return(
+                      <button key={it.id} onClick={()=>sec.setOff(p=>({...p,[it.id]:!p[it.id]}))}
+                        style={{width:"100%",display:"flex",alignItems:"flex-start",gap:9,background:"none",border:"none",cursor:"pointer",fontFamily:"inherit",textAlign:"left",padding:"5px 0"}}>
+                        <div style={{width:18,height:18,borderRadius:5,flexShrink:0,marginTop:1,border:`1.5px solid ${on?pc.p:C.border}`,background:on?pc.p:"#fff",display:"flex",alignItems:"center",justifyContent:"center",color:"#fff",fontSize:11,fontWeight:700}}>{on?"✓":""}</div>
+                        <span style={{fontSize:11,lineHeight:1.45,color:on?C.brown:C.light,textDecoration:on?"none":"line-through"}}>{it.t}</span>
+                      </button>
+                    );
+                  })}
+                  {sec.custom.map((v,i)=>(
+                    <div key={"c"+i} style={{display:"flex",alignItems:"flex-start",gap:9,padding:"5px 0"}}>
+                      <div style={{width:18,height:18,borderRadius:5,flexShrink:0,marginTop:1,border:`1.5px solid ${pc.p}`,background:pc.p,display:"flex",alignItems:"center",justifyContent:"center",color:"#fff",fontSize:11,fontWeight:700}}>✓</div>
+                      <span style={{flex:1,fontSize:11,lineHeight:1.45,color:C.brown}}>{v}</span>
+                      <button onClick={()=>sec.setCustom(p=>p.filter((_,j)=>j!==i))} style={{background:"none",border:"none",cursor:"pointer",color:C.light,fontSize:15,lineHeight:1,padding:"0 2px",fontFamily:"inherit"}}>×</button>
+                    </div>
+                  ))}
+                  <div style={{display:"flex",gap:7,marginTop:8}}>
+                    <input value={sec.input} onChange={e=>sec.setInput(e.target.value)} onKeyDown={e=>{if(e.key==="Enter")addItem();}} placeholder={sec.ph}
+                      style={{flex:1,border:`1px solid ${C.border}`,borderRadius:9,padding:"8px 10px",fontFamily:"inherit",fontSize:11,color:C.brown,outline:"none",background:C.cream}}/>
+                    <button onClick={addItem} style={{background:`${pc.p}18`,border:"none",borderRadius:9,padding:"0 13px",cursor:"pointer",fontFamily:"inherit",fontSize:11,fontWeight:700,color:pc.p}}>ajouter</button>
+                  </div>
+                </div>
+                );
+              })}
+            </div>
+
             {/* PDF */}
             <div style={{background:`${pc.p}12`,borderRadius:14,padding:"14px",border:`1.5px solid ${pc.p}`,marginTop:8}}>
               <div style={{display:"flex",alignItems:"center",gap:12,marginBottom:10}}>
@@ -6267,7 +6342,7 @@ export default function App() {
                 </div>
               </div>
               <div style={{fontSize:10,color:C.mid,lineHeight:1.6,marginBottom:10}}>
-profil · 3 priorités · analyses à demander · ton suivi & tes tendances · scripts préparés · progression
+profil · tes priorités · les analyses & questions que tu as cochées · ton suivi & tes tendances · progression
               </div>
               <button onClick={()=>{
                   const prios=(PRIORITES_PROFIL[profil]||PRIORITES_PROFIL.metabolique);
@@ -6281,29 +6356,19 @@ profil · 3 priorités · analyses à demander · ton suivi & tes tendances · s
                   const suiviSection = nbJours>0 ? `<h2>Mon suivi quotidien (30 derniers jours)</h2><ul><li>Charge moyenne des sympt&ocirc;mes : ${fmt(avgM("symptomes"))}/5</li><li>Humeur : ${fmt(avgM("humeur"))}/5 &middot; &Eacute;nergie : ${fmt(avgM("energie"))}/5 &middot; Stress : ${fmt(avgM("stress"))}/5</li><li>Sommeil moyen : ${fmt(avgM("sommeil"))} h/nuit</li><li>Jours suivis : ${nbJours}</li></ul>` : "";
                   const trendsSection = trends.length ? `<h2>Tendances rep&eacute;r&eacute;es dans mon suivi</h2><ul>${trends.map(t=>`<li>${esc(t.text)}</li>`).join("")}</ul>` : "";
                   const poidsSection = (mesures.actif && poidsArr.length) ? `<h2>Poids</h2><p>Dernier : ${poidsArr[poidsArr.length-1].v} kg &middot; ${poidsArr.length} mesures sur la p&eacute;riode.</p>` : "";
-                  const rows=prios.map((p,i)=>`<tr><td style="padding:6px 10px;border:1px solid #E8DDD3;font-weight:600">${i+1}. ${esc(p.t)}</td><td style="padding:6px 10px;border:1px solid #E8DDD3">${esc(p.geste)}</td></tr>`).join("");
+                  const rows=[...prios.map((p,i)=>`<tr><td style="padding:6px 10px;border:1px solid #E8DDD3;font-weight:600">${i+1}. ${esc(p.t)}</td><td style="padding:6px 10px;border:1px solid #E8DDD3">${esc(p.geste)}</td></tr>`), ...medPrioCustom.map((p,i)=>`<tr><td style="padding:6px 10px;border:1px solid #E8DDD3;font-weight:600">${prios.length+i+1}. ${esc(p)}</td><td style="padding:6px 10px;border:1px solid #E8DDD3"></td></tr>`)].join("");
+                  const anaList=[...ANALYSES_MED.filter(a=>!medAnaOff[a.id]).map(a=>a.t), ...medAnaCustom];
+                  const qList=[...QUESTIONS_MED.filter(q=>!medQOff[q.id]).map(q=>q.t), ...medQCustom];
+                  const anaLis=anaList.length?`<ul>${anaList.map(x=>`<li>${esc(x)}</li>`).join("")}</ul>`:"";
+                  const qLis=qList.length?`<ul>${qList.map(x=>`<li>${esc(x)}</li>`).join("")}</ul>`:"";
                   const inner=`
                   <h1>Mon dossier SMOP (SOPK) — à présenter à mon médecin</h1>
                   <div><strong>${esc(prenom||"")}</strong> · ${esc(pc.label)} · progression : jour ${day}, ${completedCount} missions validées</div>
-                  <h2>Mes 3 priorités en ce moment</h2>
+                  <h2>Mes priorités en ce moment</h2>
                   <table><tr><th style="padding:6px 10px;border:1px solid #E8DDD3;text-align:left">Priorité</th><th style="padding:6px 10px;border:1px solid #E8DDD3;text-align:left">Premier geste</th></tr>${rows}</table>
-                  <h2>Analyses que je souhaite demander</h2>
-                  <ul>
-                    <li>Bilan hormonal : testostérone totale et libre, SHBG, delta-4 androstènedione</li>
-                    <li>Versant surrénalien : DHEA-S, cortisol, et 17-OH-progestérone (pour écarter une hyperplasie congénitale des surrénales)</li>
-                    <li>Métabolique : glycémie à jeun, insuline à jeun (HOMA-IR)</li>
-                    <li>Inflammation : CRP ultra-sensible</li>
-                    <li>Carences : ferritine, vitamine D, B12</li>
-                    <li>Thyroïde : TSH (+ T4L, anti-TPO si besoin)</li>
-                  </ul>
+                  ${anaList.length?`<h2>Analyses que je souhaite demander</h2>${anaLis}`:""}
                   ${suiviSection}${trendsSection}${poidsSection}
-                  <h2>Mes questions</h2>
-                  <ul>
-                    <li>Mes résultats sont-ils dans la norme optimale, ou juste dans la norme du labo ?</li>
-                    <li>Y a-t-il un signe de résistance à l'insuline ?</li>
-                    <li>Quelles pistes au-delà de la pilule ?</li>
-                    <li>Vers quel spécialiste m'orienter si besoin ?</li>
-                  </ul>
+                  ${qList.length?`<h2>Mes questions</h2>${qLis}`:""}
                   <span class="note">Document personnel d'aide à la consultation — ne remplace pas un avis médical. Les analyses pertinentes et leur interprétation relèvent de ton médecin.</span>`;
                   setDossierInner(inner);
                 }}
