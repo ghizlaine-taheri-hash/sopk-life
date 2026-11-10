@@ -3120,6 +3120,130 @@ const PERTURBATEURS = [
 ];
 
 // ── RESSOURCES : rangées en familles (navigation à 2 niveaux) ───────────────
+// ─── PARCOURS 365 — TRONC COMMUN (jours 31+) ───
+// Mois 2 : apprivoiser ta glycémie en profondeur. Rotation des piliers, accent injecté par profil.
+const MISSIONS_365 = [
+  // ── SEMAINE 1 (jours 31-37) ──
+  {emoji:"🍽️",theme:"jamais un glucide tout seul",
+   mission:"à chaque glucide que tu manges aujourd'hui (pain, fruit, riz…), associe toujours une protéine ou un bon gras.",
+   msg:"ce mois-ci, on apprivoise vraiment ta glycémie — pas juste la survivre.\n\npremière règle, la plus simple : un sucre seul, c'est un pic. un sucre accompagné, c'est une vague douce.\n\naujourd'hui, tu ne manges plus jamais un glucide tout nu.",
+   pourquoi:"un glucide seul — une biscotte, un fruit entre deux portes, un carré de chocolat l'estomac vide — file très vite dans ton sang : pic de glycémie, grosse vague d'insuline.\n\nla protéine et le gras ralentissent la digestion de ce sucre. le même aliment, mangé avec un yaourt, une poignée d'amandes ou un œuf, fait monter ta glycémie bien plus doucement.\n\npour ton SMOP, chaque pic d'insuline évité, c'est un signal en moins envoyé à tes ovaires pour produire des androgènes.",
+   source:"une alimentation à index glycémique bas améliore les marqueurs hormonaux et métaboliques du SMOP (Marsh et al., 2010, American Journal of Clinical Nutrition).",
+   comment:["repère tous les glucides de ta journée (pain, fruits, féculents, sucré)","à chaque fois, ajoute une protéine OU un gras : fromage, œuf, oléagineux, avocat","ton fruit ? avec quelques amandes","ton pain ? avec de l'avocat, du beurre ou un œuf","le carré de chocolat ? après le repas, jamais seul à 16h"],
+   pieges:["« c'est juste un petit biscuit » — seul et à jeun, même petit, il pique fort","les fruits secs (dattes, abricots) sont très sucrés : toujours avec des oléagineux","un jus de fruit ne s'accompagne de rien qui le sauve — préfère le fruit entier"],
+   plus:"mon réflexe quand je n'ai rien sous la main : une poignée d'amandes dans le sac. le gras de secours qui adoucit n'importe quel sucre croisé.",
+   observes:["aujourd'hui : moins de coup de barre après une collation","dans quelques jours : les fringales de fin d'aprem s'espacent","dans 2 semaines : tu n'as plus le réflexe « sucre seul »"],
+   victoire:"tu viens d'installer le réflexe anti-pic le plus simple qui existe.",
+   outil:{emoji:"🍴",label:"Revois le modèle de l'assiette SMOP",desc:"les bonnes associations, sans rien peser",cible:"assiette"},
+   accents:{
+     metabolique:"c'est TON levier numéro un : glycémie stable, c'est tout ton terrain qui s'apaise.",
+     androgenique:"chaque pic évité = moins de signal androgénique, donc un appui direct sur ton acné et ta pilosité.",
+     inflammatoire:"les montagnes russes de glycémie entretiennent l'inflammation — lisser tes pics calme aussi ton feu de fond.",
+     surrenalien:"glycémie stable = moins de stress pour ton corps, et ton cortisol déjà sollicité te dira merci."}},
+
+  {emoji:"🚶‍♀️",theme:"la marche qui efface le pic",
+   mission:"après ton repas le plus copieux aujourd'hui, marche 10 minutes — même doucement, même chez toi.",
+   msg:"le geste anti-glycémie le plus sous-estimé n'est pas dans ton assiette.\n\nil est dans tes jambes.\n\n10 minutes, et ton muscle vient aspirer le sucre de ton repas avant qu'il ne s'emballe.",
+   pourquoi:"quand tu bouges, tes muscles consomment du glucose directement dans ton sang — sans avoir besoin de beaucoup d'insuline pour ça.\n\nune marche douce dans les 30 minutes qui suivent un repas lisse nettement le pic de glycémie. tu n'as pas besoin de transpirer ni de performer : marcher suffit.\n\npour un corps sensible à l'insuline, c'est un des gestes les plus rentables de la journée — et il est gratuit.",
+   source:"l'activité physique améliore la sensibilité à l'insuline, levier clé du SMOP (Diamanti-Kandarakis & Dunaif, 2012, Endocrine Reviews).",
+   comment:["choisis ton repas le plus riche en glucides","dans la demi-heure qui suit, mets-toi en mouvement 10 min","dehors, dans un couloir, en tournant dans le salon : peu importe","allure tranquille, tu dois pouvoir parler","fais-en un rituel : la marche d'après-dîner, par exemple"],
+   pieges:["t'asseoir ou t'allonger juste après le repas = pic maximal","« je n'ai pas le temps » — 10 min, c'est le temps d'un scroll","attendre 2h annule l'effet : c'est juste après que ça compte"],
+   plus:"pas possible de marcher ? rester debout à faire la vaisselle ou quelques montées sur la pointe des pieds aident déjà. le pire, c'est le canapé juste après manger.",
+   observes:["ce soir : une digestion plus légère","dans quelques jours : moins de somnolence après les repas","dans 2 semaines : l'envie de bouger après manger devient naturelle"],
+   victoire:"tu as transformé une marche de 10 min en outil hormonal.",
+   outil:{emoji:"🧘‍♀️",label:"Mes routines de mouvement",desc:"des formats doux, adaptés à ton terrain",goTab:"mouvement"},
+   accents:{
+     metabolique:"c'est un multiplicateur direct de ton levier glycémie : marche + ordre des aliments, le combo gagnant.",
+     androgenique:"le mouvement aide à faire baisser l'insuline, donc le signal androgénique — un vrai geste de fond pour ta peau.",
+     inflammatoire:"la marche douce apaise l'inflammation ; évite juste l'intensité qui, chez toi, peut l'attiser.",
+     surrenalien:"privilégie la marche tranquille au cardio intense : ton cortisol n'a pas besoin d'un stress de plus."}},
+
+  {emoji:"🎓",theme:"IG et charge glycémique",
+   mission:"repère un aliment que tu croyais « interdit » et regarde sa vraie charge glycémique — tu vas être surprise.",
+   msg:"on t'a fait peur avec des listes d'aliments « interdits ».\n\nla vérité est plus fine, et plus libératrice : ce n'est pas que l'aliment, c'est la quantité et ce qu'il y a autour.\n\naujourd'hui, un peu de connaissance pour arrêter de te priver pour rien.",
+   pourquoi:"l'index glycémique (IG) mesure la vitesse à laquelle un aliment fait monter ta glycémie. mais il est calculé sur une portion standard, souvent irréaliste.\n\nla charge glycémique, elle, tient compte de la quantité réellement mangée. la pastèque a un IG élevé mais une charge faible (beaucoup d'eau, peu de sucre par bouchée). une petite portion de patate douce, après des légumes et une protéine, a un impact doux.\n\nmoralité : il n'y a presque pas d'aliment « interdit ». il y a des quantités, des associations et un ordre.",
+   source:"une alimentation à charge glycémique basse améliore les marqueurs du SMOP (Marsh et al., 2010, American Journal of Clinical Nutrition).",
+   comment:["pense à un aliment que tu t'interdis « à cause du sucre »","regarde sa charge glycémique, pas juste son IG","demande-toi : quelle quantité ? avec quoi ? dans quel ordre ?","souvent, une petite portion bien accompagnée est tout à fait ok","retiens « quantité + association + ordre », pas « interdit »"],
+   pieges:["se fier à l'IG seul fait diaboliser des aliments sains (carotte, pastèque)","« sans sucre » sur l'étiquette ne veut pas dire sans impact glycémique","se priver totalement crée souvent le craquage ensuite"],
+   plus:"la vraie liberté, c'est de comprendre le mécanisme : une fois que tu sais pourquoi, tu n'as plus besoin de listes d'interdits. tu décides.",
+   observes:["aujourd'hui : un aliment « réhabilité » dans ta tête","dans quelques jours : moins de culpabilité à table","dans 2 semaines : tu composes à l'instinct, sans listes"],
+   victoire:"tu viens de remplacer une règle rigide par une vraie compréhension.",
+   outil:{emoji:"🔍",label:"La liste des sucres cachés",desc:"repérer le sucre là où tu ne l'attends pas",cible:"sucres"},
+   accents:{
+     metabolique:"pour toi, c'est l'outil du quotidien : raisonner en charge glycémique rend ton levier n°1 facile à vivre.",
+     androgenique:"moins de pics inutiles = moins d'insuline = moins d'androgènes, sans te priver bêtement.",
+     inflammatoire:"privilégie en plus les aliments à charge basse ET anti-inflammatoires (petits fruits rouges, légumes colorés).",
+     surrenalien:"éviter les pics et les chutes, c'est aussi éviter les fringales de stress qui épuisent tes surrénales."}},
+
+  {emoji:"🌙",theme:"le stress fait monter ton sucre",
+   mission:"repère un moment de stress aujourd'hui, et observe si une fringale de sucre arrive juste après.",
+   msg:"tu peux manger parfaitement et voir quand même ta glycémie grimper.\n\nle coupable, souvent : le stress.\n\naujourd'hui on relie les deux, parce qu'on n'apaise pas sa glycémie en ignorant son cortisol.",
+   pourquoi:"quand tu stresses, ton corps libère du cortisol et de l'adrénaline. leur rôle : envoyer du sucre dans ton sang pour te donner une énergie « de combat ». ta glycémie monte, sans que tu aies rien mangé.\n\nsi ce sucre n'est pas utilisé (tu ne fuis aucun danger réel), ton insuline grimpe pour le ranger. chez un corps déjà sensible, c'est un pic de plus.\n\nle stress chronique entretient donc la résistance à l'insuline. gérer ton stress fait partie, à part entière, de l'apaisement de ta glycémie.",
+   source:"le SMOP s'accompagne d'une altération de l'axe du stress ; stress et SMOP s'aggravent mutuellement (Pasquali et al., 1993, 2006).",
+   comment:["repère un pic de stress dans ta journée","observe les 1-2h qui suivent : une envie de sucre arrive-t-elle ?","si oui, ce n'est pas de la gourmandise : c'est la chute post-cortisol","à ce moment, 3 respirations lentes avant de te jeter sur le sucre","et si tu manges, un sucre accompagné, jamais seul"],
+   pieges:["te culpabiliser de la fringale de stress — c'est biologique, pas moral","croire qu'on peut « manger parfaitement » en ignorant un stress chronique","le café à jeun en période de stress amplifie le pic de cortisol"],
+   plus:"mon réflexe anti-fringale de stress : l'expiration longue (inspire 4s, expire 6s) pendant 2 minutes. ça fait redescendre le cortisol, et souvent l'envie de sucre avec.",
+   observes:["aujourd'hui : tu identifies une fringale « de stress »","dans quelques jours : tu la vois venir et tu la désamorces","dans 2 semaines : moins de craquages dans les moments durs"],
+   victoire:"tu viens de relier ton stress et ta glycémie — un angle mort que personne ne t'explique.",
+   outil:{emoji:"🤍",label:"Le coach mindset de Kamila",desc:"quand le stress monte",goTab:"kamila"},
+   accents:{
+     metabolique:"même avec une assiette parfaite, ton stress peut saboter ta glycémie : ce jour-là complète ton levier.",
+     androgenique:"le cortisol pousse aussi tes surrénales à produire des androgènes — gérer ton stress agit sur deux fronts.",
+     inflammatoire:"stress et inflammation se nourrissent l'un l'autre : apaiser l'un, c'est soulager l'autre.",
+     surrenalien:"c'est LE cœur de ton profil — ton moteur, c'est le stress. ce jour-là est fait pour toi."}},
+
+  {emoji:"🌸",theme:"ta glycémie parle à tes ovaires",
+   mission:"relis une fois, lentement, la chaîne qui relie ton assiette à tes hormones — et garde-la en tête à ton prochain repas.",
+   msg:"pourquoi on s'acharne autant sur ta glycémie dans un parcours SMOP ?\n\nparce que c'est le fil qui relie ton assiette à tes ovaires.\n\naujourd'hui, on relie tout, pour que chaque geste du mois prenne son sens.",
+   pourquoi:"voilà la chaîne, en clair : glycémie qui s'emballe → insuline haute → l'insuline pousse tes ovaires à fabriquer plus d'androgènes → les androgènes dérèglent l'ovulation, nourrissent l'acné et la pilosité.\n\nl'insuline haute fait aussi baisser la SHBG, la protéine qui « range » les androgènes. résultat : encore plus d'androgènes libres et actifs.\n\nc'est pour ça que stabiliser ta glycémie n'est pas qu'une histoire d'énergie : c'est agir à la racine hormonale de tes symptômes.",
+   source:"la résistance à l'insuline alimente l'hyperandrogénie du SMOP ; mécanisme central et bien documenté (Diamanti-Kandarakis & Dunaif, 2012, Endocrine Reviews).",
+   comment:["relis la chaîne : sucre → insuline → androgènes → symptômes","retiens que l'insuline est le maillon sur lequel TU as de la prise","à ton prochain repas, souviens-toi : tu agis sur tes hormones, là","pas besoin de perfection : chaque pic lissé compte","c'est un marathon doux, pas un sprint"],
+   pieges:["croire que c'est « juste » une question de sucre dans le sang — c'est hormonal","vouloir tout parfait tout de suite : la régularité bat l'intensité","oublier que le poids n'est pas l'objectif — le terrain hormonal l'est"],
+   plus:"garde cette image : chaque repas est une conversation avec tes ovaires. tu ne les combats pas, tu leur envoies de meilleurs messages.",
+   observes:["aujourd'hui : tu comprends POURQUOI tu fais tout ça","dans quelques semaines : plus de régularité dans tes signaux","sur la durée : c'est ce travail de fond qui soutient ton cycle"],
+   victoire:"tu tiens maintenant le fil qui relie ton assiette à tes hormones.",
+   outil:{emoji:"🎓",label:"Comprendre ton SMOP",desc:"les mécanismes, en clair",cible:"comprendre"},
+   accents:{
+     metabolique:"cette chaîne, c'est ta carte : l'insuline est ton point d'action, et tu y travailles depuis le jour 1.",
+     androgenique:"c'est exactement ton profil : casser le relais insuline→androgènes, c'est viser ta cause principale.",
+     inflammatoire:"ajoute un maillon à la chaîne : l'inflammation amplifie tout — d'où l'intérêt de la calmer en parallèle.",
+     surrenalien:"chez toi, les androgènes viennent beaucoup des surrénales : la glycémie compte, le stress encore plus."}},
+
+  {emoji:"✨",theme:"le sucre et ta peau",
+   mission:"observe ta peau aujourd'hui sans la juger — et rappelle-toi que ce que tu manges lui parle en douceur, sur le long terme.",
+   msg:"« arrête le sucre, ta peau ira mieux » — on te l'a dit cent fois, jamais expliqué.\n\nle lien existe, mais il est hormonal, pas magique.\n\naujourd'hui on comprend, sans culpabilité et sans promesse miracle.",
+   pourquoi:"quand ta glycémie et ton insuline s'emballent, deux choses se passent pour ta peau : l'insuline stimule la production d'androgènes, et les androgènes activent tes glandes sébacées. plus de sébum, pores obstrués, inflammation : le terrain de l'acné hormonale.\n\nc'est indirect et progressif — pas un bouton qui surgit parce que tu as mangé un gâteau hier. c'est le terrain de fond qui compte.\n\napaiser ta glycémie soutient donc ta peau par la racine, là où aucune crème ne va. mais ça prend du temps, et ta peau n'est pas un baromètre de ta valeur.",
+   source:"la résistance à l'insuline active la voie androgénique impliquée dans l'acné du SMOP (Diamanti-Kandarakis & Dunaif, 2012, Endocrine Reviews).",
+   comment:["regarde ta peau avec neutralité, comme une info, pas un verdict","rappelle-toi : le lien sucre-peau est hormonal et lent","un écart ponctuel ne « ruine » pas ta peau — c'est le fond qui compte","continue tes gestes glycémie : c'est ça, le soin de peau par l'intérieur","et prends soin d'elle en surface aussi, avec douceur"],
+   pieges:["attendre un résultat peau en quelques jours : c'est un travail de fond","culpabiliser après un écart — le stress de culpabilité n'aide pas ta peau","faire de ta peau la mesure de ta réussite : elle n'est qu'un messager"],
+   plus:"la fiche SOS « poussée d'acné » est là pour le geste du moment. mais le vrai soin, c'est ce que tu fais pour ta glycémie depuis le début du mois.",
+   observes:["aujourd'hui : un regard plus doux sur ta peau","sur quelques semaines : un terrain qui s'apaise, à son rythme","sur la durée : moins de poussées liées aux pics"],
+   victoire:"tu as relié ta peau à ton terrain, sans tomber dans la culpabilité.",
+   outil:{emoji:"✨",label:"La fiche peau, cheveux & ongles",desc:"les nutriments qui soutiennent de l'intérieur",cible:"telechargements"},
+   accents:{
+     metabolique:"ta peau profite directement de ton travail glycémie : c'est un bénéfice bonus de ton levier principal.",
+     androgenique:"c'est souvent ton symptôme phare : la glycémie est un des leviers de fond les plus utiles pour ta peau.",
+     inflammatoire:"ajoute des aliments anti-inflammatoires : ils soutiennent ta peau en plus de ton terrain.",
+     surrenalien:"ta peau réagit aussi au stress : les jours tendus, sois encore plus douce avec elle et avec toi."}},
+
+  {emoji:"🌼",theme:"le bilan de ta première semaine",
+   mission:"fais le point : depuis 7 jours sur la glycémie, qu'est-ce qui a changé, même en tout petit ? note-le.",
+   msg:"une semaine que tu travailles ta glycémie en profondeur.\n\navant de continuer, on s'arrête. on regarde le chemin.\n\nparce que célébrer les petits pas, c'est ce qui te fait tenir sur la durée.",
+   pourquoi:"ton cerveau est programmé pour remarquer ce qui ne va pas et oublier ce qui avance. c'est pour ça qu'on a l'impression de « ne jamais y arriver » alors qu'on progresse.\n\nfaire un bilan régulier force ton attention sur le chemin parcouru. ça nourrit la motivation bien plus que la volonté brute.\n\net avec le SMOP, où les résultats sont lents, ce regard sur les petits progrès n'est pas un luxe : c'est du carburant.",
+   source:"la régularité des changements de mode de vie, plus que leur intensité, soutient l'amélioration des marqueurs du SMOP (Marsh et al., 2010).",
+   comment:["ouvre ta vue d'ensemble et regarde tes 7 derniers jours","repère UN changement, même minuscule (énergie, fringales, humeur)","écris-le noir sur blanc — ça le rend réel","ne cherche pas la perfection : cherche le mouvement","remercie-toi d'être encore là, à avancer"],
+   pieges:["ne voir que ce qui n'a pas changé — ton cerveau adore ça, ne le crois pas","comparer ta semaine à celle d'une autre : ton rythme est le tien","attendre un « grand » résultat pour te féliciter"],
+   plus:"mon rituel du dimanche : une seule phrase, « cette semaine, j'ai… ». même les semaines difficiles, il y a toujours un petit quelque chose.",
+   observes:["aujourd'hui : un progrès identifié et noté","chaque dimanche : un rendez-vous avec ton chemin","sur la durée : une motivation qui ne dépend plus de la volonté"],
+   victoire:"tu viens de clôturer ta première semaine de fond. c'est énorme, et c'est à toi.",
+   outil:{emoji:"📊",label:"Ouvre ta vue d'ensemble",desc:"compare ta semaine à la précédente",goTab:"apercu"},
+   accents:{
+     metabolique:"regarde surtout tes fringales et ton énergie entre les repas : ce sont tes marqueurs de progrès.",
+     androgenique:"la peau et la pilosité bougent lentement : ne juge pas ta semaine là-dessus, regarde l'énergie et l'humeur.",
+     inflammatoire:"observe tes douleurs, ton brouillard, tes ballonnements : ce sont souvent les premiers à s'apaiser.",
+     surrenalien:"regarde ton sommeil et ton niveau de stress : chez toi, c'est le thermomètre le plus parlant."}},
+];
+
 const OUTIL_CATS = {
   alimentation: { label:"Mon alimentation", em:"🍽️", dotBg:"#F6ECE2", hero:"de quoi manger pour ton SMOP sans te prendre la tête — on planifie, on pioche, on cuisine.",
     tools:[
@@ -3519,7 +3643,16 @@ export default function App() {
   const week = Math.ceil(day/7);
   const weekWins = victories[journalWeek]||[];
   const activeMissions = MISSIONS_BY_PROFILE[profil] || MISSIONS_META;
-  const todayData = day<=30 ? (activeMissions[day-1] || MISSIONS_META[day-1] || MISSIONS_META[0]) : {...RITUELS[((day-31)%RITUELS.length)], day};
+  const todayData = (()=>{
+    if(day<=30) return activeMissions[day-1] || MISSIONS_META[day-1] || MISSIONS_META[0];
+    const idx365 = day-31;
+    if(idx365 < MISSIONS_365.length){
+      const m = MISSIONS_365[idx365];
+      const acc = m.accents ? (m.accents[profil] || m.accents.metabolique || null) : null;
+      return {...m, day, _accent:acc};
+    }
+    return {...RITUELS[((day-31-MISSIONS_365.length)%RITUELS.length)], day};
+  })();
   const todayKey = new Date().toISOString().slice(0,10);
   const jToday = journal[todayKey] || {};
   const todayLabel = new Date().toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long"});
@@ -4528,6 +4661,14 @@ export default function App() {
                 )}
               </div>
 
+              {/* ACCENT PROFIL */}
+              {todayData._accent&&(
+                <div style={{marginTop:10,background:`${pc.p}0E`,border:`1px solid ${pc.p}`,borderRadius:10,padding:"10px 12px"}}>
+                  <div style={{fontSize:9,letterSpacing:1,textTransform:"uppercase",color:pc.p,fontWeight:700,marginBottom:3}}>pour ton profil · {pc.label}</div>
+                  <div style={{fontSize:11,color:C.brown,lineHeight:1.6}}>{todayData._accent}</div>
+                </div>
+              )}
+
               {/* COMMENT */}
               {todayData.comment&&(
                 <div style={{marginTop:12}}>
@@ -4590,7 +4731,7 @@ export default function App() {
 
             {/* Lien vers un outil */}
             {todayData.outil&&(
-              <button onClick={()=>{setTab("outils");setOutilOpen(todayData.outil.cible);if(todayData.outil.recherche!==undefined)setFoodSearch(todayData.outil.recherche);if(todayData.outil.cible==="repas"&&todayData.outil.moment)setRepasMoment(todayData.outil.moment);}}
+              <button onClick={()=>{ if(todayData.outil.goTab){setTab(todayData.outil.goTab);} else {setTab("outils");setOutilOpen(todayData.outil.cible);if(todayData.outil.recherche!==undefined)setFoodSearch(todayData.outil.recherche);if(todayData.outil.cible==="repas"&&todayData.outil.moment)setRepasMoment(todayData.outil.moment);} }}
                 style={{width:"100%",background:"linear-gradient(135deg, #D4A56A, #C49355)",border:"none",borderRadius:14,padding:"15px 16px",marginBottom:10,cursor:"pointer",fontFamily:"inherit",display:"flex",alignItems:"center",gap:12,textAlign:"left",boxShadow:"0 4px 14px rgba(212,165,106,0.4)"}}>
                 <div style={{fontSize:26,flexShrink:0,background:"rgba(255,255,255,0.25)",borderRadius:12,width:46,height:46,display:"flex",alignItems:"center",justifyContent:"center"}}>{todayData.outil.emoji}</div>
                 <div style={{flex:1}}>
