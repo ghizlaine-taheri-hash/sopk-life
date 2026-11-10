@@ -2606,7 +2606,7 @@ pieges:["tout empiler d'un coup : on ajoute une tisane à la fois, en douceur","
 plus:"si tu es sous traitement hormonal, thyroïdien, ou si tu es enceinte / tu allaites, demande à ton médecin avant de commencer une tisane. certaines plantes ont des interactions réelles.",
 observes:["cette semaine : digestion plus fluide, moins de gonflements","dans 2 à 3 semaines : premiers signes sur le sommeil et l'humeur","dans 6 à 8 semaines : effets hormonaux plus profonds"],
 victoire:"ta fondation est posée — tout ce qu'on ajoute maintenant va pouvoir tenir.",
-tisane:{nom:"Équilibre Féminin",timing:"milieu de journée",lien:"https://sopklife.com/products/equilibre-feminin",texte:"la fondation de ton protocole. sa mélisse apaise justement ton axe du stress. elle rejoint la Détox du matin."}},
+tisane:{nom:"Équilibre Féminin",timing:"milieu de journée",lien:"https://sopklife.com/products/cure-sopk-equilibre-feminin",texte:"la fondation de ton protocole. sa mélisse apaise justement ton axe du stress. elle rejoint la Détox du matin."}},
 
   {day:9,emoji:"🧲",theme:"le magnésium, ton minéral anti-stress",
 mission:"ajoute une vraie source de magnésium aujourd'hui : amandes, chocolat noir 70%+, légumes verts, ou une eau riche en magnésium.",
@@ -2627,7 +2627,7 @@ pieges:["la boire devant un écran annule la moitié du bénéfice — c'est un 
 plus:"si tu prends des anxiolytiques, des sédatifs, un traitement thyroïdien, ou si tu es enceinte / tu allaites : demande à ton médecin avant Serenitea (l'ashwagandha notamment peut interagir).",
 observes:["dès cette semaine : un endormissement plus rapide","dans quelques jours : moins de réveils nocturnes","progressivement : un SMOP moins réactif au stress"],
 victoire:"tu tiens enfin une tisane pensée pour TON mécanisme — et un rituel qui la fait vraiment travailler.",
-tisane:{nom:"Serenitea",timing:"le soir, au coucher",lien:"https://sopklife.com/products/serenitea",texte:"ta tisane de profil. 30 à 45 min avant le lit, en rituel : téléphone posé, lumières baissées. elle rejoint la Détox (matin) et l'Équilibre Féminin (midi)."}},
+tisane:{nom:"Serenitea",timing:"le soir, au coucher",lien:"https://sopklife.com/products/serenitea-detente-absolue",texte:"ta tisane de profil. 30 à 45 min avant le lit, en rituel : téléphone posé, lumières baissées. elle rejoint la Détox (matin) et l'Équilibre Féminin (midi)."}},
 
   {day:11,emoji:"🚶‍♀️",theme:"bouger sans te vider",
 mission:"aujourd'hui, du mouvement DOUX : marche, yoga, étirements. pas de HIIT, pas de sport intense à jeun.",
@@ -2778,7 +2778,7 @@ pieges:["viser une heure trop ambitieuse d'un coup : recule par paliers de 15 mi
 plus:"la régularité de l'heure de LEVER compte encore plus que celle du coucher. un lever stable, lumière du matin incluse (J2), tire tout le reste dans le bon sens.",
 observes:["cette semaine : un endormissement plus prévisible","dans quelques jours : un réveil moins pénible","dans 2 semaines : un rythme qui se cale presque tout seul"],
 victoire:"tu fais de ton sommeil ce qu'il est pour toi — la pièce maîtresse, pas un détail.",
-tisane:{nom:"Serenitea",timing:"le soir, au coucher",lien:"https://sopklife.com/products/serenitea",texte:"ta Serenitea prend tout son sens ce soir : une heure de coucher fixe + le rituel, c'est ce duo qui rééduque ton cortisol du soir."}},
+tisane:{nom:"Serenitea",timing:"le soir, au coucher",lien:"https://sopklife.com/products/serenitea-detente-absolue",texte:"ta Serenitea prend tout son sens ce soir : une heure de coucher fixe + le rituel, c'est ce duo qui rééduque ton cortisol du soir."}},
 
   {day:26,emoji:"♻️",theme:"soutenir sans fouetter",
 mission:"refais le point : café après 14h ? sport à jeun ? repas sautés ? corrige-en un aujourd'hui.",
@@ -2829,7 +2829,7 @@ pieges:["croire que tout est acquis et tout lâcher : ton terrain demande de l'e
 plus:"les jours où tout remonte — et il y en aura — ne repars pas de zéro. reprends juste un outil de ta boîte, ce soir, avec ta Serenitea. c'est comme ça qu'on tient dans la durée : pas en étant parfaite, en revenant.",
 observes:["aujourd'hui : de la fierté, et une base solide sous les pieds","dans les semaines qui viennent : un terrain qui continue de s'apaiser","au long cours : un SMOP de moins en moins réactif au stress"],
 victoire:"tu as transformé un stress qui te pilotait en quelque chose que tu sais, maintenant, accompagner. c'est ça, reprendre le pouvoir.",
-tisane:{nom:"Serenitea",timing:"le soir, au coucher",lien:"https://sopklife.com/products/serenitea",texte:"ta Serenitea reste ton alliée au long cours, avec la Détox et l'Équilibre Féminin. garde le rituel : c'est lui qui tient ton cortisol du soir."}},
+tisane:{nom:"Serenitea",timing:"le soir, au coucher",lien:"https://sopklife.com/products/serenitea-detente-absolue",texte:"ta Serenitea reste ton alliée au long cours, avec la Détox et l'Équilibre Féminin. garde le rituel : c'est lui qui tient ton cortisol du soir."}},
 ];
 
 const MISSIONS_BY_PROFILE = { metabolique: MISSIONS_META, inflammatoire: MISSIONS_INFLA, androgenique: MISSIONS_ANDRO, surrenalien: MISSIONS_SURRENALIEN, mixte_ma: MISSIONS_MIXTE_MA, mixte_mi: MISSIONS_MIXTE_MI, mixte_ai: MISSIONS_MIXTE_AI };
@@ -2840,7 +2840,7 @@ const TISANE_LIENS = {
   "Équilibre Féminin":"https://sopklife.com/products/cure-sopk-equilibre-feminin",
   "Stabilitea":"https://sopklife.com/products/stabili-tea",
   "Andro Tea":"https://sopklife.com/products/andro-tea",
-  "Serenitea":"https://sopklife.com/products/serenitea",
+  "Serenitea":"https://sopklife.com/products/serenitea-detente-absolue",
   "Inflamma Tea":"https://sopklife.com/products/inflamma-tea",
 };
 const PROTOCOLE_TISANES = {
