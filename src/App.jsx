@@ -2834,6 +2834,36 @@ tisane:{nom:"Serenitea",timing:"le soir, au coucher",lien:"https://sopklife.com/
 
 const MISSIONS_BY_PROFILE = { metabolique: MISSIONS_META, inflammatoire: MISSIONS_INFLA, androgenique: MISSIONS_ANDRO, surrenalien: MISSIONS_SURRENALIEN, mixte_ma: MISSIONS_MIXTE_MA, mixte_mi: MISSIONS_MIXTE_MI, mixte_ai: MISSIONS_MIXTE_AI };
 
+// ─── PROTOCOLE TISANES (cumulatif, par profil) — cure persistante ───
+const TISANE_LIENS = {
+  "Cure Détox":"https://sopklife.com/products/cure-detox-organisme-clean",
+  "Équilibre Féminin":"https://sopklife.com/products/cure-sopk-equilibre-feminin",
+  "Stabilitea":"https://sopklife.com/products/stabili-tea",
+  "Andro Tea":"https://sopklife.com/products/andro-tea",
+  "Serenitea":"https://sopklife.com/products/serenitea",
+  "Inflamma Tea":"https://sopklife.com/products/inflamma-tea",
+};
+const PROTOCOLE_TISANES = {
+  base:[
+    {nom:"Cure Détox",start:1,end:21,timing:"matin à jeun"},
+    {nom:"Équilibre Féminin",start:8,timing:"milieu de journée"},
+  ],
+  metabolique:[{nom:"Stabilitea",start:14,timing:"après les repas"}],
+  androgenique:[{nom:"Andro Tea",start:14,timing:"le soir"}],
+  inflammatoire:[{nom:"Serenitea",start:10,timing:"le soir au coucher"},{nom:"Inflamma Tea",start:14,timing:"milieu de journée"}],
+  surrenalien:[{nom:"Serenitea",start:10,timing:"le soir au coucher"}],
+  mixte_ma:[{nom:"Stabilitea",start:14,timing:"après les repas"},{nom:"Andro Tea",start:21,timing:"le soir"}],
+  mixte_mi:[{nom:"Serenitea",start:10,timing:"le soir"},{nom:"Stabilitea",start:14,timing:"après les repas"},{nom:"Inflamma Tea",start:21,timing:"milieu de journée"}],
+  mixte_ai:[{nom:"Serenitea",start:10,timing:"le soir"},{nom:"Inflamma Tea",start:14,timing:"milieu de journée"},{nom:"Andro Tea",start:21,timing:"le soir"}],
+};
+function getCureActive(profil, day){
+  const list=[...(PROTOCOLE_TISANES.base||[]), ...(PROTOCOLE_TISANES[profil]||[])];
+  return list
+    .filter(t=> day>=t.start && (!t.end || day<=t.end))
+    .map(t=>({...t, lien:TISANE_LIENS[t.nom]||"https://sopklife.com", isNew:(day===t.start)}))
+    .sort((a,b)=>a.start-b.start);
+}
+
 // ─── RITUELS AU LONG COURS (après la Fondation des 30 jours) ───────────────────
 const RITUELS = [
   {emoji:"🌬️",theme:"ton souffle",mission:"3 minutes de respiration lente (5s / 5s) avant un moment que tu sais stressant.",msg:"la Fondation est posée. maintenant, on entretient — un petit geste à la fois.",pourquoi:"ta respiration est le seul bouton qui calme ton stress en temps réel. c'est ton outil de base, à garder à vie.",victoire:"tu sais revenir au calme, à volonté."},
@@ -5228,18 +5258,33 @@ export default function App() {
               </button>
             )}
 
-            {/* Tisane */}
-            {todayData.tisane&&(
+            {/* Ta cure du moment — tisanes actives, persistant chaque jour */}
+            {(()=>{
+              const cure=getCureActive(profil,day);
+              if(cure.length===0) return null;
+              return(
               <div style={{background:`linear-gradient(135deg,${C.bubble},#ECD8C4)`,borderRadius:14,padding:"1rem",marginBottom:10,border:`1.5px solid ${pc.p}`}}>
-                <div style={{fontSize:9,letterSpacing:1.5,textTransform:"uppercase",color:pc.p,marginBottom:5}}>option recommandée — {todayData.tisane.nom}</div>
-                <div style={{fontSize:11,color:C.mid,lineHeight:1.6,marginBottom:8}}>{todayData.tisane.texte}</div>
-                <div style={{fontSize:9,color:C.light,marginBottom:8}}>timing : {todayData.tisane.timing}</div>
-                <a href={todayData.tisane.lien} target="_blank" rel="noreferrer"
-                  style={{display:"block",background:pc.p,borderRadius:9,padding:"9px",textAlign:"center",fontSize:11,color:"white",textDecoration:"none",fontWeight:600}}>
-                  Commander {todayData.tisane.nom} →
-                </a>
+                <div style={{fontSize:9,letterSpacing:1.5,textTransform:"uppercase",color:pc.p,marginBottom:8,fontWeight:700}}>🍵 Ta cure du moment</div>
+                {todayData.tisane&&(
+                  <div style={{background:"#fff",borderRadius:11,padding:"10px 12px",marginBottom:9,border:`1px solid ${pc.p}`}}>
+                    <div style={{fontSize:8.5,letterSpacing:1,textTransform:"uppercase",color:pc.p,fontWeight:700,marginBottom:3}}>nouveau dans ton protocole · {todayData.tisane.nom}</div>
+                    <div style={{fontSize:11,color:C.mid,lineHeight:1.6}}>{todayData.tisane.texte}</div>
+                  </div>
+                )}
+                {cure.map((t,i)=>(
+                  <div key={i} style={{display:"flex",alignItems:"center",gap:10,padding:"8px 0",borderTop:i>0?`1px solid ${pc.p}33`:"none"}}>
+                    <div style={{flex:1,minWidth:0}}>
+                      <div style={{fontSize:12,fontWeight:700,color:C.brown}}>{t.nom}{t.isNew&&<span style={{fontSize:8,fontWeight:700,color:"#fff",background:pc.p,borderRadius:99,padding:"1px 7px",marginLeft:7}}>nouveau</span>}</div>
+                      <div style={{fontSize:9.5,color:C.light,marginTop:1}}>{t.timing}</div>
+                    </div>
+                    <a href={t.lien} target="_blank" rel="noreferrer"
+                      style={{flexShrink:0,background:pc.p,borderRadius:8,padding:"7px 12px",fontSize:10,color:"white",textDecoration:"none",fontWeight:600}}>commander →</a>
+                  </div>
+                ))}
+                <div style={{fontSize:9,color:C.light,lineHeight:1.5,marginTop:9,paddingTop:8,borderTop:`1px solid ${pc.p}33`}}>à prendre chaque jour, avec régularité — c'est elle qui fait le vrai bénéfice. respecte le timing de chaque tisane.</div>
               </div>
-            )}
+              );
+            })()}
 
             {/* ══ 3. TON ÉNERGIE (facultatif) ══ */}
             {(()=>{
