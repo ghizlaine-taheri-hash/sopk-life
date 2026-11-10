@@ -47,5 +47,20 @@ Idées de Ghiz, à répartir sur les mois 3 à 12. Légende claims :
 - **Chercher un bon soignant** → relier à la fiche + la recherche déjà construites
 - **Écrire sur le groupe Cysters / chercher du soutien** → relier au WhatsApp
 
+### Carences, bilan & cycle (idées Ghiz)
+- **Comprendre l'origine de ses symptômes** (androgènes, insuline…) — relier au GPS symptômes/analyses — SÛR
+- **Le bilan hormonal pour détecter les déséquilibres** (hyperandrogénie, résistance à l'insuline) — mois médical — SÛR (relier aux scripts médecin)
+- **Vérifier et corriger ses carences** (ferritine, vit D, B12, magnésium…) — relier aux analyses + compléments par profil — SÛR pour les carences classiques
+- **Suivre son cycle même irrégulier** : identifier phases absentes/irrégulières, observer l'évolution (mieux/moins bien), chaque indice compte pour adapter alimentation/activité — relier à Mon cycle
+- **Ne pas sauter de repas + CE QUE ÇA CAUSE** : fringales incontrôlables, coup de barre de 16h, métabolisme ralenti, frustration — mission cause→conséquence — SÛR
+- **"Quand le terrain répond ?"** : gérer les attentes / la patience du terrain (le SMOP se travaille sur des mois, voilà ce qui bouge et quand) — mois mindset/comprendre — SÛR
+
+## Format de mission — patterns à varier
+- **Mission-action concrète** : "cette semaine, ajoute [X] à ta liste de courses", "planifie tes repas de la semaine pour anticiper" → pousser vers Planificateur / Courses avec des SUGGESTIONS précises
+- **Mission-découverte** : expliquer un mécanisme/signe peu connu (ex. acanthosis nigricans)
+- **Mission-observation** : noter/observer (fringales, cycle, peau) sans juger
+- **Mission-bilan** : hebdo (dimanche) + mensuel (fin de mois = transition, jamais une fin)
+- Toujours : relier à un **outil/ressource différent** à chaque fois (découverte + sentiment d'avancer)
+
 ## À faire avant d'affirmer les "À SOURCER"
 Sourcer via PubMed/Cochrane (RCT ou méta-analyse) : parodontite-SMOP, acupuncture-SMOP, microbiote-SMOP, inositol (myo vs D-chiro).
