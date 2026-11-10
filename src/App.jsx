@@ -5681,11 +5681,20 @@ export default function App() {
                     ))}
                   </div>
                 ))}
-                <div style={{background:`${C.sage}22`,borderRadius:12,padding:"12px 14px",border:`1px solid ${C.sage}`}}>
+                <div style={{background:`${C.sage}22`,borderRadius:12,padding:"12px 14px",border:`1px solid ${C.sage}`,marginBottom:12}}>
                   <div style={{fontSize:11,color:"#4F6038",lineHeight:1.6}}>
                     <strong>l'esprit, pas les règles :</strong> il n'y a pas d'aliment « interdit ». il y a des choix qui apaisent ton corps et d'autres qui le sollicitent. tu apprends à doser, pas à te priver.
                   </div>
                 </div>
+                <button onClick={()=>{ setOutilCat("alimentation"); setOutilOpen("assiette"); }}
+                  style={{width:"100%",display:"flex",alignItems:"center",gap:11,background:C.white,border:`1.5px solid ${C.terra}`,borderRadius:13,padding:"13px 14px",cursor:"pointer",fontFamily:"inherit",textAlign:"left"}}>
+                  <div style={{width:36,height:36,borderRadius:10,background:`${C.terra}1C`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:17,flexShrink:0}}>🍴</div>
+                  <div style={{flex:1}}>
+                    <div style={{fontSize:12.5,fontWeight:700,color:C.brown}}>Passer à l'action : l'assiette SMOP</div>
+                    <div style={{fontSize:10,color:C.light,marginTop:1}}>la bonne proportion dans ton assiette, concrètement</div>
+                  </div>
+                  <div style={{fontSize:16,color:C.terra}}>›</div>
+                </button>
 
                 {/* ── BANQUE DE CONNAISSANCES ── */}
                 <div style={{height:1,background:C.border,margin:"18px 0"}}/>
