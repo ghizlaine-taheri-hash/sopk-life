@@ -3448,6 +3448,7 @@ export default function App() {
   const [soignantOpen, setSoignantOpen] = useState(false);
   const [rechSpec, setRechSpec] = useState("");
   const [rechVille, setRechVille] = useState("");
+  const [scrollAnchor, setScrollAnchor] = useState(null); // scroll vers une ancre après navigation
   const [coursesInput, setCoursesInput] = useState("");
   const [perturbCheck, setPerturbCheck] = useState(() => load("perturbCheck",{}));
   const [lettre, setLettre] = useState(() => load("lettre",""));
@@ -3499,6 +3500,11 @@ export default function App() {
   useEffect(()=>{ save("medQOff",medQOff); },[medQOff]);
   useEffect(()=>{ save("medQCustom",medQCustom); },[medQCustom]);
   useEffect(()=>{ save("medPrioCustom",medPrioCustom); },[medPrioCustom]);
+  useEffect(()=>{
+    if(!scrollAnchor) return;
+    const t=setTimeout(()=>{ try{ document.getElementById(scrollAnchor)?.scrollIntoView({behavior:"smooth",block:"center"}); }catch(e){} setScrollAnchor(null); },140);
+    return ()=>clearTimeout(t);
+  },[scrollAnchor,outilOpen,tab]);
   useEffect(()=>{ save("perturbCheck",perturbCheck); },[perturbCheck]);
   useEffect(()=>{ save("lettre",lettre); },[lettre]);
   useEffect(()=>{ save("vidage",vidage); },[vidage]);
@@ -5544,7 +5550,7 @@ export default function App() {
                 {emoji:"💊",titre:"Les vitamines (suite)",desc:"vitamines A, B et leurs sources alimentaires",url:"https://drive.google.com/file/d/1MfIANYfEuGZZXLy3qjC4plKlrsitKH2s/view"},
                 {emoji:"⭐",titre:"Les super-aliments",desc:"les aliments d'exception et leurs bienfaits",url:"https://drive.google.com/file/d/1E3_30E4cNKAiVpvh-GwwRL3vY497OX2X/view"},
                 {cat:"🩸 Mes analyses"},
-                {emoji:"🩸",titre:"Le guide des analyses SMOP",desc:"comprendre tes prises de sang : chaque marqueur expliqué simplement",url:"https://drive.google.com/file/d/1tjAtk8V0PGOP6SyZuPXowx0znSQfBTj-/view"},
+                {emoji:"🩸",titre:"Le guide des analyses SMOP",desc:"comprendre tes prises de sang : chaque marqueur expliqué simplement",url:"https://drive.google.com/file/d/1tjAtk8V0PGOP6SyZuPXowx0znSQfBTj-/view",anchor:"dl-analyses"},
               ];
               return(
                 <div className="fu">
@@ -5555,7 +5561,7 @@ export default function App() {
                     f.cat?(
                       <div key={i} style={{fontSize:11,fontWeight:700,color:C.gold,textTransform:"uppercase",letterSpacing:0.8,margin:"16px 0 7px 2px"}}>{f.cat}</div>
                     ):(
-                    <div key={i} style={{background:C.white,borderRadius:13,padding:"13px 14px",marginBottom:9,border:`1px solid ${C.border}`,display:"flex",alignItems:"center",gap:12}}>
+                    <div key={i} id={f.anchor||undefined} style={{background:C.white,borderRadius:13,padding:"13px 14px",marginBottom:9,border:`1px solid ${f.anchor?pc.p:C.border}`,display:"flex",alignItems:"center",gap:12}}>
                       <span style={{fontSize:26,flexShrink:0}}>{f.emoji}</span>
                       <div style={{flex:1}}>
                         <div style={{fontSize:13,fontWeight:600,color:C.brown}}>{f.titre}</div>
@@ -5990,8 +5996,9 @@ export default function App() {
                 {id:"journal",ic:"calendar",l:"Mon journal"},
                 {id:"mouvement",ic:"steps",l:"Mes mouvements"},
                 {id:"ancrage",ic:"heart",l:"Mon ancrage"},
+                {id:"planif",ic:"book",l:"Planifier ma semaine",outil:true},
               ].map(x=>(
-                <button key={x.id} onClick={()=>setTab(x.id)} style={{display:"flex",alignItems:"center",gap:8,background:C.bubble,border:`1px solid ${C.border}`,borderRadius:12,padding:"11px 12px",cursor:"pointer",fontFamily:"inherit",textAlign:"left"}}>
+                <button key={x.id} onClick={()=>{ if(x.outil){setTab("outils");setOutilCat("alimentation");setOutilOpen(x.id);} else setTab(x.id); }} style={{display:"flex",alignItems:"center",gap:8,background:C.bubble,border:`1px solid ${C.border}`,borderRadius:12,padding:"11px 12px",cursor:"pointer",fontFamily:"inherit",textAlign:"left"}}>
                   <Icon name={x.ic} size={15} color={pc.p}/><span style={{fontSize:11.5,fontWeight:600,color:C.brown}}>{x.l}</span>
                 </button>
               ))}
@@ -6226,7 +6233,7 @@ export default function App() {
             <div style={{fontSize:12,color:C.light,marginBottom:14}}>en langage humain — pas en normes de laboratoire.</div>
 
             {/* LIAISON → guide analyses à télécharger */}
-            <button onClick={()=>{setTab("outils");setOutilOpen("telechargements");}}
+            <button onClick={()=>{setTab("outils");setOutilOpen("telechargements");setScrollAnchor("dl-analyses");}}
               style={{width:"100%",textAlign:"left",border:`1px solid ${pc.p}`,cursor:"pointer",fontFamily:"inherit",
               background:C.bubble,borderRadius:14,padding:"13px 14px",marginBottom:14,display:"flex",alignItems:"center",gap:12}}>
               <span style={{fontSize:26,flexShrink:0}}>🩸</span>
