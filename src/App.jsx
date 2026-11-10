@@ -2959,6 +2959,10 @@ const SAVOIRS = [
     corps:["l'hypothyroïdie — souvent la thyroïdite de Hashimoto — accompagne fréquemment le SMOP. les deux aiment voyager ensemble.","le piège : leurs symptômes se ressemblent (fatigue, prise de poids, cycles perturbés, frilosité, moral en berne). du coup, une thyroïde paresseuse passe souvent inaperçue, cachée derrière le SMOP.","ça vaut la peine d'en parler à ton médecin et de demander un dosage de la TSH (et, si besoin, T4 libre et anticorps anti-TPO). traiter une thyroïde qui tourne au ralenti peut soulager une grande partie de ce que tu mets sur le dos du SMOP.","ce n'est pas à toi de poser le diagnostic — mais c'est à toi de poser la question."] },
   { t:"Le poids et le SMOP : sortir de la culpabilité", em:"🌾", couleur:"#B8A98E",
     corps:["« perdez du poids » est le conseil le plus donné et le moins expliqué. or avec un SMOP, la résistance à l'insuline rend la perte de poids plus difficile — ce n'est pas un manque de volonté.","l'objectif n'est pas un chiffre : c'est d'apaiser ton terrain (glycémie stable, moins d'inflammation, meilleur sommeil). le reste suit, à son rythme.","ton corps n'est pas ton ennemi. il réagit à un déséquilibre — et il répond quand on lui donne les bons signaux."] },
+  { t:"Le cercle vicieux hormonal — et comment le briser", em:"♻️", couleur:"#CB9A79",
+    corps:["si tu as l'impression de tourner en rond, c'est normal : le SMOP fonctionne en boucle, et chaque pièce entretient la suivante.","voilà la boucle, en clair : ta glycémie fait des montagnes russes → ton corps produit beaucoup d'insuline → cette insuline pousse les ovaires à fabriquer plus d'androgènes → les androgènes et l'inflammation dérèglent l'ovulation et entretiennent les fringales → les fringales te ramènent au sucre → et la glycémie repart en montagnes russes. le stress se greffe dessus : le cortisol aggrave la résistance à l'insuline et relance tout.","la bonne nouvelle, c'est qu'une boucle, ça se brise par n'importe quel maillon — tu n'as pas à tout faire en même temps. stabiliser ta glycémie (une assiette qui ne fait pas flamber le sucre), bouger un peu après les repas, soigner ton sommeil, apaiser ton stress : chacun de ces gestes casse un bout du cercle, et l'effet se propage au reste.","c'est pour ça qu'ici on avance un geste à la fois, dans la durée. tu ne répares pas la boucle en un jour — tu la desserres, petit à petit."] },
+  { t:"Ma routine de sommeil, celle qui m'aide vraiment", em:"🌙", couleur:"#9FB3C9",
+    corps:["le sommeil, c'est le levier que personne ne te prescrit, et pourtant c'est souvent celui qui change le plus de choses. quand tu dors mal, ton cortisol grimpe, ta glycémie du lendemain est plus instable, et les hormones de la faim se dérèglent — d'où les fringales de sucre le jour d'après. ce n'est pas « dans ta tête ».","ce qui m'aide, et que je te partage comme mon expérience, pas comme une ordonnance : de la lumière du jour le matin, tôt, pour caler ton horloge interne. un dîner qui ne fait pas flamber ta glycémie (des protéines, des légumes, des bons gras), pas trop tard. couper les écrans au moins 30 min avant le lit — c'est le geste le plus dur et le plus payant. et surtout, des horaires réguliers, même le week-end : ton corps adore la régularité.","un vrai sas le soir, même court : lumière tamisée, une tisane, quelques respirations lentes. tu n'apaises pas ton SMOP en te forçant à dormir — tu crées les conditions, et le sommeil vient.","si malgré tout tu te réveilles à 3h chaque nuit, ce n'est pas un hasard : c'est souvent la glycémie qui chute ou le cortisol qui s'emballe. la fiche SOS « réveil nocturne » te donne le geste sur le moment."] },
 ];
 
 // ── COMPRENDRE MON SMOP : les mécanismes expliqués simplement ───────────────
@@ -5532,6 +5536,40 @@ export default function App() {
             {/* OUTIL : COMPRENDRE LES ALIMENTS */}
             {outilOpen==="comprendre"&&(
               <div className="fu">
+                {/* ── CYCLE NORMAL vs CYCLE SMOP ── */}
+                <div style={{fontSize:10,letterSpacing:1.5,textTransform:"uppercase",color:C.terra,fontWeight:700,marginBottom:4}}>Ton cycle, pour de vrai</div>
+                <div style={{fontSize:11,color:C.mid,lineHeight:1.6,marginBottom:12}}>on t'a sûrement dit « tes cycles sont irréguliers » sans jamais t'expliquer pourquoi. voilà la différence, côte à côte.</div>
+                <div style={{display:"flex",gap:9,marginBottom:12}}>
+                  {[
+                    {t:"Un cycle « classique »",coul:"#A9BC8E",bg:"#EFF3E8",lignes:[
+                      ["Durée","21 à 35 jours, assez régulier"],
+                      ["Ovulation","vers le milieu, chaque mois"],
+                      ["Déroulé","l'ovule mûrit, est libéré, puis les règles arrivent"],
+                      ["Règles","reviennent à un rythme prévisible"],
+                    ]},
+                    {t:"Un cycle avec SMOP",coul:"#A89AB8",bg:"#F2EEF6",lignes:[
+                      ["Durée","souvent long (> 35 j), irrégulier ou absent"],
+                      ["Ovulation","retardée, aléatoire, ou absente certains mois"],
+                      ["Déroulé","les follicules mûrissent mal et le signal d'ovulation ne part pas toujours"],
+                      ["Règles","espacées, imprévisibles — ce n'est pas « dans ta tête »"],
+                    ]},
+                  ].map((col,i)=>(
+                    <div key={i} style={{flex:1,background:col.bg,borderRadius:14,padding:"12px 11px",border:`1.5px solid ${col.coul}`}}>
+                      <div style={{fontSize:11.5,fontWeight:700,color:C.brown,marginBottom:9,lineHeight:1.25,minHeight:30}}>{col.t}</div>
+                      {col.lignes.map(([k,v],j)=>(
+                        <div key={j} style={{marginBottom:j<col.lignes.length-1?9:0}}>
+                          <div style={{fontSize:8,letterSpacing:0.8,textTransform:"uppercase",color:col.coul,fontWeight:700,marginBottom:2}}>{k}</div>
+                          <div style={{fontSize:10,color:C.brown,lineHeight:1.45}}>{v}</div>
+                        </div>
+                      ))}
+                    </div>
+                  ))}
+                </div>
+                <div style={{background:`${C.sage}22`,borderRadius:12,padding:"11px 14px",border:`1px solid ${C.sage}`,marginBottom:18}}>
+                  <div style={{fontSize:11,color:"#4F6038",lineHeight:1.6}}><strong>à retenir :</strong> un cycle irrégulier n'est pas un corps « cassé ». c'est un corps dont l'ovulation est gênée par le déséquilibre hormonal — et l'ovulation peut revenir quand on travaille le terrain. c'est tout l'enjeu de ce que tu fais ici.</div>
+                </div>
+                <div style={{height:1,background:C.border,margin:"0 0 18px"}}/>
+
                 {/* ── LES MÉCANISMES DU SMOP ── */}
                 <div style={{fontSize:10,letterSpacing:1.5,textTransform:"uppercase",color:C.terra,fontWeight:700,marginBottom:4}}>Comment marche ton SMOP</div>
                 <div style={{fontSize:11,color:C.mid,lineHeight:1.6,marginBottom:12}}>pas pour te faire peur — pour que tu comprennes ce qui se joue dans ton corps, et pourquoi chaque geste compte. touche un mécanisme pour l'ouvrir.</div>
