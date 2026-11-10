@@ -3442,6 +3442,8 @@ export default function App() {
   const [medQInput, setMedQInput] = useState("");
   const [medPrioInput, setMedPrioInput] = useState("");
   const [soignantOpen, setSoignantOpen] = useState(false);
+  const [rechSpec, setRechSpec] = useState("");
+  const [rechVille, setRechVille] = useState("");
   const [coursesInput, setCoursesInput] = useState("");
   const [perturbCheck, setPerturbCheck] = useState(() => load("perturbCheck",{}));
   const [lettre, setLettre] = useState(() => load("lettre",""));
@@ -6365,8 +6367,38 @@ export default function App() {
                   <div style={{background:C.bubble,borderRadius:11,padding:"11px 13px",margin:"14px 0 0",border:`1px solid ${C.border}`}}>
                     <div style={{fontSize:10.5,color:C.brown,lineHeight:1.6}}><strong>où chercher :</strong> le bouche-à-oreille de la communauté, les associations SMOP, et les avis en ligne te font gagner un temps fou. et souviens-toi : changer de médecin si le courant ne passe pas, ce n'est pas être difficile — c'est prendre soin de toi.</div>
                   </div>
-                  <div style={{background:"#FBF3E8",borderRadius:11,padding:"10px 12px",marginTop:8,border:"1px dashed #D4A56A"}}>
-                    <div style={{fontSize:10,color:"#8A6D2A",lineHeight:1.55}}><strong>à compléter :</strong> si tu as un annuaire de soignants sensibilisés au SMOP à recommander, donne-moi le lien et je l'ajoute ici en bouton.</div>
+                  {/* RECHERCHE DE SOIGNANT */}
+                  <div style={{background:C.white,border:`1.5px solid ${pc.p}`,borderRadius:12,padding:"13px",marginTop:14}}>
+                    <div style={{fontSize:12,fontWeight:700,color:C.brown,marginBottom:3}}>Chercher près de chez toi</div>
+                    <div style={{fontSize:10,color:C.light,lineHeight:1.5,marginBottom:10}}>indique la spécialité et ta ville — on ouvre les vrais praticiens référencés. à toi de juger ensuite (voir plus haut).</div>
+                    <div style={{display:"flex",gap:6,flexWrap:"wrap",marginBottom:9}}>
+                      {["Endocrinologue","Gynécologue","Diététicien·ne","Médecin généraliste","Naturopathe"].map(s=>(
+                        <button key={s} onClick={()=>setRechSpec(s)}
+                          style={{fontSize:10,fontWeight:600,fontFamily:"inherit",cursor:"pointer",border:`1px solid ${rechSpec===s?pc.p:C.border}`,background:rechSpec===s?`${pc.p}15`:"#fff",color:rechSpec===s?pc.p:C.mid,borderRadius:99,padding:"5px 11px"}}>{s}</button>
+                      ))}
+                    </div>
+                    <div style={{display:"flex",gap:7,marginBottom:10}}>
+                      <input value={rechSpec} onChange={e=>setRechSpec(e.target.value)} placeholder="spécialité"
+                        style={{flex:1,minWidth:0,border:`1px solid ${C.border}`,borderRadius:9,padding:"9px 10px",fontFamily:"inherit",fontSize:11.5,color:C.brown,outline:"none",background:C.cream}}/>
+                      <input value={rechVille} onChange={e=>setRechVille(e.target.value)} placeholder="ville"
+                        style={{flex:1,minWidth:0,border:`1px solid ${C.border}`,borderRadius:9,padding:"9px 10px",fontFamily:"inherit",fontSize:11.5,color:C.brown,outline:"none",background:C.cream}}/>
+                    </div>
+                    {(()=>{
+                      const q=`${rechSpec} ${rechVille}`.trim();
+                      const disabled=!q;
+                      const slug=(s)=>s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").trim().replace(/\s+/g,"-").replace(/[^a-z0-9-]/g,"");
+                      const openMaps=()=>{ if(disabled)return; window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q)}`,"_blank","noopener"); };
+                      const openDoc=()=>{ if(disabled)return; const sp=slug(rechSpec), vi=slug(rechVille); const url= sp&&vi ? `https://www.doctolib.fr/${sp}/${vi}` : `https://www.doctolib.fr/search?location=${encodeURIComponent(rechVille)}`; window.open(url,"_blank","noopener"); };
+                      return(
+                      <div style={{display:"flex",gap:8}}>
+                        <button onClick={openMaps} disabled={disabled}
+                          style={{flex:1,background:disabled?C.border:pc.p,border:"none",borderRadius:10,padding:"10px",color:"#fff",fontFamily:"inherit",fontSize:11.5,fontWeight:700,cursor:disabled?"default":"pointer",opacity:disabled?.6:1}}>Voir les praticiens →</button>
+                        <button onClick={openDoc} disabled={disabled}
+                          style={{background:"#fff",border:`1.5px solid ${C.border}`,borderRadius:10,padding:"10px 13px",color:C.mid,fontFamily:"inherit",fontSize:11.5,fontWeight:600,cursor:disabled?"default":"pointer",opacity:disabled?.6:1}}>Doctolib</button>
+                      </div>
+                      );
+                    })()}
+                    <div style={{fontSize:9,color:C.light,lineHeight:1.5,marginTop:8}}>on ne recommande personne : ces résultats viennent des annuaires publics, et aucun ne filtre « spécialiste du SMOP » — d'où l'importance des repères ci-dessus.</div>
                   </div>
                 </div>
               )}
