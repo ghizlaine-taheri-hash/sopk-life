@@ -6513,8 +6513,9 @@ profil · 3 priorités · analyses à demander · ton suivi & tes tendances · s
                   </div>
                 </div>
               ))}
-              <div style={{background:"#FBF3E8",borderRadius:11,padding:"10px 12px",marginTop:13,border:"1px dashed #D4A56A"}}>
-                <div style={{fontSize:10,color:"#8A6D2A",lineHeight:1.55}}><strong>à personnaliser :</strong> raconte ici, dans ta voix, le moment où le stress t'a fait flamber et comment ta méthode t'a sortie de là. ton histoire vraie vaudra mille conseils.</div>
+              <div style={{background:C.cream,borderRadius:12,padding:"13px 15px",marginTop:14,borderLeft:`3px solid ${pc.p}`}}>
+                <div style={{fontSize:8.5,letterSpacing:1.5,textTransform:"uppercase",color:pc.p,fontWeight:700,marginBottom:6}}>Mon histoire</div>
+                <div style={{fontSize:11.5,color:C.brown,lineHeight:1.7,fontStyle:"italic"}}>à l'époque, j'étais à la fac et je faisais des crises d'angoisse. je pouvais en avoir à n'importe quel moment — il m'est arrivé de sortir en plein cours. et plus je paniquais, plus ça empirait : le stress s'auto-alimentait, c'était mon point noir, et mon corps prenait tout de plein fouet.<br/><br/>ce que je viens de te partager, c'est exactement ce qui m'a aidée à desserrer cette spirale. pas en un jour — petit à petit, j'ai repris la main. si j'y suis arrivée, toi aussi tu peux.</div>
               </div>
             </div>
 
