@@ -3245,6 +3245,9 @@ export default function App() {
       }
     }catch(e){}
   };
+  // auto-réparation : si les rappels sont autorisés, on ré-enregistre l'abonnement à chaque ouverture
+  // (un abonnement peut être invalidé par une mise à jour du service worker)
+  useEffect(()=>{ try{ if(sb&&session&&typeof Notification!=="undefined"&&Notification.permission==="granted"){ subscribePush(); } }catch(e){} },[sb,session]);
 
   useEffect(()=>{ let subref;
     getSupabase().then(client=>{
