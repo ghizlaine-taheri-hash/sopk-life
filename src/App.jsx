@@ -4522,7 +4522,7 @@ export default function App() {
               const OPTS=[{k:"basse",l:"Basse",tip:"sois douce avec toi — vise des missions légères, du repos actif, et pas de culpabilité."},{k:"moyenne",l:"Moyenne",tip:"rythme normal, écoute ton corps au fil de la journée."},{k:"haute",l:"Haute",tip:"profites-en pour bouger un peu plus et avancer sur ta mission."}];
               const sel=OPTS.find(o=>o.k===energie);
               return(
-              <div style={{background:C.bubble,border:`1px solid ${C.border}`,borderRadius:12,padding:"11px 13px",marginBottom:10}}>
+              <div style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:12,padding:"11px 13px",marginBottom:18}}>
                 <div style={{fontSize:10.5,fontWeight:600,color:C.brown,marginBottom:8,display:"flex",alignItems:"center",gap:6}}><Icon name="bolt" size={13} color={pc.p}/>Ton énergie aujourd'hui <span style={{fontSize:9,color:C.light,fontWeight:500,textTransform:"none"}}>· facultatif</span></div>
                 <div style={{display:"flex",gap:6,marginBottom:sel?9:0}}>
                   {OPTS.map(o=>(
