@@ -825,11 +825,14 @@ const authErrFr = (msg="") => {
 
 // ─── 15 FICHES SOS ───────────────────────────────────────────────────────────
 
+// Lien de la communauté WhatsApp des Cysters
+const WHATSAPP_URL = "https://chat.whatsapp.com/D3nMeUIpW2N9A2D0cj31u2";
+
 // ─── COACH MINDSET KAMILA ───
 // états émotionnels → message de Kamila (à retoucher par Ghiz, voix authentique)
 const MINDSET = [
   {id:"decouragee", emoji:"😔", label:"découragée",
-   message:"ok. respire un coup ma go.\n\nle découragement avec le SMOP c'est pas un manque de volonté — c'est l'épuisement d'avoir essayé mille trucs sans qu'on t'explique vraiment ton corps.\n\nt'as le droit d'en avoir marre. vraiment.\n\nmais regarde : t'es là, t'as ouvert l'app. c'est déjà un pas que beaucoup ne font pas. on n'a pas besoin d'un grand soir, juste du prochain petit geste. un seul.",
+   message:"ok. respire un coup ma go.\n\nle découragement avec le SMOP c'est pas un manque de volonté — c'est l'épuisement d'avoir essayé mille trucs sans qu'on t'explique vraiment ton corps.\n\nt'as le droit d'en avoir marre. vraiment.\n\nmais regarde : t'es là, t'as ouvert ton espace. c'est déjà un pas que beaucoup ne font pas. on n'a pas besoin d'un grand soir, juste du prochain petit geste. un seul.",
    geste:"fais juste UNE chose aujourd'hui. ta mission du jour, rien de plus. le reste attendra."},
   {id:"anxieuse", emoji:"😰", label:"anxieuse",
    message:"je suis là. pose-toi deux secondes avec moi.\n\nl'anxiété et le SMOP c'est un duo connu — tes hormones rendent ton système nerveux plus à vif. c'est pas toi qui « dramatises ». c'est biologique.\n\nlà maintenant t'as pas besoin de tout régler. juste de faire redescendre la vague.",
@@ -962,6 +965,7 @@ const SOS_DATA = [
     validation:"ce bouton n'est pas apparu par hasard.\nce n'est pas un manque d'hygiène.\nce n'est pas parce que tu as mal mangé hier.\nc'est hormonal. et ça a une cause précise.",
     actions5min:[
       {em:"🧊", t:"Glaçon 2 minutes sur la zone", why:"réduit l'inflammation locale immédiatement"},
+      {em:"🩹", t:"Un patch anti-bouton transparent par-dessus", why:"il protège, absorbe, t'empêche d'y toucher — et il est discret quand le bouton est bien visible"},
       {em:"🚫", t:"Zéro toucher", why:"les bactéries de tes mains aggravent l'inflammation"},
       {em:"💊", t:"Zinc ce soir avec le repas", why:"pourrait moduler la 5-alpha-réductase (liée à la DHT)"},
     ],
@@ -993,7 +997,7 @@ const SOS_DATA = [
     actions5min:[
       {em:"📝", t:"Note la date du dernier cycle", why:"avoir des données précises pour le médecin"},
       {em:"🧘", t:"Cohérence cardiaque maintenant", why:"le cortisol élevé bloque l'ovulation directement"},
-      {em:"📱", t:"Ouvre tes scripts médecin dans l'app", why:"prépare la demande de bilan hormonal"},
+      {em:"📱", t:"Ouvre tes scripts médecin dans ton espace", why:"prépare la demande de bilan hormonal"},
     ],
     action1h:"si > 90 jours sans règles — prends rendez-vous. les analyses à demander : LH, FSH, progestérone, prolactine, TSH.",
     mecanisme:"l'excès d'androgènes ou d'insuline perturbe la maturation des follicules. ils commencent à se développer mais n'arrivent pas à terme. pas d'ovulation = pas de règles. c'est mécanique. et ça se régule.",
@@ -1019,7 +1023,7 @@ const SOS_DATA = [
   },
   {
     id:"decouragement", emoji:"💙", titre:"Découragement", couleur:"#5B7FA6",
-    validation:"j'entends que c'est difficile.\net je vais pas te dire que ça va aller.\nce que je sais — c'est que le fait d'avoir ouvert cette app aujourd'hui, dans un jour comme ça, c'est déjà quelque chose.",
+    validation:"j'entends que c'est difficile.\net je vais pas te dire que ça va aller.\nce que je sais — c'est que le fait d'avoir ouvert ton espace aujourd'hui, dans un jour comme ça, c'est déjà quelque chose.",
     actions5min:[
       {em:"💧", t:"Un verre d'eau", why:"la plus petite décision de soin possible"},
       {em:"📖", t:"Relis tes victoires dans le journal", why:"ton cerveau oublie les progrès — les données les rappellent"},
@@ -1201,7 +1205,7 @@ const SOS_DATA = [
     ],
     action1h:"contacte une personne de confiance, même juste pour parler d'autre chose. l'isolement nourrit la solitude — un seul lien, même petit, change la journée.",
     mecanisme:"le SMOP est souvent invisible et incompris, ce qui crée un vrai sentiment d'isolement. s'y ajoutent les effets hormonaux sur l'humeur. ce n'est pas \"dans ta tête\" : c'est une charge réelle. mais elle s'allège dès qu'elle est partagée avec des personnes qui vivent la même chose.",
-    kamila:"tu as construit une communauté entière de femmes qui te ressemblent. tu n'as jamais été aussi entourée que maintenant.",
+    kamila:"tu te sens seule, mais tu ne l'es pas. il existe toute une communauté de femmes qui vivent exactement ce que tu traverses — tu peux t'y appuyer, dès maintenant.",
     secret:"le sentiment de solitude vient du fait que le SMOP est invisible et incompris — ce n'est pas « dans ta tête », c'est une charge réelle. et 70% des femmes concernées ignorent même qu'elles l'ont. tu fais partie d'une immense communauté silencieuse. mettre des mots et partager, c'est ce qui allège le plus vite ce poids.",
     monMot:"le pire avec le SMOP, ce ne sont pas toujours les symptômes. c'est parfois le sentiment que personne ne comprend vraiment. les autres voient les boutons, les poils, le poids — mais pas les heures passées à chercher des réponses, les analyses, les rendez-vous, les inquiétudes, les larmes. longtemps je me suis sentie seule. puis j'ai découvert d'autres femmes qui vivaient exactement la même chose, et ça a changé quelque chose d'immense. parce qu'à partir du moment où quelqu'un met des mots sur ce que tu vis, tu te sens un peu moins seule à le porter.",
     liens:["la communauté Cysters","le coach mindset de Kamila","ton Journal pour déposer ce que tu portes"]
@@ -1364,7 +1368,7 @@ mission:"ouvre l'onglet Médecin, prépare ton dossier et note les analyses à d
 msg:"tu n'attends plus qu'on te sauve.\n\ntu collabores avec ton médecin.\n\nc'est différent.\n\naujourd'hui tu prépares tes armes.",
 pourquoi:"trop de Cysters sortent de chez le médecin frustrées, sans les bonnes analyses, parce qu'elles ne savaient pas quoi demander. la préparation change tout.\n\npour un profil métabolique, certaines analyses sont prioritaires : insuline à jeun et HOMA-IR (qui mesurent ta résistance à l'insuline — souvent oubliés), idéalement une HGPO avec insuline, testostérone libre + SHBG (pour le versant hormonal), et vitamine D.\n\narriver avec une liste précise, c'est transformer le rendez-vous : tu ne subis plus, tu collabores. et un médecin face à une patiente informée et structurée répond différemment.",
 source:"la résistance à l'insuline (mesurée par HOMA-IR) est présente chez la majorité des femmes SMOP et doit être évaluée (Diamanti-Kandarakis & Dunaif, 2012, Endocrine Reviews).",
-comment:["ouvre l'onglet Médecin de l'app","note les analyses à demander (insuline à jeun, HOMA-IR, testostérone libre, SHBG, vitamine D)","prépare la liste de tes symptômes principaux","note tes questions précises pour le médecin","prends rendez-vous si ce n'est pas déjà fait"],
+comment:["ouvre l'onglet Médecin de ton espace","note les analyses à demander (insuline à jeun, HOMA-IR, testostérone libre, SHBG, vitamine D)","prépare la liste de tes symptômes principaux","note tes questions précises pour le médecin","prends rendez-vous si ce n'est pas déjà fait"],
 pieges:["demander juste 'une prise de sang' sans préciser — tu risques de repartir sans l'insuline","oublier de demander le HOMA-IR — c'est la clé du profil métabolique","ne pas noter tes symptômes — sur le moment on oublie la moitié"],
 plus:"l'onglet Médecin contient des scripts prêts à l'emploi pour formuler tes demandes sans te sentir illégitime. tu peux même générer un document à montrer ou envoyer à ton médecin.",
 observes:["aujourd'hui : tu te sens plus en contrôle de ta santé","au rendez-vous : un échange plus précis et plus utile","après : des analyses qui éclairent vraiment ton profil"],
@@ -1433,12 +1437,12 @@ plus:"prends une photo ou note tes mensurations si tu veux un repère objectif. 
 observes:["aujourd'hui : tu vois noir sur blanc ce qui a changé","dans une semaine (J30) : le bilan final, encore plus parlant","sur les mois suivants : les changements physiques s'installent"],
 victoire:"la progression se mesure en compréhension autant qu'en symptômes."},
   {day:22,emoji:"🔬",theme:"relire tes analyses",
-mission:"si tu as des analyses récentes, ouvre le Traducteur dans l'app et relis-les avec un œil neuf.",
+mission:"si tu as des analyses récentes, ouvre le Traducteur dans ton espace et relis-les avec un œil neuf.",
 msg:"tu n'as plus besoin d'attendre qu'on t'explique.\n\ntu lis ton propre corps.\n\naujourd'hui tu deviens actrice de tes résultats.",
 pourquoi:"il y a une nuance que peu de patientes connaissent : les normes de laboratoire ne sont pas les normes optimales. les normes de labo définissent ce qui est 'pathologique', pas ce qui est 'idéal'.\n\nrésultat : ton insuline à jeun peut être affichée comme 'dans les normes' alors qu'elle est déjà trop haute pour un fonctionnement optimal. c'est exactement pour ça que tant de Cysters s'entendent dire 'tout va bien' alors qu'elles se sentent mal. les valeurs sont 'normales' au sens du labo, mais pas fonctionnelles.\n\nsavoir lire la différence entre 'normal' et 'optimal', c'est arrêter de douter de ton ressenti. ton corps ne ment pas.",
 source:"la résistance à l'insuline est sous-diagnostiquée dans le SMOP car les normes de laboratoire ne reflètent pas toujours l'optimal fonctionnel (Diamanti-Kandarakis & Dunaif, 2012, Endocrine Reviews).",
 comment:["récupère tes analyses (insuline à jeun, glycémie, HOMA-IR…)","ouvre l'onglet Analyses → Traducteur","entre tes valeurs pour les comprendre en langage clair","repère l'écart entre 'normal labo' et 'optimal'","note tes questions pour ton médecin"],
-pieges:["paniquer devant un chiffre hors norme — l'app t'aide à le mettre en contexte","prendre les normes de labo pour des objectifs de santé — ce n'est pas pareil","te passer de ton médecin — l'app éclaire, elle ne remplace pas un avis médical"],
+pieges:["paniquer devant un chiffre hors norme — ton espace t'aide à le mettre en contexte","prendre les normes de labo pour des objectifs de santé — ce n'est pas pareil","te passer de ton médecin — ton espace éclaire, il ne remplace pas un avis médical"],
 plus:"si tu n'as pas encore d'analyses, ce n'est pas grave : le Jour 15 t'a préparée à les demander. reviens à cette mission quand tu les auras. comprendre ses propres analyses, c'est une compétence que tu gardes à vie.",
 observes:["aujourd'hui : tu comprends tes chiffres sans angoisse","à ton prochain bilan : tu suis ton évolution toi-même","sur la durée : tu dialogues d'égale à égale avec les soignants"],
 victoire:"relire ses analyses sans panique — c'est une des plus grandes victoires du protocole.",
@@ -1836,7 +1840,7 @@ mission:"fais 5 minutes de cohérence cardiaque aujourd'hui — inspire 5 second
 msg:"on parle beaucoup d'alimentation.\n\nmais le stress chronique est un carburant direct de l'inflammation.\n\naujourd'hui on s'en occupe vraiment.",
 pourquoi:"le stress n'est pas « juste dans la tête ». un stress chronique maintient ton cortisol élevé en permanence, et un cortisol élevé entretient directement l'inflammation et dérègle tes hormones. c'est documenté : le SMOP et le stress s'aggravent mutuellement.\n\nsur un terrain inflammatoire, apprendre à faire baisser le stress n'est pas un « bonus bien-être » : c'est agir sur une des racines du problème.\n\nla cohérence cardiaque est l'outil le plus simple et le plus étudié : en respirant à un rythme précis (environ 5 secondes à l'inspiration, 5 à l'expiration) pendant 5 minutes, tu envoies à ton système nerveux le signal que le danger est passé. le cortisol redescend. c'est de la neurobiologie, pas du yoga ésotérique.",
 source:"le SMOP et le stress ont une relation bidirectionnelle, chacun aggravant l'autre (Pasquali et al.) ; la cohérence cardiaque agit sur le système nerveux autonome.",
-comment:["installe-toi au calme, assise, dos droit","inspire doucement 5 secondes, expire doucement 5 secondes","continue pendant 5 minutes (environ 30 cycles)","idéalement 3 fois par jour, mais même 1 fois aide","des applications gratuites rythment la respiration pour toi"],
+comment:["installe-toi au calme, assise, dos droit","inspire doucement 5 secondes, expire doucement 5 secondes","continue pendant 5 minutes (environ 30 cycles)","idéalement 3 fois par jour, mais même 1 fois aide","un minuteur gratuit peut rythmer ta respiration pour toi"],
 pieges:["croire que « gérer son stress » est secondaire : c'est une racine, pas un détail","attendre un calme parfait pour s'y mettre : on pratique justement pour l'obtenir","vouloir tout régler d'un coup : 5 minutes régulières valent mieux qu'une heure une fois"],
 plus:"les moments où j'en ai le moins envie sont souvent ceux où j'en ai le plus besoin. 5 minutes de respiration avant un rendez-vous stressant, ou le soir quand ma tête tourne, et je sens physiquement la pression redescendre. c'est gratuit, ça marche, et personne ne le prescrit.",
 observes:["dès aujourd'hui : un apaisement immédiat après la séance","dans quelques jours : une réactivité au stress un peu moindre","au long cours : un cortisol mieux régulé, un terrain plus calme"],
@@ -2676,10 +2680,10 @@ observes:["aujourd'hui : tu sais quoi demander","à ton rendez-vous : une consul
 victoire:"tu passes de patiente qui subit à Cyster qui arrive avec les bonnes questions."},
 
   {day:16,emoji:"💓",theme:"la cohérence cardiaque",
-mission:"aujourd'hui, 5 minutes de cohérence cardiaque : respiration 5s/5s (ou une appli gratuite qui te guide).",
+mission:"aujourd'hui, 5 minutes de cohérence cardiaque : respiration 5s/5s (ou un minuteur gratuit qui te guide).",
 msg:"au J1 tu as appris à respirer dans l'urgence.\n\naujourd'hui on en fait un entraînement.\n\nparce que le calme, ça se muscle.",
 pourquoi:"la cohérence cardiaque, c'est ta respiration du J1 pratiquée régulièrement et guidée. en respirant à ce rythme lent et régulier, tu synchronises ton cœur et ta respiration, et tu actives ton système nerveux parasympathique — le frein.\n\nfait une fois, ça apaise sur le moment. fait régulièrement, ça rééduque ton système nerveux à redescendre plus vite après chaque pic. c'est un entraînement : plus tu le pratiques, plus ton corps récupère tôt.\n\npour un profil piloté par le cortisol, c'est l'un des outils les mieux documentés et les plus accessibles.",
-comment:["5 minutes, assise, le dos droit","inspire 5 secondes, expire 5 secondes","aide-toi d'une appli gratuite qui donne le rythme si besoin","idéalement le matin et/ou en fin d'après-midi","fais-en un rendez-vous quotidien, pas un geste au hasard"],
+comment:["5 minutes, assise, le dos droit","inspire 5 secondes, expire 5 secondes","aide-toi d'un minuteur gratuit qui donne le rythme si besoin","idéalement le matin et/ou en fin d'après-midi","fais-en un rendez-vous quotidien, pas un geste au hasard"],
 pieges:["attendre d'être stressée pour pratiquer : l'effet vient de la régularité, pas de l'urgence","juger ta « performance » : il n'y a rien à réussir","abandonner après 2 jours — c'est comme le sport, l'effet se construit"],
 plus:"le meilleur moment pour toi : juste avant le créneau où tu te sens le plus « à bout » (celui repéré au J6). tu désamorces le pic avant qu'il arrive.",
 observes:["dès la première fois : un calme un peu plus net après","dans quelques jours : tu redescends plus vite dans la journée","dans 2 semaines : une base anxieuse plus basse"],
@@ -2820,8 +2824,8 @@ victoire:"tu vois enfin, chiffres et faits à l'appui, que ton corps répond —
 mission:"garde trois choses au-delà d'aujourd'hui : ton rituel du soir, tes micro-pauses, ta Serenitea.",
 msg:"tu sais maintenant quelque chose que presque personne ne t'avait dit.\n\nton SMOP parle le langage du stress.\n\net tu as appris à lui répondre.",
 pourquoi:"tu arrives au bout de la Fondation. tu n'es pas « guérie » — le SMOP est chronique, et ton moteur surrénalien fait partie de toi. mais tu as repris la main sur ton levier numéro un : le stress et le cortisol.\n\ntu as compris pourquoi tes nuits, ta peau, ton énergie sont reliées à ton axe du stress. tu as une tisane pensée pour ce mécanisme, un rituel du soir, des outils anti-cortisol, et de quoi parler vrai à ton médecin. c'est énorme.\n\nà partir de demain, tu n'es plus seule avec tout ça : l'app t'accompagne au quotidien, dans la durée. la Fondation est posée — place à la vie au long cours.",
-comment:["garde ton rituel Serenitea du soir","garde tes 2 micro-pauses et ta respiration 5s/5s","garde la lumière du matin et le téléphone hors de la chambre","reviens à ta boîte à outils (J28) dès que le stress remonte","à partir de demain, laisse l'app te guider jour après jour"],
-pieges:["croire que tout est acquis et tout lâcher : ton terrain demande de l'entretien","attendre d'être « parfaitement calme » pour te féliciter — regarde le chemin","te retrouver seule face au stress : tu as des outils, et l'app continue avec toi"],
+comment:["garde ton rituel Serenitea du soir","garde tes 2 micro-pauses et ta respiration 5s/5s","garde la lumière du matin et le téléphone hors de la chambre","reviens à ta boîte à outils (J28) dès que le stress remonte","à partir de demain, laisse ton espace te guider jour après jour"],
+pieges:["croire que tout est acquis et tout lâcher : ton terrain demande de l'entretien","attendre d'être « parfaitement calme » pour te féliciter — regarde le chemin","te retrouver seule face au stress : tu as des outils, et ton espace continue avec toi"],
 plus:"les jours où tout remonte — et il y en aura — ne repars pas de zéro. reprends juste un outil de ta boîte, ce soir, avec ta Serenitea. c'est comme ça qu'on tient dans la durée : pas en étant parfaite, en revenant.",
 observes:["aujourd'hui : de la fierté, et une base solide sous les pieds","dans les semaines qui viennent : un terrain qui continue de s'apaiser","au long cours : un SMOP de moins en moins réactif au stress"],
 victoire:"tu as transformé un stress qui te pilotait en quelque chose que tu sais, maintenant, accompagner. c'est ça, reprendre le pouvoir.",
@@ -3105,7 +3109,7 @@ const PERTURBATEURS = [
     {id:"sdb2", t:"J'évite les parabènes", d:"listés en -paraben sur l'étiquette, à visée œstrogénique"},
     {id:"sdb3", t:"Je simplifie ma routine", d:"moins de produits = moins d'exposition, c'est le levier le plus simple"},
     {id:"sdb4", t:"Je choisis des protections hygiéniques saines", d:"coton bio ou cup — en contact direct avec une muqueuse, c'est important"},
-    {id:"sdb5", t:"Je vérifie mon maquillage et mon vernis", d:"une appli de scan d'ingrédients aide à repérer les plus problématiques"},
+    {id:"sdb5", t:"Je vérifie mon maquillage et mon vernis", d:"un outil de scan d'ingrédients aide à repérer les plus problématiques"},
   ]},
   { piece:"Ménage", em:"🧽", couleur:"#A9BC8E", items:[
     {id:"men1", t:"J'aère 10 minutes par jour", d:"l'air intérieur concentre les polluants — le geste le plus efficace et gratuit"},
@@ -3983,7 +3987,7 @@ export default function App() {
         voir toutes mes fiches SOS →
       </button>
       <button onClick={()=>setCriseMode(false)} style={{marginTop:"0.8rem",background:"none",border:`1px solid ${C.border}`,borderRadius:12,padding:"10px 20px",fontFamily:"inherit",fontSize:12,color:C.light,cursor:"pointer"}}>
-        revenir à l'application
+        revenir à ton espace
       </button>
     </div>
   );
@@ -4034,10 +4038,15 @@ export default function App() {
           )}
           {sos.liens&&sos.liens.length>0&&(
             <div style={{background:C.white,borderRadius:12,padding:"12px 14px",marginBottom:10,border:`1px solid ${C.border}`}}>
-              <div style={{fontSize:10,fontWeight:700,color:C.brown,marginBottom:7}}>pour aller plus loin dans l'app</div>
-              {sos.liens.map((l,i)=>(
-                <div key={i} style={{fontSize:11,color:sos.couleur,lineHeight:1.8,fontWeight:500}}>→ {l}</div>
-              ))}
+              <div style={{fontSize:10,fontWeight:700,color:C.brown,marginBottom:7}}>pour aller plus loin dans ton espace</div>
+              {sos.liens.map((l,i)=>{
+                const low=l.toLowerCase();
+                const act={fontSize:11,color:sos.couleur,lineHeight:1.8,fontWeight:600,display:"block",background:"none",border:"none",padding:0,textAlign:"left",fontFamily:"inherit",cursor:"pointer",textDecoration:"underline",textDecorationColor:`${sos.couleur}66`};
+                if(low.includes("communauté")) return <a key={i} href={WHATSAPP_URL} target="_blank" rel="noopener" style={act}>→ {l}</a>;
+                if(low.includes("journal")) return <button key={i} onClick={()=>{setSosOpen(null);setTab("journal");}} style={act}>→ {l}</button>;
+                if(low.includes("mindset")) return <button key={i} onClick={()=>{setSosOpen(null);setTab("kamila");}} style={act}>→ {l}</button>;
+                return <div key={i} style={{fontSize:11,color:sos.couleur,lineHeight:1.8,fontWeight:500}}>→ {l}</div>;
+              })}
             </div>
           )}
           <div style={{background:C.bubble,borderRadius:12,padding:"12px 14px",border:`1px solid ${C.border}`}}>
@@ -4269,7 +4278,7 @@ export default function App() {
             <div style={{width:36,height:36,borderRadius:10,background:`linear-gradient(135deg,${C.mauve},${C.terra})`,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><Icon name="leaf" size={18} color="#fff"/></div>
             <div style={{flex:1}}>
               <div style={{fontSize:11.5,fontWeight:700,color:C.brown}}>Ajoute SMOP Map à ton écran d'accueil</div>
-              <div style={{fontSize:9.5,color:C.mid,marginTop:1}}>pour l'ouvrir comme une app et recevoir tes rappels</div>
+              <div style={{fontSize:9.5,color:C.mid,marginTop:1}}>pour l'installer sur ton écran et recevoir tes rappels</div>
             </div>
             <button onClick={()=>canInstallAndroid?triggerInstall():setShowInstall(true)} style={{background:C.brown,color:"#fff",border:"none",borderRadius:9,padding:"8px 12px",fontSize:10.5,fontWeight:700,fontFamily:"inherit",cursor:"pointer",flexShrink:0}}>Installer</button>
             <button onClick={dismissInstall} aria-label="fermer" style={{background:"none",border:"none",color:C.light,fontSize:15,cursor:"pointer",fontFamily:"inherit",padding:"0 2px"}}>✕</button>
@@ -7034,7 +7043,7 @@ profil · tes priorités · les analyses & questions que tu as cochées · ton s
               ):(
                 <button onClick={enableNotif} style={{width:"100%",background:pc.p,color:"#fff",border:"none",borderRadius:10,padding:"12px",fontFamily:"inherit",fontSize:12,fontWeight:700,cursor:"pointer"}}>activer mes rappels</button>
               )}
-              {(isIOS&&!isStandalone)&&<div style={{fontSize:9.5,color:C.light,marginTop:8,lineHeight:1.55}}>sur iPhone, ajoute d'abord l'app à ton écran d'accueil pour recevoir les rappels. <button onClick={()=>{setShowAccount(false);setShowInstall(true);}} style={{background:"none",border:"none",color:pc.p,fontFamily:"inherit",fontSize:9.5,fontWeight:700,cursor:"pointer",padding:0,textDecoration:"underline"}}>voir comment</button></div>}
+              {(isIOS&&!isStandalone)&&<div style={{fontSize:9.5,color:C.light,marginTop:8,lineHeight:1.55}}>sur iPhone, ajoute d'abord SMOP Map à ton écran d'accueil pour recevoir les rappels. <button onClick={()=>{setShowAccount(false);setShowInstall(true);}} style={{background:"none",border:"none",color:pc.p,fontFamily:"inherit",fontSize:9.5,fontWeight:700,cursor:"pointer",padding:0,textDecoration:"underline"}}>voir comment</button></div>}
             </div>
 
             <button onClick={logout} style={{width:"100%",display:"flex",alignItems:"center",justifyContent:"center",gap:8,background:C.white,border:`1px solid ${C.border}`,borderRadius:12,padding:"13px",fontFamily:"inherit",fontSize:12.5,fontWeight:600,color:"#B5553F",cursor:"pointer"}}>
@@ -7050,10 +7059,10 @@ profil · tes priorités · les analyses & questions que tu as cochées · ton s
         <div onClick={()=>setShowInstall(false)} style={{position:"fixed",inset:0,zIndex:320,background:"rgba(58,42,32,.45)",display:"flex",alignItems:"flex-end",justifyContent:"center"}}>
           <div onClick={e=>e.stopPropagation()} style={{background:C.cream,width:"100%",maxWidth:430,borderRadius:"22px 22px 0 0",padding:"1.4rem 1.3rem 1.9rem",maxHeight:"90vh",overflowY:"auto"}}>
             <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:6}}>
-              <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.3rem",color:C.brown,fontWeight:600}}>Installe l'app</div>
+              <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.3rem",color:C.brown,fontWeight:600}}>Installe SMOP Map</div>
               <button onClick={()=>setShowInstall(false)} style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:"50%",width:32,height:32,cursor:"pointer",color:C.mid,fontSize:15,fontFamily:"inherit"}}>✕</button>
             </div>
-            <div style={{fontSize:11.5,color:C.mid,lineHeight:1.6,marginBottom:16}}>ajoute SMOP Map à ton écran d'accueil : tu l'ouvres comme une vraie app, et tu peux recevoir un petit rappel chaque jour. Pas besoin d'App Store.</div>
+            <div style={{fontSize:11.5,color:C.mid,lineHeight:1.6,marginBottom:16}}>ajoute SMOP Map à ton écran d'accueil : tu l'ouvres directement depuis ton écran, et tu reçois un petit rappel chaque jour. Rien à télécharger.</div>
 
             {canInstallAndroid && (
               <button onClick={triggerInstall} style={{width:"100%",background:C.brown,color:"#fff",border:"none",borderRadius:12,padding:"13px",fontFamily:"inherit",fontSize:13,fontWeight:700,cursor:"pointer",marginBottom:16}}>Installer maintenant</button>
@@ -7063,13 +7072,13 @@ profil · tes priorités · les analyses & questions que tu as cochées · ton s
             {(isIOS?[
               {n:"1",t:"Appuie sur le bouton Partager",d:"l'icône carrée avec une flèche vers le haut, en bas de Safari."},
               {n:"2",t:"Choisis « Sur l'écran d'accueil »",d:"fais défiler le menu si besoin pour la trouver."},
-              {n:"3",t:"Appuie sur « Ajouter »",d:"l'icône SMOP Map apparaît sur ton écran, comme une app."},
-              {n:"4",t:"Ouvre l'app depuis cette icône",d:"et active tes rappels dans Mon compte."},
+              {n:"3",t:"Appuie sur « Ajouter »",d:"l'icône SMOP Map apparaît sur ton écran d'accueil."},
+              {n:"4",t:"Ouvre SMOP Map depuis cette icône",d:"et active tes rappels dans Mon compte."},
             ]:[
               {n:"1",t:"Ouvre le menu de ton navigateur",d:"les trois points en haut à droite (Chrome)."},
               {n:"2",t:"Choisis « Installer l'application »",d:"ou « Ajouter à l'écran d'accueil »."},
               {n:"3",t:"Confirme",d:"l'icône SMOP Map apparaît sur ton écran d'accueil."},
-              {n:"4",t:"Ouvre l'app depuis cette icône",d:"et active tes rappels dans Mon compte."},
+              {n:"4",t:"Ouvre SMOP Map depuis cette icône",d:"et active tes rappels dans Mon compte."},
             ]).map((s,i)=>(
               <div key={i} style={{display:"flex",gap:12,marginBottom:14}}>
                 <div style={{width:26,height:26,borderRadius:"50%",background:pc.p,color:"#fff",fontSize:12,fontWeight:700,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>{s.n}</div>
@@ -7079,7 +7088,7 @@ profil · tes priorités · les analyses & questions que tu as cochées · ton s
                 </div>
               </div>
             ))}
-            <div style={{fontSize:9.5,color:C.light,textAlign:"center",marginTop:8,lineHeight:1.6}}>sur iPhone, les rappels ne fonctionnent qu'une fois l'app ajoutée à l'écran d'accueil.</div>
+            <div style={{fontSize:9.5,color:C.light,textAlign:"center",marginTop:8,lineHeight:1.6}}>sur iPhone, les rappels ne fonctionnent qu'une fois SMOP Map ajouté à l'écran d'accueil.</div>
           </div>
         </div>
       )}
@@ -7123,7 +7132,7 @@ profil · tes priorités · les analyses & questions que tu as cochées · ton s
               {q.length<2&&(
                 <div style={{textAlign:"center",padding:"40px 20px",color:C.light}}>
                   <div style={{fontSize:30,marginBottom:10}}>🔍</div>
-                  <div style={{fontSize:12.5,lineHeight:1.6}}>tape un mot pour chercher partout dans l'app :<br/>tes fiches SOS, tes recettes, les aliments, les jours du protocole.</div>
+                  <div style={{fontSize:12.5,lineHeight:1.6}}>tape un mot pour chercher partout dans ton espace :<br/>tes fiches SOS, tes recettes, les aliments, les jours du protocole.</div>
                 </div>
               )}
               {q.length>=2&&total===0&&(
