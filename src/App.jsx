@@ -3441,6 +3441,7 @@ export default function App() {
   const [medAnaInput, setMedAnaInput] = useState("");
   const [medQInput, setMedQInput] = useState("");
   const [medPrioInput, setMedPrioInput] = useState("");
+  const [soignantOpen, setSoignantOpen] = useState(false);
   const [coursesInput, setCoursesInput] = useState("");
   const [perturbCheck, setPerturbCheck] = useState(() => load("perturbCheck",{}));
   const [lettre, setLettre] = useState(() => load("lettre",""));
@@ -5410,6 +5411,40 @@ export default function App() {
                   ))}
                 </div>
 
+                {/* ADAPTER SELON LE PROFIL */}
+                {(()=>{
+                  const match=(k)=> profil===k || (profil==="mixte_ma"&&(k==="metabolique"||k==="androgenique")) || (profil==="mixte_mi"&&(k==="metabolique"||k==="inflammatoire"));
+                  const cards=[
+                    {key:"metabolique",t:"Métabolique — stabiliser la glycémie",c:"#CB9A79",tips:["l'ordre des aliments à chaque repas","jamais un glucide seul : toujours avec une protéine ou du gras","des féculents complets plutôt que raffinés"]},
+                    {key:"inflammatoire",t:"Anti-inflammatoire — éteindre le feu",c:"#D4A56A",tips:["des oméga-3 : poissons gras, noix, graines de lin","des épices qui apaisent : curcuma + poivre, gingembre","beaucoup de végétaux colorés (antioxydants) ; moins d'ultra-transformé et de fritures"]},
+                    {key:"androgenique",t:"Androgénique — soutenir le foie",c:"#C2AEBA",tips:["des crucifères et légumes amers (brocoli, roquette) qui aident le foie","beaucoup de fibres pour éliminer l'excès d'androgènes","limiter les sucres rapides ; observe si les produits laitiers te réagissent"]},
+                    {key:"surrenalien",t:"Stress / surrénalien — nourrir le calme",c:"#A89AB8",tips:["du magnésium : légumes vert foncé, oléagineux, cacao pur","ne saute pas de repas, et évite le café à jeun","un dîner pas trop tardif pour laisser le cortisol redescendre"]},
+                  ].sort((a,b)=>(match(b.key)?1:0)-(match(a.key)?1:0));
+                  return(
+                  <div style={{marginTop:18,marginBottom:12}}>
+                    <div style={{fontSize:13,fontWeight:700,color:C.brown,marginBottom:4}}>🍴 Adapter ton assiette à ton profil</div>
+                    <div style={{fontSize:11,color:C.light,lineHeight:1.5,marginBottom:11}}>le modèle de base reste le même — voilà les petits accents à ajouter selon ton terrain. le tien est mis en avant.</div>
+                    {cards.map((p,i)=>{
+                      const on=match(p.key);
+                      return(
+                      <div key={i} style={{background:C.white,borderRadius:14,padding:"12px 13px",marginBottom:8,border:`${on?1.5:1}px solid ${on?p.c:C.border}`}}>
+                        <div style={{display:"flex",alignItems:"center",gap:7,marginBottom:7,flexWrap:"wrap"}}>
+                          <div style={{fontSize:12.5,fontWeight:700,color:C.brown}}>{p.t}</div>
+                          {on&&<span style={{fontSize:8,fontWeight:700,color:"#fff",background:p.c,borderRadius:99,padding:"2px 8px"}}>pour ton profil</span>}
+                        </div>
+                        {p.tips.map((t,j)=>(
+                          <div key={j} style={{display:"flex",gap:8,marginBottom:j<p.tips.length-1?5:0,fontSize:11,color:C.mid,lineHeight:1.45}}>
+                            <span style={{color:p.c,fontWeight:700,flexShrink:0}}>•</span><span>{t}</span>
+                          </div>
+                        ))}
+                      </div>
+                      );
+                    })}
+                    <div style={{fontSize:9.5,color:C.light,lineHeight:1.5,textAlign:"center",marginTop:4}}>profil mixte ? additionne simplement les accents des deux cartes mises en avant.</div>
+                  </div>
+                  );
+                })()}
+
                 <button onClick={()=>{ setOutilCat("fiches_imp"); setOutilOpen("telechargements"); }}
                   style={{width:"100%",display:"flex",alignItems:"center",gap:11,background:`${C.terra}14`,border:`1px solid ${C.terra}`,borderRadius:14,padding:"13px 14px",marginTop:4,cursor:"pointer",fontFamily:"inherit",textAlign:"left"}}>
                   <div style={{width:34,height:34,borderRadius:10,background:"#fff",display:"flex",alignItems:"center",justifyContent:"center",fontSize:16,flexShrink:0}}>📥</div>
@@ -6274,6 +6309,68 @@ export default function App() {
               </div>
               <div style={{fontSize:16,color:pc.p}}>›</div>
             </button>
+
+            {/* ── TROUVER UN SOIGNANT DE CONFIANCE ── */}
+            <div style={{background:C.white,border:`1.5px solid ${soignantOpen?pc.p:C.border}`,borderRadius:14,marginBottom:14,overflow:"hidden"}}>
+              <button onClick={()=>setSoignantOpen(o=>!o)}
+                style={{width:"100%",display:"flex",alignItems:"center",gap:12,padding:"14px 15px",background:"none",border:"none",cursor:"pointer",fontFamily:"inherit",textAlign:"left"}}>
+                <div style={{width:38,height:38,borderRadius:11,background:`${pc.p}15`,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><Icon name="heart" size={18} color={pc.p}/></div>
+                <div style={{flex:1}}>
+                  <div style={{fontSize:13,fontWeight:700,color:C.brown}}>Trouver un soignant de confiance</div>
+                  <div style={{fontSize:10,color:C.mid,marginTop:1}}>le bon médecin change tout — voilà comment le repérer</div>
+                </div>
+                <div style={{fontSize:15,color:C.light,transform:soignantOpen?"rotate(90deg)":"none",transition:"transform .2s"}}>›</div>
+              </button>
+              {soignantOpen&&(
+                <div style={{padding:"0 15px 15px"}}>
+                  <div style={{fontSize:11.5,color:C.mid,lineHeight:1.65,marginBottom:13}}>le SMOP est encore mal connu, et toutes les prises en charge ne se valent pas. tu as le droit d'être bien accompagnée — et de chercher jusqu'à trouver la bonne personne.</div>
+
+                  <div style={{fontSize:9.5,letterSpacing:1,textTransform:"uppercase",color:pc.p,fontWeight:700,marginBottom:7}}>Vers qui te tourner</div>
+                  {[
+                    {t:"Ton médecin généraliste",d:"souvent la première porte : il peut prescrire les premières analyses et t'orienter."},
+                    {t:"Endocrinologue ou gynécologue",d:"pour le versant hormonal et métabolique. cherche-en un sensibilisé au SMOP, pas seulement « aux ovaires »."},
+                    {t:"Diététicien·ne ou nutritionniste",d:"pour le terrain (glycémie, inflammation). un vrai levier, à part entière."},
+                    {t:"Naturopathe / phyto, en complément",d:"jamais en remplacement d'un suivi médical — en plus, pour t'accompagner au quotidien."},
+                  ].map((x,i)=>(
+                    <div key={i} style={{background:C.cream,borderRadius:10,padding:"9px 11px",marginBottom:6}}>
+                      <div style={{fontSize:11.5,fontWeight:600,color:C.brown,marginBottom:1}}>{x.t}</div>
+                      <div style={{fontSize:10.5,color:C.mid,lineHeight:1.5}}>{x.d}</div>
+                    </div>
+                  ))}
+
+                  <div style={{fontSize:9.5,letterSpacing:1,textTransform:"uppercase",color:"#7A9A5A",fontWeight:700,margin:"14px 0 7px"}}>Bon signe — tu peux lui faire confiance</div>
+                  {[
+                    "il connaît les différents profils du SMOP, pas seulement l'image des ovaires",
+                    "il propose des pistes au-delà de la pilule",
+                    "il prend en compte l'insuline et le métabolique",
+                    "il t'écoute, sans minimiser ta fatigue ni tes douleurs",
+                  ].map((x,i)=>(
+                    <div key={i} style={{display:"flex",gap:8,marginBottom:5,fontSize:11,color:C.brown,lineHeight:1.45}}>
+                      <span style={{color:"#7A9A5A",fontWeight:700,flexShrink:0}}>✓</span><span>{x}</span>
+                    </div>
+                  ))}
+
+                  <div style={{fontSize:9.5,letterSpacing:1,textTransform:"uppercase",color:"#C0714E",fontWeight:700,margin:"14px 0 7px"}}>Signaux d'alerte — tu as le droit d'aller voir ailleurs</div>
+                  {[
+                    "« perdez du poids » lâché sans aucune explication ni accompagnement",
+                    "« revenez quand vous voudrez un bébé » — comme si rien ne comptait avant",
+                    "ta fatigue, tes douleurs, tes cycles minimisés ou balayés",
+                    "un refus de prescrire les analyses de base sans raison",
+                  ].map((x,i)=>(
+                    <div key={i} style={{display:"flex",gap:8,marginBottom:5,fontSize:11,color:C.brown,lineHeight:1.45}}>
+                      <span style={{color:"#C0714E",fontWeight:700,flexShrink:0}}>!</span><span>{x}</span>
+                    </div>
+                  ))}
+
+                  <div style={{background:C.bubble,borderRadius:11,padding:"11px 13px",margin:"14px 0 0",border:`1px solid ${C.border}`}}>
+                    <div style={{fontSize:10.5,color:C.brown,lineHeight:1.6}}><strong>où chercher :</strong> le bouche-à-oreille de la communauté, les associations SMOP, et les avis en ligne te font gagner un temps fou. et souviens-toi : changer de médecin si le courant ne passe pas, ce n'est pas être difficile — c'est prendre soin de toi.</div>
+                  </div>
+                  <div style={{background:"#FBF3E8",borderRadius:11,padding:"10px 12px",marginTop:8,border:"1px dashed #D4A56A"}}>
+                    <div style={{fontSize:10,color:"#8A6D2A",lineHeight:1.55}}><strong>à compléter :</strong> si tu as un annuaire de soignants sensibilisés au SMOP à recommander, donne-moi le lien et je l'ajoute ici en bouton.</div>
+                  </div>
+                </div>
+              )}
+            </div>
 
             {SCRIPTS.map((sc,i)=>(
               <div key={i} style={{background:C.white,borderRadius:12,padding:"12px",marginBottom:8,border:`1px solid ${C.border}`}}>
