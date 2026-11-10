@@ -4152,7 +4152,7 @@ export default function App() {
         </div>
         {[
           {g:"Où j'en suis",items:[{id:"kamila",ic:"home",l:"Mon accueil"},{id:"carte",ic:"map",l:"Ma carte SMOP"}]},
-          {g:"Mon suivi",items:[{id:"suivi",ic:"chart",l:"Ta journée"},{id:"cycle",ic:"moon",l:"Mon cycle"},{id:"apercu",ic:"calendar",l:"Vue d'ensemble"},{id:"tendances",ic:"pulse",l:"Mes tendances"},{id:"journal",ic:"calendar",l:"Mon journal"},{id:"mouvement",ic:"steps",l:"Mes mouvements"},{id:"ancrage",ic:"heart",l:"Mon ancrage"},{id:"mesures",ic:"heart",l:"Mes mesures"}]},
+          {g:"Mon suivi",items:[{id:"suivi",ic:"chart",l:"Ta journée"},{id:"cycle",ic:"moon",l:"Mon cycle"},{id:"apercu",ic:"calendar",l:"Vue d'ensemble"},{id:"tendances",ic:"pulse",l:"Mes tendances"},{id:"journal",ic:"calendar",l:"Mon journal"},{id:"mouvement",ic:"steps",l:"Mes mouvements"},{id:"ancrage",ic:"heart",l:"Mon ancrage"}]},
           {g:"Mes ressources",items:[{id:"outils",ic:"book",l:"Outils & aliments"}]},
           {g:"Mon dossier santé",items:[{id:"medecin",ic:"health",l:"Résumé médecin"},{id:"analyses",ic:"flask",l:"Analyses de sang"}]},
         ].map((grp,gi)=>(
@@ -5799,7 +5799,6 @@ export default function App() {
                 {id:"journal",ic:"calendar",l:"Mon journal"},
                 {id:"mouvement",ic:"steps",l:"Mes mouvements"},
                 {id:"ancrage",ic:"heart",l:"Mon ancrage"},
-                {id:"mesures",ic:"heart",l:"Mes mesures"},
               ].map(x=>(
                 <button key={x.id} onClick={()=>setTab(x.id)} style={{display:"flex",alignItems:"center",gap:8,background:C.bubble,border:`1px solid ${C.border}`,borderRadius:12,padding:"11px 12px",cursor:"pointer",fontFamily:"inherit",textAlign:"left"}}>
                   <Icon name={x.ic} size={15} color={pc.p}/><span style={{fontSize:11.5,fontWeight:600,color:C.brown}}>{x.l}</span>
