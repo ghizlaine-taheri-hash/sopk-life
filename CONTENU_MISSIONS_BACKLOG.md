@@ -11,17 +11,15 @@ Idées de Ghiz, à répartir sur les mois 3 à 12. Légende claims :
 - Chaque mission **relie vers un outil/ressource différent** (découverte + sentiment d'avancer)
 - Bilans réguliers qui réutilisent les données de suivi
 
-## Mois thématiques pressentis
-- M3 — Comprendre en profondeur : SMOP héréditaire, lean PCOS, "pas qu'une histoire d'ovaires", SHBG, faits "le savais-tu"
-- M4 — Inflammation & microbiote
-- M5 — Stress / sommeil / cortisol
-- M6 — Cycle & ovulation
-- M7 — Signes cachés : ton corps te parle (symptômes peu reliés au SMOP)
-- M8 — Mouvement & énergie
-- M9 — Foie & détox
-- M10 — Médical & suivi (soignant, analyses, dents)
-- M11 — Androgènes, peau, cheveux, pilosité
-- M12 — Autonomie & relation au corps (anti-culpabilité)
+## Avancement réel (jours écrits dans MISSIONS_365)
+- ✅ M2 Glycémie (j31-60) · M3 Comprendre/SHBG (j61-89) · M4 Inflammation/microbiote (j90-119) · M5 Stress/sommeil/cortisol (j120-149)
+- ✅ **M6 Peau/cheveux/androgènes (j150-179)** — acné, hirsutisme, chute/alopécie (DHT), dermite séborrhéique, transpiration, ongles, SHBG, marques post-acné, routine douce, patch hydrocolloïde, quand consulter, se sentir belle maintenant
+- ✅ **M7 Signes cachés (j180-209)** — SMOP systémique, hérédité, lean PCOS, parodontite/gencives, fatigue/brouillard, acrochordons, errance (70% OMS), humeur/anxiété-dépression, sommeil/apnée, ballonnements/microbiote, fringales/hypoglycémie réactionnelle, règles abondantes/fer, libido, perturbateurs, acupuncture (preuves limitées), migraines, thyroïde/Hashimoto, vitamine D, rétention d'eau, risques long terme, SPM/TDPM, glycémie à jeun/HbA1c, lipides/tension
+- ⏳ RESTE À ÉCRIRE : **M8 (j210-239) Mouvement & énergie** · **M9 (j240-269) Foie & détox** · **M10 (j270-299) Médical & suivi (soignant, analyses, préparer consult)** · **M11 (j300-329) Cycle, ovulation & fertilité** · **M12 (j330-365) Autonomie & relation au corps (anti-culpabilité, patience du terrain, clôture)**
+- Compte missions au 11/11 : 178 (j31-209). Objectif 365 = j31-365 soit 335 missions tronc commun.
+
+## Sources vérifiées cette session
+- **Parodontite ⇄ SMOP** : lien bidirectionnel, RR ~1,28 (SMOP→parodontite) et 1,46 (parodontite→SMOP), via inflammation de bas grade (CRP, TNF-α, IL-6) + insulinorésistance. Revue systématique + méta-analyse, PMC7355910 (2020, SORT A mais observationnel). → utilisé M7 avec nuance "données observationnelles".
 
 ## Sujets à caser (idées Ghiz)
 
