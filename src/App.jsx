@@ -10296,6 +10296,7 @@ export default function App() {
   const [apercuMetric, setApercuMetric] = useState("symptomes");
   const [mesures, setMesures] = useState(() => load("mesures",{actif:false,poids:[]}));
   const [poidsInput, setPoidsInput] = useState("");
+  const [mesureInput, setMesureInput] = useState({});
   const [reglesInput, setReglesInput] = useState("");
   const [vocauxOpen, setVocauxOpen] = useState(false);
   const inputRef = useRef(null);
@@ -10415,6 +10416,12 @@ export default function App() {
     return vals.length?vals.reduce((a,b)=>a+b,0)/vals.length:null;
   };
   const heatColor = (v)=> v==null?"#EFE7DC": v===0?"#E4EBD8": v<1.5?"#E9D9C0": v<2.5?"#E0B98A": v<3.5?"#D49A5F": v<4.5?"#C67A45":"#B4542E";
+  // fenêtres de jours (offset = nombre de jours avant aujourd'hui où se termine la fenêtre)
+  const daysWindow = (n,offset)=>{ const out=[]; const now=new Date(); for(let i=offset+n-1;i>=offset;i--){ const d=new Date(now); d.setDate(now.getDate()-i); out.push(d.toISOString().slice(0,10)); } return out; };
+  const avgWindow = (metric,n,offset)=>{ const v=daysWindow(n,offset).map(k=>metricForDay(journal[k],metric)).filter(x=>x!=null); return v.length?{v:v.reduce((a,b)=>a+b,0)/v.length,n:v.length}:null; };
+  // ressenti : 1 = bonne journée de ce côté-là, 0 = journée difficile
+  const ressentiQ = (metric,v)=>{ if(v==null) return null; if(metric==="sommeil") return (v>=7&&v<=9)?1:((v>=6&&v<=10)?0.6:0.2); if(metric==="stress"||metric==="symptomes") return Math.max(0,Math.min(1,(5-v)/4)); return Math.max(0,Math.min(1,(v-1)/4)); };
+  const goodColor = (q)=> q==null?"#EFE7DC": q>=0.85?"#A9C48C": q>=0.65?"#CFDDB8": q>=0.45?"#E9D9C0": q>=0.25?"#E0B98A":"#C67A45";
   const computeTrends = ()=>{
     const days=Object.keys(journal).map(k=>journal[k]);
     const out=[];
@@ -10432,6 +10439,21 @@ export default function App() {
     // 4. évolution dans le temps
     { const keys=Object.keys(journal).sort(); const withS=keys.map(k=>sympLoad(journal[k])).filter(s=>s!=null);
       if(withS.length>=8){ const h=Math.floor(withS.length/2); const first=avg(withS.slice(0,h)); const last=avg(withS.slice(-h)); if(first-last>=0.5) out.push({tag:`${withS.length} jours suivis`,text:`Ta charge de symptômes est passée de ${first.toFixed(1)}/5 au début à ${last.toFixed(1)}/5 récemment.`,kamila:"regarde ce chemin. ton corps enregistre tout ce que tu mets en place, et il répond. les jours de doute, reviens lire cette ligne."}); } }
+    // 5. les 7 jours avant les règles → symptômes
+    { const starts=[...new Set(regles||[])].sort();
+      if(starts.length>=2){ const pre=[],rest=[];
+        Object.keys(journal).forEach(k=>{ const s=sympLoad(journal[k]); if(s==null) return; const t=new Date(k+"T12:00:00").getTime(); const next=starts.find(x=>new Date(x+"T12:00:00").getTime()>t); if(!next) return; const dd=(new Date(next+"T12:00:00").getTime()-t)/86400000; if(dd>60) return; (dd<=7?pre:rest).push(s); });
+        if(pre.length>=3&&rest.length>=3){ const a=avg(pre),b=avg(rest); if(a-b>=0.5) out.push({tag:"ton cycle",text:"Tes symptômes sont en moyenne de "+a.toFixed(1)+"/5 dans les 7 jours avant tes règles, contre "+b.toFixed(1)+"/5 le reste du cycle.",kamila:"ce n'est pas toi qui flanches : ce sont tes hormones qui bougent. ces jours-là, anticipe avec des protéines, du magnésium et plus de sommeil, et sois plus douce avec toi."}); } } }
+    // 6. stress → fringales
+    { const hi=[],lo=[]; days.forEach(d=>{ const f=d&&d.symptomes&&d.symptomes.fringale; if(typeof f!=="number"||typeof d.stress!=="number") return; if(d.stress>=4) hi.push(f); else if(d.stress<=2) lo.push(f); });
+      if(hi.length>=3&&lo.length>=3){ const a=avg(hi),b=avg(lo); if(a-b>=0.7) out.push({tag:(hi.length+lo.length)+" jours",text:"Tes fringales sont en moyenne de "+a.toFixed(1)+"/5 les jours stressés, contre "+b.toFixed(1)+"/5 les jours calmes.",kamila:"le stress fait monter le cortisol, qui pousse vers le sucre rapide. ce n'est pas un manque de volonté : apaiser ton stress, c'est aussi apaiser tes fringales."}); } }
+    // 7. mouvement → humeur
+    { const act=[],sed=[]; days.forEach(d=>{ if(typeof d.humeur!=="number"||typeof d.mouvement!=="number") return; (d.mouvement>=20?act:sed).push(d.humeur); });
+      if(act.length>=3&&sed.length>=3){ const a=avg(act),b=avg(sed); if(a-b>=0.6) out.push({tag:(act.length+sed.length)+" jours",text:"Ton humeur est en moyenne de "+a.toFixed(1)+"/5 les jours où tu bouges au moins 20 minutes, contre "+b.toFixed(1)+"/5 les autres jours.",kamila:"ton corps te le dit lui-même : bouger un peu, c'est aussi prendre soin de ton moral. pas de performance, juste du mouvement."}); } }
+    // 8. un progrès sur 2 semaines, symptôme par symptôme
+    { const cur=daysWindow(14,0), prev=daysWindow(14,14); let best=null;
+      SUIVI_SYMPTOMES.flatMap(g=>g.items).forEach(sy=>{ const get=(ks)=>ks.map(k=>journal[k]&&journal[k].symptomes&&journal[k].symptomes[sy.k]).filter(v=>typeof v==="number"); const a=get(prev), b=get(cur); if(a.length>=4&&b.length>=4){ const d=avg(a)-avg(b); if(d>=0.7&&(!best||d>best.d)) best={d,n:sy.n,a:avg(a),b:avg(b)}; } });
+      if(best) out.push({tag:"2 semaines",text:best.n+" : "+best.b.toFixed(1)+"/5 ces 14 derniers jours, contre "+best.a.toFixed(1)+"/5 les 14 jours d'avant.",kamila:"c'est ton travail qui se voit. garde ce que tu as fait ces derniers jours : ça marche pour toi."}); }
     return out;
   };
 
@@ -12876,6 +12898,7 @@ export default function App() {
               {[
                 {id:"apercu",ic:"chart",l:"Vue d'ensemble"},
                 {id:"tendances",ic:"pulse",l:"Mes tendances"},
+                {id:"mesures",ic:"drop",l:"Mes mesures"},
                 {id:"cycle",ic:"moon",l:"Mon cycle"},
                 {id:"journal",ic:"calendar",l:"Mon journal"},
                 {id:"mouvement",ic:"steps",l:"Mes mouvements"},
@@ -13085,6 +13108,35 @@ export default function App() {
                 🌱 commence à remplir ton <b style={{color:C.mid}}>Suivi</b> chaque jour.<br/>au fil des jours, ta courbe et ton évolution apparaîtront ici.
               </div>
             ) : (<>
+              {(()=>{
+                const N=apercuPeriode==="semaine"?7:apercuPeriode==="mois"?30:365;
+                const items=[["energie","Énergie","/5"],["humeur","Humeur","/5"],["stress","Stress","/5"],["sommeil","Sommeil"," h"],["symptomes","Symptômes","/5"]];
+                const filled=daysWindow(N,0).filter(k=>journal[k]&&Object.keys(journal[k]).length>0).length;
+                return(
+                <div style={{background:C.white,borderRadius:16,padding:"16px",marginBottom:14,border:`1px solid ${C.border}`}}>
+                  <div style={{display:"flex",justifyContent:"space-between",alignItems:"baseline",marginBottom:10,gap:8}}>
+                    <div style={{fontSize:13,fontWeight:600,color:C.brown}}>Tes moyennes</div>
+                    <div style={{fontSize:9.5,color:C.light}}>{filled} jour{filled>1?"s":""} rempli{filled>1?"s":""} sur {N}</div>
+                  </div>
+                  <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(92px,1fr))",gap:8}}>
+                    {items.map(([k,l,u])=>{ const cur=avgWindow(k,N,0), prev=avgWindow(k,N,N); const mcol=APERCU_METRICS[k].col;
+                      let note="pas encore de données", col=C.light;
+                      if(cur&&prev&&cur.n>=2&&prev.n>=2){ const raw=cur.v-prev.v; const qd=ressentiQ(k,cur.v)-ressentiQ(k,prev.v);
+                        if(Math.abs(raw)<0.3||Math.abs(qd)<0.02){ note="stable"; col=C.mid; }
+                        else if(qd>0){ note="mieux qu'avant"; col="#4A7A52"; }
+                        else { note="un peu plus dur"; col="#B4542E"; } }
+                      else if(cur){ note="sur "+cur.n+" jour"+(cur.n>1?"s":""); col=C.mid; }
+                      return(
+                      <div key={k} style={{background:C.cream,borderRadius:11,padding:"10px 10px 9px",borderTop:`3px solid ${mcol}`}}>
+                        <div style={{fontSize:9,letterSpacing:.5,textTransform:"uppercase",color:C.light,marginBottom:3}}>{l}</div>
+                        <div style={{fontSize:17,fontWeight:700,color:C.brown}}>{cur?cur.v.toFixed(1):"—"}<span style={{fontSize:10,fontWeight:500,color:C.light}}>{cur?u:""}</span></div>
+                        <div style={{fontSize:9.5,color:col,marginTop:2}}>{note}</div>
+                      </div>); })}
+                  </div>
+                  <div style={{fontSize:9.5,color:C.light,lineHeight:1.5,marginTop:10}}>comparé {apercuPeriode==="annee"?"à l'année d'avant":apercuPeriode==="mois"?"aux 30 jours d'avant":"aux 7 jours d'avant"}. « un peu plus dur », c'est une info, jamais un échec.</div>
+                </div>);
+              })()}
+
               <div style={{background:C.white,borderRadius:16,padding:"16px",marginBottom:14,border:`1px solid ${C.border}`}}>
                 <div style={{display:"flex",justifyContent:"space-between",alignItems:"baseline",marginBottom:2}}>
                   <div style={{fontSize:13,fontWeight:600,color:C.brown}}>{mc.label}</div>
@@ -13106,6 +13158,28 @@ export default function App() {
                 {Object.entries(APERCU_METRICS).map(([k,m])=>(
                   <button key={k} onClick={()=>setApercuMetric(k)} style={{padding:"6px 12px",borderRadius:99,border:`1px solid ${apercuMetric===k?m.col:C.border}`,background:apercuMetric===k?m.col:C.white,color:apercuMetric===k?"white":C.mid,fontSize:11,cursor:"pointer",fontFamily:"inherit"}}>{m.label}</button>
                 ))}
+              </div>
+
+              <div style={{background:C.white,borderRadius:16,padding:"16px",marginBottom:14,border:`1px solid ${C.border}`}}>
+                <div style={{fontSize:13,fontWeight:600,color:C.brown,marginBottom:3}}>Ton ressenti, {apercuPeriode==="annee"?"mois par mois":"jour par jour"}</div>
+                <div style={{fontSize:10,color:C.light,marginBottom:12}}>chaque case = un {apercuPeriode==="annee"?"mois":"jour"}. vert = une bonne journée de ce côté-là, orangé = plus difficile.</div>
+                <div style={{overflowX:"auto"}}>
+                  <div style={{minWidth:n*13+94}}>
+                    {[["humeur","Humeur"],["energie","Énergie"],["stress","Calme"],["sommeil","Sommeil"]].map(([k,l])=>(
+                      <div key={k} style={{display:"flex",alignItems:"center",gap:8,marginBottom:4}}>
+                        <div style={{width:88,flexShrink:0,fontSize:10,color:C.mid}}>{l}</div>
+                        <div style={{display:"flex",gap:2}}>
+                          {buckets.map((b,i)=>{ const v=bucketValue(b,k); return <div key={i} title={v==null?"":(k==="stress"?"Stress":l)+" : "+v.toFixed(1)+(k==="sommeil"?" h":"/5")} style={{width:11,height:11,borderRadius:3,background:goodColor(ressentiQ(k,v)),flexShrink:0}}/>; })}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div style={{display:"flex",alignItems:"center",gap:5,fontSize:9,color:C.light,marginTop:12}}>
+                  plus dur&nbsp;
+                  {[0.1,0.3,0.5,0.7,0.9].map((q,i)=><div key={i} style={{width:11,height:11,borderRadius:3,background:goodColor(q)}}/>)}
+                  &nbsp;mieux
+                </div>
               </div>
 
               <div style={{background:C.white,borderRadius:16,padding:"16px",border:`1px solid ${C.border}`}}>
@@ -13176,9 +13250,48 @@ export default function App() {
 
             <div style={{background:"#F1EEF6",borderLeft:"3px solid #A89AB8",borderRadius:"0 12px 12px 0",padding:"12px 14px",marginBottom:14}}>
               <div style={{fontSize:9,fontWeight:700,color:"#8B7BA0",marginBottom:4}}>le mot de Kamila</div>
-              <div style={{fontSize:12,color:C.mid,lineHeight:1.6,fontStyle:"italic"}}>le poids n'est qu'un indicateur parmi beaucoup d'autres — jamais un juge. ton énergie, tes symptômes, tes cycles racontent bien plus sur ta santé. si le chiffre te fait du mal, tu as le droit de ne pas le suivre du tout.</div>
+              <div style={{fontSize:12,color:C.mid,lineHeight:1.6,fontStyle:"italic"}}>ces mesures sont des indicateurs, jamais des juges. active seulement celles qui t'aident. ton énergie, tes symptômes et tes cycles racontent bien plus sur ta santé, et si un chiffre te fait du mal, tu as le droit de ne pas le suivre du tout.</div>
             </div>
 
+            {(()=>{
+              const DEFS=[
+                {k:"temp",l:"Température au réveil",u:"°C",ph:"36.5",help:"au réveil, avant de te lever. elle aide à repérer la légère montée qui suit l'ovulation."},
+                {k:"tension",l:"Tension artérielle",u:"",ph:"12/8",help:"en pharmacie ou avec un tensiomètre. une à quelques fois par an suffit."},
+                {k:"glycemie",l:"Glycémie",u:"g/L",ph:"0.95",help:"seulement si tu as un lecteur et que ton médecin te l'a conseillé."},
+              ];
+              const parseVal=(k,txt)=>{ const t=String(txt).trim().replace(",","."); if(k==="tension"){ const m=t.match(/^(\d{1,3})\s*[\/-]\s*(\d{1,3})$/); return m?(m[1]+"/"+m[2]):null; } const v=parseFloat(t); if(isNaN(v)||v<=0) return null; return Math.round(v*100)/100; };
+              return DEFS.map(def=>{ const st=mesures[def.k]||{actif:false,vals:[]}; const vals=(st.vals||[]).slice().sort((a,b)=>a.d<b.d?-1:1);
+                return(
+                <div key={def.k} style={{background:C.white,borderRadius:16,padding:"14px 16px",marginBottom:12,border:`1px solid ${C.border}`}}>
+                  <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",gap:10}}>
+                    <div><div style={{fontSize:12.5,fontWeight:700,color:C.brown}}>{def.l}</div><div style={{fontSize:10,color:C.light,lineHeight:1.45,marginTop:2}}>{def.help}</div></div>
+                    <button onClick={()=>setMesures(m=>({...m,[def.k]:{...(m[def.k]||{vals:[]}),actif:!st.actif}}))} aria-pressed={st.actif} style={{flexShrink:0,background:st.actif?"#EAF3EA":C.bubble,color:st.actif?"#4A7A52":C.mid,border:"none",borderRadius:99,padding:"6px 12px",fontFamily:"inherit",fontSize:10.5,fontWeight:700,cursor:"pointer"}}>{st.actif?"activé":"activer"}</button>
+                  </div>
+                  {st.actif&&(<>
+                    <div style={{display:"flex",gap:8,marginTop:10}}>
+                      <input value={mesureInput[def.k]||""} onChange={e=>setMesureInput(p=>({...p,[def.k]:e.target.value}))} inputMode={def.k==="tension"?"text":"decimal"} placeholder={def.ph+(def.u?" "+def.u:"")} aria-label={def.l} style={{flex:1,minWidth:0,border:`1.5px solid ${C.border}`,borderRadius:11,padding:"10px 12px",fontFamily:"inherit",fontSize:14,color:C.brown,background:C.cream,outline:"none"}}/>
+                      {def.k==="glycemie"&&<select value={mesureInput.glyMoment||"jeun"} onChange={e=>setMesureInput(p=>({...p,glyMoment:e.target.value}))} aria-label="moment de la mesure" style={{border:`1.5px solid ${C.border}`,borderRadius:11,padding:"0 6px",fontFamily:"inherit",fontSize:11.5,color:C.brown,background:C.cream}}><option value="jeun">à jeun</option><option value="apres">après repas</option></select>}
+                      <button onClick={()=>{ const v=parseVal(def.k,mesureInput[def.k]||""); if(v==null){ showToast("Valeur à vérifier", def.k==="tension"?"écris-la comme 12/8 ou 120/80.":"écris un nombre, par exemple "+def.ph+"."); return; }
+                          const entry={d:todayKey,v}; if(def.k==="glycemie") entry.m=mesureInput.glyMoment||"jeun";
+                          setMesures(m=>{ const cur=m[def.k]||{actif:true,vals:[]}; const arr=(cur.vals||[]).filter(x=>!(x.d===todayKey&&(def.k!=="glycemie"||x.m===entry.m))); return {...m,[def.k]:{...cur,vals:[...arr,entry]}}; });
+                          setMesureInput(p=>({...p,[def.k]:""})); showToast("Mesure enregistrée"); }}
+                        style={{flexShrink:0,background:pc.p,border:"none",borderRadius:11,padding:"0 16px",color:"white",fontFamily:"inherit",fontSize:12,fontWeight:700,cursor:"pointer"}}>ok</button>
+                    </div>
+                    {vals.length>0&&(
+                      <div style={{marginTop:10}}>
+                        {vals.slice(-5).reverse().map((x,i)=>(
+                          <div key={i} style={{display:"flex",justifyContent:"space-between",fontSize:11,color:C.mid,padding:"4px 0",borderTop:i?`1px solid ${C.border}`:"none"}}>
+                            <span>{new Date(x.d+"T12:00:00").toLocaleDateString("fr-FR",{day:"numeric",month:"short"})}{x.m?(x.m==="jeun"?" · à jeun":" · après repas"):""}</span>
+                            <b style={{color:C.brown}}>{x.v}{def.u?" "+def.u:""}</b>
+                          </div>))}
+                        {vals.length>5&&<div style={{fontSize:9.5,color:C.light,marginTop:4}}>{vals.length} mesures en tout</div>}
+                      </div>)}
+                  </>)}
+                </div>);
+              });
+            })()}
+
+            <div style={{fontSize:11,letterSpacing:1,textTransform:"uppercase",color:C.light,fontWeight:600,margin:"18px 0 10px"}}>Poids (facultatif)</div>
             {!mesures.actif ? (
               <div style={{background:C.white,borderRadius:16,padding:"18px",border:`1px solid ${C.border}`,textAlign:"center"}}>
                 <div style={{fontSize:12.5,color:C.mid,lineHeight:1.6,marginBottom:14}}>le suivi du poids est <b style={{color:C.brown}}>désactivé par défaut</b>. active-le seulement si tu le vis sereinement — rien ne t'y oblige.</div>
@@ -13499,6 +13612,17 @@ profil · tes priorités · les analyses & questions que tu as cochées · ton s
                   const poidsArr=(mesures.poids||[]).slice().sort((a,b)=> a.d<b.d?-1:1);
                   const suiviSection = nbJours>0 ? `<h2>Mon suivi quotidien (30 derniers jours)</h2><ul><li>Charge moyenne des sympt&ocirc;mes : ${fmt(avgM("symptomes"))}/5</li><li>Humeur : ${fmt(avgM("humeur"))}/5 &middot; &Eacute;nergie : ${fmt(avgM("energie"))}/5 &middot; Stress : ${fmt(avgM("stress"))}/5</li><li>Sommeil moyen : ${fmt(avgM("sommeil"))} h/nuit</li><li>Jours suivis : ${nbJours}</li></ul>` : "";
                   const trendsSection = trends.length ? `<h2>Tendances rep&eacute;r&eacute;es dans mon suivi</h2><ul>${trends.map(t=>`<li>${esc(t.text)}</li>`).join("")}</ul>` : "";
+                  const tdS='style="padding:5px 8px;border:1px solid #E8DDD3"';
+                  const topS=SUIVI_SYMPTOMES.flatMap(g=>g.items).map(sy=>{ const v=last30.map(b=>sympForBucket(b,sy.k)).filter(x=>x!=null); return {n:sy.n,v:v.length?v.reduce((a,b)=>a+b,0)/v.length:null}; }).filter(x=>x.v!=null&&x.v>0).sort((a,b)=>b.v-a.v).slice(0,3);
+                  const topSection = topS.length ? "<h2>Mes symptômes les plus présents (30 derniers jours)</h2><ul>"+topS.map(x=>"<li>"+esc(x.n)+" : "+x.v.toFixed(1)+"/5</li>").join("")+"</ul>" : "";
+                  const mois3=periodBuckets("annee").slice(-3);
+                  const moisRows=mois3.map(b=>"<tr><td "+tdS+">"+esc(b.label)+"</td>"+["energie","humeur","stress","sommeil","symptomes"].map(m=>"<td "+tdS+">"+fmt(bucketValue(b,m))+"</td>").join("")+"</tr>").join("");
+                  const moisSection = nbJours>0 ? "<h2>Évolution sur 3 mois (moyennes)</h2><table><tr><th "+tdS+">Mois</th><th "+tdS+">Énergie /5</th><th "+tdS+">Humeur /5</th><th "+tdS+">Stress /5</th><th "+tdS+">Sommeil (h)</th><th "+tdS+">Symptômes /5</th></tr>"+moisRows+"</table>" : "";
+                  const rg=[...new Set(regles||[])].sort(); const durees=rg.slice(1).map((x,i)=>Math.round((new Date(x+"T12:00:00")-new Date(rg[i]+"T12:00:00"))/86400000)).filter(d=>d>0&&d<200);
+                  const cycleSection = rg.length ? "<h2>Mes cycles</h2><p>Dernières règles : "+esc(new Date(rg[rg.length-1]+"T12:00:00").toLocaleDateString("fr-FR"))+(durees.length?" · durées récentes : "+durees.slice(-6).join(", ")+" jours":"")+"</p>" : "";
+                  const mesLabel={tension:"Tension",glycemie:"Glycémie (g/L)",temp:"Température au réveil (°C)"};
+                  const mesItems=["tension","glycemie","temp"].map(k=>{ const st=mesures[k]; const arr=(st&&st.actif&&st.vals)?st.vals.slice().sort((a,b)=>a.d<b.d?-1:1).slice(-5):[]; return arr.length?("<li>"+mesLabel[k]+" : "+arr.map(x=>esc(x.v)+(x.m?(x.m==="jeun"?" (à jeun)":" (après repas)"):"")+" le "+esc(new Date(x.d+"T12:00:00").toLocaleDateString("fr-FR"))).join(" · ")+"</li>"):""; }).join("");
+                  const mesSection = mesItems ? "<h2>Mes mesures</h2><ul>"+mesItems+"</ul>" : "";
                   const poidsSection = (mesures.actif && poidsArr.length) ? `<h2>Poids</h2><p>Dernier : ${poidsArr[poidsArr.length-1].v} kg &middot; ${poidsArr.length} mesures sur la p&eacute;riode.</p>` : "";
                   const rows=[...prios.map((p,i)=>`<tr><td style="padding:6px 10px;border:1px solid #E8DDD3;font-weight:600">${i+1}. ${esc(p.t)}</td><td style="padding:6px 10px;border:1px solid #E8DDD3">${esc(p.geste)}</td></tr>`), ...medPrioCustom.map((p,i)=>`<tr><td style="padding:6px 10px;border:1px solid #E8DDD3;font-weight:600">${prios.length+i+1}. ${esc(p)}</td><td style="padding:6px 10px;border:1px solid #E8DDD3"></td></tr>`)].join("");
                   const anaList=[...ANALYSES_MED.filter(a=>!medAnaOff[a.id]).map(a=>a.t), ...medAnaCustom];
@@ -13511,7 +13635,7 @@ profil · tes priorités · les analyses & questions que tu as cochées · ton s
                   <h2>Mes priorités en ce moment</h2>
                   <table><tr><th style="padding:6px 10px;border:1px solid #E8DDD3;text-align:left">Priorité</th><th style="padding:6px 10px;border:1px solid #E8DDD3;text-align:left">Premier geste</th></tr>${rows}</table>
                   ${anaList.length?`<h2>Analyses que je souhaite demander</h2>${anaLis}`:""}
-                  ${suiviSection}${trendsSection}${poidsSection}
+                  ${suiviSection}${moisSection}${topSection}${cycleSection}${trendsSection}${mesSection}${poidsSection}
                   ${qList.length?`<h2>Mes questions</h2>${qLis}`:""}
                   <span class="note">Document personnel d'aide à la consultation — ne remplace pas un avis médical. Les analyses pertinentes et leur interprétation relèvent de ton médecin.</span>`;
                   setDossierInner(inner);
