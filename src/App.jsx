@@ -10035,6 +10035,12 @@ export default function App() {
   const [regles, setRegles] = useState(() => load("regles",[]));
   const [victories, setVictories] = useState(() => load("victories",{}));
   const [notes, setNotes] = useState(() => load("notes",{}));
+  const [carnetTab, setCarnetTab] = useState("todo");
+  const [todos, setTodos] = useState(() => load("todos",[]));
+  const [todoTxt, setTodoTxt] = useState("");
+  const [carnetNotes, setCarnetNotes] = useState(() => load("carnetNotes",""));
+  const [rdvs, setRdvs] = useState(() => load("rdvs",[]));
+  const [rdvForm, setRdvForm] = useState({titre:"",date:"",heure:"",lieu:"",veille:true,matin:true});
   const [symptoms, setSymptoms] = useState(() => load("symptoms",{}));
   const [journalWeek, setJournalWeek] = useState(() => load("journalWeek",1));
   const [toast, setToast] = useState(null);
@@ -10313,6 +10319,9 @@ export default function App() {
   useEffect(()=>{ save("regles",regles); },[regles]);
   useEffect(()=>{ save("victories",victories); },[victories]);
   useEffect(()=>{ save("notes",notes); },[notes]);
+  useEffect(()=>{ save("todos",todos); },[todos]);
+  useEffect(()=>{ save("carnetNotes",carnetNotes); },[carnetNotes]);
+  useEffect(()=>{ save("rdvs",rdvs); },[rdvs]);
   useEffect(()=>{ save("symptoms",symptoms); },[symptoms]);
   useEffect(()=>{ save("journalWeek",journalWeek); },[journalWeek]);
   useEffect(()=>{ setJournalWeek(Math.ceil(day/7)); },[day]);
@@ -12878,6 +12887,107 @@ export default function App() {
                 </button>
               ))}
             </div>
+
+            {/* ══ MON CARNET : à faire · notes · rendez-vous ══ */}
+            {(()=>{
+              const ajd=dateLocale();
+              const jourLabel=(d)=>{ try{ return new Date(d+"T12:00:00").toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long"}); }catch(e){ return d; } };
+              const aVenir=[...rdvs].filter(r=>r.date>=ajd).sort((a,b)=>(a.date+(a.heure||"")).localeCompare(b.date+(b.heure||"")));
+              const passes=[...rdvs].filter(r=>r.date<ajd).sort((a,b)=>b.date.localeCompare(a.date)).slice(0,3);
+              const ajouterTodo=()=>{ const t=todoTxt.trim(); if(!t) return; setTodos(p=>[...p,{id:Date.now(),t,done:false}]); setTodoTxt(""); };
+              const ajouterRdv=()=>{ const titre=rdvForm.titre.trim(); if(!titre||!rdvForm.date){ showToast("Il manque une info","ajoute au moins un nom et une date."); return; }
+                setRdvs(p=>[...p,{id:Date.now(),titre,date:rdvForm.date,heure:rdvForm.heure,lieu:rdvForm.lieu.trim(),veille:rdvForm.veille,matin:rdvForm.matin}]);
+                setRdvForm({titre:"",date:"",heure:"",lieu:"",veille:true,matin:true});
+                showToast("Rendez-vous noté",(rdvForm.veille||rdvForm.matin)&&notifPerm!=="granted"?"active tes rappels dans Mon compte pour être prévenue.":"tu seras prévenue avant, en douceur."); };
+              const inp={width:"100%",boxSizing:"border-box",border:`1px solid ${C.border}`,borderRadius:9,padding:"9px 11px",fontFamily:"inherit",fontSize:12.5,color:C.brown,background:C.white};
+              const lbl={fontSize:9,letterSpacing:.5,textTransform:"uppercase",color:C.light,marginBottom:4};
+              return(
+              <div style={{background:C.white,borderRadius:16,padding:"16px",marginBottom:14,border:`1px solid ${C.border}`}}>
+                <div style={{fontSize:11,letterSpacing:1,textTransform:"uppercase",color:pc.p,fontWeight:600,marginBottom:10,display:"flex",alignItems:"center",gap:6}}><Icon name="calendar" size={13} color={pc.p}/>Mon carnet</div>
+                <div role="tablist" style={{display:"flex",gap:6,marginBottom:12}}>
+                  {[["todo","À faire"],["notes","Notes"],["rdv","Rendez-vous"]].map(([k,l])=>(
+                    <button key={k} role="tab" aria-selected={carnetTab===k} onClick={()=>setCarnetTab(k)}
+                      style={{flex:1,padding:"8px 4px",borderRadius:99,border:`1px solid ${carnetTab===k?pc.p:C.border}`,background:carnetTab===k?`${pc.p}15`:C.white,color:carnetTab===k?pc.p:C.mid,fontFamily:"inherit",fontSize:11.5,fontWeight:600,cursor:"pointer"}}>
+                      {l}{k==="todo"&&todos.filter(t=>!t.done).length>0?` · ${todos.filter(t=>!t.done).length}`:""}{k==="rdv"&&aVenir.length>0?` · ${aVenir.length}`:""}
+                    </button>
+                  ))}
+                </div>
+
+                {carnetTab==="todo"&&(
+                  <div>
+                    <div style={{display:"flex",gap:6,marginBottom:10}}>
+                      <input value={todoTxt} onChange={e=>setTodoTxt(e.target.value)} onKeyDown={e=>{ if(e.key==="Enter") ajouterTodo(); }} placeholder="ex. prendre RDV prise de sang" aria-label="nouvelle tâche" style={{...inp,flex:1}}/>
+                      <button onClick={ajouterTodo} style={{flexShrink:0,background:pc.p,color:"#fff",border:"none",borderRadius:9,padding:"0 14px",fontFamily:"inherit",fontSize:12,fontWeight:700,cursor:"pointer"}}>ajouter</button>
+                    </div>
+                    {todos.length===0&&<div style={{fontSize:11,color:C.light,lineHeight:1.5}}>note ici les petites choses à ne pas oublier : un bilan à prendre, une question pour ton médecin, des courses.</div>}
+                    {todos.map(t=>(
+                      <div key={t.id} style={{display:"flex",alignItems:"center",gap:9,padding:"7px 0",borderTop:`1px solid ${C.border}`}}>
+                        <button onClick={()=>setTodos(p=>p.map(x=>x.id===t.id?{...x,done:!x.done}:x))} aria-pressed={t.done} aria-label={t.done?"marquer à faire":"marquer comme fait"}
+                          style={{width:22,height:22,flexShrink:0,borderRadius:6,border:`1.5px solid ${t.done?pc.p:C.border}`,background:t.done?pc.p:C.white,display:"flex",alignItems:"center",justifyContent:"center",cursor:"pointer",padding:0}}>
+                          {t.done&&<Icon name="check" size={13} color="#fff"/>}
+                        </button>
+                        <div style={{flex:1,fontSize:12.5,color:t.done?C.light:C.brown,textDecoration:t.done?"line-through":"none"}}>{t.t}</div>
+                        <button onClick={()=>setTodos(p=>p.filter(x=>x.id!==t.id))} aria-label="supprimer la tâche" style={{background:"none",border:"none",color:C.light,fontSize:14,cursor:"pointer",padding:"0 4px"}}>✕</button>
+                      </div>
+                    ))}
+                    {todos.some(t=>t.done)&&<button onClick={()=>setTodos(p=>p.filter(x=>!x.done))} style={{marginTop:8,background:"none",border:"none",color:pc.p,fontSize:10.5,fontWeight:600,cursor:"pointer",fontFamily:"inherit",textDecoration:"underline",padding:0}}>effacer les tâches faites</button>}
+                  </div>
+                )}
+
+                {carnetTab==="notes"&&(
+                  <div>
+                    <textarea value={carnetNotes} onChange={e=>setCarnetNotes(e.target.value)} placeholder="tout ce que tu veux garder sous la main : une idée, une question, ce que t'a dit ton médecin…" aria-label="mes notes"
+                      style={{...inp,minHeight:140,resize:"vertical",lineHeight:1.55}}/>
+                    <div style={{fontSize:9.5,color:C.light,marginTop:6,display:"flex",alignItems:"center",gap:4}}><Icon name="check" size={11} color={C.sage}/> enregistré automatiquement</div>
+                  </div>
+                )}
+
+                {carnetTab==="rdv"&&(
+                  <div>
+                    <div style={{background:C.bubble,borderRadius:12,padding:"12px",marginBottom:12}}>
+                      <div style={{marginBottom:8}}><div style={lbl}>rendez-vous</div><input value={rdvForm.titre} onChange={e=>setRdvForm(f=>({...f,titre:e.target.value}))} placeholder="ex. endocrinologue, prise de sang" style={inp}/></div>
+                      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8,marginBottom:8}}>
+                        <div><div style={lbl}>date</div><input type="date" value={rdvForm.date} onChange={e=>setRdvForm(f=>({...f,date:e.target.value}))} style={inp}/></div>
+                        <div><div style={lbl}>heure</div><input type="time" value={rdvForm.heure} onChange={e=>setRdvForm(f=>({...f,heure:e.target.value}))} style={inp}/></div>
+                      </div>
+                      <div style={{marginBottom:8}}><div style={lbl}>lieu (facultatif)</div><input value={rdvForm.lieu} onChange={e=>setRdvForm(f=>({...f,lieu:e.target.value}))} placeholder="cabinet, labo, visio…" style={inp}/></div>
+                      <div style={lbl}>me rappeler</div>
+                      {[["veille","la veille à 19h"],["matin","le matin même à 8h"]].map(([k,l])=>(
+                        <label key={k} style={{display:"flex",alignItems:"center",gap:8,fontSize:12,color:C.brown,marginBottom:5,cursor:"pointer"}}>
+                          <input type="checkbox" checked={rdvForm[k]} onChange={e=>setRdvForm(f=>({...f,[k]:e.target.checked}))} style={{accentColor:pc.p,width:16,height:16}}/>{l}
+                        </label>
+                      ))}
+                      <button onClick={ajouterRdv} style={{width:"100%",marginTop:6,background:pc.p,color:"#fff",border:"none",borderRadius:10,padding:"11px",fontFamily:"inherit",fontSize:12,fontWeight:700,cursor:"pointer"}}>ajouter ce rendez-vous</button>
+                    </div>
+                    {aVenir.length===0&&<div style={{fontSize:11,color:C.light,lineHeight:1.5,marginBottom:6}}>aucun rendez-vous à venir. note le prochain ici, tu seras prévenue avant.</div>}
+                    {aVenir.map(r=>(
+                      <div key={r.id} style={{display:"flex",alignItems:"flex-start",gap:10,padding:"9px 0",borderTop:`1px solid ${C.border}`}}>
+                        <div style={{flex:1,minWidth:0}}>
+                          <div style={{fontSize:12.5,fontWeight:700,color:C.brown}}>{r.titre}</div>
+                          <div style={{fontSize:10.5,color:C.mid,textTransform:"capitalize"}}>{r.date===ajd?"aujourd'hui":jourLabel(r.date)}{r.heure?` · ${r.heure.replace(":","h")}`:""}{r.lieu?` · ${r.lieu}`:""}</div>
+                          <div style={{fontSize:9.5,color:C.light,marginTop:2}}>{r.veille||r.matin?`rappel ${[r.veille?"la veille":"",r.matin?"le matin":""].filter(Boolean).join(" et ")}`:"sans rappel"}</div>
+                          <button onClick={()=>setTab("medecin")} style={{marginTop:4,background:"none",border:"none",color:pc.p,fontSize:10.5,fontWeight:600,cursor:"pointer",fontFamily:"inherit",padding:0,textDecoration:"underline"}}>préparer ce rendez-vous →</button>
+                        </div>
+                        <button onClick={()=>setRdvs(p=>p.filter(x=>x.id!==r.id))} aria-label="supprimer le rendez-vous" style={{background:"none",border:"none",color:C.light,fontSize:14,cursor:"pointer",padding:"0 4px"}}>✕</button>
+                      </div>
+                    ))}
+                    {passes.length>0&&(
+                      <div style={{marginTop:10}}>
+                        <div style={lbl}>derniers rendez-vous</div>
+                        {passes.map(r=>(
+                          <div key={r.id} style={{display:"flex",alignItems:"center",gap:8,fontSize:11,color:C.light,padding:"4px 0"}}>
+                            <span style={{flex:1}}>{r.titre} · {jourLabel(r.date)}</span>
+                            <button onClick={()=>setRdvs(p=>p.filter(x=>x.id!==r.id))} aria-label="supprimer le rendez-vous passé" style={{background:"none",border:"none",color:C.light,fontSize:12,cursor:"pointer"}}>✕</button>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                    {(notifPerm!=="granted")&&<div style={{fontSize:9.5,color:C.light,lineHeight:1.5,marginTop:8}}>pour recevoir les rappels, active tes rappels dans Mon compte.</div>}
+                  </div>
+                )}
+              </div>
+              );
+            })()}
 
             <div style={{background:C.white,borderRadius:16,padding:"16px",marginBottom:14,border:`1px solid ${C.border}`}}>
               <div style={{fontSize:11,letterSpacing:1,textTransform:"uppercase",color:pc.p,fontWeight:600,marginBottom:12}}>Comment s'est passée ta journée</div>
