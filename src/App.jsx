@@ -10208,6 +10208,25 @@ export default function App() {
   const logout = async () => { try{ sessionStorage.removeItem("sopklife_hydrated"); pulledRef.current=false; setShowAccount(false); await sb?.auth.signOut(); }catch(e){} };
   useEffect(()=>{ if(showAccount){ setAccPrenom(prenom||""); setAccErr(""); setAccMsg(""); setNewPw(""); setAccNewEmail(""); } },[showAccount]);
   const showToast = (titre, sousTitre) => { setToast({titre,sousTitre}); setTimeout(()=>setToast(null), 3400); };
+  // avancement automatique du parcours : +1 jour à chaque nouveau jour calendaire où tu ouvres ton espace.
+  // jamais de jour sauté (si tu reviens après une pause, tu reprends là où tu t'étais arrêtée).
+  // on attend que les données cloud soient chargées, pour ne pas avancer deux fois sur deux appareils.
+  useEffect(()=>{ if(session===undefined || (session && !hydrated)) return;
+    const avance=()=>{ try{
+      const today=dateLocale(); const last=load("dayDate",null);
+      if(!last){ save("dayDate",today); return; }
+      if(today<=last) return;
+      save("dayDate",today);
+      if(load("screen","name")!=="app" || load("onboardingDone","no")==="no") return;
+      const n=(parseInt(load("day",1),10)||1)+1;
+      setDay(n); setDayOffset(0);
+      showToast("Jour "+n,"ta nouvelle mission t'attend, à ton rythme.");
+    }catch(e){} };
+    avance();
+    const onVis=()=>{ if(document.visibilityState==="visible") avance(); };
+    document.addEventListener("visibilitychange",onVis); window.addEventListener("focus",avance);
+    return ()=>{ document.removeEventListener("visibilitychange",onVis); window.removeEventListener("focus",avance); };
+  },[session,hydrated]);
   const [markers, setMarkers] = useState(() => load("markers",{}));
   const [translation, setTranslation] = useState(null);
   const [translating, setTranslating] = useState(false);
