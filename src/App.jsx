@@ -640,7 +640,7 @@ const REPAS = [
   {moment:"matin",nom:"Omelette épinards-feta",
    compo:"2-3 œufs + une poignée d'épinards + un peu de feta émiettée + filet d'huile d'olive",
    pourquoi:"protéines complètes + légumes verts dès le matin. les épinards apportent fer et magnésium.",
-   prot:"~22g",tags:["rapide","rassasiant"],profils:[]},
+   prot:"~22g",tags:["rapide","rassasiant"],profils:["surrenalien"]},
   {moment:"matin",nom:"Tartine salée au saumon",
    compo:"1 tranche de pain complet au levain + avocat écrasé + saumon fumé + citron",
    pourquoi:"le pain au levain a un index plus bas que le pain blanc, le saumon apporte des oméga-3 anti-inflammatoires.",
@@ -690,7 +690,7 @@ const REPAS = [
   {moment:"soir",nom:"Soupe de légumes & œuf poché",
    compo:"soupe de légumes maison (non sucrée) + 1-2 œufs pochés + un filet d'huile d'olive",
    pourquoi:"réconfortant et léger. on ajoute l'œuf pour les protéines, sinon une soupe seule ne rassasie pas assez.",
-   prot:"~14g",tags:["rapide","léger le soir","petit budget"],profils:[]},
+   prot:"~14g",tags:["rapide","léger le soir","petit budget"],profils:["surrenalien"]},
 
   // ── COLLATIONS ──
   {moment:"collation",nom:"Pomme & amandes",
@@ -704,7 +704,7 @@ const REPAS = [
   {moment:"collation",nom:"Carré de chocolat 85% & noix",
    compo:"2 carrés de chocolat noir 85% + quelques noix",
    pourquoi:"pour l'envie de sucré sans le pic : le 85% a un index bas, les noix apportent des oméga-3.",
-   prot:"~4g",tags:["rapide","plaisir"],profils:["inflammatoire"]},
+   prot:"~4g",tags:["rapide","plaisir"],profils:["inflammatoire","surrenalien"]},
 
   // ── PETITS-DÉJEUNERS (suite) ──
   {moment:"matin",nom:"Pancakes flocons-banane",
@@ -714,7 +714,7 @@ const REPAS = [
   {moment:"matin",nom:"Yaourt grec, noix & graines",
    compo:"yaourt grec nature + noix + graines de courge + graines de lin moulues + quelques framboises",
    pourquoi:"protéines + zinc (graines de courge) + oméga-3 (lin) + antioxydants. un petit-déj complet sans cuisson.",
-   prot:"~16g",tags:["rapide","sans cuisson"],profils:["androgenique","inflammatoire"]},
+   prot:"~16g",tags:["rapide","sans cuisson"],profils:["androgenique","inflammatoire","surrenalien"]},
   {moment:"matin",nom:"Avocat-œuf au four",
    compo:"½ avocat évidé + 1 œuf cassé dedans + cuit au four 12 min + sel poivre",
    pourquoi:"100% rassasiant, zéro glucide rapide. les bons gras de l'avocat + la protéine de l'œuf tiennent toute la matinée.",
@@ -724,7 +724,7 @@ const REPAS = [
   {moment:"midi",nom:"Buddha bowl complet",
    compo:"quinoa + pois chiches rôtis + avocat + carottes râpées + épinards + sauce tahini citron",
    pourquoi:"un bol végé complet : protéines végétales, fibres, bons gras. rassasiant longtemps grâce aux pois chiches (IG bas).",
-   prot:"~18g",tags:["végé","batch-cookable"],profils:["metabolique"],
+   prot:"~18g",tags:["végé","batch-cookable"],profils:["metabolique","surrenalien"],
    recette:{temps:"25 min",ingredients:["50g de quinoa cru","½ boîte de pois chiches (120g)","½ avocat","1 carotte","une poignée d'épinards","1 c. à soupe de tahini","jus de ½ citron","huile d'olive, sel, paprika"],etapes:["cuis le quinoa 12-15 min dans 2 fois son volume d'eau salée","égoutte les pois chiches, assaisonne-les de paprika et fais-les rôtir 15 min à la poêle ou au four jusqu'à ce qu'ils dorent","râpe la carotte, coupe l'avocat en tranches","prépare la sauce : mélange le tahini, le jus de citron, un filet d'eau et une pincée de sel","dans un bol, dispose le quinoa, les épinards, la carotte, les pois chiches et l'avocat, puis nappe de sauce tahini"]}},
   {moment:"midi",nom:"Sardines & salade de pommes de terre",
    compo:"sardines en boîte + pommes de terre froides + haricots verts + œuf dur + vinaigrette moutarde",
@@ -751,7 +751,7 @@ const REPAS = [
   {moment:"soir",nom:"Dahl de lentilles corail",
    compo:"lentilles corail + lait de coco + curcuma + gingembre + épinards, avec un peu de riz basmati",
    pourquoi:"les lentilles (IG bas, protéines, fibres) + curcuma et gingembre anti-inflammatoires. plat végé rassasiant.",
-   prot:"~17g",tags:["végé","batch-cookable","petit budget"],profils:["inflammatoire","metabolique"]},
+   prot:"~17g",tags:["végé","batch-cookable","petit budget"],profils:["inflammatoire","metabolique","surrenalien"]},
   {moment:"soir",nom:"Tartare de saumon & avocat",
    compo:"saumon cru coupé en dés + avocat + citron vert + ciboulette + graines de sésame",
    pourquoi:"saumon cru = oméga-3 préservés. un dîner frais, protéiné, sans aucun glucide rapide.",
