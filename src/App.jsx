@@ -1922,7 +1922,7 @@ comment:["choisis les 3 habitudes qui t'ont fait le plus de bien","écris-les, a
 pieges:["vouloir tout garder : choisis l'essentiel, c'est ça qui tient","croire que « c'est fini » : c'est un début, ton terrain se soigne sur la durée","oublier de célébrer : 30 jours de constance, c'est immense"],
 plus:"tu es passée de « je ne comprends rien à ce qui m'arrive » à « je sais comment prendre soin de mon terrain ». c'est le plus beau cadeau que tu pouvais te faire. et quoi qu'il arrive maintenant, cette compréhension, personne ne pourra te l'enlever. tu n'es plus seule face à ton SMOP — tu as les clés.",
 observes:["aujourd'hui : tu repars avec tes 3 habitudes clés","dans les mois à venir : les changements continuent, visibles cette fois","pour la vie : une compréhension de ton corps qui ne te quittera plus"],
-victoire:"tu as terminé. tu comprends ton terrain, tu as tes outils, tu es ta propre alliée. je suis fière de toi, Cyster.",
+victoire:"ce n'est pas une fin : tu as posé ta base. tu comprends ton terrain, tu as tes outils, tu es ta propre alliée. je suis fière de toi, Cyster.",
 outil:null,
 tisane:{nom:"Inflamma Tea",timing:"milieu de journée",lien:"https://sopklife.com/products/inflamma-tea",texte:"l'Inflamma Tea et l'Équilibre Féminin restent ton duo de fond, bien au-delà de ces 30 jours — ton rituel de soin pour ton terrain."}},
 
@@ -2316,7 +2316,7 @@ comment:["choisis les 3 habitudes qui t'ont fait le plus de bien","écris-les, a
 pieges:["vouloir tout garder : choisis l'essentiel, c'est ça qui tient","croire que « c'est fini » : sur ce profil, les résultats arrivent APRÈS","abandonner avant les résultats visibles : tu es sur la bonne voie, tiens bon"],
 plus:"tu es passée de « je ne comprends rien à ce qui m'arrive » à « je sais comment apaiser mon terrain ». sur ton profil, les plus beaux résultats sont encore devant toi — ta peau, tes cheveux, ta confiance. continue, sois patiente et douce avec toi. tu as les clés, et tu n'es plus seule.",
 observes:["aujourd'hui : tu repars avec tes 3 habitudes clés","dans les mois à venir : les résultats visibles s'installent","pour la vie : une compréhension de ton corps qui ne te quittera plus"],
-victoire:"tu as terminé. tu comprends ton terrain, tu as tes outils, tu es ta propre alliée. je suis fière de toi, Cyster.",
+victoire:"ce n'est pas une fin : tu as posé ta base. tu comprends ton terrain, tu as tes outils, tu es ta propre alliée. je suis fière de toi, Cyster.",
 outil:null,
 tisane:{nom:"Andro Tea",timing:"le soir, 1h après le dîner",lien:"https://sopklife.com/products/andro-tea",texte:"l'Andro Tea et l'Équilibre Féminin restent ton duo de fond, bien au-delà de ces 30 jours — c'est la constance qui fera tes résultats."}},
 
@@ -8174,7 +8174,16 @@ export default function App() {
   const weekWins = victories[journalWeek]||[];
   const activeMissions = MISSIONS_BY_PROFILE[profil] || MISSIONS_META;
   const todayData = (()=>{
-    if(day<=30) return activeMissions[day-1] || MISSIONS_META[day-1] || MISSIONS_META[0];
+    if(day<=30){
+      const base = activeMissions[day-1] || MISSIONS_META[day-1] || MISSIONS_META[0];
+      // J14 : la mission compare les scores → on redirige vers la Vue d'ensemble
+      if(day===14) return {...base, outil:{emoji:"📊",label:"Ouvre ta vue d'ensemble",desc:"compare ta progression au Jour 1",goTab:"apercu"}};
+      // J15 : préparer le rendez-vous → onglet Santé (anciennement « Médecin »)
+      if(day===15) return {...base, outil:{emoji:"🩺",label:"Ton espace Santé",desc:"prépare ton rendez-vous et tes analyses",goTab:"medecin"}};
+      // J30 : bilan du mois → Vue d'ensemble (ce n'est pas une fin, c'est une base de départ)
+      if(day===30) return {...base, outil:{emoji:"📊",label:"Ouvre ta vue d'ensemble",desc:"regarde tes 30 jours de chemin",goTab:"apercu"}};
+      return base;
+    }
     const idx365 = day-31;
     if(idx365 < MISSIONS_365.length){
       const m = MISSIONS_365[idx365];
@@ -9146,7 +9155,7 @@ export default function App() {
                     if(day===7) showToast("Première semaine complète","sept jours de cohérence — c'est énorme, bravo.");
                     else if(day===14) showToast("Mi-parcours atteint","la moitié du chemin. ton corps enregistre déjà les changements.");
                     else if(day===21) showToast("Trois semaines","tu tiens le rythme. la plupart abandonnent avant. pas toi.");
-                    else if(day===30) showToast("Protocole terminé 🎉","30 jours. tu n'es plus la même qu'au départ. fière de toi.");
+                    else if(day===30) showToast("30 jours, nouvelle base 🌸","ce n'est pas une fin : c'est ta base de départ. tu n'es plus la même qu'au départ, fière de toi.");
                     else if(day%7===0) showToast(`Semaine ${Math.ceil(day/7)} complète`,"une semaine de plus dans la cohérence.");
                     else showToast(`Jour ${day} validé`, todayData.victoire);
                   }
@@ -9173,7 +9182,7 @@ export default function App() {
                     if(day===7) showToast("Première semaine complète","sept jours de cohérence — c'est énorme, bravo.");
                     else if(day===14) showToast("Mi-parcours atteint","la moitié du chemin. ton corps enregistre déjà les changements.");
                     else if(day===21) showToast("Trois semaines","tu tiens le rythme. la plupart abandonnent avant. pas toi.");
-                    else if(day===30) showToast("Protocole terminé 🎉","30 jours. tu n'es plus la même qu'au départ. fière de toi.");
+                    else if(day===30) showToast("30 jours, nouvelle base 🌸","ce n'est pas une fin : c'est ta base de départ. tu n'es plus la même qu'au départ, fière de toi.");
                     else if(day%7===0) showToast(`Semaine ${Math.ceil(day/7)} complète`,"une semaine de plus dans la cohérence.");
                     else showToast(`Jour ${day} validé`, todayData.victoire);
                   }
