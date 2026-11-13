@@ -2856,6 +2856,10 @@ const PROTOCOLE_TISANES = {
   mixte_mi:[{nom:"Serenitea",start:10,timing:"le soir"},{nom:"Stabilitea",start:14,timing:"après les repas"},{nom:"Inflamma Tea",start:21,timing:"milieu de journée"}],
   mixte_ai:[{nom:"Serenitea",start:10,timing:"le soir"},{nom:"Inflamma Tea",start:14,timing:"milieu de journée"},{nom:"Andro Tea",start:21,timing:"le soir"}],
 };
+// moment de rappel d'une tisane (même logique côté serveur, fonction send-reminders)
+const tisaneMoment=(timing)=>{ const t=(timing||"").toLowerCase(); if(t.includes("matin")) return "matin"; if(t.includes("soir")) return "soir"; return "midi"; };
+const RAPPELS_TISANES_DEFAUT={actif:false,matin:8,midi:13,soir:21};
+const dateLocale=()=>{ try{ return new Date().toLocaleDateString("en-CA"); }catch(e){ return new Date().toISOString().slice(0,10); } };
 function getCureActive(profil, day){
   const list=[...(PROTOCOLE_TISANES.base||[]), ...(PROTOCOLE_TISANES[profil]||[])];
   return list
@@ -7882,6 +7886,14 @@ export default function App() {
   const [fatigueStep, setFatigueStep] = useState(0);
   const [checked, setChecked] = useState(() => load("checked",{}));
   const [energie, setEnergie] = useState(() => load("energie",null));
+  const [rappelsTisanes, setRappelsTisanes] = useState(() => ({...RAPPELS_TISANES_DEFAUT, ...load("rappelsTisanes",{})}));
+  const [tisanesPrises, setTisanesPrises] = useState(() => load("tisanesPrises",{}));
+  useEffect(()=>{ save("rappelsTisanes",rappelsTisanes); },[rappelsTisanes]);
+  useEffect(()=>{ save("tisanesPrises",tisanesPrises); },[tisanesPrises]);
+  useEffect(()=>{ try{ save("tz", Intl.DateTimeFormat().resolvedOptions().timeZone||"Europe/Paris"); }catch(e){} },[]);
+  const togglePrise=(nom)=>{ const d=dateLocale(); setTisanesPrises(prev=>{
+    const jour={...(prev[d]||{})}; if(jour[nom]) delete jour[nom]; else jour[nom]=true;
+    const next={}; Object.keys(prev).sort().slice(-6).forEach(k=>{ if(k!==d) next[k]=prev[k]; }); next[d]=jour; return next; }); };
   const [regles, setRegles] = useState(() => load("regles",[]));
   const [victories, setVictories] = useState(() => load("victories",{}));
   const [notes, setNotes] = useState(() => load("notes",{}));
@@ -9302,13 +9314,21 @@ export default function App() {
                   <div key={i} style={{display:"flex",alignItems:"center",gap:10,padding:"8px 0",borderTop:i>0?`1px solid ${pc.p}33`:"none"}}>
                     <div style={{flex:1,minWidth:0}}>
                       <div style={{fontSize:12,fontWeight:700,color:C.brown}}>{t.nom}{t.isNew&&<span style={{fontSize:8,fontWeight:700,color:"#fff",background:pc.p,borderRadius:99,padding:"1px 7px",marginLeft:7}}>nouveau</span>}</div>
-                      <div style={{fontSize:9.5,color:C.light,marginTop:1}}>{t.timing}</div>
+                      <div style={{fontSize:9.5,color:C.light,marginTop:1}}>{t.timing}{rappelsTisanes.actif&&<span> · rappel à {rappelsTisanes[tisaneMoment(t.timing)]}h</span>}</div>
                     </div>
+                    {(()=>{ const pris=!!(tisanesPrises[dateLocale()]||{})[t.nom]; return(
+                    <button onClick={()=>togglePrise(t.nom)} aria-pressed={pris} aria-label={pris?`${t.nom} prise aujourd'hui`:`marquer ${t.nom} comme prise`}
+                      style={{flexShrink:0,display:"flex",alignItems:"center",gap:4,background:pris?"#EAF3EA":"#fff",border:`1px solid ${pris?"#4A7A52":pc.p}`,borderRadius:8,padding:"6px 9px",fontFamily:"inherit",fontSize:10,fontWeight:600,color:pris?"#4A7A52":pc.p,cursor:"pointer"}}>
+                      {pris&&<Icon name="check" size={12} color="#4A7A52"/>}{pris?"prise":"prise ?"}
+                    </button>); })()}
                     <a href={t.lien} target="_blank" rel="noreferrer"
                       style={{flexShrink:0,background:pc.p,borderRadius:8,padding:"7px 12px",fontSize:10,color:"white",textDecoration:"none",fontWeight:600}}>commander →</a>
                   </div>
                 ))}
                 <div style={{fontSize:9,color:C.light,lineHeight:1.5,marginTop:9,paddingTop:8,borderTop:`1px solid ${pc.p}33`}}>à prendre chaque jour, avec régularité — c'est elle qui fait le vrai bénéfice. respecte le timing de chaque tisane.</div>
+                {!rappelsTisanes.actif&&(
+                  <button onClick={()=>setShowAccount(true)} style={{marginTop:8,background:"none",border:"none",padding:0,fontFamily:"inherit",fontSize:10,fontWeight:600,color:pc.p,cursor:"pointer",textDecoration:"underline"}}>me rappeler mes tisanes au bon moment →</button>
+                )}
               </div>
               );
             })()}
@@ -11763,6 +11783,34 @@ profil · tes priorités · les analyses & questions que tu as cochées · ton s
                 <button onClick={enableNotif} style={{width:"100%",background:pc.p,color:"#fff",border:"none",borderRadius:10,padding:"12px",fontFamily:"inherit",fontSize:12,fontWeight:700,cursor:"pointer"}}>activer mes rappels</button>
               )}
               {(isIOS&&!isStandalone)&&<div style={{fontSize:9.5,color:C.light,marginTop:8,lineHeight:1.55}}>sur iPhone, ajoute d'abord SMOP Map à ton écran d'accueil pour recevoir les rappels. <button onClick={()=>{setShowAccount(false);setShowInstall(true);}} style={{background:"none",border:"none",color:pc.p,fontFamily:"inherit",fontSize:9.5,fontWeight:700,cursor:"pointer",padding:0,textDecoration:"underline"}}>voir comment</button></div>}
+            </div>
+
+            <div style={{background:C.white,borderRadius:14,padding:"14px 15px",border:`1px solid ${C.border}`,marginBottom:14}}>
+              <div style={{fontSize:11,fontWeight:700,color:C.brown,marginBottom:4}}>Rappels tisanes</div>
+              <div style={{fontSize:10.5,color:C.mid,lineHeight:1.55,marginBottom:11}}>un petit rappel au moment de chaque tisane de ta cure. si tu l'as déjà cochée « prise », je ne t'embête pas.</div>
+              <button onClick={async()=>{
+                  if(rappelsTisanes.actif){ setRappelsTisanes(r=>({...r,actif:false})); return; }
+                  if(notifPerm!=="granted"){ await enableNotif(); }
+                  let ok=false; try{ ok=(typeof Notification!=="undefined"&&Notification.permission==="granted"); }catch(e){}
+                  if(ok){ setRappelsTisanes(r=>({...r,actif:true})); showToast("Rappels tisanes activés","tu recevras un mot au moment de chaque tisane."); }
+                }}
+                style={{width:"100%",background:rappelsTisanes.actif?"#EAF3EA":pc.p,color:rappelsTisanes.actif?"#4A7A52":"#fff",border:"none",borderRadius:10,padding:"12px",fontFamily:"inherit",fontSize:12,fontWeight:700,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",gap:8}}>
+                {rappelsTisanes.actif?(<><Icon name="check" size={16} color="#4A7A52"/> rappels tisanes activés · désactiver</>):"activer mes rappels tisanes"}
+              </button>
+              {rappelsTisanes.actif&&(
+                <div style={{marginTop:11}}>
+                  {[{k:"matin",l:"tisane du matin",min:5,max:11},{k:"midi",l:"tisane de la journée",min:10,max:17},{k:"soir",l:"tisane du soir",min:17,max:23}].map(m=>(
+                    <div key={m.k} style={{display:"flex",alignItems:"center",justifyContent:"space-between",gap:10,padding:"7px 0",borderTop:`1px solid ${C.border}`}}>
+                      <label htmlFor={"rappel-"+m.k} style={{fontSize:11,color:C.brown}}>{m.l}</label>
+                      <select id={"rappel-"+m.k} value={rappelsTisanes[m.k]} onChange={e=>{ const v=parseInt(e.target.value,10); setRappelsTisanes(r=>({...r,[m.k]:v})); }}
+                        style={{fontFamily:"inherit",fontSize:12,color:C.brown,border:`1px solid ${C.border}`,borderRadius:8,padding:"6px 8px",background:C.white}}>
+                        {Array.from({length:m.max-m.min+1},(_,i)=>m.min+i).map(h=>(<option key={h} value={h}>{h}h</option>))}
+                      </select>
+                    </div>
+                  ))}
+                  <div style={{fontSize:9.5,color:C.light,lineHeight:1.55,marginTop:6}}>les tisanes « après les repas » et « milieu de journée » sont rappelées à l'heure de la journée.</div>
+                </div>
+              )}
             </div>
 
             <button onClick={logout} style={{width:"100%",display:"flex",alignItems:"center",justifyContent:"center",gap:8,background:C.white,border:`1px solid ${C.border}`,borderRadius:12,padding:"13px",fontFamily:"inherit",fontSize:12.5,fontWeight:600,color:"#B5553F",cursor:"pointer"}}>
