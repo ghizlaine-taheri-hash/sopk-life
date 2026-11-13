@@ -7859,6 +7859,9 @@ function Icon({name,size=20,color="currentColor",stroke=1.6,fill="none",style}){
     <path d={d}/></svg>);
 }
 // icône associée à chaque profil/dimension
+// profils mixtes : on considère qu'ils couvrent leurs deux axes (repas idéaux, conseils à l'assiette…)
+const PROFIL_COMPOSANTES={mixte_ma:["metabolique","androgenique"],mixte_mi:["metabolique","inflammatoire"],mixte_ai:["androgenique","inflammatoire"]};
+const profilCouvre=(profil,k)=> profil===k || (PROFIL_COMPOSANTES[profil]||[]).includes(k);
 const PROFIL_ICON={metabolique:"bolt",androgenique:"leaf",inflammatoire:"flame",surrenalien:"brain",mixte_ma:"bolt",mixte_mi:"bolt",mixte_ai:"leaf"};
 // retrouve la clé de profil à partir d'un libellé de dimension (dominant/secondaire/trace)
 const labelToProfil=(label="")=>{const l=label.toLowerCase();
@@ -9812,8 +9815,8 @@ export default function App() {
                 </div>
 
                 {REPAS.filter(r=>r.moment===repasMoment).map((r,i)=>{
-                  const profilLabels={metabolique:"Métabolique",androgenique:"Androgénique",inflammatoire:"Inflammatoire",mixte_ma:"Mixte M-A",mixte_mi:"Mixte M-I",mixte_ai:"Mixte A-I"};
-                  const estPourMonProfil=r.profils.includes(profil);
+                  const profilLabels={metabolique:"Métabolique",androgenique:"Androgénique",inflammatoire:"Inflammatoire",surrenalien:"Surrénalien",mixte_ma:"Mixte M-A",mixte_mi:"Mixte M-I",mixte_ai:"Mixte A-I"};
+                  const estPourMonProfil=r.profils.some(k=>profilCouvre(profil,k));
                   return(
                     <div key={i} style={{background:C.white,borderRadius:14,padding:"13px",marginBottom:8,border:`1.5px solid ${estPourMonProfil?pc.p:C.border}`}}>
                       <div style={{display:"flex",alignItems:"center",gap:6,marginBottom:6,flexWrap:"wrap"}}>
@@ -9826,7 +9829,7 @@ export default function App() {
                           <span key={j} style={{fontSize:9,color:C.light,background:C.cream,borderRadius:99,padding:"2px 8px"}}>{t}</span>
                         ))}
                         {r.profils.map((p,j)=>(
-                          <span key={"p"+j} style={{fontSize:9,fontWeight:600,color:p===profil?pc.p:"#8DA86A",background:p===profil?`${pc.p}12`:`${C.sage}22`,border:`1px solid ${p===profil?pc.p:C.sage}`,borderRadius:99,padding:"2px 8px"}}>⭐ idéal {profilLabels[p]}</span>
+                          <span key={"p"+j} style={{fontSize:9,fontWeight:600,color:profilCouvre(profil,p)?pc.p:"#8DA86A",background:profilCouvre(profil,p)?`${pc.p}12`:`${C.sage}22`,border:`1px solid ${profilCouvre(profil,p)?pc.p:C.sage}`,borderRadius:99,padding:"2px 8px"}}>⭐ idéal {profilLabels[p]}</span>
                         ))}
                       </div>
                       <div style={{fontSize:11,color:C.brown,lineHeight:1.6,marginBottom:8,background:C.cream,borderRadius:10,padding:"9px 11px"}}>{r.compo}</div>
@@ -10139,7 +10142,7 @@ export default function App() {
 
                 {/* ADAPTER SELON LE PROFIL */}
                 {(()=>{
-                  const match=(k)=> profil===k || (profil==="mixte_ma"&&(k==="metabolique"||k==="androgenique")) || (profil==="mixte_mi"&&(k==="metabolique"||k==="inflammatoire"));
+                  const match=(k)=> profilCouvre(profil,k);
                   const cards=[
                     {key:"metabolique",t:"Métabolique — stabiliser la glycémie",c:"#CB9A79",tips:["l'ordre des aliments à chaque repas","jamais un glucide seul : toujours avec une protéine ou du gras","des féculents complets plutôt que raffinés"]},
                     {key:"inflammatoire",t:"Anti-inflammatoire — éteindre le feu",c:"#D4A56A",tips:["des oméga-3 : poissons gras, noix, graines de lin","des épices qui apaisent : curcuma + poivre, gingembre","beaucoup de végétaux colorés (antioxydants) ; moins d'ultra-transformé et de fritures"]},
