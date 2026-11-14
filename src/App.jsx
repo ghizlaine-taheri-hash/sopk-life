@@ -786,8 +786,7 @@ const COMPLEMENTS = [
   {nom:"Magnésium bisglycinate",pour:["metabolique","inflammatoire","androgenique","surrenalien","mixte_ma","mixte_mi","mixte_ai"],dose:"200 à 400mg",timing:"le soir au coucher",effet:"améliore la sensibilité à l'insuline, réduit le cortisol, améliore le sommeil",delai:"2 à 4 semaines",note:"carencé chez la majorité des femmes SMOP — particulièrement utile sur un terrain stress/sommeil"},
   {nom:"Zinc",pour:["androgenique","inflammatoire","mixte_ma","mixte_ai"],dose:"15 à 25mg",timing:"avec un repas, jamais à jeun",effet:"pourrait moduler l'activité de la 5-alpha-réductase (impliquée dans la DHT), soutien de la peau, anti-inflammatoire",delai:"6 à 12 semaines",note:"souvent évoqué pour l'acné et la chute de cheveux — preuves spécifiques au SMOP encore préliminaires"},
   {nom:"Vitamine D3 + K2",pour:["metabolique","inflammatoire","androgenique","surrenalien","mixte_ma","mixte_mi","mixte_ai"],dose:"2000 à 4000 UI",timing:"avec un repas gras",effet:"améliore la sensibilité à l'insuline, soutient l'équilibre hormonal",delai:"4 à 8 semaines",note:"toujours D3 + K2 ensemble, jamais D seule"},
-  {nom:"Oméga-3 (EPA/DHA)",pour:["inflammatoire","mixte_mi","mixte_ai"],dose:"1 à 2g d'EPA+DHA",timing:"avec un repas",effet:"réduit l'inflammation de fond, soutient l'humeur",delai:"4 à 8 semaines",note:"privilégie une source purifiée en métaux lourds"},
-  {nom:"Oméga-3",pour:["metabolique","androgenique","surrenalien","mixte_ma"],dose:"1g d'EPA+DHA",timing:"avec un repas",effet:"soutien anti-inflammatoire général, soutien de l'humeur",delai:"4 à 8 semaines",note:"utile pour tous les profils en soutien"},
+  {nom:"Oméga-3 (EPA/DHA)",pour:["metabolique","androgenique","inflammatoire","surrenalien","mixte_ma","mixte_mi","mixte_ai"],dose:"1 à 2g d'EPA+DHA",timing:"avec un repas",effet:"soutient l'apaisement de l'inflammation de fond et l'humeur",delai:"4 à 8 semaines",note:"particulièrement intéressant sur un terrain inflammatoire ; privilégie une source purifiée en métaux lourds"},
   {nom:"Ashwagandha (extrait standardisé)",pour:["surrenalien"],dose:"300 à 600mg d'extrait",timing:"le soir, ou matin et soir",effet:"contribue à réduire le cortisol et la perception du stress (données générales, hors SMOP)",delai:"4 à 8 semaines",note:"pas d'étude spécifique au SMOP : agit sur le terrain stress, pas sur les ovaires. à éviter / demander un avis médical si traitement thyroïdien, sédatifs, grossesse ou allaitement. c'est la plante au cœur de ta Serenitea."},
   {nom:"N-acétylcystéine (NAC)",pour:["metabolique","androgenique","inflammatoire","mixte_ma","mixte_mi","mixte_ai"],dose:"600mg, 2 à 3x/jour",timing:"avec les repas",effet:"antioxydant ; étudié pour soutenir la sensibilité à l'insuline et l'ovulation dans le SMOP",delai:"8 à 12 semaines",note:"données encourageantes mais à confirmer ; demande un avis médical, surtout en cas de traitement."},
   {nom:"Berbérine",pour:["metabolique","mixte_ma","mixte_mi"],dose:"500mg, 2 à 3x/jour",timing:"avant les repas",effet:"soutient la glycémie et la sensibilité à l'insuline (effets observés dans plusieurs études sur le SMOP)",delai:"8 à 12 semaines",note:"interactions médicamenteuses possibles (dont diabète) ; déconseillée en grossesse/allaitement. avis médical requis avant de commencer."},
@@ -10119,7 +10118,7 @@ export default function App() {
     getSupabase().then(client=>{
       setSb(client);
       client.auth.getSession().then(({data})=>setSession(data.session||null)).catch(()=>setSession(null));
-      const r=client.auth.onAuthStateChange((evt,s)=>{ setSession(s||null); if(evt==="PASSWORD_RECOVERY"){ setShowAccount(true); setAccMsg("Choisis ton nouveau mot de passe ci-dessous"); } });
+      const r=client.auth.onAuthStateChange((evt,s)=>{ setSession(s||null); if(evt==="PASSWORD_RECOVERY"){ try{ sessionStorage.setItem("sopklife_recovery","1"); }catch(e){} setShowAccount(true); setAccMsg("Choisis ton nouveau mot de passe ci-dessous"); } });
       subref=r.data?.subscription;
     }).catch(()=>{ setSbError(true); });
     return ()=>{ try{ subref&&subref.unsubscribe(); }catch(e){} };
@@ -10197,7 +10196,7 @@ export default function App() {
     if(newPw.length<6){ setAccErr("Ton mot de passe doit faire au moins 6 caractères."); return; }
     setAccBusy(true);
     try{ const { error } = await sb.auth.updateUser({ password:newPw });
-      if(error){ setAccErr(authErrFr(error.message)); } else { setAccMsg("Mot de passe mis à jour"); setNewPw(""); }
+      if(error){ setAccErr(authErrFr(error.message)); } else { setAccMsg("Mot de passe mis à jour"); try{ sessionStorage.removeItem("sopklife_recovery"); }catch(e){} setNewPw(""); }
     }catch(e){ setAccErr("Une erreur est survenue, réessaie."); }
     setAccBusy(false);
   };
@@ -10214,6 +10213,10 @@ export default function App() {
   const logout = async () => { try{ sessionStorage.removeItem("sopklife_hydrated"); pulledRef.current=false; setShowAccount(false); await sb?.auth.signOut(); }catch(e){} };
   useEffect(()=>{ if(showAccount){ setAccPrenom(prenom||""); setAccErr(""); setAccMsg(""); setNewPw(""); setAccNewEmail(""); } },[showAccount]);
   const showToast = (titre, sousTitre) => { setToast({titre,sousTitre}); setTimeout(()=>setToast(null), 3400); };
+  // retour d'un lien « mot de passe oublié » : on rouvre Mon compte même après un rechargement
+  useEffect(()=>{ try{ if(session && sessionStorage.getItem("sopklife_recovery")==="1"){ setShowAccount(true); setAccMsg("Choisis ton nouveau mot de passe ci-dessous"); } }catch(e){} },[session,hydrated]);
+  // navigation : on mémorise l'écran d'où l'on vient, pour pouvoir y revenir
+  const [navPrevTab, setNavPrevTab] = useState(null); const navCur = useRef("kamila"); const navReset = useRef(false);
   // avancement automatique du parcours : +1 jour à chaque nouveau jour calendaire où tu ouvres ton espace.
   // jamais de jour sauté (si tu reviens après une pause, tu reprends là où tu t'étais arrêtée).
   // on attend que les données cloud soient chargées, pour ne pas avancer deux fois sur deux appareils.
@@ -10338,13 +10341,14 @@ export default function App() {
   useEffect(()=>{ save("medPrioCustom",medPrioCustom); },[medPrioCustom]);
   useEffect(()=>{
     if(!scrollAnchor) return;
-    const t=setTimeout(()=>{ try{ document.getElementById(scrollAnchor)?.scrollIntoView({behavior:"smooth",block:"center"}); }catch(e){} setScrollAnchor(null); },140);
+    const t=setTimeout(()=>{ try{ document.getElementById(scrollAnchor)?.scrollIntoView({behavior:"smooth",block:"center"}); }catch(e){} setScrollAnchor(null); },650);
     return ()=>clearTimeout(t);
   },[scrollAnchor,outilOpen,tab]);
   useEffect(()=>{ save("perturbCheck",perturbCheck); },[perturbCheck]);
   useEffect(()=>{ save("lettre",lettre); },[lettre]);
   useEffect(()=>{ save("vidage",vidage); },[vidage]);
   useEffect(()=>{ try{ window.scrollTo(0,0); }catch(e){} },[tab,outilOpen,outilCat]);
+  useEffect(()=>{ if(navCur.current!==tab){ setNavPrevTab(navReset.current ? null : navCur.current); navCur.current=tab; } navReset.current=false; },[tab]);
   useEffect(()=>{ save("mesures",mesures); },[mesures]);
   useEffect(()=>{ save("quizAns",quizAns); },[quizAns]);
   useEffect(()=>{ save("quizResult",quizResult); },[quizResult]);
@@ -11180,6 +11184,20 @@ export default function App() {
           </div>
         )}
 
+        {/* Retour à l'écran d'où l'on vient (quand on y est arrivée par un lien, une mission…) */}
+        {(()=>{
+          const NAV_LABELS={kamila:"Accueil",carte:"Ma carte",suivi:"Suivi",outils:"Ressources",medecin:"Santé",apercu:"Vue d'ensemble",tendances:"Mes tendances",mesures:"Mes mesures",cycle:"Mon cycle",journal:"Mon journal",mouvement:"Mes mouvements",ancrage:"Mon ancrage",analyses:"Mes analyses",sos:"Mode crise"};
+          const SUBP={cycle:"suivi",apercu:"suivi",tendances:"suivi",mesures:"suivi",journal:"suivi",mouvement:"suivi",sos:"outils"};
+          const p=navPrevTab;
+          if(!p||p===tab||p===SUBP[tab]||!NAV_LABELS[p]) return null;
+          return(
+            <button onClick={()=>{ navReset.current=true; if(tab==="outils"){ setOutilOpen(null); } setTab(p); }}
+              style={{display:"flex",alignItems:"center",gap:6,background:`${pc.p}12`,border:`1px solid ${pc.p}40`,borderRadius:99,cursor:"pointer",fontFamily:"inherit",color:pc.p,fontSize:11.5,fontWeight:700,padding:"6px 12px",marginBottom:10}}>
+              <Icon name="arrowL" size={15} color={pc.p}/> revenir à {NAV_LABELS[p]}
+            </button>
+          );
+        })()}
+
         {/* Bouton retour sur les sous-écrans */}
         {(()=>{
           const SUB={cycle:"suivi",apercu:"suivi",tendances:"suivi",mesures:"suivi",journal:"suivi",mouvement:"suivi",sos:"outils"};
@@ -11562,6 +11580,15 @@ export default function App() {
 
             {/* ── À RETROUVER QUAND TU VEUX ── */}
             <div style={{fontSize:8.5,letterSpacing:1.5,textTransform:"uppercase",color:C.light,fontWeight:700,marginBottom:9}}>à retrouver quand tu veux</div>
+            <a href={WHATSAPP_URL} target="_blank" rel="noopener"
+              style={{display:"flex",alignItems:"center",gap:12,background:C.white,border:`1px solid ${C.border}`,borderRadius:14,padding:"12px 14px",marginBottom:10,textDecoration:"none"}}>
+              <span style={{width:36,height:36,borderRadius:"50%",background:"#E7F3EA",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><Icon name="heart" size={17} color="#3E8E5A"/></span>
+              <span style={{flex:1}}>
+                <span style={{display:"block",fontSize:12.5,fontWeight:700,color:C.brown}}>La communauté des Cysters</span>
+                <span style={{display:"block",fontSize:10.5,color:C.mid,lineHeight:1.4}}>le groupe WhatsApp pour partager, poser tes questions, te sentir moins seule</span>
+              </span>
+              <span style={{fontSize:14,color:pc.p}}>→</span>
+            </a>
 
             {/* Message Kamila — compact */}
             {todayData.msg&&(
@@ -11912,8 +11939,8 @@ export default function App() {
 
                 {/* SÉLECTEUR DE REPAS (overlay) */}
                 {planPicker&&(
-                  <div onClick={()=>setPlanPicker(null)} style={{position:"fixed",inset:0,zIndex:310,background:"rgba(58,42,32,.45)",display:"flex",alignItems:"flex-end",justifyContent:"center"}}>
-                    <div onClick={e=>e.stopPropagation()} style={{background:C.cream,width:"100%",maxWidth:430,borderRadius:"22px 22px 0 0",padding:"1.3rem 1.2rem 1.8rem",maxHeight:"80vh",overflowY:"auto"}}>
+                  <div onClick={()=>setPlanPicker(null)} style={{position:"fixed",inset:0,zIndex:310,background:"rgba(58,42,32,.45)",display:"flex",alignItems:"flex-start",justifyContent:"center",padding:"max(14px, env(safe-area-inset-top)) 10px 0"}}>
+                    <div onClick={e=>e.stopPropagation()} style={{background:C.cream,width:"100%",maxWidth:430,borderRadius:22,padding:"1.3rem 1.2rem 1.5rem",maxHeight:"82vh",overflowY:"auto"}}>
                       <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:12}}>
                         <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.15rem",color:C.brown,fontWeight:600}}>{SLOTS.find(s=>s[0]===planPicker.moment)?.[1]} · {JOURS.find(j=>j[0]===planPicker.jour)?.[1]}</div>
                         <button onClick={()=>{setPlanPicker(null);setPlanCustom("");}} style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:"50%",width:30,height:30,cursor:"pointer",color:C.mid,fontSize:14,fontFamily:"inherit"}}>✕</button>
@@ -14153,7 +14180,8 @@ profil · tes priorités · les analyses & questions que tu as cochées · ton s
 
             <div style={{background:C.white,borderRadius:14,padding:"14px 15px",border:`1px solid ${C.border}`,marginBottom:14}}>
               <div style={{fontSize:11,fontWeight:700,color:C.brown,marginBottom:10}}>Changer mon mot de passe</div>
-              <input type="password" value={newPw} onChange={e=>setNewPw(e.target.value)} autoComplete="new-password" placeholder="nouveau mot de passe (6 caractères min.)"
+              <div style={{display:"flex",justifyContent:"flex-end",marginBottom:4}}><button onClick={()=>setShowPw(v=>!v)} style={{background:"none",border:"none",color:C.mid,fontSize:10,cursor:"pointer",fontFamily:"inherit"}}>{showPw?"masquer":"👁 afficher"}</button></div>
+              <input type={showPw?"text":"password"} value={newPw} onChange={e=>setNewPw(e.target.value)} autoComplete="new-password" placeholder="nouveau mot de passe (6 caractères min.)"
                 style={{width:"100%",border:`1px solid ${C.border}`,borderRadius:10,padding:"11px",fontSize:13,fontFamily:"inherit",color:C.brown,background:C.cream,outline:"none",marginBottom:8}}/>
               <button onClick={changePw} disabled={accBusy||newPw.length<6}
                 style={{width:"100%",background:(accBusy||newPw.length<6)?C.light:pc.p,color:"#fff",border:"none",borderRadius:10,padding:"11px",fontFamily:"inherit",fontSize:12,fontWeight:700,cursor:(accBusy||newPw.length<6)?"default":"pointer"}}>
@@ -14203,6 +14231,11 @@ profil · tes priorités · les analyses & questions que tu as cochées · ton s
                 </div>
               )}
             </div>
+
+            <a href={WHATSAPP_URL} target="_blank" rel="noopener"
+              style={{display:"flex",alignItems:"center",justifyContent:"center",gap:8,width:"100%",boxSizing:"border-box",background:"#E7F3EA",border:"1px solid #BFDCC8",borderRadius:12,padding:"12px",fontSize:12.5,fontWeight:700,color:"#2F6B45",textDecoration:"none",marginBottom:12}}>
+              <Icon name="heart" size={15} color="#2F6B45"/> rejoindre la communauté des Cysters
+            </a>
 
             <button onClick={logout} style={{width:"100%",display:"flex",alignItems:"center",justifyContent:"center",gap:8,background:C.white,border:`1px solid ${C.border}`,borderRadius:12,padding:"13px",fontFamily:"inherit",fontSize:12.5,fontWeight:600,color:"#B5553F",cursor:"pointer"}}>
               se déconnecter
@@ -14377,7 +14410,7 @@ profil · tes priorités · les analyses & questions que tu as cochées · ton s
       {/* BOTTOM NAV (mobile) */}
       <div className="bottom-nav-wrap" style={{position:"fixed",bottom:0,left:"50%",transform:"translateX(-50%)",width:"100%",maxWidth:430,background:C.white,borderTop:`1px solid ${C.border}`,padding:"9px 4px 12px",display:"flex",justifyContent:"space-around",zIndex:30}}>
         {TABS.map(t=>(
-          <button key={t.id} onClick={()=>setTab(t.id)}
+          <button key={t.id} onClick={()=>{ navReset.current=true; setTab(t.id); }}
             style={{background:"none",border:"none",cursor:"pointer",display:"flex",flexDirection:"column",alignItems:"center",gap:3,padding:"3px 4px",fontFamily:"inherit",flex:1}}>
             <Icon name={t.icon} size={21} color={tab===t.id?C.mauve:C.light} stroke={tab===t.id?1.9:1.6}/>
             <span style={{fontSize:8.5,color:tab===t.id?C.mauve:C.light,fontWeight:tab===t.id?700:500}}>{t.label}</span>
