@@ -6,7 +6,7 @@ Idées de Ghiz, à répartir sur les mois 3 à 12. Légende claims :
 
 ## Architecture validée
 - **Rythme hebdo** (piliers tournants) : lun alimentation · mar mouvement · mer comprendre · jeu stress/sommeil · ven cycle/hormones · sam peau/corps · dim mindset + bilan
-- **Thème mensuel** qui progresse (M1 Fondation ✅ · M2 Glycémie 🚧 · puis thématiques ci-dessous)
+- **Thème mensuel** qui progresse (M1 Fondation → M12 Autonomie, tous ✅)
 - **Tronc commun** jours 31+ écrit une fois, **accent injecté par profil** (7 profils, dont 3 mixtes dédiés)
 - Chaque mission **relie vers un outil/ressource différent** (découverte + sentiment d'avancer)
 - Bilans réguliers qui réutilisent les données de suivi
@@ -18,12 +18,40 @@ Idées de Ghiz, à répartir sur les mois 3 à 12. Légende claims :
 - ✅ **M8 Mouvement & énergie (j210-239)** — mouvement=médicament, marche post-repas, muscle anti-insuline, piège du trop/cortisol, bouger selon énergie/cycle, NEAT, sédentarité, hydratation, étirements, souffle/cohérence cardiaque, lumière du matin, bouger quand ça va pas, repos, carences/fatigue, ne pas sauter de repas, gainage/posture, nature, excuses, bouger-dormir, objectif réaliste, règles, réconciliation au corps, la marche reine
 - ✅ **M9 Foie & détox (22 missions)** — foie chef d'orchestre/SHBG, aliments amis (crucifères/amers/antioxydants), mythe de la détox (honnête), foie gras/MASLD, Cure Détox, alcool, transit/élimination des œstrogènes, bonnes graisses, ultra-transformés, bouger pour drainer, dîner plus tôt/léger, reins, café (nuance), stress & foie, peau 3e émonctoire, régénération/espoir, plantes (chardon-marie), petit-déj, toxiques inutiles
 - ✅ **M10 Médical & suivi (j260-294, 35 missions)** — diagnostic (Rotterdam 2/3), causes à écarter (TSH, prolactine, 17-OH), cycles = donnée médicale, histoire en 1 page, appréhension avant RDV, photos datées, préparer la prise de sang, bilan androgènes + SHBG, bilan métabolique (HGPO, HOMA-IR), carences (ferritine, vit D, B12/metformine), pilule & dosages, lire ses résultats, 3 priorités, questions écrites, dire ce qui compte, pendant/après le RDV, soignant de confiance, équipe pluridisciplinaire, 2e avis, accès au dossier, traitements (pilule, metformine), compléments à signaler, suivi au long cours, signaux d'alerte (aménorrhée > 3 mois, 3114), moral (PHQ-2), sommeil/apnée, dentiste & frottis, données de suivi, communauté (bouton WhatsApp via outil.lien)
-- ✅ **M11 Cycle, ovulation & fertilité (j295-329, 35 missions)** — 4 temps du cycle, ovulation freinée pas éteinte, règles/saignements de privation/spotting, glaire, température, tests LH (faux positifs), assiette & ovulation, mouvement modéré vs excès, sommeil/circadien, stress & GnRH, inositol (expérimental, NUANCE), phase lutéale, SMOP ≠ stérilité, projet bébé ou pas (contraception), quand consulter, aides à l'ovulation (letrozole 1re intention), préparer une grossesse (acide folique, glycémie), fertilité à deux (facteur masculin ~50 %), suivre un cycle irrégulier, fringales prémenstruelles, bouger selon l'énergie, règles douloureuses/abondantes (endométriose), peau & cycle, parler de son cycle, attente, perte de grossesse, annonces des autres, SMOP au fil de la vie, corps pas en panne, communauté
-- ✅ **M12 Autonomie & relation au corps (j330-365, 36 missions)** — culpabilité, manger sans se juger, reflet, remarques sur le corps, kit des jours sans, progrès > perfection, calendrier du terrain (énergie → cycle → peau → poils), plateaux, petits gestes répétés, 3 indicateurs, fluctuations, quand ajuster (6 mois), 5 piliers non négociables, semaine type, mouvement durable, rituel du soir, tri compléments, calendrier de suivi annuel, protocole sur une page, voyages, fêtes, malade, périodes chargées, changements de vie, reprendre après une pause, relire l'année, lettre à soi dans un an, mercis, transmettre à une nouvelle Cyster, 3 intentions, après j365 (RITUELS), veille, **J365 « ce n'est pas une fin »**
-- 🎉 **PARCOURS 365 COMPLET** : j31 à j365 écrits. Après j365, les RITUELS au long cours prennent le relais (MISSIONS_365[jour-31] → RITUELS).
-- Compte missions au 13/11 : **335 (j31 à j365)**. Objectif atteint. À faire : relecture des mois 6 à 12 par Ghiz.
+- ✅ **M11 Cycle, ovulation & fertilité (j295-329, 35 missions)** — ce que tes cycles racontent de ton année, ovulation freinée pas éteinte, règles/saignements de privation/spotting, glaire, lire ta courbe de température, tests LH (faux positifs), assiette & ovulation, mouvement modéré vs excès, sommeil/circadien, stress & GnRH, inositol (expérimental, NUANCE), ta contraception avec un SMOP, SMOP ≠ stérilité, projet bébé ou pas (contraception), quand consulter, aides à l'ovulation (letrozole 1re intention), préparer une grossesse (acide folique, glycémie), fertilité à deux (facteur masculin ~50 %), test de grossesse avec un cycle irrégulier, soulager les crampes de règles, confort intime, règles douloureuses/abondantes (endométriose), digestion & cycle, parler de son cycle, attente, perte de grossesse, annonces des autres, SMOP au fil de la vie, corps pas en panne, communauté
+- ✅ **M12 Autonomie & relation au corps (j330-365, 36 missions)** — culpabilité, manger sans se juger, reflet, remarques sur le corps, kit des jours sans, progrès > perfection, calendrier du terrain (énergie → cycle → peau → poils), plateaux, petits gestes répétés, 3 indicateurs, fluctuations, quand ajuster (6 mois), 5 piliers non négociables, semaine type, mouvement durable, rituel du soir, tri compléments, calendrier de suivi annuel, protocole sur une page, voyages, fêtes, malade, périodes chargées, changements de vie, reprendre après une pause, relire l'année, lettre à soi dans un an, mercis, transmettre à une nouvelle Cyster, 3 intentions, après j365 (année d'entretien), veille, **J365 « ce n'est pas une fin »**
+- 🎉 **PARCOURS 365 COMPLET** : j31 à j365 écrits.
+- ✅ **Année 2 « entretien » (14/11)** : après j365, chaque jour rejoue en version courte la mission du même jour de l'année 1 (accent du profil conservé), avec en plus « ton geste d'entretien du jour » tiré des RITUELS. Le 363e et le 364e jour de chaque nouvelle année = un rituel seul ; le 365e = mission « un an de plus à prendre soin de toi ». Le parcours ne s'arrête jamais (année 3, 4…). Code : `missionPour(d)` dans App.jsx.
+- ✅ **Revenir à n'importe quel jour (14/11)** : « Jour X · choisir un jour » au-dessus de la mission → année, mois, liste des jours avec leur thème. Consulter un jour ne change pas la progression (`vueJour` ≠ `day`) ; bouton « reprendre mon parcours ici » pour vraiment déplacer le parcours. Mois repérés dans `MOIS_PARCOURS`.
+- Compte missions au 14/11 : **335 (j31 à j365)**, plus j1-30 par profil. À faire : relecture des mois 6 à 12 par Ghiz.
+- Bornes réelles des mois : M1 j1-30 · M2 j31-60 · M3 j61-89 · M4 j90-119 · M5 j120-149 · M6 j150-179 · M7 j180-208 · M8 j209-237 · M9 j238-259 · M10 j260-294 · M11 j295-329 · M12 j330-365.
 - Format outil : `goTab`, `cible`, ou `lien` (URL ouverte dans un nouvel onglet, ex. `lien:WHATSAPP_URL`).
 - NOTE : les labels "jXXX" dans les commentaires de code ont ~2 jours de décalage avec l'index réel (cosmétique, sans impact — les missions se jouent en séquence via MISSIONS_365[jour-31]). Ce qui compte = le nombre total de missions.
+
+## Anti-répétition (14/11) — 17 doublons remplacés
+Règle de Ghiz : chaque jour doit apporter quelque chose d'utile, jamais une redite. Missions trop proches d'une autre déjà vue, remplacées par un sujet neuf :
+
+| Jour | Ancien sujet (doublon) | Nouveau sujet |
+|---|---|---|
+| J40 | la cannelle de Ceylan (déjà J12) | le vinaigre de cidre avant le repas |
+| J166 | la SHBG, ta protéine anti-androgènes | tes cheveux au quotidien, en douceur |
+| J180 | ton SMOP n'est pas qu'une histoire d'ovaires | pourquoi personne ne relie tes signes |
+| J214 | bouger sans « faire du sport » | danser, le mouvement-joie |
+| J216 | ne saute pas de repas | manger avant ou après bouger ? |
+| J218 | bouge avec ton cycle | ta séance de renforcement de 15 minutes |
+| J219 | la lumière du matin | vélo, natation : bouger sans impact |
+| J221 | le repos fait partie du jeu | les signaux qui disent « trop » |
+| J226 | ton souffle, ta télécommande | la marche nordique, ta marche boostée |
+| J235 | bouger pendant tes règles | bouger avec un dos ou des genoux qui grincent |
+| J295 | les 4 temps de ton cycle (déjà M5) | ce que tes cycles racontent de ton année |
+| J299 | la température au réveil (déjà J124) | lire ta courbe de température |
+| J307 | ta phase lutéale | ta contraception avec un SMOP |
+| J316 | suivre un cycle irrégulier | test de grossesse avec un cycle irrégulier |
+| J317 | les fringales avant les règles | soulager tes crampes de règles |
+| J318 | bouger avec ton cycle, sans dogme | ton confort intime |
+| J320 | ta peau suit ton cycle | ta digestion suit ton cycle |
+
+Règles de contenu rappelées : ne jamais renvoyer vers un médecin pour les tisanes/compléments ; ne pas faire peur sur les plantes ; « accompagne/soutient », jamais « guérit/traite ».
 
 ## Sources vérifiées cette session
 - **Parodontite ⇄ SMOP** : lien bidirectionnel, RR ~1,28 (SMOP→parodontite) et 1,46 (parodontite→SMOP), via inflammation de bas grade (CRP, TNF-α, IL-6) + insulinorésistance. Revue systématique + méta-analyse, PMC7355910 (2020, SORT A mais observationnel). → utilisé M7 avec nuance "données observationnelles".
@@ -68,4 +96,4 @@ Idées de Ghiz, à répartir sur les mois 3 à 12. Légende claims :
 - Toujours : relier à un **outil/ressource différent** à chaque fois (découverte + sentiment d'avancer)
 
 ## À faire avant d'affirmer les "À SOURCER"
-Sourcer via PubMed/Cochrane (RCT ou méta-analyse) : parodontite-SMOP, acupuncture-SMOP, microbiote-SMOP, inositol (myo vs D-chiro).
+Sourcer via PubMed/Cochrane (RCT ou méta-analyse) : ~~parodontite-SMOP~~ (fait), acupuncture-SMOP, microbiote-SMOP, inositol (myo vs D-chiro).
