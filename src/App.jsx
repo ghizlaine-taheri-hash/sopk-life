@@ -3163,6 +3163,9 @@ const PERTURBATEURS = [
 ];
 
 // ── RESSOURCES : rangées en familles (navigation à 2 niveaux) ───────────────
+// ─── DOSSIER MÉDECIN : styles de la version imprimée (page à part, indépendante de la mise en page de l'app) ───
+const DOSSIER_PRINT_CSS = "@page{size:A4;margin:14mm 12mm;}*{box-sizing:border-box;margin:0;padding:0;}html,body{background:#fff;}body{color:#3D2B1F;line-height:1.5;font-family:Arial,sans-serif;font-size:13px;}.sopk-doc h1{font-size:20px;color:#3D2B1F;margin-bottom:8px;}.sopk-doc h2{font-size:15px;color:#B07D4F;margin-top:20px;border-bottom:2px solid #E8DDD3;padding-bottom:4px;break-after:avoid;}.sopk-doc p{margin-top:6px;}.sopk-doc table{border-collapse:collapse;width:100%;font-size:12px;margin-top:6px;}.sopk-doc th,.sopk-doc td{text-align:left;vertical-align:top;}.sopk-doc tr,.sopk-doc li{break-inside:avoid;}.sopk-doc ul{font-size:13px;margin:6px 0 0 18px;}.sopk-doc li{margin-bottom:4px;}.sopk-doc .note{font-size:11px;color:#9A8578;font-style:italic;margin-top:24px;display:block;}";
+
 // ─── LES MOIS DU PARCOURS (pour se repérer et revenir à n'importe quel jour) ───
 const MOIS_PARCOURS = [
   {n:1,label:"Fondation",a:1,b:30},{n:2,label:"Glycémie",a:31,b:60},{n:3,label:"Inflammation",a:61,b:89},
@@ -14494,7 +14497,24 @@ profil · tes priorités · les analyses & questions que tu as cochées · ton s
         <div id="sopk-dossier" style={{position:"fixed",inset:0,zIndex:400,background:"#fff",overflowY:"auto"}}>
           <div className="sopk-noprint" style={{position:"sticky",top:0,background:C.cream,borderBottom:`1px solid ${C.border}`,padding:"12px 16px",display:"flex",alignItems:"center",justifyContent:"space-between",gap:10}}>
             <button onClick={()=>setDossierInner("")} style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:10,padding:"9px 14px",fontFamily:"inherit",fontSize:12,color:C.mid,cursor:"pointer"}}>← fermer</button>
-            <button onClick={()=>window.print()} style={{background:pc.p,color:"#fff",border:"none",borderRadius:10,padding:"9px 16px",fontFamily:"inherit",fontSize:12,fontWeight:700,cursor:"pointer"}}>Imprimer / Enregistrer en PDF</button>
+            <button onClick={()=>{
+              // ordinateur : on imprime une page à part qui ne contient que le dossier (rien ne peut le décaler)
+              // iPhone / iPad : impression de la page (seule la copie #sopk-print est visible à l'impression)
+              const mobileIOS = isIOS || (typeof navigator!=="undefined" && navigator.platform==="MacIntel" && navigator.maxTouchPoints>1);
+              if(!mobileIOS){ try{
+                const old=document.getElementById("sopk-print-frame"); if(old) old.remove();
+                const f=document.createElement("iframe"); f.id="sopk-print-frame"; f.setAttribute("aria-hidden","true");
+                f.style.cssText="position:fixed;right:0;bottom:0;width:0;height:0;border:0;";
+                document.body.appendChild(f);
+                const d=f.contentWindow.document; d.open();
+                d.write('<!doctype html><html lang="fr"><head><meta charset="utf-8"><title>Mon dossier SMOP</title><style>'+DOSSIER_PRINT_CSS+'</style></head><body><div class="sopk-doc">'+dossierInner+'</div></body></html>');
+                d.close();
+                setTimeout(()=>{ try{ f.contentWindow.focus(); f.contentWindow.print(); }catch(e){ window.print(); } },300);
+                return;
+              }catch(e){} }
+              try{ window.scrollTo(0,0); }catch(e){}
+              window.print();
+            }} style={{background:pc.p,color:"#fff",border:"none",borderRadius:10,padding:"9px 16px",fontFamily:"inherit",fontSize:12,fontWeight:700,cursor:"pointer"}}>Imprimer / Enregistrer en PDF</button>
           </div>
           <div className="sopk-noprint" style={{fontSize:10.5,color:C.light,padding:"10px 20px 0",lineHeight:1.5,maxWidth:720,margin:"0 auto"}}>sur téléphone : appuie sur « Imprimer », puis en bas choisis « Enregistrer au format PDF » ou « Partager ».</div>
           <div id="sopk-dossier-content" className="sopk-doc" style={{maxWidth:720,margin:"0 auto",padding:"18px 20px 40px"}} dangerouslySetInnerHTML={{__html:dossierInner}}/>
