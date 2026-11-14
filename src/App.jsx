@@ -5043,16 +5043,16 @@ const MISSIONS_365 = [
      mixte_ai:"réduire androgènes et inflammation lève des freins à ton ovulation."}},
 
   {emoji:"🔍",theme:"repérer ton ovulation",
-   mission:"commence aujourd'hui à observer les signes de ton ovulation : la glaire cervicale (comme du blanc d'œuf) est le plus simple.",
+   mission:"commence aujourd'hui à repérer ton ovulation : note chaque matin ta température au réveil dans Mon cycle, et observe ta glaire. la courbe te montrera la montée qui suit l'ovulation.",
    msg:"ton corps t'envoie des signaux quand tu ovules.\n\nencore faut-il savoir les lire.\n\naujourd'hui, on apprend à repérer ton ovulation, même avec un cycle irrégulier.",
    pourquoi:"plusieurs signes peuvent t'indiquer que tu approches de l'ovulation. le plus accessible : la glaire cervicale. à l'approche de l'ovulation, elle devient transparente, filante, élastique — comme du blanc d'œuf cru. c'est le signe que ton corps se prépare. d'autres indices : une légère hausse de la température au réveil APRÈS l'ovulation, parfois une petite douleur d'un côté du bas-ventre, une libido en hausse.\n\navec un SMOP et des cycles irréguliers, c'est précieux : au lieu de 'compter les jours' (qui ne marche pas si tes cycles varient), tu observes les signes réels de TON corps. ça te permet de savoir si et quand tu ovules — une information que même certains bilans ne donnent pas directement.",
    source:"les signes de fertilité (glaire cervicale, température) permettent d'identifier l'ovulation, utile en cas de cycles irréguliers (méthodes d'observation du cycle).",
-   comment:["observe ta glaire cervicale : transparente et filante = proche de l'ovulation","note ces observations dans ton suivi de cycle","éventuellement, prends ta température au réveil (elle monte après l'ovulation)","repère une éventuelle douleur d'un côté, ou une libido en hausse","avec un cycle irrégulier, les signes valent mieux que le calendrier"],
+   comment:["chaque matin, avant de te lever : prends ta température et note-la dans Mon cycle","observe ta glaire : transparente et filante = ovulation qui approche","note-la aussi dans « Mes signes du jour »","après une dizaine de jours, regarde ta courbe : une montée qui tient 3 jours = ovulation probable","avec un cycle irrégulier, les signes valent mieux que le calendrier"],
    pieges:["te fier au seul calendrier quand tes cycles sont irréguliers","confondre ovulation et milieu de cycle (pas toujours au jour 14)","te décourager si tu ne repères rien tout de suite : ça s'apprend"],
-   plus:"observer ta glaire est gratuit et te reconnecte à ton corps. note tes observations : avec le temps, même un cycle irrégulier révèle des schémas, et tu sauras reconnaître TES signes d'ovulation.",
+   plus:"avec un SMOP, la glaire et les tests d'ovulation peuvent donner plusieurs signaux sans ovulation. la température, elle, ne monte qu'après une vraie ovulation : c'est elle qui confirme. ta courbe dans Mon cycle repère la montée pour toi.",
    observes:["cette semaine : une première observation de tes signes","sur quelques cycles : une lecture plus fine de ton ovulation","sur la durée : savoir si et quand tu ovules"],
    victoire:"tu viens d'apprendre à lire les signes que ton corps t'envoie.",
-   outil:{emoji:"🌙",label:"Mon cycle",desc:"note tes signes d'ovulation",goTab:"cycle"},
+   outil:{emoji:"🌡️",label:"Ma courbe de cycle",desc:"température et signes du jour",goTab:"cycle"},
    accents:{
      metabolique:"repérer ton ovulation t'aide à voir si ton travail glycémie porte ses fruits sur le cycle.",
      androgenique:"observer tes signes révèle si tes androgènes gênent encore ton ovulation.",
@@ -10311,6 +10311,9 @@ export default function App() {
   const [poidsInput, setPoidsInput] = useState("");
   const [mesureInput, setMesureInput] = useState({});
   const [reglesInput, setReglesInput] = useState("");
+  const [cycleSignes, setCycleSignes] = useState(() => load("cycleSignes",{}));
+  const [reglesInfo, setReglesInfo] = useState(() => load("reglesInfo",{}));
+  const [tempInput, setTempInput] = useState("");
   const [vocauxOpen, setVocauxOpen] = useState(false);
   const inputRef = useRef(null);
 
@@ -10331,6 +10334,8 @@ export default function App() {
   useEffect(()=>{ save("checked",checked); },[checked]);
   useEffect(()=>{ save("energie",energie); },[energie]);
   useEffect(()=>{ save("regles",regles); },[regles]);
+  useEffect(()=>{ save("cycleSignes",cycleSignes); },[cycleSignes]);
+  useEffect(()=>{ save("reglesInfo",reglesInfo); },[reglesInfo]);
   useEffect(()=>{ save("victories",victories); },[victories]);
   useEffect(()=>{ save("notes",notes); },[notes]);
   useEffect(()=>{ save("todos",todos); },[todos]);
@@ -12846,6 +12851,27 @@ export default function App() {
               else { phase="Phase folliculaire"; phaseCol="#B8C5A0"; phaseNote="note une 2e période de règles et j'estimerai mieux tes phases."; }
             }
           }
+          // ── température & signes du cycle en cours
+          const noonKey=(s,off)=>{ const d=new Date(s+"T12:00:00"); d.setDate(d.getDate()+off); return d.toISOString().slice(0,10); };
+          const tempVals=((mesures.temp&&mesures.temp.vals)||[]);
+          const tempMap={}; tempVals.forEach(x=>{ if(typeof x.v==="number") tempMap[x.d]=x.v; });
+          const cyc = last ? Array.from({length:Math.min(cycleDay||1,90)},(_,i)=>{ const k=noonKey(last,i); return {k,day:i+1,t:(tempMap[k]!=null?tempMap[k]:null),s:cycleSignes[k]||{}}; }) : [];
+          const tPts=cyc.filter(x=>x.t!=null);
+          let shiftDay=null, coverline=null;
+          for(let i=6;i+2<tPts.length;i++){ const base=Math.max(...tPts.slice(i-6,i).map(p=>p.t)); if(tPts[i].t>=base+0.2&&tPts[i+1].t>base&&tPts[i+2].t>base){ shiftDay=tPts[i].day; coverline=base; break; } }
+          if(shiftDay && cycleDay>=shiftDay && phase!=="Règles en retard"){ phase="Phase lutéale"; phaseCol="#A89AB8"; phaseNote="ta température est montée vers le jour "+shiftDay+" : une ovulation a probablement eu lieu juste avant. tes règles arrivent en général 10 à 16 jours après la montée."; }
+          const PHASE_TIPS={
+            "Règles":"douceur et chaleur : bouillotte, repos sans culpabilité, aliments riches en fer (lentilles, sardines, épinards).",
+            "Phase folliculaire":"l'énergie remonte souvent : bon moment pour le renforcement et les nouveaux défis. observe ta glaire.",
+            "Fenêtre fertile estimée":"observe ta glaire et prends ta température chaque matin : c'est la combinaison des deux qui confirme une ovulation.",
+            "Phase lutéale":"protéines et magnésium à chaque repas, sommeil protégé : tu anticipes les fringales et le SPM.",
+            "Règles en retard":"pas de panique : un cycle qui s'allonge est fréquent avec un SMOP. continue de noter ta température, elle te dira si une montée arrive.",
+            "Cycle long":"un cycle long n'est pas un échec. ta température et ta glaire t'aideront à voir si une ovulation se prépare.",
+          };
+          const todaySig=cycleSignes[todayISO]||{};
+          const setSig=(k,v)=>setCycleSignes(p=>{ const cur={...(p[todayISO]||{})}; if(cur[k]===v) delete cur[k]; else cur[k]=v; const next={...p,[todayISO]:cur}; const keys=Object.keys(next).sort(); keys.slice(0,Math.max(0,keys.length-200)).forEach(k2=>delete next[k2]); return next; });
+          const lastInfo=(last&&reglesInfo[last])||{};
+          const setInfo=(k,v)=>{ if(!last) return; setReglesInfo(p=>({...p,[last]:{...(p[last]||{}),[k]:(p[last]&&p[last][k]===v)?undefined:v}})); };
           const longAbsence = !!(cycleDay && cycleDay>=90);
           const nextRange = (last&&gaps.length)? (()=>{ const f=(off)=>{const d=asDate(last);d.setDate(d.getDate()+off);return d.toLocaleDateString("fr-FR",{day:"numeric",month:"short"});}; return minG===maxG? f(minG) : `${f(minG)} – ${f(maxG)}`; })() : null;
           const tresIrregulier = (minG!=null && maxG-minG>20);
@@ -12875,6 +12901,81 @@ export default function App() {
               </div>
             )}
 
+            {/* conseil de la phase + Fertilitea */}
+            {cycleDay && PHASE_TIPS[phase] && (
+              <div style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:14,padding:"12px 14px",marginBottom:14}}>
+                <div style={{fontSize:9,letterSpacing:1,textTransform:"uppercase",color:pc.p,fontWeight:700,marginBottom:4}}>pour cette phase</div>
+                <div style={{fontSize:11.5,color:C.mid,lineHeight:1.55}}>{PHASE_TIPS[phase]}</div>
+                <a href={TISANE_LIENS["Fertilitea"]} target="_blank" rel="noopener" style={{display:"inline-block",marginTop:8,fontSize:10.5,fontWeight:600,color:pc.p}}>tu prépares un projet bébé ? le Pack Boost Fertilité accompagne chaque phase du cycle →</a>
+              </div>
+            )}
+
+            {/* ══ AUJOURD'HUI : température + signes ══ */}
+            <div style={{background:C.white,borderRadius:16,padding:"16px",marginBottom:14,border:`1px solid ${C.border}`}}>
+              <div style={{fontSize:11,letterSpacing:1,textTransform:"uppercase",color:pc.p,fontWeight:600,marginBottom:10}}>Mes signes du jour</div>
+              <div style={{fontSize:10,color:C.light,marginBottom:5}}>température au réveil, avant de te lever</div>
+              <div style={{display:"flex",gap:8,marginBottom:12}}>
+                <input value={tempInput} onChange={e=>setTempInput(e.target.value)} inputMode="decimal" placeholder={tempMap[todayISO]!=null?String(tempMap[todayISO])+" °C (noté)":"36.5 °C"} aria-label="température au réveil" style={{flex:1,minWidth:0,border:`1.5px solid ${C.border}`,borderRadius:11,padding:"10px 12px",fontFamily:"inherit",fontSize:14,color:C.brown,background:C.cream,outline:"none"}}/>
+                <button onClick={()=>{ const v=Math.round(parseFloat(String(tempInput).replace(",","."))*100)/100; if(isNaN(v)||v<34||v>40){ showToast("Valeur à vérifier","écris ta température, par exemple 36.5."); return; }
+                    setMesures(m=>{ const cur=m.temp||{actif:true,vals:[]}; const arr=(cur.vals||[]).filter(x=>x.d!==todayISO); return {...m,temp:{...cur,actif:true,vals:[...arr,{d:todayISO,v}]}}; });
+                    setTempInput(""); showToast("Température notée","ta courbe se construit, jour après jour."); }}
+                  style={{flexShrink:0,background:pc.p,border:"none",borderRadius:11,padding:"0 16px",color:"white",fontFamily:"inherit",fontSize:12,fontWeight:700,cursor:"pointer"}}>noter</button>
+              </div>
+              {[
+                {k:"glaire",l:"glaire",opts:[["seche","sèche"],["cremeuse","crémeuse"],["blanc","blanc d'œuf"]]},
+                {k:"lh",l:"test d'ovulation",opts:[["neg","négatif"],["pos","positif"]]},
+                {k:"autre",l:"autre",opts:[["spotting","petites pertes"],["pilule","saignement sous pilule"]]},
+              ].map(g=>(
+                <div key={g.k} style={{marginBottom:9}}>
+                  <div style={{fontSize:10,color:C.light,marginBottom:5}}>{g.l}</div>
+                  <div style={{display:"flex",gap:6,flexWrap:"wrap"}}>
+                    {g.opts.map(([v,l])=>{ const sel=todaySig[g.k]===v; return(
+                      <button key={v} onClick={()=>setSig(g.k,v)} aria-pressed={sel} style={{padding:"7px 11px",borderRadius:99,border:`1.5px solid ${sel?pc.p:C.border}`,background:sel?`${pc.p}18`:C.white,color:sel?pc.p:C.mid,fontFamily:"inherit",fontSize:11,fontWeight:600,cursor:"pointer"}}>{l}</button>); })}
+                  </div>
+                </div>
+              ))}
+              <div style={{fontSize:9.5,color:C.light,lineHeight:1.5,marginTop:4}}>avec un SMOP, la glaire et les tests peuvent donner plusieurs signaux sans ovulation. c'est la température, sur plusieurs jours, qui confirme.</div>
+            </div>
+
+            {/* ══ COURBE DU CYCLE ══ */}
+            {cycleDay && (()=>{
+              const N=Math.max(28,Math.min(cycleDay,90)); const W=300,H=90,x0=14,y0=10; const tMin=35.8,tMax=37.4;
+              const px=(d)=> x0+((d-1)/(N-1))*W; const py=(t)=> y0+(1-Math.max(0,Math.min(1,(t-tMin)/(tMax-tMin))))*H;
+              const line=tPts.map(p=>px(p.day).toFixed(1)+","+py(p.t).toFixed(1)).join(" ");
+              return(
+              <div style={{background:C.white,borderRadius:16,padding:"16px",marginBottom:14,border:`1px solid ${C.border}`}}>
+                <div style={{display:"flex",justifyContent:"space-between",alignItems:"baseline",gap:8,marginBottom:4}}>
+                  <div style={{fontSize:13,fontWeight:600,color:C.brown}}>Ta courbe de ce cycle</div>
+                  <div style={{fontSize:9.5,color:C.light}}>{tPts.length} température{tPts.length>1?"s":""}</div>
+                </div>
+                <svg viewBox="0 0 328 128" style={{width:"100%",height:"auto"}} role="img" aria-label="courbe de température du cycle">
+                  {[36,36.5,37].map(t=>(<g key={t}><line x1="14" x2="314" y1={py(t)} y2={py(t)} stroke={C.border} strokeWidth="0.5"/><text x="316" y={py(t)+3} fontSize="6.5" fill={C.light}>{t}</text></g>))}
+                  {coverline!=null&&<line x1="14" x2="314" y1={py(coverline)} y2={py(coverline)} stroke="#A89AB8" strokeWidth="0.8" strokeDasharray="3 3"/>}
+                  {shiftDay&&<line x1={px(shiftDay)} x2={px(shiftDay)} y1="8" y2="102" stroke="#D4A56A" strokeWidth="0.8" strokeDasharray="2 2"/>}
+                  {line&&<polyline points={line} fill="none" stroke={pc.p} strokeWidth="1.8" strokeLinejoin="round" strokeLinecap="round"/>}
+                  {tPts.map(p=>(<circle key={p.k} cx={px(p.day)} cy={py(p.t)} r="2.3" fill={pc.p}/>))}
+                  {cyc.map(x=>{ const s=x.s; const cx=px(x.day); return(<g key={"s"+x.k}>
+                    {x.day<=5&&<rect x={cx-2.5} y="108" width="5" height="5" rx="1.5" fill="#C98B86"/>}
+                    {s.glaire==="blanc"&&<circle cx={cx} cy="118" r="2.4" fill="#5B7FA6"/>}
+                    {s.lh==="pos"&&<rect x={cx-2.2} y="122" width="4.4" height="4.4" transform={"rotate(45 "+cx+" 124.2)"} fill="#D4A56A"/>}
+                    {(s.autre==="spotting"||s.autre==="pilule")&&<circle cx={cx} cy="110.5" r="1.6" fill="#B07D4F"/>}
+                  </g>); })}
+                  <line x1={px(cycleDay)} x2={px(cycleDay)} y1="8" y2="104" stroke={C.brown} strokeWidth="0.6" opacity="0.4"/>
+                </svg>
+                <div style={{display:"flex",flexWrap:"wrap",gap:"4px 12px",fontSize:9,color:C.light,marginTop:4}}>
+                  <span><span style={{display:"inline-block",width:7,height:7,borderRadius:2,background:"#C98B86",marginRight:4}}/>règles</span>
+                  <span><span style={{display:"inline-block",width:7,height:7,borderRadius:"50%",background:"#5B7FA6",marginRight:4}}/>glaire blanc d'œuf</span>
+                  <span><span style={{display:"inline-block",width:7,height:7,background:"#D4A56A",transform:"rotate(45deg)",marginRight:4}}/>test positif</span>
+                  <span><span style={{display:"inline-block",width:12,borderTop:"1px dashed #D4A56A",marginRight:4,verticalAlign:"middle"}}/>montée</span>
+                </div>
+                <div style={{fontSize:10.5,color:C.mid,lineHeight:1.55,marginTop:8}}>
+                  {shiftDay ? "montée repérée vers le jour "+shiftDay+" : ta température reste au-dessus de la ligne pointillée. c'est le signe qu'une ovulation a probablement eu lieu."
+                    : tPts.length<9 ? "note ta température chaque matin : il faut une dizaine de jours pour voir apparaître une éventuelle montée."
+                    : "pas encore de montée nette. c'est fréquent avec un SMOP, surtout sur un cycle long : continue, la courbe te le dira."}
+                </div>
+              </div>);
+            })()}
+
             {dates.length>0 && (
               <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10,marginBottom:14}}>
                 <div style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:12,padding:"11px 13px"}}><div style={{fontSize:9,letterSpacing:.5,textTransform:"uppercase",color:C.light}}>Cycles enregistrés</div><div style={{fontSize:17,fontWeight:600,color:C.brown}}>{gaps.length}</div></div>
@@ -12895,6 +12996,22 @@ export default function App() {
                 <input type="date" value={reglesInput} max={todayISO} onChange={e=>setReglesInput(e.target.value)} style={{flex:1,border:`1.5px solid ${C.border}`,borderRadius:11,padding:"10px 12px",fontFamily:"inherit",fontSize:13,color:C.brown,background:C.cream,outline:"none"}}/>
                 <button onClick={()=>{ if(reglesInput){ setRegles(r=> r.includes(reglesInput)?r:[reglesInput,...r].slice(0,36)); setReglesInput(""); showToast("règles notées 📅"); } }} style={{background:C.bubble,border:`1px solid ${C.border}`,borderRadius:11,padding:"0 16px",color:C.brown,fontFamily:"inherit",fontSize:12,fontWeight:600,cursor:"pointer"}}>ajouter</button>
               </div>
+              {last && (
+                <div style={{marginTop:14,paddingTop:12,borderTop:`1px solid ${C.border}`}}>
+                  <div style={{fontSize:11,fontWeight:700,color:C.brown,marginBottom:8}}>tes dernières règles ({fmtD(last)})</div>
+                  <div style={{fontSize:10,color:C.light,marginBottom:5}}>flux</div>
+                  <div style={{display:"flex",gap:6,flexWrap:"wrap",marginBottom:10}}>
+                    {[["leger","léger"],["moyen","moyen"],["abondant","abondant"],["tres","très abondant"]].map(([v,l])=>{ const sel=lastInfo.flux===v; return(
+                      <button key={v} onClick={()=>setInfo("flux",v)} aria-pressed={sel} style={{padding:"7px 11px",borderRadius:99,border:`1.5px solid ${sel?"#C98B86":C.border}`,background:sel?"#C98B8622":C.white,color:sel?"#A0605B":C.mid,fontFamily:"inherit",fontSize:11,fontWeight:600,cursor:"pointer"}}>{l}</button>); })}
+                  </div>
+                  <div style={{fontSize:10,color:C.light,marginBottom:5}}>douleur (0 = aucune, 10 = insupportable)</div>
+                  <div style={{display:"flex",gap:3,flexWrap:"wrap"}}>
+                    {[0,1,2,3,4,5,6,7,8,9,10].map(n=>{ const sel=lastInfo.douleur===n; const col=n<=3?"#8DA86A":n<=6?"#D9A066":"#C0603F"; return(
+                      <button key={n} onClick={()=>setInfo("douleur",n)} aria-pressed={sel} aria-label={"douleur "+n+" sur 10"} style={{width:26,height:26,borderRadius:7,border:`1px solid ${sel?col:C.border}`,background:sel?col:C.white,color:sel?"white":C.mid,fontSize:11,fontWeight:600,cursor:"pointer",fontFamily:"inherit",padding:0}}>{n}</button>); })}
+                  </div>
+                  {(lastInfo.flux==="tres"||(typeof lastInfo.douleur==="number"&&lastInfo.douleur>=8))&&<div style={{fontSize:10.5,color:"#8A4430",background:"#FDF0E8",borderRadius:9,padding:"8px 10px",marginTop:10,lineHeight:1.5}}>si c'est souvent comme ça, ce n'est pas à banaliser : une douleur qui empêche de vivre ou des règles très abondantes méritent d'être prises au sérieux.</div>}
+                </div>
+              )}
             </div>
 
             {dates.length>0 && (
@@ -12902,7 +13019,7 @@ export default function App() {
                 <div style={{fontSize:11,letterSpacing:1,textTransform:"uppercase",color:C.light,marginBottom:10}}>Historique</div>
                 {[...dates].reverse().map((d,i,arr)=>{ const nextD=arr[i-1]; const len=nextD?dayDiff(d,nextD):null; return (
                   <div key={d} style={{display:"flex",alignItems:"center",justifyContent:"space-between",padding:"7px 0",borderBottom:i<arr.length-1?`1px solid ${C.border}`:"none"}}>
-                    <span style={{fontSize:12,color:C.brown}}>{fmtD(d)}{len!=null?<span style={{color:C.light,fontSize:10.5}}> · cycle de {len} j</span>:<span style={{color:C.light,fontSize:10.5}}> · en cours</span>}</span>
+                    <span style={{fontSize:12,color:C.brown}}>{fmtD(d)}{len!=null?<span style={{color:C.light,fontSize:10.5}}> · cycle de {len} j</span>:<span style={{color:C.light,fontSize:10.5}}> · en cours</span>}{(()=>{ const inf=reglesInfo[d]||{}; const fl={leger:"léger",moyen:"moyen",abondant:"abondant",tres:"très abondant"}[inf.flux]; const parts=[fl?"flux "+fl:null, typeof inf.douleur==="number"?"douleur "+inf.douleur+"/10":null].filter(Boolean); return parts.length?<span style={{color:C.light,fontSize:10.5}}> · {parts.join(" · ")}</span>:null; })()}</span>
                     <button onClick={()=>setRegles(r=>r.filter(x=>x!==d))} style={{background:"none",border:"none",color:C.light,fontSize:13,cursor:"pointer",fontFamily:"inherit",padding:"0 4px"}}>✕</button>
                   </div>
                 ); })}
