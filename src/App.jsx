@@ -3163,6 +3163,16 @@ const PERTURBATEURS = [
 ];
 
 // ── RESSOURCES : rangées en familles (navigation à 2 niveaux) ───────────────
+// ─── LES MOIS DU PARCOURS (pour se repérer et revenir à n'importe quel jour) ───
+const MOIS_PARCOURS = [
+  {n:1,label:"Fondation",a:1,b:30},{n:2,label:"Glycémie",a:31,b:60},{n:3,label:"Inflammation",a:61,b:89},
+  {n:4,label:"Stress",a:90,b:119},{n:5,label:"Cycle",a:120,b:149},{n:6,label:"Peau & cheveux",a:150,b:179},
+  {n:7,label:"Signes cachés",a:180,b:208},{n:8,label:"Mouvement",a:209,b:237},{n:9,label:"Foie",a:238,b:259},
+  {n:10,label:"Suivi médical",a:260,b:294},{n:11,label:"Cycle & fertilité",a:295,b:329},{n:12,label:"Autonomie",a:330,b:365},
+];
+const moisDuJour = (d)=>{ const n=((d-1)%365)+1; const an=1+Math.floor((d-1)/365); const m=MOIS_PARCOURS.find(x=>n>=x.a&&n<=x.b)||MOIS_PARCOURS[0]; return {an,n,m}; };
+const libelleJour = (d)=>{ const {an,m}=moisDuJour(d); if(an>1) return "année "+an+" · entretien · mois "+m.n; return m.n===1?"Fondation":"mois "+m.n+" · "+m.label.toLowerCase(); };
+
 // ─── PARCOURS 365 — TRONC COMMUN (jours 31+) ───
 // Mois 2 : apprivoiser ta glycémie en profondeur. Rotation des piliers, accent injecté par profil.
 const MISSIONS_365 = [
@@ -9865,11 +9875,11 @@ const MISSIONS_365 = [
      mixte_ai:"une intention peau, une énergie, une pour toi : un bel équilibre."}},
 
   {emoji:"🏡",theme:"ce qui t'attend après le jour 365",
-   mission:"découvre ce qui continue après ton parcours : tes rituels au long cours, ton suivi, tes ressources. choisis comment tu veux utiliser ton espace l'année prochaine.",
+   mission:"découvre ce qui continue après ton parcours : ton année d'entretien, ton suivi, tes ressources. choisis comment tu veux utiliser ton espace l'année prochaine.",
    msg:"dans deux jours, tu atteins le jour 365.\n\nmais ton espace ne s'arrête pas.\n\naujourd'hui, on regarde ce qui continue.",
-   pourquoi:"après le jour 365, ton espace continue de t'accompagner, autrement. tu y retrouveras des rituels au long cours : des gestes simples qui reviennent régulièrement pour entretenir ce que tu as construit (la marche après le repas, ton magnésium, ta lumière du matin, ton rituel du soir…). ton suivi, ton cycle, tes tendances, ton dossier médecin et toutes les ressources restent là.\n\ntu peux choisir comment tu veux l'utiliser : tous les jours comme un repère, quelques fois par semaine pour garder le fil, ou surtout dans les moments où tu as besoin de reprendre. il n'y a pas de bonne façon. l'important, c'est que tu saches que tu n'as plus besoin d'être guidée pas à pas : tu as ton protocole, tes repères, et un espace qui reste à tes côtés.",
+   pourquoi:"après le jour 365, ton espace continue de t'accompagner, autrement. ta deuxième année est une année d'entretien : chaque jour, un repère de ta première année revient en version courte, avec un petit geste pour entretenir ce que tu as construit (la marche après le repas, ton magnésium, ta lumière du matin, ton rituel du soir…). et tu peux revenir quand tu veux sur n'importe quel jour de ton parcours, en touchant « Jour » au-dessus de ta mission. ton suivi, ton cycle, tes tendances, ton dossier médecin et toutes les ressources restent là.\n\ntu peux choisir comment tu veux l'utiliser : tous les jours comme un repère, quelques fois par semaine pour garder le fil, ou surtout dans les moments où tu as besoin de reprendre. il n'y a pas de bonne façon. l'important, c'est que tu saches que tu n'as plus besoin d'être guidée pas à pas : tu as ton protocole, tes repères, et un espace qui reste à tes côtés.",
    source:"le maintien des comportements de santé à long terme est facilité par des rappels réguliers et un soutien continu de faible intensité (recherches sur le maintien après les programmes d'accompagnement).",
-   comment:["après le jour 365 : des rituels au long cours","ton suivi, ton cycle et tes tendances restent là","ton dossier médecin et tes ressources aussi","choisis ton rythme d'utilisation","rappelle-toi : tu as ton protocole, tu n'es plus guidée pas à pas"],
+   comment:["après le jour 365 : une année d'entretien, un repère par jour","ton suivi, ton cycle et tes tendances restent là","ton dossier médecin et tes ressources aussi","choisis ton rythme d'utilisation","rappelle-toi : tu as ton protocole, tu n'es plus guidée pas à pas"],
    pieges:["croire que tout s'arrête au jour 365","penser que tu dois continuer au même rythme qu'avant","culpabiliser si tu l'utilises moins"],
    plus:"tes rappels tisanes et ton rappel du matin continuent aussi : tu peux les ajuster ou les désactiver dans Mon compte quand tu veux.",
    observes:["aujourd'hui : la suite découverte","à retenir : ton espace continue, autrement","sur la durée : un accompagnement qui s'adapte à toi"],
@@ -9907,9 +9917,9 @@ const MISSIONS_365 = [
   {emoji:"🌟",theme:"jour 365 — ce n'est pas une fin",
    mission:"aujourd'hui, célèbre-toi. fais une chose qui te fait vraiment plaisir, rien que pour toi. puis écris en une phrase qui tu es devenue cette année.",
    msg:"365 jours.\n\ntu l'as fait.\n\net ce n'est pas une fin. c'est le début de toi, autonome.",
-   pourquoi:"il y a un an, tu as commencé ce parcours. peut-être perdue, peut-être fatiguée, peut-être avec un diagnostic qu'on t'avait lancé sans explication. depuis, tu as appris à comprendre ta glycémie, ta SHBG, ton inflammation, ton stress, ta peau, tes signes cachés, ton mouvement, ton foie, ton suivi médical, ton cycle, et surtout, ta relation à toi-même. tu as construit un protocole qui t'appartient, et une façon de te parler plus douce.\n\nce n'est pas une fin : ton SMOP continue, ta vie aussi, et ton espace reste à tes côtés avec ses rituels au long cours. mais aujourd'hui, tu n'es plus la même. tu n'es plus une femme qui subit son SMOP : tu es une femme qui le comprend et qui sait en prendre soin. célèbre-toi. tu le mérites, vraiment. je suis fière de toi, Cyster.",
+   pourquoi:"il y a un an, tu as commencé ce parcours. peut-être perdue, peut-être fatiguée, peut-être avec un diagnostic qu'on t'avait lancé sans explication. depuis, tu as appris à comprendre ta glycémie, ta SHBG, ton inflammation, ton stress, ta peau, tes signes cachés, ton mouvement, ton foie, ton suivi médical, ton cycle, et surtout, ta relation à toi-même. tu as construit un protocole qui t'appartient, et une façon de te parler plus douce.\n\nce n'est pas une fin : ton SMOP continue, ta vie aussi, et ton espace reste à tes côtés avec ton année d'entretien. mais aujourd'hui, tu n'es plus la même. tu n'es plus une femme qui subit son SMOP : tu es une femme qui le comprend et qui sait en prendre soin. célèbre-toi. tu le mérites, vraiment. je suis fière de toi, Cyster.",
    source:"célébrer les étapes franchies renforce la motivation et le sentiment d'accomplissement (recherches sur la motivation et le renforcement positif).",
-   comment:["fais une chose qui te fait vraiment plaisir aujourd'hui","écris en une phrase qui tu es devenue","relis ta victoire du jour 30 si tu t'en souviens","partage ta joie avec quelqu'un, ou garde-la pour toi","demain, tes rituels au long cours prennent le relais"],
+   comment:["fais une chose qui te fait vraiment plaisir aujourd'hui","écris en une phrase qui tu es devenue","relis ta victoire du jour 30 si tu t'en souviens","partage ta joie avec quelqu'un, ou garde-la pour toi","demain, ton année d'entretien prend le relais"],
    pieges:["minimiser ce que tu as accompli","penser que c'est fini (ce n'est pas une fin)","passer cette journée sans te célébrer"],
    plus:"si tu veux, partage ton jour 365 dans la communauté des Cysters. celles qui commencent ont besoin de voir que c'est possible.",
    observes:["aujourd'hui : 365 jours accomplis","à retenir : tu comprends ton SMOP et tu sais en prendre soin","sur la durée : ton autonomie commence","parcours de l'année bouclé"],
@@ -10029,6 +10039,10 @@ export default function App() {
   const [profil, setProfil] = useState(() => load("profil","metabolique"));
   const [tab, setTab] = useState("kamila");
   const [day, setDay] = useState(() => load("day",1));
+  const [vueJour, setVueJour] = useState(null); // jour consulté (null = ton jour du parcours) : revenir sur un jour sans perdre ta progression
+  const [jourPicker, setJourPicker] = useState(false);
+  const [jourPickerMois, setJourPickerMois] = useState(null);
+  const voirJour = (d)=>{ const v=Math.max(1,Math.min(1095,d)); setVueJour(v===day?null:v); };
   const [fatigueOpen, setFatigueOpen] = useState(false);
   const [fatigueStep, setFatigueStep] = useState(0);
   const [checked, setChecked] = useState(() => load("checked",{}));
@@ -10055,7 +10069,7 @@ export default function App() {
   const [toast, setToast] = useState(null);
   const [mindsetOpen, setMindsetOpen] = useState(null);
   const [missionOpen, setMissionOpen] = useState(false); // détail de la mission replié par défaut
-  useEffect(()=>{ setMindsetOpen(null); setMissionOpen(false); }, [day]); // se réinitialise quand on change de jour
+  useEffect(()=>{ setMindsetOpen(null); setMissionOpen(false); }, [day, vueJour]); // se réinitialise quand on change de jour
   const prevDayRef = useRef(day);
   useEffect(()=>{ if(prevDayRef.current!==day){ setEnergie(null); prevDayRef.current=day; } }, [day]); // l'énergie se vide quand on change de jour (gardée au rechargement du même jour)
 
@@ -10238,7 +10252,7 @@ export default function App() {
       save("dayDate",today);
       if(load("screen","name")!=="app" || load("onboardingDone","no")==="no") return;
       const n=(parseInt(load("day",1),10)||1)+1;
-      setDay(n); setDayOffset(0);
+      setDay(n); setDayOffset(0); setVueJour(null);
       showToast("Jour "+n,"ta nouvelle mission t'attend, à ton rythme.");
     }catch(e){} };
     avance();
@@ -10330,7 +10344,7 @@ export default function App() {
   useEffect(()=>{ save("prenom",prenom); },[prenom]);
   useEffect(()=>{ save("profil",profil); },[profil]);
   useEffect(()=>{ save("day",day); },[day]);
-  useEffect(()=>{ window.scrollTo({top:0,behavior:"smooth"}); }, [day, tab]);
+  useEffect(()=>{ window.scrollTo({top:0,behavior:"smooth"}); }, [day, vueJour, tab]);
   useEffect(()=>{ save("checked",checked); },[checked]);
   useEffect(()=>{ save("energie",energie); },[energie]);
   useEffect(()=>{ save("regles",regles); },[regles]);
@@ -10374,25 +10388,42 @@ export default function App() {
   const week = Math.ceil(day/7);
   const weekWins = victories[journalWeek]||[];
   const activeMissions = MISSIONS_BY_PROFILE[profil] || MISSIONS_META;
-  const todayData = (()=>{
-    if(day<=30){
-      const base = activeMissions[day-1] || MISSIONS_META[day-1] || MISSIONS_META[0];
+  const missionPour = (d)=>{
+    if(d<=30){
+      const base = activeMissions[d-1] || MISSIONS_META[d-1] || MISSIONS_META[0];
       // J14 : la mission compare les scores → on redirige vers la Vue d'ensemble
-      if(day===14) return {...base, outil:{emoji:"📊",label:"Ouvre ta vue d'ensemble",desc:"compare ta progression au Jour 1",goTab:"apercu"}};
+      if(d===14) return {...base, outil:{emoji:"📊",label:"Ouvre ta vue d'ensemble",desc:"compare ta progression au Jour 1",goTab:"apercu"}};
       // J15 : préparer le rendez-vous → onglet Santé (anciennement « Médecin »)
-      if(day===15) return {...base, outil:{emoji:"🩺",label:"Ton espace Santé",desc:"prépare ton rendez-vous et tes analyses",goTab:"medecin"}};
+      if(d===15) return {...base, outil:{emoji:"🩺",label:"Ton espace Santé",desc:"prépare ton rendez-vous et tes analyses",goTab:"medecin"}};
       // J30 : bilan du mois → Vue d'ensemble (ce n'est pas une fin, c'est une base de départ)
-      if(day===30) return {...base, outil:{emoji:"📊",label:"Ouvre ta vue d'ensemble",desc:"regarde tes 30 jours de chemin",goTab:"apercu"}};
+      if(d===30) return {...base, outil:{emoji:"📊",label:"Ouvre ta vue d'ensemble",desc:"regarde tes 30 jours de chemin",goTab:"apercu"}};
       return base;
     }
-    const idx365 = day-31;
-    if(idx365 < MISSIONS_365.length){
-      const m = MISSIONS_365[idx365];
+    if(d<=365){
+      const m = MISSIONS_365[d-31] || MISSIONS_365[MISSIONS_365.length-1];
       const acc = m.accents ? (m.accents[profil] || m.accents.metabolique || null) : null;
-      return {...m, day, _accent:acc};
+      return {...m, day:d, _accent:acc};
     }
-    return {...RITUELS[((day-31-MISSIONS_365.length)%RITUELS.length)], day};
-  })();
+    // ── ANNÉE 2 et suivantes : l'entretien. chaque jour, un repère de la première année revient en version courte,
+    //    avec un geste d'entretien (rituel). le parcours ne s'arrête jamais.
+    const an = 2+Math.floor((d-366)/365); const n = ((d-366)%365)+1;
+    const rit = RITUELS[(d-366)%RITUELS.length];
+    if(n===365) return {emoji:"🌟",theme:"année "+an+" · un an de plus à prendre soin de toi",
+      mission:"aujourd'hui, regarde ton année : écris trois gestes que tu fais désormais sans y penser, et un point que tu veux remettre au centre l'année qui vient.",
+      msg:"une année de plus.\n\nles gestes que tu répétais au début sont devenus les tiens.\n\naujourd'hui, on le remarque.",
+      pourquoi:"cette année, tu n'as pas tout réappris : tu as entretenu. chaque jour, un repère revenait, et petit à petit, ce qui demandait un effort est devenu une habitude. c'est exactement ce qu'on cherche avec un SMOP : pas une performance, une façon de vivre qui te soutient sans t'épuiser.\n\nnoter ce qui est devenu automatique t'aide à voir le chemin. choisir un seul point à remettre au centre t'évite de vouloir tout changer d'un coup. demain, un nouveau tour commence, avec les mêmes repères et une Cyster qui les connaît encore mieux.",
+      comment:["écris trois gestes devenus automatiques","choisis un seul point à remettre au centre","regarde ta vue d'ensemble de l'année","célèbre-toi, à ta façon"],
+      victoire:"une année de plus à prendre soin de toi. bravo, Cyster.",
+      outil:{emoji:"📊",label:"Ma vue d'ensemble",desc:"ton année en un coup d'œil",goTab:"apercu"}, day:d, entretien:true};
+    if(n===363||n===364) return {...rit, theme:"année "+an+" · "+rit.theme, day:d, entretien:true};
+    const src = missionPour(n);
+    return {emoji:src.emoji, theme:"année "+an+" · "+src.theme, mission:src.mission,
+      msg:"année "+an+", on entretient.\n\naujourd'hui, un repère de ta première année revient, en version courte. tu le connais déjà : on le fait vivre à nouveau.",
+      pourquoi:src.pourquoi||src.biologie, source:src.source, _accent:src._accent, comment:src.comment,
+      plus:"ton geste d'entretien du jour : "+rit.mission, victoire:src.victoire, outil:src.outil, day:d, entretien:true};
+  };
+  const jourAff = vueJour!=null ? vueJour : day; // le jour affiché (consulté) ; « day » reste ta progression
+  const todayData = missionPour(jourAff);
   const todayKey = new Date().toISOString().slice(0,10);
   const jToday = journal[todayKey] || {};
   const todayLabel = new Date().toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long"});
@@ -11349,33 +11380,81 @@ export default function App() {
             })()}
 
             {/* ══ 2. TON ACTION DU JOUR (la mission) ══ */}
-            {/* ══ Ton avancée (jours) — juste au-dessus de la mission ══ */}
+            {/* ══ Ton avancée (jours) + revenir à n'importe quel jour ══ */}
             <div style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:12,padding:"11px 13px",marginBottom:10}}>
-              <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:8}}>
-                <div style={{fontSize:11.5,fontWeight:700,color:C.brown}}>Jour {day} <span style={{color:C.light,fontWeight:500,fontSize:10}}>· {day<=30?"Fondation":"au long cours"}</span></div>
-                <div style={{fontSize:9.5,color:C.light}}>{Object.values(checked).filter(Boolean).length} missions accomplies</div>
+              <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",gap:8,marginBottom:8}}>
+                <button onClick={()=>{ const md=moisDuJour(jourAff); setJourPickerMois(md.an*100+md.m.n); setJourPicker(o=>!o); }} aria-expanded={jourPicker}
+                  style={{background:"none",border:"none",padding:0,cursor:"pointer",fontFamily:"inherit",textAlign:"left",minWidth:0}}>
+                  <span style={{fontSize:11.5,fontWeight:700,color:C.brown}}>Jour {jourAff} </span>
+                  <span style={{color:C.light,fontWeight:500,fontSize:10}}>· {libelleJour(jourAff)} </span>
+                  <span style={{color:pc.p,fontSize:10,fontWeight:700,whiteSpace:"nowrap"}}>{jourPicker?"fermer":"choisir un jour"}</span>
+                </button>
+                <div style={{fontSize:9.5,color:C.light,flexShrink:0}}>{completedCount} mission{completedCount>1?"s":""} accomplie{completedCount>1?"s":""}</div>
               </div>
               <div style={{height:6,background:C.bubble,borderRadius:99,marginBottom:11,overflow:"hidden"}}>
-                <div style={{height:"100%",width:`${Math.min(100,(Object.values(checked).filter(Boolean).length/30)*100)}%`,background:`linear-gradient(90deg,${pc.p},${pc.p}CC)`,borderRadius:99,transition:"width 0.4s"}}/>
+                <div style={{height:"100%",width:`${day<=30?Math.min(100,(completedCount/30)*100):((((day-1)%365)+1)/365)*100}%`,background:`linear-gradient(90deg,${pc.p},${pc.p}CC)`,borderRadius:99,transition:"width 0.4s"}}/>
               </div>
+              {vueJour!=null&&(
+                <div style={{background:`${pc.p}10`,borderRadius:9,padding:"8px 10px",marginBottom:10,fontSize:10.5,color:C.mid,lineHeight:1.5}}>
+                  tu regardes le jour {vueJour}. ton parcours, lui, reste au jour {day}.
+                  <div style={{display:"flex",gap:8,flexWrap:"wrap",marginTop:6}}>
+                    <button onClick={()=>setVueJour(null)} style={{background:pc.p,border:"none",borderRadius:99,padding:"6px 12px",color:"white",fontFamily:"inherit",fontSize:10.5,fontWeight:700,cursor:"pointer"}}>revenir à mon jour {day}</button>
+                    <button onClick={()=>{ if(window.confirm("Reprendre ton parcours au jour "+vueJour+" ? les jours suivants avanceront à partir d'ici.")){ setDay(vueJour); setVueJour(null); } }} style={{background:"none",border:`1px solid ${pc.p}`,borderRadius:99,padding:"6px 12px",color:pc.p,fontFamily:"inherit",fontSize:10.5,fontWeight:600,cursor:"pointer"}}>reprendre mon parcours ici</button>
+                  </div>
+                </div>
+              )}
               <div style={{display:"flex",alignItems:"center",justifyContent:"center",gap:6}}>
-                <button onClick={()=>setDay(d=>Math.max(1,d-1))} disabled={day<=1}
-                  style={{flexShrink:0,width:28,height:28,borderRadius:"50%",border:`1.5px solid ${C.border}`,background:C.cream,color:day<=1?C.border:pc.p,fontSize:14,cursor:day<=1?"default":"pointer",fontFamily:"inherit",display:"flex",alignItems:"center",justifyContent:"center"}}>{"‹"}</button>
+                <button onClick={()=>voirJour(jourAff-1)} disabled={jourAff<=1} aria-label="jour précédent"
+                  style={{flexShrink:0,width:28,height:28,borderRadius:"50%",border:`1.5px solid ${C.border}`,background:C.cream,color:jourAff<=1?C.border:pc.p,fontSize:14,cursor:jourAff<=1?"default":"pointer",fontFamily:"inherit",display:"flex",alignItems:"center",justifyContent:"center"}}>{"‹"}</button>
                 <div style={{display:"flex",gap:5,overflowX:"auto",paddingBottom:2,maxWidth:"100%"}}>
-                  {Array.from({length:Math.max(30,day+5)},(_,i)=>i+1).slice(Math.max(0,day-4),day+5).map(d=>(
-                    <button key={d} onClick={()=>setDay(d)}
-                      style={{flexShrink:0,width:30,height:30,borderRadius:"50%",border:`2px solid ${d===day?pc.p:checked[d]?pc.p:C.border}`,background:d===day?pc.p:checked[d]?`${pc.p}20`:C.white,color:d===day?"white":C.brown,fontSize:10,fontWeight:500,cursor:"pointer",fontFamily:"inherit"}}>
-                      {checked[d]&&d!==day?"✓":d}
+                  {Array.from({length:9},(_,i)=>Math.max(1,jourAff-4)+i).map(d=>(
+                    <button key={d} onClick={()=>voirJour(d)} aria-label={"jour "+d}
+                      style={{flexShrink:0,width:30,height:30,borderRadius:"50%",border:`2px ${d===day&&d!==jourAff?"dashed":"solid"} ${d===jourAff||checked[d]||d===day?pc.p:C.border}`,background:d===jourAff?pc.p:checked[d]?`${pc.p}20`:C.white,color:d===jourAff?"white":C.brown,fontSize:d>99?8.5:10,fontWeight:500,cursor:"pointer",fontFamily:"inherit",padding:0}}>
+                      {checked[d]&&d!==jourAff?"✓":d}
                     </button>
                   ))}
                 </div>
-                <button onClick={()=>setDay(d=>Math.min(400,d+1))} disabled={day>=400}
-                  style={{flexShrink:0,width:28,height:28,borderRadius:"50%",border:`1.5px solid ${day>=400?C.border:pc.p}`,background:day>=400?C.white:pc.p,color:day>=400?C.border:"white",fontSize:14,cursor:day>=400?"default":"pointer",fontFamily:"inherit",display:"flex",alignItems:"center",justifyContent:"center"}}>{"›"}</button>
+                <button onClick={()=>voirJour(jourAff+1)} disabled={jourAff>=1095} aria-label="jour suivant"
+                  style={{flexShrink:0,width:28,height:28,borderRadius:"50%",border:`1.5px solid ${pc.p}`,background:pc.p,color:"white",fontSize:14,cursor:"pointer",fontFamily:"inherit",display:"flex",alignItems:"center",justifyContent:"center"}}>{"›"}</button>
               </div>
+              {jourPicker&&(()=>{
+                const sel=jourPickerMois||101; const an=Math.floor(sel/100); const mn=sel%100;
+                const anMax=Math.max(moisDuJour(day).an, moisDuJour(jourAff).an);
+                const mSel=MOIS_PARCOURS.find(x=>x.n===mn)||MOIS_PARCOURS[0];
+                const off=(an-1)*365;
+                const jours=Array.from({length:mSel.b-mSel.a+1},(_,k)=>off+mSel.a+k);
+                const chip=(on)=>({padding:"6px 10px",borderRadius:99,border:`1.5px solid ${on?pc.p:C.border}`,background:on?`${pc.p}18`:C.white,color:on?pc.p:C.mid,fontFamily:"inherit",fontSize:10.5,fontWeight:600,cursor:"pointer"});
+                return(
+                <div style={{marginTop:12,paddingTop:12,borderTop:`1px solid ${C.border}`}}>
+                  <div style={{fontSize:10.5,color:C.mid,marginBottom:8,lineHeight:1.5}}>choisis un mois, puis le jour que tu veux revoir. ta progression ne bouge pas.</div>
+                  {anMax>1&&(
+                    <div style={{display:"flex",gap:6,flexWrap:"wrap",marginBottom:8}}>
+                      {Array.from({length:anMax},(_,k)=>k+1).map(a=>(
+                        <button key={a} onClick={()=>setJourPickerMois(a*100+mn)} aria-pressed={a===an} style={chip(a===an)}>année {a}</button>
+                      ))}
+                    </div>
+                  )}
+                  <div style={{display:"flex",gap:6,flexWrap:"wrap",marginBottom:10}}>
+                    {MOIS_PARCOURS.map(x=>(
+                      <button key={x.n} onClick={()=>setJourPickerMois(an*100+x.n)} aria-pressed={x.n===mn} style={chip(x.n===mn)}>{x.n===1?"Fondation":x.n+" · "+x.label}</button>
+                    ))}
+                  </div>
+                  <div style={{maxHeight:300,overflowY:"auto"}}>
+                    {jours.map(d=>{ const m=missionPour(d); const cur=d===jourAff; return(
+                      <button key={d} onClick={()=>{ voirJour(d); setJourPicker(false); }}
+                        style={{width:"100%",textAlign:"left",display:"flex",alignItems:"center",gap:9,background:cur?`${pc.p}12`:"none",border:"none",borderBottom:`1px solid ${C.border}`,padding:"8px 4px",cursor:"pointer",fontFamily:"inherit"}}>
+                        <span style={{flexShrink:0,width:36,fontSize:10,fontWeight:700,color:d===day?pc.p:C.light}}>J{d}</span>
+                        <span style={{flex:1,fontSize:11.5,color:C.brown,lineHeight:1.35}}>{String(m.theme||"").replace(/^année \d+ · /,"")}</span>
+                        {checked[d]&&<span style={{color:pc.p,fontSize:11,fontWeight:700}}>✓</span>}
+                        {d===day&&<span style={{fontSize:8.5,color:pc.p,fontWeight:700,textTransform:"uppercase",letterSpacing:0.5}}>ton jour</span>}
+                      </button>); })}
+                  </div>
+                </div>);
+              })()}
             </div>
 
             {/* Mission — hero action du jour */}
-            <div style={{background:C.white,borderRadius:20,padding:"1.3rem",marginBottom:12,border:`1.5px solid ${checked[day]?pc.p:C.border}`,transition:"border-color 0.3s",boxShadow:`0 8px 24px ${pc.p}14`}}>
+            <div style={{background:C.white,borderRadius:20,padding:"1.3rem",marginBottom:12,border:`1.5px solid ${checked[jourAff]?pc.p:C.border}`,transition:"border-color 0.3s",boxShadow:`0 8px 24px ${pc.p}14`}}>
               <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:12}}>
                 <div style={{flex:1,paddingRight:10}}>
                   <div style={{fontSize:9,letterSpacing:2,textTransform:"uppercase",color:pc.p,fontWeight:700,marginBottom:9,display:"flex",alignItems:"center",gap:6}}><Icon name="sparkle" size={12} color={pc.p}/>ton action du jour</div>
@@ -11383,21 +11462,21 @@ export default function App() {
                   <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.25rem",fontWeight:600,color:C.brown,lineHeight:1.3,whiteSpace:"pre-line"}}>{todayData.mission}</div>
                 </div>
                 <button onClick={()=>{
-                  const wasChecked=checked[day];
-                  setChecked(p=>({...p,[day]:!p[day]}));
+                  const wasChecked=checked[jourAff];
+                  setChecked(p=>({...p,[jourAff]:!p[jourAff]}));
                   if(!wasChecked){
                     // mission validée — calcule les jalons
-                    const newCount=Object.values({...checked,[day]:true}).filter(Boolean).length;
-                    if(day===7) showToast("Première semaine complète","sept jours de cohérence — c'est énorme, bravo.");
-                    else if(day===14) showToast("Mi-parcours atteint","la moitié du chemin. ton corps enregistre déjà les changements.");
-                    else if(day===21) showToast("Trois semaines","tu tiens le rythme. la plupart abandonnent avant. pas toi.");
-                    else if(day===30) showToast("30 jours, nouvelle base 🌸","ce n'est pas une fin : c'est ta base de départ. tu n'es plus la même qu'au départ, fière de toi.");
-                    else if(day%7===0) showToast(`Semaine ${Math.ceil(day/7)} complète`,"une semaine de plus dans la cohérence.");
-                    else showToast(`Jour ${day} validé`, todayData.victoire);
+                    const newCount=Object.values({...checked,[jourAff]:true}).filter(Boolean).length;
+                    if(jourAff===7) showToast("Première semaine complète","sept jours de cohérence — c'est énorme, bravo.");
+                    else if(jourAff===14) showToast("Mi-parcours atteint","la moitié du chemin. ton corps enregistre déjà les changements.");
+                    else if(jourAff===21) showToast("Trois semaines","tu tiens le rythme. la plupart abandonnent avant. pas toi.");
+                    else if(jourAff===30) showToast("30 jours, nouvelle base 🌸","ce n'est pas une fin : c'est ta base de départ. tu n'es plus la même qu'au départ, fière de toi.");
+                    else if(jourAff%7===0) showToast(`Semaine ${Math.ceil(jourAff/7)} complète`,"une semaine de plus dans la cohérence.");
+                    else showToast(`Jour ${jourAff} validé`, todayData.victoire);
                   }
                 }}
-                  style={{width:36,height:36,borderRadius:"50%",border:`2px solid ${checked[day]?pc.p:C.border}`,background:checked[day]?pc.p:"transparent",cursor:"pointer",fontSize:15,color:"white",flexShrink:0,transition:"all 0.25s",fontFamily:"inherit"}}>
-                  {checked[day]?"✓":""}
+                  style={{width:36,height:36,borderRadius:"50%",border:`2px solid ${checked[jourAff]?pc.p:C.border}`,background:checked[jourAff]?pc.p:"transparent",cursor:"pointer",fontSize:15,color:"white",flexShrink:0,transition:"all 0.25s",fontFamily:"inherit"}}>
+                  {checked[jourAff]?"✓":""}
                 </button>
               </div>
 
@@ -11412,19 +11491,19 @@ export default function App() {
               {missionOpen && (<>
               {/* BOUTON VALIDER — visible une fois déplié */}
               <button onClick={()=>{
-                  const wasChecked=checked[day];
-                  setChecked(p=>({...p,[day]:!p[day]}));
+                  const wasChecked=checked[jourAff];
+                  setChecked(p=>({...p,[jourAff]:!p[jourAff]}));
                   if(!wasChecked){
-                    if(day===7) showToast("Première semaine complète","sept jours de cohérence — c'est énorme, bravo.");
-                    else if(day===14) showToast("Mi-parcours atteint","la moitié du chemin. ton corps enregistre déjà les changements.");
-                    else if(day===21) showToast("Trois semaines","tu tiens le rythme. la plupart abandonnent avant. pas toi.");
-                    else if(day===30) showToast("30 jours, nouvelle base 🌸","ce n'est pas une fin : c'est ta base de départ. tu n'es plus la même qu'au départ, fière de toi.");
-                    else if(day%7===0) showToast(`Semaine ${Math.ceil(day/7)} complète`,"une semaine de plus dans la cohérence.");
-                    else showToast(`Jour ${day} validé`, todayData.victoire);
+                    if(jourAff===7) showToast("Première semaine complète","sept jours de cohérence — c'est énorme, bravo.");
+                    else if(jourAff===14) showToast("Mi-parcours atteint","la moitié du chemin. ton corps enregistre déjà les changements.");
+                    else if(jourAff===21) showToast("Trois semaines","tu tiens le rythme. la plupart abandonnent avant. pas toi.");
+                    else if(jourAff===30) showToast("30 jours, nouvelle base 🌸","ce n'est pas une fin : c'est ta base de départ. tu n'es plus la même qu'au départ, fière de toi.");
+                    else if(jourAff%7===0) showToast(`Semaine ${Math.ceil(jourAff/7)} complète`,"une semaine de plus dans la cohérence.");
+                    else showToast(`Jour ${jourAff} validé`, todayData.victoire);
                   }
                 }}
-                style={{width:"100%",padding:"12px",borderRadius:12,border:`2px solid ${pc.p}`,background:checked[day]?pc.p:"transparent",color:checked[day]?"white":pc.p,fontFamily:"inherit",fontSize:13,fontWeight:700,cursor:"pointer",marginBottom:4,transition:"all 0.25s"}}>
-                {checked[day]?"✓ Mission validée — bravo !":"Valider ma mission du jour"}
+                style={{width:"100%",padding:"12px",borderRadius:12,border:`2px solid ${pc.p}`,background:checked[jourAff]?pc.p:"transparent",color:checked[jourAff]?"white":pc.p,fontFamily:"inherit",fontSize:13,fontWeight:700,cursor:"pointer",marginBottom:4,transition:"all 0.25s"}}>
+                {checked[jourAff]?"✓ Mission validée — bravo !":"Valider ma mission du jour"}
               </button>
 
               {/* POURQUOI */}
@@ -11501,7 +11580,7 @@ export default function App() {
 
               <button onClick={()=>setMissionOpen(false)} style={{width:"100%",marginTop:12,background:"none",border:"none",color:C.light,fontFamily:"inherit",fontSize:11,cursor:"pointer",textDecoration:"underline"}}>replier ↑</button>
               </>)}
-              {checked[day]&&<div style={{marginTop:12,fontSize:11,color:pc.p,fontWeight:500,textAlign:"center",padding:"8px",background:`${pc.p}08`,borderRadius:8}}>✓ {todayData.victoire}</div>}
+              {checked[jourAff]&&<div style={{marginTop:12,fontSize:11,color:pc.p,fontWeight:500,textAlign:"center",padding:"8px",background:`${pc.p}08`,borderRadius:8}}>✓ {todayData.victoire}</div>}
             </div>
 
             {/* Lien vers un outil */}
@@ -14434,7 +14513,7 @@ profil · tes priorités · les analyses & questions que tu as cochées · ton s
           rSos=SOS_DATA.filter(s=>norm(s.titre).includes(q)||norm(s.validation).includes(q)||norm(s.mecanisme).includes(q)).slice(0,6);
           rRec=Object.keys(RECETTES).filter(n=>norm(n).includes(q)||(RECETTES[n].tags||[]).some(t=>norm(t).includes(q))).slice(0,6);
           rAli=ALIMENTS.filter(a=>norm(a.nom).includes(q)||norm(a.note).includes(q)).slice(0,6);
-          rJours=MISSIONS_META.filter(m=>norm(m.theme).includes(q)||norm(m.mission).includes(q)).slice(0,5);
+          rJours=[...MISSIONS_META.map((m,k)=>({...m,day:k+1})),...MISSIONS_365.map((m,k)=>({...m,day:k+31}))].filter(m=>norm(m.theme).includes(q)||norm(m.mission).includes(q)).slice(0,6);
         }
         const total=rSos.length+rRec.length+rAli.length+rJours.length;
         return(
@@ -14513,7 +14592,7 @@ profil · tes priorités · les analyses & questions que tu as cochées · ton s
                 <div style={{marginBottom:18}}>
                   <div style={{fontSize:10,fontWeight:700,letterSpacing:1,textTransform:"uppercase",color:pc.p,marginBottom:8}}>Jours du protocole</div>
                   {rJours.map((m,k)=>(
-                    <button key={k} onClick={()=>{setDay(m.day);setTab("kamila");setSearchOpen(false);setSearchQ("");}}
+                    <button key={k} onClick={()=>{voirJour(m.day);setTab("kamila");setSearchOpen(false);setSearchQ("");}}
                       style={{width:"100%",textAlign:"left",background:C.white,border:`1px solid ${C.border}`,borderRadius:12,padding:"11px 13px",marginBottom:7,cursor:"pointer",fontFamily:"inherit",display:"flex",alignItems:"center",gap:10}}>
                       <span style={{fontSize:16}}>{m.emoji}</span>
                       <span style={{flex:1}}>
