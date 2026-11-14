@@ -53,6 +53,28 @@ Règle de Ghiz : chaque jour doit apporter quelque chose d'utile, jamais une red
 
 Règles de contenu rappelées : ne jamais renvoyer vers un médecin pour les tisanes/compléments ; ne pas faire peur sur les plantes ; « accompagne/soutient », jamais « guérit/traite ».
 
+## Année 2 — plan à construire (mise à jour prévue)
+Décision du 14/11 : on lance l'année 1 d'abord, l'année 2 arrive en mise à jour. Personne n'atteint j366 avant un an, et l'année 2 sera mieux écrite avec les retours des premières Cysters.
+Version provisoire en ligne : après j365, la mission du même jour de l'année 1 revient, plus « ton geste d'entretien du jour ». Elle fait le relais, mais ce n'est pas encore une vraie année d'entretien.
+
+**Angle marketing** : « tu l'achètes une fois, et ton espace évolue avec toi : mises à jour, année 2, années suivantes. tu n'es jamais lâchée. » Annoncer l'année 2 vers le mois 9-10, au moment où elles se demandent si elles continuent.
+
+**Ce que vit une Cyster au jour 366** : elle sait déjà beaucoup (réexpliquer = la prendre pour une débutante) ; la lassitude d'une maladie à vie arrive (vrai risque = lâcher, pas oublier) ; les symptômes reviennent par moments et elle croit avoir échoué ; sa vie bouge (travail, projet bébé, arrêt pilule, hiver, fêtes) ; elle veut voir que ça tient.
+
+**Le cadre**
+1. **Moins de cours, plus d'accompagnement** : chaque jour, un geste court + une phrase de pourquoi + un « comment tu te sens ? » en un geste qui nourrit le suivi. Deux minutes par jour.
+2. **Thèmes calés sur le calendrier réel** (pas sur le jour du parcours) :
+   janvier repartir en douceur après les fêtes, sans régime · février hiver, moral, vitamine D, lumière · mars printemps, soutenir son foie, bouger dehors · avril bilan de santé de l'année, arriver au RDV avec ses données · mai peau, soleil, cheveux · juin chaleur, rétention, préparer les vacances · juillet vacances, 3 piliers sans pression · août retrouver son sommeil avant la rentrée · septembre rentrée, charge mentale, stress · octobre aller plus loin sur cycle et hormones · novembre inflammation, immunité, saison des fringales · décembre fêtes, famille, remarques, bilan de l'année.
+3. **Plan reprise quand ça dérape** : point du dimanche ; si un symptôme revient, mini-plan de 7 jours ciblé, sans culpabilité (« ce n'est pas un échec, c'est le SMOP qui réagit à ta vie »). Symptômes visés : acné, cycles qui s'allongent, fringales, fatigue, sommeil, moral, ballonnements, chute de cheveux. **À construire en priorité, juste après le lancement : utile dès l'année 1.**
+4. **Moments de vie à ouvrir à la demande** : arrêter la pilule, préparer une grossesse, après l'accouchement, approcher de la quarantaine / périménopause.
+5. **Voir que ça tient** : bilan de fin de mois comparé au même mois de l'an dernier (énergie, cycles, peau), victoires de l'année 1 en preuve.
+6. **Garder du lien** : proposer de temps en temps de transmettre à une Cyster qui débute (communauté). Elle passe d'« aidée » à « grande sœur ».
+7. Le 365e jour de chaque année : « un an de plus à prendre soin de toi » (déjà en ligne).
+
+**À écrire (contenu)** : ~100 gestes courts · 12 thèmes de mois · 6 à 8 plans reprise de 7 jours · 4 à 5 moments de vie · 12 bilans de fin de mois. Relecture Ghiz.
+
+**Calendrier** : lancement année 1 → plan reprise juste après → écriture de l'année 2 vers le mois 6, avec les retours (où elles décrochent, quels symptômes reviennent, questions WhatsApp) → année 2 en ligne vers le mois 9.
+
 ## Sources vérifiées cette session
 - **Parodontite ⇄ SMOP** : lien bidirectionnel, RR ~1,28 (SMOP→parodontite) et 1,46 (parodontite→SMOP), via inflammation de bas grade (CRP, TNF-α, IL-6) + insulinorésistance. Revue systématique + méta-analyse, PMC7355910 (2020, SORT A mais observationnel). → utilisé M7 avec nuance "données observationnelles".
 
