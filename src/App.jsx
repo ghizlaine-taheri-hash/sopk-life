@@ -3171,7 +3171,7 @@ const MOIS_PARCOURS = [
   {n:10,label:"Suivi médical",a:260,b:294},{n:11,label:"Cycle & fertilité",a:295,b:329},{n:12,label:"Autonomie",a:330,b:365},
 ];
 const moisDuJour = (d)=>{ const n=((d-1)%365)+1; const an=1+Math.floor((d-1)/365); const m=MOIS_PARCOURS.find(x=>n>=x.a&&n<=x.b)||MOIS_PARCOURS[0]; return {an,n,m}; };
-const libelleJour = (d)=>{ const {an,m}=moisDuJour(d); if(an>1) return "année "+an+" · entretien · mois "+m.n; return m.n===1?"Fondation":"mois "+m.n+" · "+m.label.toLowerCase(); };
+const libelleJour = (d)=>{ const {an,m}=moisDuJour(d); if(an>1) return "parcours bouclé · geste d'entretien"; return m.n===1?"Fondation":"mois "+m.n+" · "+m.label.toLowerCase(); };
 
 // ─── PARCOURS 365 — TRONC COMMUN (jours 31+) ───
 // Mois 2 : apprivoiser ta glycémie en profondeur. Rotation des piliers, accent injecté par profil.
@@ -9875,11 +9875,11 @@ const MISSIONS_365 = [
      mixte_ai:"une intention peau, une énergie, une pour toi : un bel équilibre."}},
 
   {emoji:"🏡",theme:"ce qui t'attend après le jour 365",
-   mission:"découvre ce qui continue après ton parcours : ton année d'entretien, ton suivi, tes ressources. choisis comment tu veux utiliser ton espace l'année prochaine.",
+   mission:"découvre ce qui continue après ton parcours : tes gestes d'entretien, ton suivi, tes ressources. choisis comment tu veux utiliser ton espace l'année prochaine.",
    msg:"dans deux jours, tu atteins le jour 365.\n\nmais ton espace ne s'arrête pas.\n\naujourd'hui, on regarde ce qui continue.",
-   pourquoi:"après le jour 365, ton espace continue de t'accompagner, autrement. ta deuxième année est une année d'entretien : chaque jour, un repère de ta première année revient en version courte, avec un petit geste pour entretenir ce que tu as construit (la marche après le repas, ton magnésium, ta lumière du matin, ton rituel du soir…). et tu peux revenir quand tu veux sur n'importe quel jour de ton parcours, en touchant « Jour » au-dessus de ta mission. ton suivi, ton cycle, tes tendances, ton dossier médecin et toutes les ressources restent là.\n\ntu peux choisir comment tu veux l'utiliser : tous les jours comme un repère, quelques fois par semaine pour garder le fil, ou surtout dans les moments où tu as besoin de reprendre. il n'y a pas de bonne façon. l'important, c'est que tu saches que tu n'as plus besoin d'être guidée pas à pas : tu as ton protocole, tes repères, et un espace qui reste à tes côtés.",
+   pourquoi:"après le jour 365, ton espace continue de t'accompagner, autrement. chaque jour, il te propose un petit geste pour entretenir ce que tu as construit (la marche après le repas, ton magnésium, ta lumière du matin, ton rituel du soir…), et ton année 2 arrivera en mise à jour : tu ne seras jamais lâchée. tu peux aussi revenir quand tu veux sur n'importe quel jour de ton parcours, en touchant « Jour » au-dessus de ta mission. ton suivi, ton cycle, tes tendances, ton dossier médecin et toutes les ressources restent là.\n\ntu peux choisir comment tu veux l'utiliser : tous les jours comme un repère, quelques fois par semaine pour garder le fil, ou surtout dans les moments où tu as besoin de reprendre. il n'y a pas de bonne façon. l'important, c'est que tu saches que tu n'as plus besoin d'être guidée pas à pas : tu as ton protocole, tes repères, et un espace qui reste à tes côtés.",
    source:"le maintien des comportements de santé à long terme est facilité par des rappels réguliers et un soutien continu de faible intensité (recherches sur le maintien après les programmes d'accompagnement).",
-   comment:["après le jour 365 : une année d'entretien, un repère par jour","ton suivi, ton cycle et tes tendances restent là","ton dossier médecin et tes ressources aussi","choisis ton rythme d'utilisation","rappelle-toi : tu as ton protocole, tu n'es plus guidée pas à pas"],
+   comment:["après le jour 365 : un geste d'entretien par jour, puis ton année 2","ton suivi, ton cycle et tes tendances restent là","ton dossier médecin et tes ressources aussi","choisis ton rythme d'utilisation","rappelle-toi : tu as ton protocole, tu n'es plus guidée pas à pas"],
    pieges:["croire que tout s'arrête au jour 365","penser que tu dois continuer au même rythme qu'avant","culpabiliser si tu l'utilises moins"],
    plus:"tes rappels tisanes et ton rappel du matin continuent aussi : tu peux les ajuster ou les désactiver dans Mon compte quand tu veux.",
    observes:["aujourd'hui : la suite découverte","à retenir : ton espace continue, autrement","sur la durée : un accompagnement qui s'adapte à toi"],
@@ -9917,9 +9917,9 @@ const MISSIONS_365 = [
   {emoji:"🌟",theme:"jour 365 — ce n'est pas une fin",
    mission:"aujourd'hui, célèbre-toi. fais une chose qui te fait vraiment plaisir, rien que pour toi. puis écris en une phrase qui tu es devenue cette année.",
    msg:"365 jours.\n\ntu l'as fait.\n\net ce n'est pas une fin. c'est le début de toi, autonome.",
-   pourquoi:"il y a un an, tu as commencé ce parcours. peut-être perdue, peut-être fatiguée, peut-être avec un diagnostic qu'on t'avait lancé sans explication. depuis, tu as appris à comprendre ta glycémie, ta SHBG, ton inflammation, ton stress, ta peau, tes signes cachés, ton mouvement, ton foie, ton suivi médical, ton cycle, et surtout, ta relation à toi-même. tu as construit un protocole qui t'appartient, et une façon de te parler plus douce.\n\nce n'est pas une fin : ton SMOP continue, ta vie aussi, et ton espace reste à tes côtés avec ton année d'entretien. mais aujourd'hui, tu n'es plus la même. tu n'es plus une femme qui subit son SMOP : tu es une femme qui le comprend et qui sait en prendre soin. célèbre-toi. tu le mérites, vraiment. je suis fière de toi, Cyster.",
+   pourquoi:"il y a un an, tu as commencé ce parcours. peut-être perdue, peut-être fatiguée, peut-être avec un diagnostic qu'on t'avait lancé sans explication. depuis, tu as appris à comprendre ta glycémie, ta SHBG, ton inflammation, ton stress, ta peau, tes signes cachés, ton mouvement, ton foie, ton suivi médical, ton cycle, et surtout, ta relation à toi-même. tu as construit un protocole qui t'appartient, et une façon de te parler plus douce.\n\nce n'est pas une fin : ton SMOP continue, ta vie aussi, et ton espace reste à tes côtés, et ton année 2 se prépare. mais aujourd'hui, tu n'es plus la même. tu n'es plus une femme qui subit son SMOP : tu es une femme qui le comprend et qui sait en prendre soin. célèbre-toi. tu le mérites, vraiment. je suis fière de toi, Cyster.",
    source:"célébrer les étapes franchies renforce la motivation et le sentiment d'accomplissement (recherches sur la motivation et le renforcement positif).",
-   comment:["fais une chose qui te fait vraiment plaisir aujourd'hui","écris en une phrase qui tu es devenue","relis ta victoire du jour 30 si tu t'en souviens","partage ta joie avec quelqu'un, ou garde-la pour toi","demain, ton année d'entretien prend le relais"],
+   comment:["fais une chose qui te fait vraiment plaisir aujourd'hui","écris en une phrase qui tu es devenue","relis ta victoire du jour 30 si tu t'en souviens","partage ta joie avec quelqu'un, ou garde-la pour toi","demain, tes gestes d'entretien prennent le relais"],
    pieges:["minimiser ce que tu as accompli","penser que c'est fini (ce n'est pas une fin)","passer cette journée sans te célébrer"],
    plus:"si tu veux, partage ton jour 365 dans la communauté des Cysters. celles qui commencent ont besoin de voir que c'est possible.",
    observes:["aujourd'hui : 365 jours accomplis","à retenir : tu comprends ton SMOP et tu sais en prendre soin","sur la durée : ton autonomie commence","parcours de l'année bouclé"],
@@ -10042,7 +10042,7 @@ export default function App() {
   const [vueJour, setVueJour] = useState(null); // jour consulté (null = ton jour du parcours) : revenir sur un jour sans perdre ta progression
   const [jourPicker, setJourPicker] = useState(false);
   const [jourPickerMois, setJourPickerMois] = useState(null);
-  const voirJour = (d)=>{ const v=Math.max(1,Math.min(1095,d)); setVueJour(v===day?null:v); };
+  const voirJour = (d)=>{ const v=Math.max(1,Math.min(Math.max(365,day),d)); setVueJour(v===day?null:v); };
   const [fatigueOpen, setFatigueOpen] = useState(false);
   const [fatigueStep, setFatigueStep] = useState(0);
   const [checked, setChecked] = useState(() => load("checked",{}));
@@ -10095,6 +10095,14 @@ export default function App() {
   const [accPrenom, setAccPrenom] = useState("");
   const [accNewEmail, setAccNewEmail] = useState("");
   const [dossierInner, setDossierInner] = useState("");
+  // impression / PDF : une copie du dossier, posée directement dans <body>, est la seule chose imprimée
+  // (sinon iPhone imprime toute la page de l'app : pages blanches et contenu décalé)
+  useEffect(()=>{ try{
+    let el=document.getElementById("sopk-print");
+    if(!dossierInner){ if(el) el.remove(); return; }
+    if(!el){ el=document.createElement("div"); el.id="sopk-print"; document.body.appendChild(el); }
+    el.innerHTML='<div class="sopk-doc">'+dossierInner+'</div>';
+  }catch(e){} },[dossierInner]);
   // ─── INSTALLATION (PWA) + RAPPELS ───────────────────────────────────────────
   const [showInstall, setShowInstall] = useState(false);
   const [installDismissed, setInstallDismissed] = useState(()=>{ try{return localStorage.getItem("sopklife_installDismissed")==="1";}catch(e){return false;} });
@@ -10335,7 +10343,7 @@ export default function App() {
 
   useEffect(()=>{
     const s=document.createElement("style");
-    s.innerHTML=`@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap');*{box-sizing:border-box;margin:0;padding:0;-webkit-font-smoothing:antialiased;}body{background:#FBF8F3;}@keyframes toastUp{from{opacity:0;transform:translate(-50%,12px)}to{opacity:1;transform:translate(-50%,0)}}@keyframes fadeUp{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}@keyframes spin{to{transform:rotate(360deg);}}@keyframes breathe{0%,100%{opacity:1;}50%{opacity:0.92;}}.fu{animation:fadeUp 0.35s ease forwards;}.breathe{animation:breathe 5s ease-in-out infinite;}input:focus,textarea:focus{outline:none;}::-webkit-scrollbar{width:3px;}::-webkit-scrollbar-thumb{background:#E8DDD3;border-radius:99px;}.app-shell{max-width:430px;margin:0 auto;}.sop-sidebar{display:none;}@media(min-width:900px){.app-shell{max-width:960px;display:flex;align-items:flex-start;}.sop-sidebar{display:flex!important;}.sop-main{flex:1;min-width:0;max-width:100%;}.mobile-tabs{display:none!important;}.bottom-nav-wrap{display:none!important;}}#sopk-dossier-content{color:#3D2B1F;line-height:1.5;font-family:Arial,sans-serif;}#sopk-dossier-content h1{font-size:20px;color:#3D2B1F;margin-bottom:8px;}#sopk-dossier-content h2{font-size:15px;color:#B07D4F;margin-top:20px;border-bottom:2px solid #E8DDD3;padding-bottom:4px;}#sopk-dossier-content table{border-collapse:collapse;width:100%;font-size:13px;margin-top:6px;}#sopk-dossier-content ul{font-size:13px;margin:6px 0 0 18px;}#sopk-dossier-content li{margin-bottom:4px;}#sopk-dossier-content .note{font-size:11px;color:#9A8578;font-style:italic;margin-top:24px;display:block;}@media print{body>*{visibility:hidden;}#sopk-dossier,#sopk-dossier *{visibility:visible;}#sopk-dossier{position:absolute;inset:0;overflow:visible;background:#fff;padding:0;}#sopk-dossier-content{max-width:100%;padding:0 10px;}.sopk-noprint{display:none!important;}}.hscroll::-webkit-scrollbar{display:none;}.hscroll{scrollbar-width:none;-ms-overflow-style:none;}`;
+    s.innerHTML=`@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap');*{box-sizing:border-box;margin:0;padding:0;-webkit-font-smoothing:antialiased;}body{background:#FBF8F3;}@keyframes toastUp{from{opacity:0;transform:translate(-50%,12px)}to{opacity:1;transform:translate(-50%,0)}}@keyframes fadeUp{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}@keyframes spin{to{transform:rotate(360deg);}}@keyframes breathe{0%,100%{opacity:1;}50%{opacity:0.92;}}.fu{animation:fadeUp 0.35s ease forwards;}.breathe{animation:breathe 5s ease-in-out infinite;}input:focus,textarea:focus{outline:none;}::-webkit-scrollbar{width:3px;}::-webkit-scrollbar-thumb{background:#E8DDD3;border-radius:99px;}.app-shell{max-width:430px;margin:0 auto;}.sop-sidebar{display:none;}@media(min-width:900px){.app-shell{max-width:960px;display:flex;align-items:flex-start;}.sop-sidebar{display:flex!important;}.sop-main{flex:1;min-width:0;max-width:100%;}.mobile-tabs{display:none!important;}.bottom-nav-wrap{display:none!important;}}.sopk-doc{color:#3D2B1F;line-height:1.5;font-family:Arial,sans-serif;}.sopk-doc h1{font-size:20px;color:#3D2B1F;margin-bottom:8px;}.sopk-doc h2{font-size:15px;color:#B07D4F;margin-top:20px;border-bottom:2px solid #E8DDD3;padding-bottom:4px;}.sopk-doc table{border-collapse:collapse;width:100%;font-size:13px;margin-top:6px;}.sopk-doc ul{font-size:13px;margin:6px 0 0 18px;}.sopk-doc li{margin-bottom:4px;}.sopk-doc .note{font-size:11px;color:#9A8578;font-style:italic;margin-top:24px;display:block;}#sopk-print{display:none;}@media print{@page{margin:14mm 12mm;}html,body{height:auto!important;min-height:0!important;overflow:visible!important;background:#fff!important;}body>*:not(#sopk-print){display:none!important;}#sopk-print{display:block!important;position:static!important;}#sopk-print .sopk-doc{max-width:100%;padding:0;margin:0;}.sopk-doc h2{break-after:avoid;}.sopk-doc tr,.sopk-doc li{break-inside:avoid;}}.hscroll::-webkit-scrollbar{display:none;}.hscroll{scrollbar-width:none;-ms-overflow-style:none;}`;
     document.head.appendChild(s);
     return()=>document.head.removeChild(s);
   },[]);
@@ -10404,23 +10412,12 @@ export default function App() {
       const acc = m.accents ? (m.accents[profil] || m.accents.metabolique || null) : null;
       return {...m, day:d, _accent:acc};
     }
-    // ── ANNÉE 2 et suivantes : l'entretien. chaque jour, un repère de la première année revient en version courte,
-    //    avec un geste d'entretien (rituel). le parcours ne s'arrête jamais.
-    const an = 2+Math.floor((d-366)/365); const n = ((d-366)%365)+1;
+    // ── APRÈS LE JOUR 365 : le parcours est bouclé. en attendant la mise à jour « année 2 »,
+    //    un geste d'entretien par jour (RITUELS). voir CONTENU_MISSIONS_BACKLOG.md, section « Année 2 — plan ».
     const rit = RITUELS[(d-366)%RITUELS.length];
-    if(n===365) return {emoji:"🌟",theme:"année "+an+" · un an de plus à prendre soin de toi",
-      mission:"aujourd'hui, regarde ton année : écris trois gestes que tu fais désormais sans y penser, et un point que tu veux remettre au centre l'année qui vient.",
-      msg:"une année de plus.\n\nles gestes que tu répétais au début sont devenus les tiens.\n\naujourd'hui, on le remarque.",
-      pourquoi:"cette année, tu n'as pas tout réappris : tu as entretenu. chaque jour, un repère revenait, et petit à petit, ce qui demandait un effort est devenu une habitude. c'est exactement ce qu'on cherche avec un SMOP : pas une performance, une façon de vivre qui te soutient sans t'épuiser.\n\nnoter ce qui est devenu automatique t'aide à voir le chemin. choisir un seul point à remettre au centre t'évite de vouloir tout changer d'un coup. demain, un nouveau tour commence, avec les mêmes repères et une Cyster qui les connaît encore mieux.",
-      comment:["écris trois gestes devenus automatiques","choisis un seul point à remettre au centre","regarde ta vue d'ensemble de l'année","célèbre-toi, à ta façon"],
-      victoire:"une année de plus à prendre soin de toi. bravo, Cyster.",
-      outil:{emoji:"📊",label:"Ma vue d'ensemble",desc:"ton année en un coup d'œil",goTab:"apercu"}, day:d, entretien:true};
-    if(n===363||n===364) return {...rit, theme:"année "+an+" · "+rit.theme, day:d, entretien:true};
-    const src = missionPour(n);
-    return {emoji:src.emoji, theme:"année "+an+" · "+src.theme, mission:src.mission,
-      msg:"année "+an+", on entretient.\n\naujourd'hui, un repère de ta première année revient, en version courte. tu le connais déjà : on le fait vivre à nouveau.",
-      pourquoi:src.pourquoi||src.biologie, source:src.source, _accent:src._accent, comment:src.comment,
-      plus:"ton geste d'entretien du jour : "+rit.mission, victoire:src.victoire, outil:src.outil, day:d, entretien:true};
+    return {...rit, theme:"geste d'entretien · "+rit.theme,
+      msg:"tu as bouclé ton parcours de 365 jours.\n\nton année 2 se prépare et arrivera en mise à jour dans ton espace : tu ne seras jamais lâchée.\n\nen attendant, un petit geste par jour pour entretenir ce que tu as construit.",
+      day:d, entretien:true};
   };
   const jourAff = vueJour!=null ? vueJour : day; // le jour affiché (consulté) ; « day » reste ta progression
   const todayData = missionPour(jourAff);
@@ -11414,12 +11411,12 @@ export default function App() {
                     </button>
                   ))}
                 </div>
-                <button onClick={()=>voirJour(jourAff+1)} disabled={jourAff>=1095} aria-label="jour suivant"
+                <button onClick={()=>voirJour(jourAff+1)} disabled={jourAff>=Math.max(365,day)} aria-label="jour suivant"
                   style={{flexShrink:0,width:28,height:28,borderRadius:"50%",border:`1.5px solid ${pc.p}`,background:pc.p,color:"white",fontSize:14,cursor:"pointer",fontFamily:"inherit",display:"flex",alignItems:"center",justifyContent:"center"}}>{"›"}</button>
               </div>
               {jourPicker&&(()=>{
-                const sel=jourPickerMois||101; const an=Math.floor(sel/100); const mn=sel%100;
-                const anMax=Math.max(moisDuJour(day).an, moisDuJour(jourAff).an);
+                const sel=jourPickerMois||101; const an=1; const mn=sel%100;
+                const anMax=1;
                 const mSel=MOIS_PARCOURS.find(x=>x.n===mn)||MOIS_PARCOURS[0];
                 const off=(an-1)*365;
                 const jours=Array.from({length:mSel.b-mSel.a+1},(_,k)=>off+mSel.a+k);
@@ -14500,7 +14497,7 @@ profil · tes priorités · les analyses & questions que tu as cochées · ton s
             <button onClick={()=>window.print()} style={{background:pc.p,color:"#fff",border:"none",borderRadius:10,padding:"9px 16px",fontFamily:"inherit",fontSize:12,fontWeight:700,cursor:"pointer"}}>Imprimer / Enregistrer en PDF</button>
           </div>
           <div className="sopk-noprint" style={{fontSize:10.5,color:C.light,padding:"10px 20px 0",lineHeight:1.5,maxWidth:720,margin:"0 auto"}}>sur téléphone : appuie sur « Imprimer », puis en bas choisis « Enregistrer au format PDF » ou « Partager ».</div>
-          <div id="sopk-dossier-content" style={{maxWidth:720,margin:"0 auto",padding:"18px 20px 40px"}} dangerouslySetInnerHTML={{__html:dossierInner}}/>
+          <div id="sopk-dossier-content" className="sopk-doc" style={{maxWidth:720,margin:"0 auto",padding:"18px 20px 40px"}} dangerouslySetInnerHTML={{__html:dossierInner}}/>
         </div>
       )}
 
