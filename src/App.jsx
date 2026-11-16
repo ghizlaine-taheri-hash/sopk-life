@@ -3166,6 +3166,70 @@ const PERTURBATEURS = [
 // ─── DOSSIER MÉDECIN : styles de la version imprimée (page à part, indépendante de la mise en page de l'app) ───
 const DOSSIER_PRINT_CSS = "@page{size:A4;margin:14mm 12mm;}*{box-sizing:border-box;margin:0;padding:0;}html,body{background:#fff;}body{color:#3D2B1F;line-height:1.5;font-family:Arial,sans-serif;font-size:13px;}.sopk-doc h1{font-size:20px;color:#3D2B1F;margin-bottom:8px;}.sopk-doc h2{font-size:15px;color:#B07D4F;margin-top:20px;border-bottom:2px solid #E8DDD3;padding-bottom:4px;break-after:avoid;}.sopk-doc p{margin-top:6px;}.sopk-doc table{border-collapse:collapse;width:100%;font-size:12px;margin-top:6px;}.sopk-doc th,.sopk-doc td{text-align:left;vertical-align:top;}.sopk-doc tr,.sopk-doc li{break-inside:avoid;}.sopk-doc ul{font-size:13px;margin:6px 0 0 18px;}.sopk-doc li{margin-bottom:4px;}.sopk-doc .note{font-size:11px;color:#9A8578;font-style:italic;margin-top:24px;display:block;}";
 
+// ─── OUTILS DES JOURS 1-30 QUI N'EN AVAIENT PAS (par thème de mission) ───
+const _mov=(desc)=>({emoji:"🧘‍♀️",label:"Mes mouvements",desc,goTab:"mouvement"});
+const _jour=(desc)=>({emoji:"📓",label:"Mon journal",desc,goTab:"journal"});
+const _vue=(desc)=>({emoji:"📊",label:"Ma vue d'ensemble",desc,goTab:"apercu"});
+const _sante=(desc)=>({emoji:"👩‍⚕️",label:"Ton espace Santé",desc,goTab:"medecin"});
+const _sos=(id,label,desc)=>({emoji:"🆘",label,desc,sos:id});
+const _tis=(desc)=>({emoji:"🌿",label:"Compléments & tisanes",desc,cible:"complements"});
+const _ancre=(desc)=>({emoji:"🤍",label:"Mon ancrage",desc,goTab:"ancrage"});
+const _coach=(desc)=>({emoji:"🤍",label:"Le coach mindset de Kamila",desc,goTab:"kamila",ancre:"coach-mindset"});
+const _journee=(desc)=>({emoji:"✅",label:"Ta journée",desc,goTab:"suivi"});
+const OUTILS_PAR_THEME = {
+  "lire ses fringales comme des données":_sos("fringale","Ta fiche SOS fringale","quoi faire quand l'envie monte"),
+  "le geste le plus sous-estimé":_jour("note ton eau et tes repas du jour"),
+  "le mouvement qui change la glycémie":_mov("ta marche après le repas"),
+  "bilan de semaine 1":_jour("note tes 3 changements de la semaine"),
+  "le renforcement musculaire":_mov("ta séance de renforcement, pas à pas"),
+  "la cannelle de Ceylan":_tis("la cannelle de Ceylan dans tes tisanes"),
+  "le sommeil est médecine":_sos("insomnie","Ta fiche SOS réveil nocturne","pour des nuits plus calmes"),
+  "mi-parcours":_vue("compare ta première semaine à celle-ci"),
+  "préparer ton rendez-vous":_sante("ton dossier et tes questions"),
+  "deuxième séance de renforcement":_mov("ta 2e séance, pas à pas"),
+  "troisième séance":_mov("ta séance de renforcement"),
+  "marche double":_mov("tes marches après les repas"),
+  "rendre visible ce qui a changé":_jour("note tes micro-victoires"),
+  "prendre rendez-vous":_sante("ton dossier prêt pour le rendez-vous"),
+  "bilan honnête":_vue("regarde ton mois avec douceur"),
+  "tout ensemble":_journee("coche tout ce que tu fais aujourd'hui"),
+  "mesurer le chemin parcouru":_vue("compare avec tes premiers jours"),
+  "mesurer le chemin":_vue("compare avec tes premiers jours"),
+  "ce que tu emmènes":_jour("écris ce que tu gardes"),
+  "ce que tu emportes":_jour("écris ce que tu gardes"),
+  "écouter ce qui t'enflamme":_jour("note comment tu te sens après les repas"),
+  "le mouvement qui apaise":_mov("une marche tranquille, à ton rythme"),
+  "cartographier tes signes androgéniques":_journee("note ta peau, tes poils, tes cheveux"),
+  "la menthe verte, alliée anti-androgènes":_tis("la menthe verte et ton Andro Tea"),
+  "le thé vert, antioxydant anti-androgènes":_tis("le thé vert et tes tisanes"),
+  "ton moteur, c'est le stress":_sos("stress","Ta fiche SOS stress","la respiration qui calme, pas à pas"),
+  "la lumière du matin":_ancre("ton affirmation du jour, pour bien commencer"),
+  "la caféine qui te trahit":_sos("coupdebarre","Ta fiche SOS coup de barre","tenir l'après-midi sans café"),
+  "ne jamais partir le ventre vide":{emoji:"🍳",label:"Idées de petits-déjeuners",desc:"des petits-déj protéinés",cible:"repas",moment:"matin"},
+  "le réveil de 3h":_sos("reveil3h","Ta fiche SOS réveil à 3h","comprendre et retrouver le sommeil"),
+  "ton rythme de stress":_jour("note ton moment le plus « à bout »"),
+  "tu n'es pas faible":_coach("quand tu doutes de toi"),
+  "la fondation":_tis("ton Équilibre Féminin, comment le prendre"),
+  "le magnésium, ton minéral anti-stress":{emoji:"🥜",label:"Chercher un aliment",desc:"les bonnes sources de magnésium",cible:"aliments",recherche:"amande"},
+  "ta tisane du soir arrive":_tis("ta Serenitea, le rituel du soir"),
+  "bouger sans te vider":_mov("des mouvements doux, sans te vider"),
+  "le sucre qui calme, puis qui lâche":_sos("fringale","Ta fiche SOS fringale","quoi faire quand l'envie monte"),
+  "la charge mentale":_sos("stress","Ta fiche SOS stress","quand tout déborde"),
+  "bilan de ta semaine 2":_jour("note tes nuits"),
+  "tes analyses surrénaliennes":{emoji:"🔬",label:"Analyses de sang",desc:"les marqueurs à demander",goTab:"analyses"},
+  "la cohérence cardiaque":_sos("stress","Ta fiche SOS stress","la respiration guidée"),
+  "ta peau, tes cheveux sous cortisol":_journee("note ta peau et tes cheveux"),
+  "ancrer le rituel du soir":_tis("ta Serenitea, le rituel du soir"),
+  "la frontière digitale":_sos("insomnie","Ta fiche SOS réveil nocturne","pour des nuits plus calmes"),
+  "la nature baisse le cortisol":_ancre("un moment pour toi"),
+  "ce qui a déjà changé":_jour("note ce qui va mieux"),
+  "les micro-pauses":_sos("stress","Ta fiche SOS stress","tes micro-pauses qui calment"),
+  "le perfectionnisme qui t'épuise":_coach("quand tu en fais trop"),
+  "ta nuit, priorité n°1":_sos("insomnie","Ta fiche SOS réveil nocturne","pour des nuits plus calmes"),
+  "soutenir sans fouetter":{emoji:"📈",label:"Mes tendances",desc:"repère ce qui te fatigue",goTab:"tendances"},
+  "ta boîte à outils anti-cortisol":_sos("stress","Ta fiche SOS stress","tes outils anti-stress"),
+};
+
 // ─── LES MOIS DU PARCOURS (pour se repérer et revenir à n'importe quel jour) ───
 const MOIS_PARCOURS = [
   {n:1,label:"Fondation",a:1,b:30},{n:2,label:"Glycémie",a:31,b:60},{n:3,label:"Inflammation",a:61,b:89},
@@ -9970,15 +10034,75 @@ const OUTIL_CAT_OF = (oid)=>Object.keys(OUTIL_CATS).find(ck=>OUTIL_CATS[ck].tool
 const JOURS = [["lun","Lundi"],["mar","Mardi"],["mer","Mercredi"],["jeu","Jeudi"],["ven","Vendredi"],["sam","Samedi"],["dim","Dimanche"]];
 const SLOTS = [["matin","Petit-déj"],["midi","Déjeuner"],["soir","Dîner"]];
 
-const callAPI = async (prompt) => {
-  const r = await fetch("https://api.anthropic.com/v1/messages",{
-    method:"POST",
-    headers:{"Content-Type":"application/json","anthropic-dangerous-direct-browser-access":"true"},
-    body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:1000,messages:[{role:"user",content:prompt}]})
-  });
-  const d = await r.json();
-  return d.content?.[0]?.text||"";
+// ─── DÉCODEUR D'ANALYSES (sans IA) ─────────────────────────────────────────
+// repères généraux souvent utilisés ; les normes changent selon les labos → on le dit toujours.
+const DECODEUR_ANALYSES = {
+  insuline:{titre:"Insuline à jeun",
+    quoi:"l'hormone qui fait entrer le sucre dans tes cellules. à jeun, elle devrait être basse.",
+    smop:"une insuline à jeun élevée veut dire que ton corps force pour gérer le sucre : c'est la résistance à l'insuline, très fréquente avec un SMOP. elle pousse aussi tes ovaires à fabriquer plus d'androgènes.",
+    repere:(v)=> v>10 ? ["attention","au-dessus d'environ 10 µUI/mL, beaucoup de spécialistes du SMOP considèrent qu'elle mérite qu'on s'en occupe, même si la norme de ton labo va plus haut."] : ["ok","sous environ 10 µUI/mL : c'est le repère souvent visé."],
+    geste:"l'ordre dans l'assiette, la marche après les repas et le renforcement musculaire sont tes meilleurs leviers."},
+  glycemie:{titre:"Glycémie à jeun",
+    quoi:"le taux de sucre dans ton sang, le matin à jeun.",
+    smop:"avec un SMOP, elle reste souvent normale longtemps alors que l'insuline, elle, monte déjà : regarde les deux ensemble.",
+    repere:(v)=>{ const mm=v<3?v*5.55:v; const u=v<3?" (ta valeur semble être en g/L, je l'ai convertie)":"";
+      return mm>=7 ? ["attention","à 7 mmol/L (1,26 g/L) ou plus, c'est à faire contrôler rapidement"+u+"."]
+        : mm>=5.6 ? ["attention","entre 5,6 et 6,9 mmol/L (1,00 à 1,25 g/L), on parle de glycémie à jeun un peu élevée"+u+"."]
+        : ["ok","sous 5,6 mmol/L (1 g/L) : dans les valeurs habituelles"+u+"."]; },
+    geste:"une glycémie stable se joue repas après repas : protéines au petit-déj, légumes en premier, marche après le repas."},
+  tsh:{titre:"TSH (thyroïde)",
+    quoi:"l'hormone qui pilote ta thyroïde, le moteur de ton énergie.",
+    smop:"la thyroïde (notamment Hashimoto) est plus souvent touchée avec un SMOP, et ses signes (fatigue, cheveux, cycles) se mélangent avec ceux du SMOP.",
+    repere:(v)=> v>4 ? ["attention","au-dessus de la norme habituelle (environ 0,4 à 4 µUI/mL) : à faire regarder."]
+      : v<0.4 ? ["attention","sous la norme habituelle (environ 0,4 à 4 µUI/mL) : à faire regarder."]
+      : v>2.5 ? ["info","dans la norme du labo, mais au-dessus de 2,5 : beaucoup de praticiens la surveillent de plus près, surtout en cas de projet bébé."]
+      : ["ok","entre 0,4 et 2,5 : dans les valeurs habituelles."],
+    geste:"si elle est haute, demande aussi la T4L et les anticorps anti-TPO."},
+  vitD:{titre:"Vitamine D",
+    quoi:"une vitamine qui agit comme une hormone : immunité, humeur, os, et elle joue aussi sur l'insuline.",
+    smop:"les carences sont très fréquentes avec un SMOP, et une vitamine D basse va souvent avec plus de résistance à l'insuline.",
+    repere:(v)=> v>100 ? ["info","valeur très haute : vérifie l'unité (si ton labo l'exprime en nmol/L, divise par 2,5 pour l'avoir en ng/mL)."]
+      : v<20 ? ["attention","sous 20 ng/mL : on parle de carence."]
+      : v<30 ? ["attention","entre 20 et 30 ng/mL : on parle d'insuffisance."]
+      : ["ok","30 ng/mL ou plus : niveau suffisant."],
+    geste:"ta fiche « Vitamine D3 + K2 » dans Compléments & tisanes t'explique comment la prendre."},
+  testoLibre:{titre:"Testostérone libre",
+    quoi:"la part de testostérone active, celle qui agit sur ta peau, tes poils et tes cheveux.",
+    smop:"c'est souvent elle qui est augmentée avec un SMOP, plus que la testostérone totale.",
+    repere:()=>["info","les normes changent beaucoup selon la méthode du labo : compare avec la fourchette écrite sur ton compte-rendu. si tu es au-dessus, ça confirme une part androgénique."],
+    geste:"glycémie stable, zinc, menthe verte et une SHBG qui remonte sont tes leviers."},
+  shbg:{titre:"SHBG",
+    quoi:"la protéine qui « attrape » la testostérone et la rend inactive.",
+    smop:"quand l'insuline est haute, la SHBG baisse : plus de testostérone reste libre et active.",
+    repere:(v)=> v<30 ? ["attention","sous environ 30 nmol/L : SHBG plutôt basse, souvent liée à l'insuline."] : ["ok","au-dessus d'environ 30 nmol/L : elle fait bien son travail."],
+    geste:"ce qui fait baisser ton insuline fait souvent remonter ta SHBG."},
+  ferritine:{titre:"Ferritine",
+    quoi:"tes réserves de fer.",
+    smop:"des réserves basses épuisent et font tomber les cheveux. elles sont fréquentes avec des règles abondantes.",
+    repere:(v)=> v<30 ? ["attention","sous 30 µg/L : réserves basses, même si le labo écrit « normal »."]
+      : v>200 ? ["info","plutôt haute : ça peut refléter une inflammation, à regarder avec ta CRP."]
+      : ["ok","entre 30 et 200 µg/L : réserves correctes."],
+    geste:"aliments riches en fer avec de la vitamine C au même repas ; « Chercher un aliment » t'aide à les trouver."},
+  amh:{titre:"AMH",
+    quoi:"un reflet du nombre de petits follicules dans tes ovaires.",
+    smop:"elle est souvent élevée avec un SMOP, parce qu'il y a beaucoup de petits follicules. elle ne dit pas, à elle seule, si tu pourras avoir un enfant.",
+    repere:(v)=>["info", v>4 ? "au-dessus d'environ 4 ng/mL : c'est fréquent avec un SMOP. les normes dépendent de ton âge et du labo." : "les normes dépendent de ton âge et du labo : compare avec ton compte-rendu."],
+    geste:""},
+  dheas:{titre:"DHEA-S",
+    quoi:"un androgène fabriqué surtout par tes glandes surrénales.",
+    smop:"s'il est élevé, ton SMOP a probablement une part surrénalienne, liée au stress.",
+    repere:()=>["info","les normes changent avec l'âge : compare avec la fourchette de ton compte-rendu. au-dessus, la piste surrénalienne est à explorer."],
+    geste:"sommeil, respiration lente et Serenitea soutiennent cet axe."},
+  crp:{titre:"CRP ultra-sensible",
+    quoi:"un marqueur d'inflammation dans ton corps.",
+    smop:"une inflammation de bas grade est fréquente avec un SMOP et entretient la résistance à l'insuline.",
+    repere:(v)=> v>10 ? ["info","au-dessus de 10 mg/L : souvent une infection ou une inflammation passagère, à recontrôler à distance."]
+      : v>3 ? ["attention","entre 3 et 10 mg/L : inflammation de bas grade plus marquée."]
+      : v>=1 ? ["attention","entre 1 et 3 mg/L : inflammation légère."]
+      : ["ok","sous 1 mg/L : peu d'inflammation."],
+    geste:"assiette anti-inflammatoire, oméga-3, sommeil et mouvement régulier."},
 };
+
 
 // ─── PICTOGRAMMES (trait fin, cohérents) ─────────────────────────────────────
 const ICON_PATHS = {
@@ -10404,7 +10528,8 @@ export default function App() {
   const activeMissions = MISSIONS_BY_PROFILE[profil] || MISSIONS_META;
   const missionPour = (d)=>{
     if(d<=30){
-      const base = activeMissions[d-1] || MISSIONS_META[d-1] || MISSIONS_META[0];
+      const base0 = activeMissions[d-1] || MISSIONS_META[d-1] || MISSIONS_META[0];
+      const base = base0.outil ? base0 : (OUTILS_PAR_THEME[base0.theme] ? {...base0, outil:OUTILS_PAR_THEME[base0.theme]} : base0);
       // J14 : la mission compare les scores → on redirige vers la Vue d'ensemble
       if(d===14) return {...base, outil:{emoji:"📊",label:"Ouvre ta vue d'ensemble",desc:"compare ta progression au Jour 1",goTab:"apercu"}};
       // J15 : préparer le rendez-vous → onglet Santé (anciennement « Médecin »)
@@ -10510,16 +10635,24 @@ export default function App() {
     return out;
   };
 
-  const translate = async () => {
-    const filled = Object.entries(markers).filter(([,v])=>v&&v.trim());
+  const translate = () => {
+    const filled = Object.entries(markers).filter(([,v])=>v&&String(v).trim());
     if(!filled.length) return;
-    setTranslating(true); setTranslation(null); setTransErr(null);
-    const lines = filled.map(([k,v])=>{const m=MARKERS.find(x=>x.id===k);return`${m?.label||k}: ${v} ${m?.unit||""}`;}).join("\n");
-    try {
-      const res = await callAPI(`Tu es Kamila, fondatrice de SOPK Life. Grande sœur. Voix orale directe. Ton : proche, "Cyster".\n\nAnalyses de ${prenom||"cette Cyster"} :\n${lines}\n\nRéponds en 4 parties séparées par une ligne vide :\n\nCE QUE ÇA DIT EN LANGAGE HUMAIN\nChaque valeur avec normes fonctionnelles (insuline idéal < 8 µUI/mL, vitamine D idéal > 40 ng/mL, SHBG idéal > 60 nmol/L). Direct. Pas de jargon.\n\nCE QUI MÉRITE TON ATTENTION MAINTENANT\nMax 3 priorités concrètes.\n\nCE QUI EST RASSURANT\nCe qui est dans des zones satisfaisantes.\n\nLES QUESTIONS À POSER À TON MÉDECIN\n2-3 formulations exactes. Inclus HGPO si insuline ou glycémie limites.`);
-      setTranslation(res);
-    } catch(e) { setTransErr("réessaie dans quelques secondes Cyster"); }
-    setTranslating(false);
+    setTransErr(null);
+    const num=(x)=>parseFloat(String(x||"").replace(",","."));
+    const out=[];
+    filled.forEach(([k,v])=>{ const d=DECODEUR_ANALYSES[k]; const m=MARKERS.find(x=>x.id===k); const n=num(v); if(!d||isNaN(n)) return;
+      const [niveau,txt]=d.repere(n); out.push({k,titre:d.titre,valeur:String(v).trim()+" "+(m?m.unit:""),quoi:d.quoi,smop:d.smop,niveau,txt,geste:d.geste}); });
+    const ins=num(markers.insuline), gl=num(markers.glycemie);
+    if(!isNaN(ins)&&!isNaN(gl)&&ins>0&&gl>0){ const g=gl<3?gl*5.55:gl; const h=Math.round(g*ins/22.5*10)/10;
+      out.unshift({k:"homa",titre:"HOMA-IR (calculé pour toi)",valeur:String(h).replace(".",","),
+        quoi:"un score calculé à partir de ta glycémie et de ton insuline à jeun. il estime ta résistance à l'insuline.",
+        smop:"c'est souvent le chiffre le plus parlant pour comprendre le côté métabolique de ton SMOP.",
+        niveau:h>2.5?"attention":"ok",
+        txt:h>2.5?"au-dessus d'environ 2,5, on évoque souvent une résistance à l'insuline (les seuils varient un peu selon les études).":"sous environ 2,5 : c'est le repère souvent utilisé pour une bonne sensibilité à l'insuline.",
+        geste:"si ton score est élevé, ta priorité, c'est ta glycémie : assiette, marche après le repas, muscle."}); }
+    if(!out.length){ setTranslation(null); setTransErr("vérifie tes valeurs : écris seulement des nombres, par exemple 5.2"); return; }
+    setTranslation(out);
   };
 
   const ScoreRing = ({s,size=56,stroke=4}) => {
@@ -13669,16 +13802,28 @@ export default function App() {
                   </div>
                 ))}
               </div>
-              <button onClick={translate} disabled={translating||!Object.values(markers).some(v=>v&&v.trim())}
+              <button onClick={translate} disabled={!Object.values(markers).some(v=>v&&String(v).trim())}
                 style={{width:"100%",background:Object.values(markers).some(v=>v&&v.trim())?pc.p:C.border,border:"none",padding:"12px",borderRadius:11,color:"white",fontFamily:"inherit",fontSize:12,fontWeight:600,cursor:"pointer",marginBottom:translating||translation||transErr?10:0}}>
-                {translating?"Kamila analyse…":"Traduire mes analyses →"}
+                {"Traduire mes analyses →"}
               </button>
               {translating&&<div style={{textAlign:"center",padding:"8px"}}><div style={{width:22,height:22,border:`3px solid ${C.border}`,borderTopColor:pc.p,borderRadius:"50%",margin:"0 auto",animation:"spin 0.8s linear infinite"}}/></div>}
               {transErr&&<div style={{background:`${pc.p}12`,borderRadius:10,padding:"10px 12px",fontSize:11,color:C.brown,lineHeight:1.5}}>{transErr}</div>}
-              {translation&&(
-                <div style={{background:C.bubble,borderRadius:12,padding:"12px 14px"}}>
-                  <div style={{fontSize:9,letterSpacing:1.5,textTransform:"uppercase",color:C.light,marginBottom:6}}>Kamila te répond</div>
-                  <div style={{fontSize:12,lineHeight:1.85,color:C.brown,whiteSpace:"pre-wrap"}}>{translation}</div>
+              {Array.isArray(translation)&&translation.length>0&&(
+                <div style={{marginTop:4}}>
+                  <div style={{fontSize:9,letterSpacing:1.5,textTransform:"uppercase",color:C.light,margin:"6px 0 8px"}}>ce que disent tes valeurs</div>
+                  {translation.map(t=>(
+                    <div key={t.k} style={{background:C.bubble,borderRadius:12,padding:"12px 14px",marginBottom:8,borderLeft:`3px solid ${t.niveau==="attention"?"#D9A066":t.niveau==="ok"?"#8DA86A":C.border}`}}>
+                      <div style={{display:"flex",justifyContent:"space-between",gap:8,alignItems:"baseline"}}>
+                        <div style={{fontSize:12.5,fontWeight:700,color:C.brown}}>{t.titre}</div>
+                        <div style={{fontSize:11,fontWeight:700,color:pc.p,flexShrink:0}}>{t.valeur}</div>
+                      </div>
+                      <div style={{fontSize:11,color:C.mid,lineHeight:1.6,marginTop:5}}>{t.quoi}</div>
+                      <div style={{fontSize:11,color:C.brown,lineHeight:1.6,marginTop:5,fontWeight:500}}>{t.txt}</div>
+                      <div style={{fontSize:11,color:C.mid,lineHeight:1.6,marginTop:5}}>{t.smop}</div>
+                      {t.geste&&<div style={{fontSize:10.5,color:"#4F6038",lineHeight:1.55,marginTop:6,fontStyle:"italic"}}>{t.geste}</div>}
+                    </div>
+                  ))}
+                  <div style={{fontSize:9.5,color:C.light,lineHeight:1.5,marginTop:4}}>ces repères sont généraux : les normes changent selon les laboratoires et selon ton âge. compare aussi avec les valeurs écrites sur ton compte-rendu, et fais le point avec ton médecin pour l'interprétation complète.</div>
                 </div>
               )}
             </div>
