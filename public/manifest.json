@@ -1,7 +1,7 @@
 {
   "name": "SMOP Map",
   "short_name": "SMOP Map",
-  "description": "Ton accompagnement SOPK, un geste à la fois.",
+  "description": "Ton accompagnement SMOP, un geste à la fois.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
