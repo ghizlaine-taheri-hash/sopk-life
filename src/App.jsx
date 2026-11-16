@@ -10295,6 +10295,8 @@ export default function App() {
   useEffect(()=>{
     if(!ACCESS_GATE) return;
     if(!sb||!session){ setAccess(undefined); return; }
+    // aperçu de l'écran de blocage (ne fait que masquer l'espace pour la personne qui ouvre ce lien)
+    try{ if(window.location.hash==="#apercu-acces"){ setAccess(false); return; } }catch(e){}
     let alive=true; setAccess(undefined);
     const email=String(session.user?.email||"").trim().toLowerCase();
     sb.from("access_list").select("email").eq("email",email).maybeSingle()
