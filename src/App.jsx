@@ -1343,7 +1343,7 @@ observes:["dès maintenant : un petit-déjeuner plus parfumé et réconfortant",
 victoire:"un allié puissant. sans effort. sans coût. sans ordonnance."},
   {day:13,emoji:"🌙",theme:"le sommeil est médecine",
 mission:"couche-toi 30 minutes plus tôt ce soir — écrans coupés 30 min avant, chambre fraîche et sombre.",
-msg:"dormir c'est agir.\n\nton corps guérit la nuit. pas pendant que tu scrolles.\n\naujourd'hui on prend le sommeil au sérieux.",
+msg:"dormir c'est agir.\n\nton corps se répare la nuit. pas pendant que tu scrolles.\n\naujourd'hui on prend le sommeil au sérieux.",
 pourquoi:"le sommeil n'est pas un luxe pour ton SMOP, c'est un traitement. chaque nuit trop courte augmente ta résistance à l'insuline dès le lendemain — c'est mesurable.\n\nle mécanisme : le manque de sommeil fait grimper ton cortisol (l'hormone du stress). et ce cortisol élevé aggrave directement l'insulinorésistance, qui elle-même nourrit l'excès d'androgènes. tout est lié. une mauvaise nuit, et toute ta cascade hormonale travaille contre toi le jour suivant.\n\nà l'inverse, un sommeil profond et suffisant, c'est plusieurs heures où ton corps répare, régule ton cortisol et améliore ta sensibilité à l'insuline. gratuitement.",
 source:"le SMOP et le stress (cortisol) ont une relation bidirectionnelle, chacun aggrave l'autre ; l'axe HPA est altéré dans le SMOP (Pasquali et al., 1993, 2006).",
 comment:["fixe une heure de coucher 30 min plus tôt que d'habitude","coupe les écrans 30 minutes avant (la lumière bleue retarde l'endormissement)","baisse la température de ta chambre (18-19°C idéal)","fais le noir complet, ou utilise un masque","une tisane apaisante ou quelques pages de lecture pour signaler la fin de journée"],
@@ -1673,7 +1673,7 @@ pieges:["croire qu'une séance « doit faire mal pour marcher » — faux sur to
 plus:"les vidéos de yoga doux ou de pilates de 15 min sur YouTube sont parfaites : gratuit, chez toi, à ton rythme. je garde une playlist de mes préférées pour les jours où je ne sais pas par où commencer.",
 observes:["dès aujourd'hui : l'esprit plus clair, le corps détendu","dans quelques jours : moins de raideurs au réveil","dans 2 semaines : plus de tonus, un sommeil plus profond"],
 victoire:"tu viens de bouger d'une façon qui apaise ton inflammation au lieu de l'attiser.",
-outil:{emoji:"🧘‍♀️",label:null,desc:null,cible:null},
+outil:{emoji:"🧘‍♀️",label:"Mes mouvements",desc:"des séances douces, adaptées à ton énergie",goTab:"mouvement"},
 tisane:{nom:"Serenitea",timing:"le soir au coucher",lien:"https://sopklife.com/products/serenitea-detente-absolue",texte:"après une journée où tu as bougé, la Serenitea le soir accompagne la récupération et le retour au calme."}},
 
   {day:12,emoji:"🌿",theme:"curcuma & gingembre",
@@ -1699,7 +1699,7 @@ pieges:["« je récupérerai le week-end » : le sommeil ne se rattrape pas vrai
 plus:"mon rituel du soir est devenu sacré : écrans coupés, lumière tamisée, tisane tiède, quelques pages de lecture. ce n'est pas de la routine « bien-être » pour faire joli — c'est ce qui fait la différence entre une nuit qui répare et une nuit qui subit.",
 observes:["dès cette nuit : un endormissement un peu plus doux","dans quelques jours : des réveils moins difficiles","dans 2 semaines : une énergie et une humeur transformées par le sommeil"],
 victoire:"tu viens de protéger le moment où ton corps répare le plus — ton sommeil.",
-outil:{emoji:"⚡",label:"Le parcours fatigue complet",desc:"comprendre et retrouver ton énergie",cible:null},
+outil:{emoji:"⚡",label:"Le parcours fatigue complet",desc:"comprendre et retrouver ton énergie",sos:"fatigue"},
 tisane:{nom:"Serenitea",timing:"le soir au coucher",lien:"https://sopklife.com/products/serenitea-detente-absolue",texte:"la Serenitea est faite pour ça : passiflore et coquelicot apaisent le système nerveux et aident à l'endormissement, sans effet « lendemain difficile ». ton rituel sommeil."}},
 
   {day:14,emoji:"🏆",theme:"mi-parcours",
@@ -1712,7 +1712,7 @@ pieges:["ne pas voir ses progrès parce qu'on cherche au mauvais endroit (le mir
 plus:"si aujourd'hui tu te dis « je ne vois pas de grand changement » — relis vraiment ton Jour 7. presque à chaque fois, il y a des petites choses qu'on a déjà oubliées : un ballonnement en moins, un réveil plus facile, une après-midi sans coup de barre. c'est ça, la vraie progression.",
 observes:["aujourd'hui : tu mesures 2 semaines de travail de fond","dans 2 semaines (J30) : un bilan encore plus net","dans 2-3 mois : les changements visibles commencent à apparaître"],
 victoire:"tu es à mi-chemin, et ton corps te répond déjà — tu es sur la bonne voie, Cyster.",
-outil:{emoji:"📒",label:null,desc:null,cible:null},
+outil:{emoji:"📒",label:"Ma vue d'ensemble",desc:"regarde le chemin parcouru",goTab:"apercu"},
 tisane:{nom:"Inflamma Tea",timing:"milieu de journée",lien:"https://sopklife.com/products/inflamma-tea",texte:"mi-parcours, on ajoute enfin l'Inflamma Tea — ta tisane de profil. curcuma + gingembre (qui potentialise la curcumine), ortie et églantier : pensée pour le feu de fond. avec l'Équilibre Féminin, c'est la combo clé."}},
 
 
@@ -1726,7 +1726,7 @@ pieges:["demander juste « une prise de sang » sans préciser — tu repars inc
 plus:"si tu sens qu'on ne t'écoute pas ou qu'on balaie tes symptômes, tu as le droit de demander un deuxième avis. ton ressenti compte, tes symptômes comptent. tu vis dans ton corps tous les jours, pas le médecin.",
 observes:["aujourd'hui : tu te sens en contrôle de ta santé","au rendez-vous : un échange plus précis et plus utile","après : des analyses qui éclairent vraiment ton terrain"],
 victoire:"tu viens de reprendre le pouvoir sur ton parcours médical.",
-outil:{emoji:"👩‍⚕️",label:"Préparer ton dossier médecin",desc:"scripts et analyses à demander",cible:null},
+outil:{emoji:"👩‍⚕️",label:"Préparer ton dossier médecin",desc:"scripts et analyses à demander",goTab:"medecin"},
 tisane:{nom:"Inflamma Tea",timing:"milieu de journée",lien:"https://sopklife.com/products/inflamma-tea",texte:"l'Inflamma Tea en milieu de journée soutient ton terrain pendant que tu prépares ton suivi médical."}},
 
   {day:16,emoji:"🫐",theme:"les antioxydants",
@@ -1765,7 +1765,7 @@ pieges:["vouloir soudain « passer au niveau supérieur » en intensité : reste
 plus:"le vrai signe que ça marche, ce n'est pas de soulever plus lourd. c'est de te rendre compte qu'un geste du quotidien — monter les escaliers, porter tes courses — te coûte un peu moins qu'avant. ça, c'est ton corps qui se renforce en silence.",
 observes:["aujourd'hui : un mouvement un peu plus fluide qu'au début","dans 2 semaines : une habitude vraiment installée","au long cours : un corps plus tonique et moins enflammé"],
 victoire:"tu viens de transformer un effort en habitude — c'est ça qui dure.",
-outil:{emoji:"💪",label:null,desc:null,cible:null},
+outil:{emoji:"💪",label:"Mes mouvements",desc:"ta séance de renforcement, pas à pas",goTab:"mouvement"},
 tisane:null},
 
   {day:19,emoji:"⚡",theme:"le zinc",
@@ -1791,7 +1791,7 @@ pieges:["rester enfermée toute la journée : ton horloge et ton cortisol se dé
 plus:"mon rituel préféré : ma marche du matin à la lumière, même courte. ça cale mon cortisol, ça me réveille mieux que le café, et ça me prépare une meilleure nuit le soir. c'est un des gestes les plus sous-estimés pour un terrain apaisé.",
 observes:["dès aujourd'hui : un esprit plus clair, une humeur plus stable","dans quelques jours : un sommeil qui s'améliore","au long cours : un cortisol mieux réglé, un terrain plus calme"],
 victoire:"tu viens d'utiliser la lumière et la nature comme régulateurs de ton terrain.",
-outil:{emoji:"☀️",label:null,desc:null,cible:null},
+outil:{emoji:"☀️",label:"Mon ancrage",desc:"un moment pour toi, au calme",goTab:"ancrage"},
 tisane:null},
 
   {day:21,emoji:"📈",theme:"rendre visible ce qui a changé",
@@ -1804,7 +1804,7 @@ pieges:["ne pas voir ses progrès faute de les avoir notés","chercher LA grande
 plus:"relis-toi vraiment, en détail. presque à chaque fois, en comparant avec le Jour 7, on découvre des changements qu'on avait déjà intégrés sans s'en rendre compte. c'est la preuve concrète que ton corps répond — garde-la précieusement pour les jours de doute.",
 observes:["aujourd'hui : tu vois 3 semaines de travail rassemblées","dans une semaine (J30) : le bilan final, encore plus net","dans 2-3 mois : les changements visibles s'installent"],
 victoire:"tu viens de rendre visible tout le chemin parcouru — et il est réel.",
-outil:{emoji:"📒",label:null,desc:null,cible:null},
+outil:{emoji:"📒",label:"Ma vue d'ensemble",desc:"regarde le chemin parcouru",goTab:"apercu"},
 tisane:null},
 
 
@@ -1844,7 +1844,7 @@ pieges:["croire que « gérer son stress » est secondaire : c'est une racine, p
 plus:"les moments où j'en ai le moins envie sont souvent ceux où j'en ai le plus besoin. 5 minutes de respiration avant un rendez-vous stressant, ou le soir quand ma tête tourne, et je sens physiquement la pression redescendre. c'est gratuit, ça marche, et personne ne le prescrit.",
 observes:["dès aujourd'hui : un apaisement immédiat après la séance","dans quelques jours : une réactivité au stress un peu moindre","au long cours : un cortisol mieux régulé, un terrain plus calme"],
 victoire:"tu viens d'agir sur une des vraies racines de ton inflammation : le stress.",
-outil:{emoji:"🤍",label:"Le coach mindset de Kamila",desc:"quand le moral ou le stress montent",cible:null},
+outil:{emoji:"🤍",label:"Le coach mindset de Kamila",desc:"quand le moral ou le stress montent",goTab:"kamila",ancre:"coach-mindset"},
 tisane:{nom:"Serenitea",timing:"le soir au coucher",lien:"https://sopklife.com/products/serenitea-detente-absolue",texte:"la Serenitea est ta tisane anti-stress : l'ashwagandha aide à réguler le cortisol, en complément direct de ta respiration du jour. le soir, en rituel."}},
 
   {day:25,emoji:"🌅",theme:"ancrer l'habitude",
@@ -1870,7 +1870,7 @@ pieges:["repousser indéfiniment « quand j'aurai le temps » : prends le rendez
 plus:"si tu appréhendes le rendez-vous, relis tes scripts médecin juste avant. arriver préparée et structurée change complètement la dynamique : tu n'es plus une patiente qui subit, tu es une femme qui connaît son corps et collabore. et les médecins le ressentent.",
 observes:["aujourd'hui : tu reprends la main sur ton suivi","au rendez-vous : un échange utile et structuré","après : un plan clair, des marqueurs suivis"],
 victoire:"tu viens de transformer ta compréhension en action concrète pour ta santé.",
-outil:{emoji:"👩‍⚕️",label:"Tes scripts médecin",desc:"pour structurer ton rendez-vous",cible:null},
+outil:{emoji:"👩‍⚕️",label:"Tes scripts médecin",desc:"pour structurer ton rendez-vous",goTab:"medecin"},
 tisane:null},
 
   {day:27,emoji:"🎯",theme:"bilan honnête",
@@ -1883,7 +1883,7 @@ pieges:["ne retenir que le négatif : liste d'abord ce qui a marché","te culpab
 plus:"les choses qui ont été difficiles ne sont pas des échecs : ce sont des informations. si un geste n'a pas tenu, ce n'est pas que tu as « manqué de volonté », c'est peut-être qu'il ne s'intégrait pas à ta vie. cherche la version qui TE convient, pas celle d'un programme idéal.",
 observes:["aujourd'hui : tu sais ce qui marche pour toi","après le Jour 30 : tu gardes ce qui te convient","au long cours : une façon de vivre vraiment tienne"],
 victoire:"tu viens de faire quelque chose de rare : un bilan honnête et bienveillant avec toi-même.",
-outil:{emoji:"📒",label:null,desc:null,cible:null},
+outil:{emoji:"📒",label:"Ma vue d'ensemble",desc:"regarde le chemin parcouru",goTab:"apercu"},
 tisane:null},
 
   {day:28,emoji:"⚡",theme:"tout ensemble",
@@ -1909,7 +1909,7 @@ pieges:["sous-estimer l'accumulation : chaque petit signe compte dans le total",
 plus:"garde précieusement ce bilan d'un mois. les jours où tu douteras, où tu auras envie de tout lâcher, relis-le. c'est la preuve noir sur blanc, écrite par toi, que ton corps répond quand tu prends soin de lui. aucune publicité, aucun « avant/après » ne vaut ta propre expérience.",
 observes:["aujourd'hui : tu mesures un mois complet de travail","dans 2-3 mois : les changements visibles s'installent","au long cours : une trajectoire qui continue de monter"],
 victoire:"tu viens de mesurer un mois entier de soin à ton terrain — et le chemin est réel.",
-outil:{emoji:"📒",label:null,desc:null,cible:null},
+outil:{emoji:"📒",label:"Ma vue d'ensemble",desc:"regarde le chemin parcouru",goTab:"apercu"},
 tisane:null},
 
   {day:30,emoji:"🌸",theme:"ce que tu emmènes",
@@ -1992,7 +1992,7 @@ pieges:["croire que « plus c'est dur, mieux c'est » — le surentraînement pe
 plus:"la marche digestive de 10-15 min après le déjeuner est mon réflexe préféré : ça lisse le pic, ça aide ton insuline, et c'est le genre de micro-habitude qui, répétée, fait une vraie différence sur ton terrain hormonal.",
 observes:["dès aujourd'hui : l'esprit plus clair, moins de coup de barre","dans quelques jours : une énergie plus stable","au fil des semaines : un terrain androgénique plus calme"],
 victoire:"tu viens de bouger d'une façon qui calme tes androgènes au lieu de les relancer.",
-outil:{emoji:"🚶‍♀️",label:null,desc:null,cible:null},
+outil:{emoji:"🚶‍♀️",label:"Mes mouvements",desc:"marche et mouvements doux pour tes hormones",goTab:"mouvement"},
 tisane:null},
 
   {day:6,emoji:"🔍",theme:"traquer le sucre caché",
@@ -2056,7 +2056,7 @@ pieges:["croire que « gérer son stress » est secondaire : c'est une source d'
 plus:"si ton stress est vraiment dominant (réveils à 3h, tension permanente, épuisement surrénalien), la Serenitea est la tisane pensée pour ce mécanisme précis — l'ashwagandha aide à réguler le cortisol. c'est une option à envisager en plus de ton protocole, selon ton ressenti.",
 observes:["dès aujourd'hui : un apaisement immédiat après la séance","dans quelques jours : une réactivité au stress un peu moindre","au fil des semaines : un cortisol mieux régulé = moins d'androgènes surrénaliens"],
 victoire:"tu viens d'agir sur une source de tes androgènes que personne ne t'avait expliquée.",
-outil:{emoji:"🤍",label:"Le coach mindset de Kamila",desc:"quand le stress monte",cible:null},
+outil:{emoji:"🤍",label:"Le coach mindset de Kamila",desc:"quand le stress monte",goTab:"kamila",ancre:"coach-mindset"},
 tisane:{nom:"Équilibre Féminin",timing:"milieu de journée",lien:"https://sopklife.com/products/cure-sopk-equilibre-feminin",texte:"l'Équilibre Féminin contient de la mélisse, un adaptogène doux qui aide à réguler l'axe du stress (HPA) — un soutien direct sur ton versant surrénalien."}},
 
   {day:11,emoji:"🧘‍♀️",theme:"bouger sans relancer tes androgènes",
@@ -2069,7 +2069,7 @@ pieges:["croire que « plus c'est dur, mieux c'est » : contre-productif sur ton
 plus:"si tu aimes l'intensité, ce n'est pas interdit — mais dose. l'idée n'est pas de ne jamais forcer, c'est de ne pas vivre en épuisement permanent. ton corps a besoin d'être soutenu, pas cassé, pour calmer tes androgènes.",
 observes:["dès aujourd'hui : l'esprit plus clair, le corps détendu","dans quelques jours : un sommeil un peu plus profond","au fil des semaines : les deux voies (insuline et surrénales) apaisées"],
 victoire:"tu viens de bouger d'une façon qui calme tes androgènes au lieu de les relancer.",
-outil:{emoji:"🧘‍♀️",label:null,desc:null,cible:null},
+outil:{emoji:"🧘‍♀️",label:"Mes mouvements",desc:"des séances douces, adaptées à ton énergie",goTab:"mouvement"},
 tisane:null},
 
   {day:12,emoji:"🌿",theme:"la menthe verte, alliée anti-androgènes",
@@ -2095,7 +2095,7 @@ pieges:["« je récupérerai le week-end » : le sommeil ne se rattrape pas vrai
 plus:"sur ton profil, je considère le sommeil comme un vrai « traitement » gratuit : il agit à la fois sur ton cortisol et sur ton insuline, les deux moteurs de tes androgènes. protège-le comme tu protégerais un rendez-vous important.",
 observes:["dès cette nuit : un endormissement un peu plus doux","dans quelques jours : des réveils moins difficiles","au fil des semaines : cortisol et insuline mieux régulés"],
 victoire:"tu viens de protéger un de tes leviers anti-androgènes les plus puissants : ton sommeil.",
-outil:{emoji:"⚡",label:"Le parcours fatigue complet",desc:"comprendre et retrouver ton énergie",cible:null},
+outil:{emoji:"⚡",label:"Le parcours fatigue complet",desc:"comprendre et retrouver ton énergie",sos:"fatigue"},
 tisane:null},
 
   {day:14,emoji:"🏆",theme:"mi-parcours",
@@ -2121,7 +2121,7 @@ pieges:["demander juste « une prise de sang » sans préciser : tu repars incom
 plus:"pour les dosages hormonaux, le moment du cycle compte (souvent en début de cycle) et il faut parfois s'allonger 20-30 min avant la prise de sang pour la prolactine. demande à ton labo les conditions exactes — ça évite de refaire la prise pour rien.",
 observes:["aujourd'hui : tu te sens en contrôle de ta santé","au rendez-vous : un échange plus précis et plus utile","après : des analyses qui éclairent vraiment ton terrain androgénique"],
 victoire:"tu viens de reprendre le pouvoir sur ton parcours médical.",
-outil:{emoji:"👩‍⚕️",label:"Préparer ton dossier médecin",desc:"scripts et analyses à demander",cible:null},
+outil:{emoji:"👩‍⚕️",label:"Préparer ton dossier médecin",desc:"scripts et analyses à demander",goTab:"medecin"},
 tisane:{nom:"Équilibre Féminin",timing:"milieu de journée",lien:"https://sopklife.com/products/cure-sopk-equilibre-feminin",texte:"l'Équilibre Féminin continue en fond pendant que tu prépares ton suivi médical — la fondation de ton protocole."}},
 
   {day:16,emoji:"🥑",theme:"les bons gras et tes hormones",
@@ -2160,7 +2160,7 @@ pieges:["vouloir soudain passer à l'intensité : garde le doux pour ton profil"
 plus:"le vrai signe que ça marche, ce n'est pas de soulever plus lourd. c'est qu'un geste du quotidien te coûte un peu moins qu'avant. ton corps se renforce en silence, et ton insuline te remercie.",
 observes:["aujourd'hui : un mouvement un peu plus fluide qu'au début","dans 2 semaines : une habitude vraiment installée","au long cours : tes deux voies androgéniques apaisées"],
 victoire:"tu viens de transformer un effort en habitude — c'est ça qui dure.",
-outil:{emoji:"💪",label:null,desc:null,cible:null},
+outil:{emoji:"💪",label:"Mes mouvements",desc:"ta séance de renforcement, pas à pas",goTab:"mouvement"},
 tisane:null},
 
   {day:19,emoji:"🍵",theme:"le thé vert, antioxydant anti-androgènes",
@@ -2186,7 +2186,7 @@ pieges:["rester enfermée toute la journée : cortisol et horloge se dérèglent
 plus:"ma marche du matin à la lumière est un de mes rituels préférés : elle cale mon cortisol, me réveille mieux que le café, et me prépare une meilleure nuit. pour ton profil, c'est un geste anti-androgènes surrénaliens déguisé en simple balade.",
 observes:["dès aujourd'hui : un esprit plus clair, une humeur plus stable","dans quelques jours : un sommeil qui s'améliore","au fil des semaines : un cortisol mieux réglé = moins d'androgènes surrénaliens"],
 victoire:"tu viens d'utiliser la lumière et la nature comme régulateurs de tes androgènes.",
-outil:{emoji:"☀️",label:null,desc:null,cible:null},
+outil:{emoji:"☀️",label:"Mon ancrage",desc:"un moment pour toi, au calme",goTab:"ancrage"},
 tisane:null},
 
   {day:21,emoji:"📈",theme:"rendre visible ce qui a changé",
@@ -2199,7 +2199,7 @@ pieges:["chercher LA grande transformation visible : c'est encore tôt pour les 
 plus:"relis-toi vraiment, en comparant avec le Jour 3. presque à chaque fois, on découvre des changements qu'on avait déjà oubliés. et pour la peau, parfois c'est subtil au début : un peu moins de poussées, une texture un peu différente. ce sont les premiers signes que ça répond.",
 observes:["aujourd'hui : tu vois 3 semaines de travail rassemblées","dans 1-5 semaines : la peau continue de répondre","dans 3-6 mois : la pilosité et les cheveux"],
 victoire:"tu viens de rendre visible tout le chemin parcouru — et il est réel.",
-outil:{emoji:"📒",label:null,desc:null,cible:null},
+outil:{emoji:"📒",label:"Ma vue d'ensemble",desc:"regarde le chemin parcouru",goTab:"apercu"},
 tisane:null},
 
   {day:22,emoji:"🔬",theme:"relire tes analyses",
@@ -2238,7 +2238,7 @@ pieges:["croire que c'est « réglé » après quelques séances : c'est une pra
 plus:"les habitudes anti-stress sont les plus faciles à laisser tomber, parce qu'on ne « voit » pas leur effet immédiatement. mais sur ton profil, elles agissent sur une vraie source d'androgènes. traite-les comme un levier hormonal, pas comme un bonus détente.",
 observes:["aujourd'hui : une pratique plus naturelle qu'il y a 2 semaines","au fil des semaines : une réactivité au stress réduite","au long cours : un cortisol et des androgènes surrénaliens mieux régulés"],
 victoire:"tu viens d'ancrer une habitude qui agit directement sur tes androgènes surrénaliens.",
-outil:{emoji:"🤍",label:"Le coach mindset de Kamila",desc:"quand le stress monte",cible:null},
+outil:{emoji:"🤍",label:"Le coach mindset de Kamila",desc:"quand le stress monte",goTab:"kamila",ancre:"coach-mindset"},
 tisane:{nom:"Équilibre Féminin",timing:"milieu de journée",lien:"https://sopklife.com/products/cure-sopk-equilibre-feminin",texte:"la mélisse de l'Équilibre Féminin soutient ton axe du stress au quotidien — et si le stress domine vraiment, la Serenitea est l'option à envisager en plus."}},
 
   {day:25,emoji:"🌅",theme:"ancrer l'habitude",
@@ -2264,7 +2264,7 @@ pieges:["repousser « quand j'aurai le temps » : prends le rendez-vous maintena
 plus:"si tu appréhendes, relis tes scripts médecin juste avant. arriver préparée change tout : tu n'es plus une patiente qui subit, tu es une femme qui connaît son corps et collabore. les médecins le ressentent.",
 observes:["aujourd'hui : tu reprends la main sur ton suivi","au rendez-vous : un échange utile et structuré","après : un plan clair, des marqueurs suivis"],
 victoire:"tu viens de transformer ta compréhension en action concrète pour ta santé.",
-outil:{emoji:"👩‍⚕️",label:"Tes scripts médecin",desc:"pour structurer ton rendez-vous",cible:null},
+outil:{emoji:"👩‍⚕️",label:"Tes scripts médecin",desc:"pour structurer ton rendez-vous",goTab:"medecin"},
 tisane:null},
 
   {day:27,emoji:"🎯",theme:"bilan honnête",
@@ -2277,7 +2277,7 @@ pieges:["ne retenir que le négatif : liste d'abord ce qui a marché","te culpab
 plus:"les choses difficiles ne sont pas des échecs, ce sont des informations. si un geste n'a pas tenu, ce n'est pas un manque de volonté — c'est peut-être qu'il ne collait pas à ta vie. cherche la version qui TE convient, celle que tu tiendras des mois.",
 observes:["aujourd'hui : tu sais ce qui marche pour toi","après le Jour 30 : tu gardes ce qui te convient","sur les mois à venir : la constance qui fait les résultats"],
 victoire:"tu viens de faire quelque chose de rare : un bilan honnête et bienveillant avec toi-même.",
-outil:{emoji:"📒",label:null,desc:null,cible:null},
+outil:{emoji:"📒",label:"Ma vue d'ensemble",desc:"regarde le chemin parcouru",goTab:"apercu"},
 tisane:null},
 
   {day:28,emoji:"⚡",theme:"tout ensemble",
@@ -2303,7 +2303,7 @@ pieges:["attendre des résultats visibles complets à un mois : c'est encore tô
 plus:"garde précieusement ce bilan d'un mois. sur ton profil, la tentation d'abandonner est forte justement parce que les résultats visibles prennent du temps. ce bilan est ta preuve, écrite par toi, que ton corps répond — relis-le les jours de doute.",
 observes:["aujourd'hui : tu mesures un mois complet de travail","dans 1-5 semaines : la peau continue de répondre","dans 3-6 mois : la pilosité et les cheveux s'améliorent"],
 victoire:"tu viens de mesurer un mois entier de travail sur tes androgènes — et la trajectoire est réelle.",
-outil:{emoji:"📒",label:null,desc:null,cible:null},
+outil:{emoji:"📒",label:"Ma vue d'ensemble",desc:"regarde le chemin parcouru",goTab:"apercu"},
 tisane:null},
 
   {day:30,emoji:"🌸",theme:"ce que tu emmènes",
@@ -2369,7 +2369,7 @@ const MISSIONS_MIXTE_MA = [
    plus:"ton protocole mixte est maintenant complet : chaque tisane cible un de tes leviers. ce n'est pas « trop » — c'est adapté à un profil qui a deux moteurs. introduis-les progressivement, écoute ton corps, et laisse-les travailler ensemble.",
    observes:["aujourd'hui : 3 semaines de travail sur tes deux moteurs","dans 1-5 semaines : la peau continue de répondre","dans 3-6 mois : la pilosité et les cheveux"],
    victoire:"tu viens de compléter ton protocole mixte — une tisane pour chacun de tes leviers.",
-   outil:{emoji:"📒",label:null,desc:null,cible:null},
+   outil:{emoji:"📒",label:"Ma vue d'ensemble",desc:"regarde le chemin parcouru",goTab:"apercu"},
    tisane:_tAT("aujourd'hui on ajoute l'Andro Tea le soir — le versant androgénique de ton protocole. avec la Stabilitea et l'Équilibre Féminin, tu as maintenant une tisane par levier.")},
   {...MISSIONS_ANDRO[21], tisane:null},
   {...MISSIONS_ANDRO[22], tisane:null},
@@ -2408,7 +2408,7 @@ const MISSIONS_MIXTE_MI = [
    plus:"sur un profil mixte, le stress est souvent le fil qui relie tes deux versants. en l'apaisant, tu agis sur l'insuline et sur l'inflammation en même temps. c'est un des leviers les plus rentables pour toi.",
    observes:["dès aujourd'hui : un apaisement immédiat après la séance","dans quelques jours : une réactivité au stress moindre","au fil des semaines : insuline et inflammation mieux régulées"],
    victoire:"tu viens d'agir sur un carburant commun à tes deux moteurs : le stress.",
-   outil:{emoji:"🤍",label:"Le coach mindset de Kamila",desc:"quand le stress monte",cible:null},
+   outil:{emoji:"🤍",label:"Le coach mindset de Kamila",desc:"quand le stress monte",goTab:"kamila",ancre:"coach-mindset"},
    tisane:_tSer("aujourd'hui on ajoute la Serenitea le soir : l'ashwagandha aide à réguler le cortisol, le point commun de tes deux versants. en rituel du soir.")},
   {...MISSIONS_INFLA[9], tisane:null},
   {...MISSIONS_INFLA[11], tisane:null},
@@ -2441,7 +2441,7 @@ const MISSIONS_MIXTE_MI = [
    plus:"ton protocole mixte est maintenant complet : chaque tisane cible un levier. introduis-les progressivement, écoute ton corps, et laisse-les travailler ensemble sur ton terrain.",
    observes:["aujourd'hui : 3 semaines sur tes deux feux","dans 2 semaines : un bilan final encore plus net","dans 2-3 mois : les changements visibles s'installent"],
    victoire:"tu viens de compléter ton protocole mixte — une tisane pour chacun de tes leviers.",
-   outil:{emoji:"📒",label:null,desc:null,cible:null},
+   outil:{emoji:"📒",label:"Ma vue d'ensemble",desc:"regarde le chemin parcouru",goTab:"apercu"},
    tisane:_tInf("aujourd'hui on ajoute l'Inflamma Tea en milieu de journée — le versant inflammatoire de ton protocole. ton protocole mixte est complet.")},
   {...MISSIONS_INFLA[21], tisane:null},
   {...MISSIONS_INFLA[22], tisane:null},
@@ -2475,7 +2475,7 @@ const MISSIONS_MIXTE_AI = [
    plus:"sur un profil mixte androgénique + inflammatoire, le stress est le fil qui relie tes deux problèmes. en l'apaisant, tu agis sur tes androgènes surrénaliens et sur ton inflammation en même temps.",
    observes:["dès aujourd'hui : un apaisement immédiat","dans quelques jours : une réactivité au stress moindre","au fil des semaines : androgènes surrénaliens et inflammation mieux régulés"],
    victoire:"tu viens d'agir sur une racine commune à tes deux versants : le stress.",
-   outil:{emoji:"🤍",label:"Le coach mindset de Kamila",desc:"quand le stress monte",cible:null},
+   outil:{emoji:"🤍",label:"Le coach mindset de Kamila",desc:"quand le stress monte",goTab:"kamila",ancre:"coach-mindset"},
    tisane:_tSer("aujourd'hui on ajoute la Serenitea le soir : l'ashwagandha régule le cortisol, le point commun de tes deux versants. en rituel du soir.")},
   {...MISSIONS_INFLA[9], tisane:null},
   {...MISSIONS_ANDRO[11], tisane:null},
@@ -2508,7 +2508,7 @@ const MISSIONS_MIXTE_AI = [
    plus:"ton protocole mixte est maintenant complet : chaque tisane cible un levier. introduis-les progressivement, écoute ton corps, et laisse-les travailler ensemble.",
    observes:["aujourd'hui : 3 semaines sur tes deux versants","dans 1-5 semaines : la peau continue de répondre","dans 3-6 mois : la pilosité et les cheveux"],
    victoire:"tu viens de compléter ton protocole mixte — une tisane pour chacun de tes leviers.",
-   outil:{emoji:"📒",label:null,desc:null,cible:null},
+   outil:{emoji:"📒",label:"Ma vue d'ensemble",desc:"regarde le chemin parcouru",goTab:"apercu"},
    tisane:_tAT("aujourd'hui on ajoute l'Andro Tea le soir — le versant androgénique de ton protocole. ton protocole mixte est complet.")},
   {...MISSIONS_ANDRO[21], tisane:null},
   {...MISSIONS_ANDRO[22], tisane:null},
@@ -11600,7 +11600,7 @@ export default function App() {
 
             {/* Lien vers un outil */}
             {todayData.outil&&(
-              <button onClick={()=>{ if(todayData.outil.lien){ try{ window.open(todayData.outil.lien,"_blank","noopener"); }catch(e){} } else if(todayData.outil.goTab){setTab(todayData.outil.goTab);} else {setTab("outils");setOutilOpen(todayData.outil.cible);if(todayData.outil.recherche!==undefined)setFoodSearch(todayData.outil.recherche);if(todayData.outil.cible==="repas"&&todayData.outil.moment)setRepasMoment(todayData.outil.moment);} }}
+              <button onClick={()=>{ if(todayData.outil.lien){ try{ window.open(todayData.outil.lien,"_blank","noopener"); }catch(e){} } else if(todayData.outil.sos){setSosOpen(todayData.outil.sos);} else if(todayData.outil.goTab){setTab(todayData.outil.goTab); if(todayData.outil.ancre) setScrollAnchor(todayData.outil.ancre);} else {setTab("outils");setOutilOpen(todayData.outil.cible);if(todayData.outil.recherche!==undefined)setFoodSearch(todayData.outil.recherche);if(todayData.outil.cible==="repas"&&todayData.outil.moment)setRepasMoment(todayData.outil.moment);} }}
                 style={{width:"100%",background:"linear-gradient(135deg, #D4A56A, #C49355)",border:"none",borderRadius:14,padding:"15px 16px",marginBottom:10,cursor:"pointer",fontFamily:"inherit",display:"flex",alignItems:"center",gap:12,textAlign:"left",boxShadow:"0 4px 14px rgba(212,165,106,0.4)"}}>
                 <div style={{fontSize:26,flexShrink:0,background:"rgba(255,255,255,0.25)",borderRadius:12,width:46,height:46,display:"flex",alignItems:"center",justifyContent:"center"}}>{todayData.outil.emoji}</div>
                 <div style={{flex:1}}>
@@ -11757,7 +11757,7 @@ export default function App() {
             ); })()}
 
             {/* ── COACH MINDSET ── */}
-            <div style={{background:`linear-gradient(135deg,${pc.l},${C.cream})`,borderRadius:16,padding:"1rem",marginBottom:10,border:`1px solid ${C.border}`}}>
+            <div id="coach-mindset" style={{background:`linear-gradient(135deg,${pc.l},${C.cream})`,borderRadius:16,padding:"1rem",marginBottom:10,border:`1px solid ${C.border}`}}>
               <div style={{fontSize:12,fontWeight:700,color:C.brown,marginBottom:3}}>Comment tu te sens, là ?</div>
               <div style={{fontSize:10.5,color:C.mid,marginBottom:11,lineHeight:1.5}}>dis-moi ton humeur du moment, et je te réponds.</div>
               <div style={{display:"flex",flexWrap:"wrap",gap:6}}>
