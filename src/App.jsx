@@ -10045,7 +10045,7 @@ export default function App() {
   const [vueJour, setVueJour] = useState(null); // jour consulté (null = ton jour du parcours) : revenir sur un jour sans perdre ta progression
   const [jourPicker, setJourPicker] = useState(false);
   const [jourPickerMois, setJourPickerMois] = useState(null);
-  const voirJour = (d)=>{ const v=Math.max(1,Math.min(Math.max(365,day),d)); setVueJour(v===day?null:v); };
+  const voirJour = (d)=>{ const v=Math.max(1,Math.min(365,d)); setVueJour(v===day?null:v); };
   const [fatigueOpen, setFatigueOpen] = useState(false);
   const [fatigueStep, setFatigueStep] = useState(0);
   const [checked, setChecked] = useState(() => load("checked",{}));
@@ -10264,7 +10264,8 @@ export default function App() {
       if(load("screen","name")!=="app" || load("onboardingDone","no")==="no") return;
       const n=(parseInt(load("day",1),10)||1)+1;
       setDay(n); setDayOffset(0); setVueJour(null);
-      showToast("Jour "+n,"ta nouvelle mission t'attend, à ton rythme.");
+      if(n>365) showToast("Ton geste du jour","un petit geste d'entretien t'attend, en attendant ton année 2.");
+      else showToast("Jour "+n,"ta nouvelle mission t'attend, à ton rythme.");
     }catch(e){} };
     avance();
     const onVis=()=>{ if(document.visibilityState==="visible") avance(); };
@@ -10303,6 +10304,8 @@ export default function App() {
   const [planTab, setPlanTab] = useState("semaine"); // semaine / idees / courses
   const [planPicker, setPlanPicker] = useState(null); // {jour, moment} slot à remplir
   const [planCustom, setPlanCustom] = useState(""); // saisie repas libre dans le sélecteur
+  const [planRecQ, setPlanRecQ] = useState(""); // recherche de recette dans le sélecteur
+  const [planRecAutres, setPlanRecAutres] = useState(false); // afficher les recettes des autres moments
   const [coursesChecked, setCoursesChecked] = useState({});
   const [coursesCustom, setCoursesCustom] = useState(() => load("coursesCustom",[])); // articles ajoutés à la main
   const [coursesRemoved, setCoursesRemoved] = useState(() => load("coursesRemoved",{})); // articles auto retirés
@@ -11381,7 +11384,18 @@ export default function App() {
 
             {/* ══ 2. TON ACTION DU JOUR (la mission) ══ */}
             {/* ══ Ton avancée (jours) + revenir à n'importe quel jour ══ */}
-            <div style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:12,padding:"11px 13px",marginBottom:10}}>
+            {(()=>{ const postParcours = day>365 && vueJour==null; return (
+            <div style={{background:postParcours?`linear-gradient(135deg, ${pc.p}1A, ${C.white} 70%)`:C.white,border:postParcours?`1.5px solid ${pc.p}`:`1px solid ${C.border}`,borderRadius:postParcours?16:12,padding:postParcours?"16px":"11px 13px",marginBottom:10}}>
+              {postParcours ? (
+                <div>
+                  <div style={{fontSize:9,letterSpacing:1.5,textTransform:"uppercase",color:pc.p,fontWeight:700,marginBottom:6}}>bonus · mise à jour à venir</div>
+                  <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.2rem",fontWeight:600,color:C.brown,lineHeight:1.3,marginBottom:8}}>ton année 2 arrive</div>
+                  <div style={{fontSize:11.5,color:C.mid,lineHeight:1.6}}>tu as bouclé tes 365 jours. ton espace prépare ta mise à jour : une deuxième année pensée pour vivre avec ton SMOP au quotidien, au rythme de tes saisons et de ta vie. elle est incluse dans ton espace, et tu seras prévenue dès qu'elle arrive.</div>
+                  <div style={{fontSize:11,color:C.mid,lineHeight:1.6,marginTop:8}}>en attendant, un petit geste d'entretien t'attend chaque jour juste en dessous. tu n'es jamais lâchée.</div>
+                  <button onClick={()=>{ setJourPickerMois(101); setJourPicker(o=>!o); }} aria-expanded={jourPicker}
+                    style={{marginTop:12,background:"none",border:`1px solid ${pc.p}`,borderRadius:99,padding:"7px 14px",color:pc.p,fontFamily:"inherit",fontSize:11,fontWeight:700,cursor:"pointer"}}>{jourPicker?"fermer":"revoir un jour de mon parcours"}</button>
+                </div>
+              ) : (<>
               <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",gap:8,marginBottom:8}}>
                 <button onClick={()=>{ const md=moisDuJour(jourAff); setJourPickerMois(md.an*100+md.m.n); setJourPicker(o=>!o); }} aria-expanded={jourPicker}
                   style={{background:"none",border:"none",padding:0,cursor:"pointer",fontFamily:"inherit",textAlign:"left",minWidth:0}}>
@@ -11392,13 +11406,13 @@ export default function App() {
                 <div style={{fontSize:9.5,color:C.light,flexShrink:0}}>{completedCount} mission{completedCount>1?"s":""} accomplie{completedCount>1?"s":""}</div>
               </div>
               <div style={{height:6,background:C.bubble,borderRadius:99,marginBottom:11,overflow:"hidden"}}>
-                <div style={{height:"100%",width:`${day<=30?Math.min(100,(completedCount/30)*100):((((day-1)%365)+1)/365)*100}%`,background:`linear-gradient(90deg,${pc.p},${pc.p}CC)`,borderRadius:99,transition:"width 0.4s"}}/>
+                <div style={{height:"100%",width:`${day<=30?Math.min(100,(completedCount/30)*100):(Math.min(day,365)/365)*100}%`,background:`linear-gradient(90deg,${pc.p},${pc.p}CC)`,borderRadius:99,transition:"width 0.4s"}}/>
               </div>
               {vueJour!=null&&(
                 <div style={{background:`${pc.p}10`,borderRadius:9,padding:"8px 10px",marginBottom:10,fontSize:10.5,color:C.mid,lineHeight:1.5}}>
-                  tu regardes le jour {vueJour}. ton parcours, lui, reste au jour {day}.
+                  {day>365?"tu regardes le jour "+vueJour+" de ton parcours.":"tu regardes le jour "+vueJour+". ton parcours, lui, reste au jour "+day+"."}
                   <div style={{display:"flex",gap:8,flexWrap:"wrap",marginTop:6}}>
-                    <button onClick={()=>setVueJour(null)} style={{background:pc.p,border:"none",borderRadius:99,padding:"6px 12px",color:"white",fontFamily:"inherit",fontSize:10.5,fontWeight:700,cursor:"pointer"}}>revenir à mon jour {day}</button>
+                    <button onClick={()=>setVueJour(null)} style={{background:pc.p,border:"none",borderRadius:99,padding:"6px 12px",color:"white",fontFamily:"inherit",fontSize:10.5,fontWeight:700,cursor:"pointer"}}>{day>365?"revenir à mon geste du jour":"revenir à mon jour "+day}</button>
                     <button onClick={()=>{ if(window.confirm("Reprendre ton parcours au jour "+vueJour+" ? les jours suivants avanceront à partir d'ici.")){ setDay(vueJour); setVueJour(null); } }} style={{background:"none",border:`1px solid ${pc.p}`,borderRadius:99,padding:"6px 12px",color:pc.p,fontFamily:"inherit",fontSize:10.5,fontWeight:600,cursor:"pointer"}}>reprendre mon parcours ici</button>
                   </div>
                 </div>
@@ -11414,9 +11428,10 @@ export default function App() {
                     </button>
                   ))}
                 </div>
-                <button onClick={()=>voirJour(jourAff+1)} disabled={jourAff>=Math.max(365,day)} aria-label="jour suivant"
+                <button onClick={()=>voirJour(jourAff+1)} disabled={jourAff>=365} aria-label="jour suivant"
                   style={{flexShrink:0,width:28,height:28,borderRadius:"50%",border:`1.5px solid ${pc.p}`,background:pc.p,color:"white",fontSize:14,cursor:"pointer",fontFamily:"inherit",display:"flex",alignItems:"center",justifyContent:"center"}}>{"›"}</button>
               </div>
+              </>)}
               {jourPicker&&(()=>{
                 const sel=jourPickerMois||101; const an=1; const mn=sel%100;
                 const anMax=1;
@@ -11451,7 +11466,7 @@ export default function App() {
                   </div>
                 </div>);
               })()}
-            </div>
+            </div>); })()}
 
             {/* Mission — hero action du jour */}
             <div style={{background:C.white,borderRadius:20,padding:"1.3rem",marginBottom:12,border:`1.5px solid ${checked[jourAff]?pc.p:C.border}`,transition:"border-color 0.3s",boxShadow:`0 8px 24px ${pc.p}14`}}>
@@ -11471,8 +11486,8 @@ export default function App() {
                     else if(jourAff===14) showToast("Mi-parcours atteint","la moitié du chemin. ton corps enregistre déjà les changements.");
                     else if(jourAff===21) showToast("Trois semaines","tu tiens le rythme. la plupart abandonnent avant. pas toi.");
                     else if(jourAff===30) showToast("30 jours, nouvelle base 🌸","ce n'est pas une fin : c'est ta base de départ. tu n'es plus la même qu'au départ, fière de toi.");
-                    else if(jourAff%7===0) showToast(`Semaine ${Math.ceil(jourAff/7)} complète`,"une semaine de plus dans la cohérence.");
-                    else showToast(`Jour ${jourAff} validé`, todayData.victoire);
+                    else if(jourAff%7===0&&jourAff<=365) showToast(`Semaine ${Math.ceil(jourAff/7)} complète`,"une semaine de plus dans la cohérence.");
+                    else showToast(jourAff>365?"Geste validé":`Jour ${jourAff} validé`, todayData.victoire);
                   }
                 }}
                   style={{width:36,height:36,borderRadius:"50%",border:`2px solid ${checked[jourAff]?pc.p:C.border}`,background:checked[jourAff]?pc.p:"transparent",cursor:"pointer",fontSize:15,color:"white",flexShrink:0,transition:"all 0.25s",fontFamily:"inherit"}}>
@@ -11498,8 +11513,8 @@ export default function App() {
                     else if(jourAff===14) showToast("Mi-parcours atteint","la moitié du chemin. ton corps enregistre déjà les changements.");
                     else if(jourAff===21) showToast("Trois semaines","tu tiens le rythme. la plupart abandonnent avant. pas toi.");
                     else if(jourAff===30) showToast("30 jours, nouvelle base 🌸","ce n'est pas une fin : c'est ta base de départ. tu n'es plus la même qu'au départ, fière de toi.");
-                    else if(jourAff%7===0) showToast(`Semaine ${Math.ceil(jourAff/7)} complète`,"une semaine de plus dans la cohérence.");
-                    else showToast(`Jour ${jourAff} validé`, todayData.victoire);
+                    else if(jourAff%7===0&&jourAff<=365) showToast(`Semaine ${Math.ceil(jourAff/7)} complète`,"une semaine de plus dans la cohérence.");
+                    else showToast(jourAff>365?"Geste validé":`Jour ${jourAff} validé`, todayData.victoire);
                   }
                 }}
                 style={{width:"100%",padding:"12px",borderRadius:12,border:`2px solid ${pc.p}`,background:checked[jourAff]?pc.p:"transparent",color:checked[jourAff]?"white":pc.p,fontFamily:"inherit",fontSize:13,fontWeight:700,cursor:"pointer",marginBottom:4,transition:"all 0.25s"}}>
@@ -11704,7 +11719,7 @@ export default function App() {
               <button onClick={()=>setVocauxOpen(o=>!o)} style={{width:"100%",background:"none",border:"none",cursor:"pointer",fontFamily:"inherit",padding:0,display:"flex",alignItems:"center",justifyContent:"space-between",gap:8}}>
                 <div style={{textAlign:"left"}}>
                   <div style={{fontSize:11,fontWeight:600,color:C.brown}}>🎙️ Messages de Kamila</div>
-                  <div style={{fontSize:8.5,color:C.light,marginTop:1}}>tu es au Jour {day} · {dispo} message{dispo>1?"s":""} à écouter</div>
+                  <div style={{fontSize:8.5,color:C.light,marginTop:1}}>{day>365?"parcours bouclé":"tu es au Jour "+day} · {dispo} message{dispo>1?"s":""} à écouter</div>
                 </div>
                 <div style={{fontSize:13,color:pc.p,transform:vocauxOpen?"rotate(180deg)":"none",transition:"transform .2s"}}>▾</div>
               </button>
@@ -11951,6 +11966,7 @@ export default function App() {
                                 {meal?(
                                   <div style={{flex:1,display:"flex",alignItems:"center",gap:6,background:C.bubble,borderRadius:9,padding:"8px 10px"}}>
                                     <span style={{flex:1,fontSize:11,color:C.brown,lineHeight:1.3}}>{meal}</span>
+                                    {RECETTES[meal]&&<button onClick={()=>{ setRecFiltreMoment("tous"); setRecFiltreTag("tous"); setRecetteFiche(meal); setOutilOpen("recettes"); }} style={{background:"none",border:`1px solid ${pc.p}`,borderRadius:99,color:pc.p,fontSize:9.5,fontWeight:700,cursor:"pointer",fontFamily:"inherit",padding:"3px 8px",flexShrink:0}}>recette</button>}
                                     <button onClick={()=>setRepasPlan(p=>({...p,[jk]:{...(p[jk]||{}),[sk]:null}}))} aria-label="retirer" style={{background:"none",border:"none",color:C.light,fontSize:13,cursor:"pointer",fontFamily:"inherit",padding:"0 2px",flexShrink:0}}>✕</button>
                                   </div>
                                 ):(
@@ -11978,6 +11994,16 @@ export default function App() {
                             <div style={{fontSize:10,color:C.mid,marginTop:2,lineHeight:1.5}}>{r.compo}</div>
                           </div>
                         ))}
+                        {Object.keys(RECETTES).filter(n=>RECETTES[n].moment===sk&&!REPAS.some(x=>x.nom===n)).map(n=>(
+                          <button key={n} onClick={()=>{ setRecFiltreMoment("tous"); setRecFiltreTag("tous"); setRecetteFiche(n); setOutilOpen("recettes"); }}
+                            style={{width:"100%",textAlign:"left",background:C.white,border:`1px solid ${C.border}`,borderRadius:12,padding:"10px 12px",marginBottom:7,cursor:"pointer",fontFamily:"inherit",display:"flex",alignItems:"center",gap:8}}>
+                            <span style={{flex:1}}>
+                              <span style={{display:"block",fontSize:12,fontWeight:600,color:C.brown}}>{n}</span>
+                              <span style={{display:"block",fontSize:10,color:C.mid,marginTop:2}}>{[RECETTES[n].temps,...(RECETTES[n].tags||[])].filter(Boolean).join(" · ")}</span>
+                            </span>
+                            <span style={{fontSize:10,color:pc.p,fontWeight:700}}>recette →</span>
+                          </button>
+                        ))}
                       </div>
                     ))}
                   </div>
@@ -11986,7 +12012,7 @@ export default function App() {
                 {/* COURSES */}
                 {planTab==="courses"&&(()=>{
                   const auto=[]; const seen={};
-                  JOURS.forEach(([jk])=>{ const d=repasPlan[jk]||{}; SLOTS.forEach(([sk])=>{ const nom=d[sk]; if(!nom) return; const r=REPAS.find(x=>x.nom===nom); let ings=[]; if(r&&r.recette&&r.recette.ingredients) ings=r.recette.ingredients; else if(r&&r.compo) ings=r.compo.split("+").map(s=>s.trim()).filter(Boolean); ings.forEach(ing=>{ const key=ing.toLowerCase().replace(/\s+/g," ").trim(); if(!seen[key]){ seen[key]=true; auto.push(ing); } }); }); });
+                  JOURS.forEach(([jk])=>{ const d=repasPlan[jk]||{}; SLOTS.forEach(([sk])=>{ const nom=d[sk]; if(!nom) return; const r=REPAS.find(x=>x.nom===nom); let ings=[]; if(r&&r.recette&&r.recette.ingredients) ings=r.recette.ingredients; else if(RECETTES[nom]&&RECETTES[nom].ingredients) ings=RECETTES[nom].ingredients; else if(r&&r.compo) ings=r.compo.split("+").map(s=>s.trim()).filter(Boolean); ings.forEach(ing=>{ const key=ing.toLowerCase().replace(/\s+/g," ").trim(); if(!seen[key]){ seen[key]=true; auto.push(ing); } }); }); });
                   const autoVisible=auto.filter(ing=>!coursesRemoved[ing.toLowerCase()]);
                   const rows=[...autoVisible.map(ing=>({ing,custom:false})), ...coursesCustom.map(ing=>({ing,custom:true}))];
                   const nbChecked=rows.filter(r=>coursesChecked[r.ing.toLowerCase()]).length;
@@ -12053,14 +12079,44 @@ export default function App() {
                         </div>
                       </div>
 
-                      <div style={{fontSize:9,letterSpacing:1,textTransform:"uppercase",color:C.light,fontWeight:600,marginBottom:9}}>ou pioche une idée</div>
-                      {REPAS.filter(r=>r.moment===planPicker.moment).map((r,i)=>(
-                        <button key={i} onClick={()=>{ setRepasPlan(p=>({...p,[planPicker.jour]:{...(p[planPicker.jour]||{}),[planPicker.moment]:r.nom}})); setPlanPicker(null); showToast("repas ajouté","ta liste de courses se met à jour."); }}
-                          style={{width:"100%",textAlign:"left",background:C.white,border:`1px solid ${C.border}`,borderRadius:12,padding:"11px 12px",marginBottom:8,cursor:"pointer",fontFamily:"inherit"}}>
-                          <div style={{fontSize:12.5,fontWeight:600,color:C.brown}}>{r.nom}</div>
-                          <div style={{fontSize:10,color:C.mid,marginTop:2,lineHeight:1.5}}>{r.compo}</div>
-                        </button>
-                      ))}
+                      {(()=>{
+                        const q=planRecQ.trim().toLowerCase();
+                        const match=(t)=>!q||String(t||"").toLowerCase().includes(q);
+                        const nomsRepas=new Set(REPAS.map(x=>x.nom));
+                        const ajouter=(nom)=>{ setRepasPlan(p=>({...p,[planPicker.jour]:{...(p[planPicker.jour]||{}),[planPicker.moment]:nom}})); setPlanPicker(null); setPlanRecQ(""); showToast("repas ajouté","ta liste de courses se met à jour."); };
+                        const idees=REPAS.filter(x=>x.moment===planPicker.moment&&(match(x.nom)||match(x.compo)));
+                        const recs=Object.keys(RECETTES).filter(n=>!nomsRepas.has(n)&&(match(n)||(RECETTES[n].ingredients||[]).some(match)||(RECETTES[n].tags||[]).some(match)));
+                        const recsMoment=recs.filter(n=>RECETTES[n].moment===planPicker.moment);
+                        const recsAutres=recs.filter(n=>RECETTES[n].moment!==planPicker.moment);
+                        const MOM={matin:"petit-déj",midi:"déjeuner",soir:"dîner",collation:"collation"};
+                        const infoRec=(n)=>[RECETTES[n].temps,...(RECETTES[n].tags||[])].filter(Boolean).join(" · ");
+                        const titre=(t)=>(<div style={{fontSize:9,letterSpacing:1,textTransform:"uppercase",color:C.light,fontWeight:600,margin:"4px 0 9px"}}>{t}</div>);
+                        const carte=(nom,sous,key)=>(
+                          <button key={key} onClick={()=>ajouter(nom)}
+                            style={{width:"100%",textAlign:"left",background:C.white,border:`1px solid ${C.border}`,borderRadius:12,padding:"11px 12px",marginBottom:8,cursor:"pointer",fontFamily:"inherit"}}>
+                            <div style={{fontSize:12.5,fontWeight:600,color:C.brown}}>{nom}</div>
+                            {sous&&<div style={{fontSize:10,color:C.mid,marginTop:2,lineHeight:1.5}}>{sous}</div>}
+                          </button>);
+                        return(
+                          <div>
+                            <input value={planRecQ} onChange={e=>setPlanRecQ(e.target.value)} placeholder="chercher : poulet, lentilles, rapide…" aria-label="chercher une recette"
+                              style={{width:"100%",border:`1px solid ${C.border}`,borderRadius:10,padding:"10px 12px",fontSize:12,fontFamily:"inherit",color:C.brown,background:C.white,outline:"none",marginBottom:12}}/>
+                            {idees.length>0&&titre("idées pour ce repas")}
+                            {idees.map(x=>carte(x.nom,x.compo,"i"+x.nom))}
+                            {recsMoment.length>0&&titre("dans tes recettes ("+recsMoment.length+")")}
+                            {recsMoment.map(n=>carte(n,infoRec(n),"r"+n))}
+                            {recsAutres.length>0&&(
+                              <button onClick={()=>setPlanRecAutres(o=>!o)}
+                                style={{width:"100%",background:"none",border:`1px dashed ${pc.p}`,borderRadius:10,padding:"9px",marginBottom:8,cursor:"pointer",fontFamily:"inherit",fontSize:11,fontWeight:600,color:pc.p}}>
+                                {(planRecAutres||q)?"masquer les autres recettes":"voir aussi les autres recettes ("+recsAutres.length+")"}
+                              </button>
+                            )}
+                            {(planRecAutres||q)&&recsAutres.map(n=>carte(n,(MOM[RECETTES[n].moment]||"")+(infoRec(n)?" · "+infoRec(n):""),"a"+n))}
+                            {!idees.length&&!recs.length&&(
+                              <div style={{fontSize:11,color:C.light,textAlign:"center",padding:"14px 6px",lineHeight:1.6}}>aucune recette avec ce mot. écris ton propre repas au-dessus.</div>
+                            )}
+                          </div>);
+                      })()}
                     </div>
                   </div>
                 )}
@@ -13865,7 +13921,7 @@ profil · tes priorités · les analyses & questions que tu as cochées · ton s
                   const qLis=qList.length?`<ul>${qList.map(x=>`<li>${esc(x)}</li>`).join("")}</ul>`:"";
                   const inner=`
                   <h1>Mon dossier SMOP (SOPK) — à présenter à mon médecin</h1>
-                  <div><strong>${esc(prenom||"")}</strong> · ${esc(pc.label)} · progression : jour ${day}, ${completedCount} missions validées</div>
+                  <div><strong>${esc(prenom||"")}</strong> · ${esc(pc.label)} · ${day>365?"parcours de 365 jours bouclé":"progression : jour "+day}, ${completedCount} missions validées</div>
                   <h2>Mes priorités en ce moment</h2>
                   <table><tr><th style="padding:6px 10px;border:1px solid #E8DDD3;text-align:left">Priorité</th><th style="padding:6px 10px;border:1px solid #E8DDD3;text-align:left">Premier geste</th></tr>${rows}</table>
                   ${anaList.length?`<h2>Analyses que je souhaite demander</h2>${anaLis}`:""}
@@ -14220,7 +14276,7 @@ profil · tes priorités · les analyses & questions que tu as cochées · ton s
                 </div>
                 <div style={{flex:1}}>
                   <div style={{fontSize:14,fontWeight:700,color:C.brown}}>{completedCount} mission{completedCount>1?"s":""} accomplie{completedCount>1?"s":""}</div>
-                  <div style={{fontSize:10,color:C.light,marginTop:1}}>{day<=30?`Fondation · jour ${day}`:"au long cours"} · semaine {week}</div>
+                  <div style={{fontSize:10,color:C.light,marginTop:1}}>{day<=30?`Fondation · jour ${day}`:day>365?"parcours bouclé":"au long cours"} · semaine {week}</div>
                 </div>
               </div>
               <div style={{fontSize:11,color:C.mid,lineHeight:1.6,background:C.bubble,borderRadius:12,padding:"11px 13px"}}>
