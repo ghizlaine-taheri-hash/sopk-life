@@ -10034,6 +10034,76 @@ const OUTIL_CAT_OF = (oid)=>Object.keys(OUTIL_CATS).find(ck=>OUTIL_CATS[ck].tool
 const JOURS = [["lun","Lundi"],["mar","Mardi"],["mer","Mercredi"],["jeu","Jeudi"],["ven","Vendredi"],["sam","Samedi"],["dim","Dimanche"]];
 const SLOTS = [["matin","Petit-déj"],["midi","Déjeuner"],["soir","Dîner"]];
 
+// ─── LECTURE CROISÉE DES ANALYSES (sans IA) ─────────────────────────────────
+// v = valeurs numériques (glycémie déjà en mmol/L), homa = score calculé ou null.
+// chaque règle ne s'affiche que si les valeurs nécessaires sont renseignées.
+const CROISEMENTS_ANALYSES = [
+  {si:(v)=>v.glycemie!=null&&v.glycemie<5.6&&v.insuline!=null&&v.insuline>10,
+   titre:"glycémie normale, mais insuline haute",
+   texte:"ton sucre reste dans les clous parce que ton corps fabrique plus d'insuline pour le gérer. c'est le stade où tout se joue, et où agir est le plus efficace : on n'attend pas que la glycémie monte."},
+  {si:(v)=>v.insuline!=null&&v.insuline>10&&v.shbg!=null&&v.shbg<30,
+   titre:"ton insuline fait baisser ta SHBG",
+   texte:"quand l'insuline est haute, ton foie fabrique moins de SHBG. résultat : plus de testostérone reste libre et active, et c'est elle qui touche ta peau, tes poils, tes cheveux. agir sur ta glycémie, c'est donc aussi agir sur tes signes androgéniques."},
+  {si:(v)=>v.shbg!=null&&v.shbg<30&&(v.insuline==null||v.insuline<=10)&&(v.homa==null||v.homa<=2.5),
+   titre:"SHBG basse, sans insuline haute",
+   texte:"ta SHBG est basse alors que ton insuline n'est pas élevée. d'autres pistes peuvent jouer (thyroïde, foie, alimentation très pauvre en fibres) : c'est une bonne question à poser à ton médecin."},
+  {si:(v)=>v.homa!=null&&v.homa>2.5&&v.vitD!=null&&v.vitD<30,
+   titre:"vitamine D basse et résistance à l'insuline",
+   texte:"une vitamine D basse va souvent avec une insuline qui travaille plus dur. les deux se corrigent en parallèle : lumière du jour, vitamine D3 + K2, et ton assiette stabilisatrice."},
+  {si:(v)=>v.crp!=null&&v.crp>=1&&((v.insuline!=null&&v.insuline>10)||(v.homa!=null&&v.homa>2.5)),
+   titre:"inflammation et insuline s'entretiennent",
+   texte:"l'inflammation de fond rend tes cellules moins sensibles à l'insuline, et une insuline haute entretient l'inflammation. c'est un cercle : en apaisant l'un, tu apaises l'autre."},
+  {si:(v)=>v.ferritine!=null&&v.ferritine>200&&v.crp!=null&&v.crp>=1,
+   titre:"ferritine haute avec de l'inflammation",
+   texte:"ta ferritine monte aussi quand le corps est inflammé : ce n'est probablement pas un excès de fer. ne prends pas de fer en complément sans en avoir parlé à ton médecin."},
+  {si:(v)=>v.ferritine!=null&&v.ferritine<30&&v.vitD!=null&&v.vitD<30,
+   titre:"deux réserves basses en même temps",
+   texte:"fer et vitamine D bas ensemble, c'est souvent fatigue, moral en berne et cheveux qui tombent. bonne nouvelle : ce sont deux choses qui se corrigent bien."},
+  {si:(v)=>v.tsh!=null&&v.tsh>2.5&&v.ferritine!=null&&v.ferritine<30,
+   titre:"fatigue : deux pistes à regarder",
+   texte:"une TSH un peu haute et des réserves de fer basses peuvent toutes les deux expliquer une grosse fatigue. la thyroïde a d'ailleurs besoin de fer pour bien fonctionner."},
+  {si:(v)=>v.dheas!=null&&(v.insuline==null||v.insuline<=10)&&(v.homa==null||v.homa<=2.5)&&(v.insuline!=null||v.homa!=null),
+   titre:"si ta DHEA-S est au-dessus de la norme",
+   texte:"avec une insuline qui n'est pas élevée, une DHEA-S haute oriente plutôt vers la piste surrénalienne : ton SMOP réagit au stress. sommeil, respiration lente et Serenitea deviennent tes priorités."},
+  {si:(v)=>v.amh!=null&&v.amh>4,
+   titre:"une AMH haute, ça veut dire quoi pour toi",
+   texte:"une AMH élevée reflète beaucoup de petits follicules, typique du SMOP. ce n'est pas un signe de « mauvaise » fertilité : beaucoup de femmes avec un SMOP ont des enfants."},
+];
+// axes de priorité : score selon les valeurs, geste et outil associés
+const PRIORITES_ANALYSES = [
+  {id:"metab",titre:"apaiser ta glycémie et ton insuline",
+   score:(v)=>Math.max(v.glycemie!=null?(v.glycemie>=7?12:v.glycemie>=5.6?8:0):0, v.homa!=null&&v.homa>2.5?10:0, v.insuline!=null&&v.insuline>10?9:0, v.shbg!=null&&v.shbg<30?6:0),
+   geste:"protéines au petit-déj, légumes en premier, 10 minutes de marche après les repas, du renforcement deux fois par semaine.",
+   action:{label:"L'assiette SMOP",cible:"assiette"}},
+  {id:"thyro",titre:"faire regarder ta thyroïde",
+   score:(v)=>v.tsh==null?0:(v.tsh>4||v.tsh<0.4)?9:v.tsh>2.5?3:0,
+   geste:"demande la T4L et les anticorps anti-TPO à ton prochain rendez-vous.",
+   action:{label:"Mon espace Santé",goTab:"medecin"}},
+  {id:"vitD",titre:"remonter ta vitamine D",
+   score:(v)=>v.vitD==null||v.vitD>100?0:v.vitD<20?7:v.vitD<30?5:0,
+   geste:"lumière du jour chaque matin, et ta vitamine D3 + K2 au repas.",
+   action:{label:"Compléments & tisanes",cible:"complements"}},
+  {id:"fer",titre:"remonter tes réserves de fer",
+   score:(v)=>v.ferritine!=null&&v.ferritine<30?7:0,
+   geste:"lentilles, viande rouge ou boudin noir, épinards, avec de la vitamine C au même repas. thé et café à distance des repas.",
+   action:{label:"Chercher un aliment",cible:"aliments",recherche:"lentille"}},
+  {id:"inflam",titre:"calmer l'inflammation de fond",
+   score:(v)=>v.crp==null?0:v.crp>10?3:v.crp>3?7:v.crp>=1?4:0,
+   geste:"poissons gras ou oméga-3, légumes colorés, sommeil protégé, mouvement doux régulier.",
+   action:{label:"Idées repas",cible:"repas"}},
+];
+// analyses utiles selon le profil (identifiants de MARKERS)
+const ANALYSES_RECO_PROFIL = {
+  metabolique:["insuline","glycemie","shbg","vitD","ferritine"],
+  androgenique:["testoLibre","shbg","dheas","insuline","glycemie"],
+  inflammatoire:["crp","tsh","ferritine","vitD","insuline"],
+  surrenalien:["dheas","insuline","glycemie","tsh","vitD"],
+  mixte_ma:["insuline","glycemie","testoLibre","shbg","dheas"],
+  mixte_mi:["insuline","glycemie","crp","tsh","ferritine"],
+  mixte_ai:["testoLibre","shbg","dheas","crp","ferritine"],
+};
+const ANALYSES_MOT_CLE = {insuline:"insuline",glycemie:"glycémie",tsh:"tsh",vitD:"vitamine d",testoLibre:"testostérone",shbg:"shbg",ferritine:"ferritine",amh:"amh",dheas:"dhea",crp:"crp"};
+
 // ─── DÉCODEUR D'ANALYSES (sans IA) ─────────────────────────────────────────
 // repères généraux souvent utilisés ; les normes changent selon les labos → on le dit toujours.
 const DECODEUR_ANALYSES = {
@@ -10652,7 +10722,16 @@ export default function App() {
         txt:h>2.5?"au-dessus d'environ 2,5, on évoque souvent une résistance à l'insuline (les seuils varient un peu selon les études).":"sous environ 2,5 : c'est le repère souvent utilisé pour une bonne sensibilité à l'insuline.",
         geste:"si ton score est élevé, ta priorité, c'est ta glycémie : assiette, marche après le repas, muscle."}); }
     if(!out.length){ setTranslation(null); setTransErr("vérifie tes valeurs : écris seulement des nombres, par exemple 5.2"); return; }
-    setTranslation(out);
+    const vals={}; Object.keys(DECODEUR_ANALYSES).forEach(k=>{ const n=num(markers[k]); vals[k]=isNaN(n)?null:n; });
+    if(vals.glycemie!=null&&vals.glycemie<3) vals.glycemie=vals.glycemie*5.55;
+    vals.homa=(vals.insuline!=null&&vals.glycemie!=null&&vals.insuline>0&&vals.glycemie>0)?Math.round(vals.glycemie*vals.insuline/22.5*10)/10:null;
+    const liens=CROISEMENTS_ANALYSES.filter(c=>{ try{ return c.si(vals); }catch(e){ return false; } }).map(c=>({titre:c.titre,texte:c.texte}));
+    const prios=PRIORITES_ANALYSES.map(p=>({...p,s:p.score(vals)})).filter(p=>p.s>0).sort((a,b)=>b.s-a.s).slice(0,3);
+    const reco=(ANALYSES_RECO_PROFIL[profil]||ANALYSES_RECO_PROFIL.metabolique).filter(k=>vals[k]==null);
+    if((vals.insuline==null)!==(vals.glycemie==null)){ const k=vals.insuline==null?"insuline":"glycemie"; if(!reco.includes(k)) reco.unshift(k); }
+    const manque=reco.map(k=>({k,label:(MARKERS.find(m=>m.id===k)||{}).label||k}));
+    const homaSeul=(vals.insuline==null)!==(vals.glycemie==null);
+    setTranslation({items:out,liens,prios,manque,homaSeul});
   };
 
   const ScoreRing = ({s,size=56,stroke=4}) => {
@@ -13808,10 +13887,43 @@ export default function App() {
               </button>
               {translating&&<div style={{textAlign:"center",padding:"8px"}}><div style={{width:22,height:22,border:`3px solid ${C.border}`,borderTopColor:pc.p,borderRadius:"50%",margin:"0 auto",animation:"spin 0.8s linear infinite"}}/></div>}
               {transErr&&<div style={{background:`${pc.p}12`,borderRadius:10,padding:"10px 12px",fontSize:11,color:C.brown,lineHeight:1.5}}>{transErr}</div>}
-              {Array.isArray(translation)&&translation.length>0&&(
+              {translation&&Array.isArray(translation.items)&&translation.items.length>0&&(()=>{
+                const allerA=(x)=>{ if(x.goTab){ setTab(x.goTab); return; } setTab("outils"); setOutilOpen(x.cible); if(x.recherche!==undefined) setFoodSearch(x.recherche); };
+                const actives=[...ANALYSES_MED.filter(a=>!medAnaOff[a.id]).map(a=>a.t), ...medAnaCustom].join(" ").toLowerCase();
+                const aAjouter=(translation.manque||[]).filter(m=>!actives.includes(ANALYSES_MOT_CLE[m.k]||m.label.toLowerCase()));
+                return(
                 <div style={{marginTop:4}}>
-                  <div style={{fontSize:9,letterSpacing:1.5,textTransform:"uppercase",color:C.light,margin:"6px 0 8px"}}>ce que disent tes valeurs</div>
-                  {translation.map(t=>(
+                  {translation.prios.length>0&&(
+                    <div style={{background:`linear-gradient(135deg, ${pc.p}18, ${C.white} 75%)`,border:`1.5px solid ${pc.p}`,borderRadius:14,padding:"14px",marginBottom:12}}>
+                      <div style={{fontSize:9,letterSpacing:1.5,textTransform:"uppercase",color:pc.p,fontWeight:700,marginBottom:8}}>tes priorités selon tes analyses</div>
+                      {translation.prios.map((p,i)=>(
+                        <div key={p.id} style={{display:"flex",gap:10,marginBottom:i<translation.prios.length-1?12:0}}>
+                          <div style={{width:22,height:22,borderRadius:"50%",background:pc.p,color:"white",fontSize:11,fontWeight:700,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>{i+1}</div>
+                          <div style={{flex:1}}>
+                            <div style={{fontSize:12.5,fontWeight:700,color:C.brown}}>{p.titre}</div>
+                            <div style={{fontSize:11,color:C.mid,lineHeight:1.55,marginTop:3}}>{p.geste}</div>
+                            <button onClick={()=>allerA(p.action)} style={{marginTop:6,background:"none",border:`1px solid ${pc.p}`,borderRadius:99,padding:"4px 10px",color:pc.p,fontFamily:"inherit",fontSize:10.5,fontWeight:700,cursor:"pointer"}}>{p.action.label} →</button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  {translation.prios.length===0&&(
+                    <div style={{background:`${C.sage}22`,borderRadius:12,padding:"12px 14px",marginBottom:12,fontSize:11.5,color:"#4F6038",lineHeight:1.6}}>tes valeurs sont plutôt rassurantes sur ce que tu as entré. ton SMOP se joue peut-être ailleurs (stress, sommeil, cycle) : garde tes rituels, ils comptent autant que tes résultats.</div>
+                  )}
+                  {translation.liens.length>0&&(
+                    <div style={{marginBottom:12}}>
+                      <div style={{fontSize:9,letterSpacing:1.5,textTransform:"uppercase",color:C.light,margin:"6px 0 8px"}}>ce que tes résultats racontent ensemble</div>
+                      {translation.liens.map((l,i)=>(
+                        <div key={i} style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:12,padding:"12px 14px",marginBottom:8}}>
+                          <div style={{fontSize:12,fontWeight:700,color:C.brown}}>{l.titre}</div>
+                          <div style={{fontSize:11,color:C.mid,lineHeight:1.6,marginTop:4}}>{l.texte}</div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  <div style={{fontSize:9,letterSpacing:1.5,textTransform:"uppercase",color:C.light,margin:"6px 0 8px"}}>ce que dit chaque valeur</div>
+                  {translation.items.map(t=>(
                     <div key={t.k} style={{background:C.bubble,borderRadius:12,padding:"12px 14px",marginBottom:8,borderLeft:`3px solid ${t.niveau==="attention"?"#D9A066":t.niveau==="ok"?"#8DA86A":C.border}`}}>
                       <div style={{display:"flex",justifyContent:"space-between",gap:8,alignItems:"baseline"}}>
                         <div style={{fontSize:12.5,fontWeight:700,color:C.brown}}>{t.titre}</div>
@@ -13823,9 +13935,24 @@ export default function App() {
                       {t.geste&&<div style={{fontSize:10.5,color:"#4F6038",lineHeight:1.55,marginTop:6,fontStyle:"italic"}}>{t.geste}</div>}
                     </div>
                   ))}
+                  {(translation.manque||[]).length>0&&(
+                    <div style={{background:C.cream,border:`1px dashed ${pc.p}`,borderRadius:12,padding:"12px 14px",marginTop:4,marginBottom:8}}>
+                      <div style={{fontSize:12,fontWeight:700,color:C.brown}}>pour compléter le tableau</div>
+                      <div style={{fontSize:11,color:C.mid,lineHeight:1.6,marginTop:4}}>{translation.homaSeul?"ajoute ta glycémie ET ton insuline à jeun pour calculer ton HOMA-IR. ":""}pour ton profil, ces analyses aideraient à mieux comprendre ton SMOP :</div>
+                      <div style={{display:"flex",flexWrap:"wrap",gap:6,marginTop:8}}>
+                        {translation.manque.map(m=>(<span key={m.k} style={{background:C.white,border:`1px solid ${pc.p}`,borderRadius:99,padding:"3px 9px",fontSize:10.5,color:pc.p}}>{m.label}</span>))}
+                      </div>
+                      {aAjouter.length>0 ? (
+                        <button onClick={()=>{ setMedAnaCustom(p=>[...p,...aAjouter.map(m=>m.label).filter(l=>!p.includes(l))]); showToast("Ajouté à ta liste","retrouve-la dans ton espace Santé, pour ton prochain rendez-vous."); }}
+                          style={{marginTop:10,width:"100%",background:pc.p,border:"none",borderRadius:10,padding:"9px",color:"white",fontFamily:"inherit",fontSize:11,fontWeight:700,cursor:"pointer"}}>ajouter à ma liste pour le médecin</button>
+                      ) : (
+                        <button onClick={()=>setTab("medecin")} style={{marginTop:10,width:"100%",background:"none",border:`1px solid ${pc.p}`,borderRadius:10,padding:"9px",color:pc.p,fontFamily:"inherit",fontSize:11,fontWeight:700,cursor:"pointer"}}>déjà dans ta liste pour le médecin · voir mon espace Santé →</button>
+                      )}
+                    </div>
+                  )}
                   <div style={{fontSize:9.5,color:C.light,lineHeight:1.5,marginTop:4}}>ces repères sont généraux : les normes changent selon les laboratoires et selon ton âge. compare aussi avec les valeurs écrites sur ton compte-rendu, et fais le point avec ton médecin pour l'interprétation complète.</div>
-                </div>
-              )}
+                </div>);
+              })()}
             </div>
 
             {/* HOMA-IR */}
