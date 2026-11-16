@@ -13908,7 +13908,7 @@ export default function App() {
                       ))}
                     </div>
                   )}
-                  {translation.prios.length===0&&(
+                  {translation.prios.length===0&&translation.liens.length===0&&(
                     <div style={{background:`${C.sage}22`,borderRadius:12,padding:"12px 14px",marginBottom:12,fontSize:11.5,color:"#4F6038",lineHeight:1.6}}>tes valeurs sont plutôt rassurantes sur ce que tu as entré. ton SMOP se joue peut-être ailleurs (stress, sommeil, cycle) : garde tes rituels, ils comptent autant que tes résultats.</div>
                   )}
                   {translation.liens.length>0&&(
