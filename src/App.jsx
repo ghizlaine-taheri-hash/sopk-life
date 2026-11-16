@@ -802,7 +802,7 @@ const SUPABASE_KEY = "sb_publishable_wrT10HfVR6p2CeP7feMHUw_p1OD5E-C";
 // ─── ACCÈS RÉSERVÉ ───────────────────────────────────────────────────────────
 // true = seules les adresses présentes dans la table Supabase "access_list" entrent dans l'espace.
 // À n'activer qu'APRÈS avoir créé la table (sinon personne n'entre, toi comprise).
-const ACCESS_GATE = false;
+const ACCESS_GATE = true;
 const SHOP_URL = "https://sopklife.com";
 // Clé publique VAPID (sans danger côté client — identifie l'app auprès des téléphones)
 const VAPID_PUBLIC = "BHV0QWrRB3Mf8NNBhpEhuPJD1SDhf7gaq1MUpFw1Sl6Mb_meU5IPK1ZrM7FolTxNTlG-9atSocCkjo_7QzUFUEM";
