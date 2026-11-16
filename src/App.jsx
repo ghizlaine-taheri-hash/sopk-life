@@ -799,6 +799,11 @@ const load = (key, def) => { try { const v = localStorage.getItem("sopklife_"+ke
 // ─── SUPABASE (comptes + sauvegarde cloud) ───────────────────────────────────
 const SUPABASE_URL = "https://jclummzuukxasfylzruy.supabase.co";
 const SUPABASE_KEY = "sb_publishable_wrT10HfVR6p2CeP7feMHUw_p1OD5E-C";
+// ─── ACCÈS RÉSERVÉ ───────────────────────────────────────────────────────────
+// true = seules les adresses présentes dans la table Supabase "access_list" entrent dans l'espace.
+// À n'activer qu'APRÈS avoir créé la table (sinon personne n'entre, toi comprise).
+const ACCESS_GATE = false;
+const SHOP_URL = "https://sopklife.com";
 // Clé publique VAPID (sans danger côté client — identifie l'app auprès des téléphones)
 const VAPID_PUBLIC = "BHV0QWrRB3Mf8NNBhpEhuPJD1SDhf7gaq1MUpFw1Sl6Mb_meU5IPK1ZrM7FolTxNTlG-9atSocCkjo_7QzUFUEM";
 const urlB64ToUint8 = (base64)=>{ const pad="=".repeat((4-base64.length%4)%4); const b=(base64+pad).replace(/-/g,"+").replace(/_/g,"/"); const raw=atob(b); const arr=new Uint8Array(raw.length); for(let i=0;i<raw.length;i++)arr[i]=raw.charCodeAt(i); return arr; };
@@ -10284,6 +10289,18 @@ export default function App() {
   const [authBusy, setAuthBusy] = useState(false);
   const pulledRef = useRef(false);
   const [hydrated, setHydrated] = useState(false); // true quand les données cloud sont chargées (sécurité : on n'affiche pas l'app avant)
+  // accès réservé : undefined = vérification en cours · true = accès ok · false = pas d'accès · "error" = vérification impossible
+  const [access, setAccess] = useState(ACCESS_GATE ? undefined : true);
+  const [accessTry, setAccessTry] = useState(0);
+  useEffect(()=>{
+    if(!ACCESS_GATE) return;
+    if(!sb||!session){ setAccess(undefined); return; }
+    let alive=true; setAccess(undefined);
+    const email=String(session.user?.email||"").trim().toLowerCase();
+    sb.from("access_list").select("email").eq("email",email).maybeSingle()
+      .then(({data,error})=>{ if(!alive) return; setAccess(error ? "error" : !!data); }, ()=>{ if(alive) setAccess("error"); });
+    return ()=>{ alive=false; };
+  },[sb,session,accessTry]);
   const [showAccount, setShowAccount] = useState(false);
   const [newPw, setNewPw] = useState("");
   const [accMsg, setAccMsg] = useState("");
@@ -10807,6 +10824,29 @@ export default function App() {
         mot de passe oublié ?
       </button>}
       <div style={{fontSize:9.5,color:C.light,textAlign:"center",marginTop:22,lineHeight:1.6}}>tes données sont enregistrées et te suivent sur tous tes appareils.</div>
+    </div>
+  );
+  // ── ACCÈS RÉSERVÉ : compte connecté mais pas (encore) sur la liste d'accès ──────
+  if(session && ACCESS_GATE && access!==true) return (
+    <div style={{fontFamily:"'DM Sans',sans-serif",background:C.cream,minHeight:"100vh",maxWidth:430,margin:"0 auto",display:"flex",flexDirection:"column",justifyContent:"center",padding:"2.2rem 1.6rem",textAlign:"center"}}>
+      {access===undefined ? (
+        <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.2rem",color:C.light,fontStyle:"italic"}}>un instant</div>
+      ) : access==="error" ? (
+        <>
+          <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.3rem",color:C.brown,marginBottom:10}}>Vérification impossible</div>
+          <div style={{fontSize:12.5,color:C.mid,lineHeight:1.6,marginBottom:20}}>on n'arrive pas à vérifier ton accès pour le moment. vérifie ta connexion internet et réessaie.</div>
+          <button onClick={()=>setAccessTry(n=>n+1)} style={{background:C.brown,color:"#fff",border:"none",borderRadius:12,padding:"12px 22px",fontFamily:"inherit",fontSize:12.5,fontWeight:600,cursor:"pointer",alignSelf:"center"}}>réessayer</button>
+        </>
+      ) : (
+        <>
+          <div style={{width:54,height:54,borderRadius:"50%",background:`linear-gradient(135deg,${C.mauve},${C.terra})`,margin:"0 auto 16px",display:"flex",alignItems:"center",justifyContent:"center"}}><Icon name="leaf" size={26} color="#fff"/></div>
+          <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.5rem",color:C.brown,fontWeight:600,marginBottom:10}}>Ton espace t'attend</div>
+          <div style={{fontSize:12.5,color:C.mid,lineHeight:1.65,marginBottom:6}}>le compte <strong style={{color:C.brown}}>{session.user?.email}</strong> n'a pas encore accès à SMOP Map.</div>
+          <div style={{fontSize:12.5,color:C.mid,lineHeight:1.65,marginBottom:24}}>si tu as déjà pris SMOP Map, connecte-toi avec l'adresse e-mail utilisée pour ta commande.</div>
+          <a href={SHOP_URL} target="_blank" rel="noopener noreferrer" style={{display:"block",background:C.brown,color:"#fff",borderRadius:12,padding:"13px 22px",fontSize:13,fontWeight:600,textDecoration:"none",marginBottom:10}}>découvrir SMOP Map</a>
+          <button onClick={logout} style={{background:"none",border:`1px solid ${C.border}`,borderRadius:12,padding:"12px 22px",color:C.brown,fontFamily:"inherit",fontSize:12.5,cursor:"pointer"}}>me connecter avec une autre adresse</button>
+        </>
+      )}
     </div>
   );
   // on attend que les données du cloud soient chargées avant d'afficher l'app (sécurité anti-écrasement)
