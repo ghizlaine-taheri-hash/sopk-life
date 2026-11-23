@@ -12233,8 +12233,8 @@ export default function App() {
               const chip=(on)=>({padding:"8px 13px",borderRadius:99,border:`1.5px solid ${on?C.terra:C.border}`,background:on?C.terra:C.white,color:on?"#fff":C.brown,fontFamily:"inherit",fontSize:12,fontWeight:600,cursor:"pointer"});
               const msgE={haute:"belle énergie : on peut viser un peu plus, si tu en as envie.",moyenne:"on garde un rythme doux et réaliste.",basse:"aujourd'hui, le minimum suffit. et si tu ne fais rien, c'est ok aussi."}[energie]||"dis-moi comment tu te sens, je m'adapte.";
               return(
-              <div onClick={()=>setAdaptOpen(false)} style={{position:"fixed",inset:0,zIndex:320,background:"rgba(58,42,32,.45)",display:"flex",alignItems:"center",justifyContent:"center",padding:16}}>
-                <div onClick={e=>e.stopPropagation()} style={{background:C.cream,width:"100%",maxWidth:430,borderRadius:22,padding:"1.2rem",boxShadow:"0 12px 40px rgba(58,42,32,.25)",maxHeight:"85vh",overflowY:"auto"}}>
+              <div onClick={()=>setAdaptOpen(false)} style={{position:"fixed",inset:0,zIndex:320,background:"rgba(58,42,32,.45)",display:"flex",alignItems:"center",justifyContent:"center",padding:"calc(env(safe-area-inset-top,0px) + 28px) 16px calc(env(safe-area-inset-bottom,0px) + 28px)"}}>
+                <div onClick={e=>e.stopPropagation()} style={{background:C.cream,width:"100%",maxWidth:430,borderRadius:22,padding:"1.2rem",boxShadow:"0 12px 40px rgba(58,42,32,.25)",maxHeight:"100%",overflowY:"auto"}}>
                   <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:6}}>
                     <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.2rem",fontWeight:600,color:C.brown}}>Adapter ma journée</div>
                     <button onClick={()=>setAdaptOpen(false)} aria-label="fermer" style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:"50%",width:30,height:30,cursor:"pointer",color:C.mid,fontFamily:"inherit"}}>✕</button>
@@ -12284,8 +12284,8 @@ export default function App() {
               const conseil={ "plus de simplicité":"garde une seule action par jour, et utilise « Adapter ma journée » les jours chargés.","plus d'idées repas":"essaie « compose ma semaine pour moi » dans Planifier ma semaine.","bouger davantage":"commence par 10 minutes : ouvre Bouger depuis l'accueil.","mieux dormir":"ouvre ton espace Sommeil et note tes nuits quelques jours.","plus de soutien":"tu peux écrire à l'équipe depuis Mon espace d'échange, et rejoindre la communauté des Cysters." }[rep.besoin];
               const resume=()=>["Mon point du "+new Date().toLocaleDateString("fr-FR"),"Ressenti : "+(rep.ressenti||"-"),"Le plus facile : "+(rep.facile||"-"),"Le plus difficile : "+(rep.difficile||"-"),"Ce que je veux changer : "+(rep.changer||"-"),"Mon besoin : "+(rep.besoin||"-"),"Jour "+day+" de mon parcours"].join("\n");
               return(
-              <div onClick={()=>setBilanOpen(false)} style={{position:"fixed",inset:0,zIndex:320,background:"rgba(58,42,32,.45)",display:"flex",alignItems:"center",justifyContent:"center",padding:16}}>
-                <div onClick={e=>e.stopPropagation()} style={{background:C.cream,width:"100%",maxWidth:430,borderRadius:22,padding:"1.2rem",boxShadow:"0 12px 40px rgba(58,42,32,.25)",maxHeight:"85vh",overflowY:"auto"}}>
+              <div onClick={()=>setBilanOpen(false)} style={{position:"fixed",inset:0,zIndex:320,background:"rgba(58,42,32,.45)",display:"flex",alignItems:"center",justifyContent:"center",padding:"calc(env(safe-area-inset-top,0px) + 28px) 16px calc(env(safe-area-inset-bottom,0px) + 28px)"}}>
+                <div onClick={e=>e.stopPropagation()} style={{background:C.cream,width:"100%",maxWidth:430,borderRadius:22,padding:"1.2rem",boxShadow:"0 12px 40px rgba(58,42,32,.25)",maxHeight:"100%",overflowY:"auto"}}>
                   <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:6}}>
                     <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.2rem",fontWeight:600,color:C.brown}}>Faire le point</div>
                     <button onClick={()=>setBilanOpen(false)} aria-label="fermer" style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:"50%",width:30,height:30,cursor:"pointer",color:C.mid,fontFamily:"inherit"}}>✕</button>
@@ -12336,8 +12336,8 @@ export default function App() {
                 </div>
               );
               return(
-              <div onClick={()=>setAideOpen(false)} style={{position:"fixed",inset:0,zIndex:320,background:"rgba(58,42,32,.45)",display:"flex",alignItems:"center",justifyContent:"center",padding:16}}>
-                <div onClick={e=>e.stopPropagation()} style={{background:C.cream,width:"100%",maxWidth:430,borderRadius:22,padding:"1.2rem",boxShadow:"0 12px 40px rgba(58,42,32,.25)",maxHeight:"85vh",overflowY:"auto"}}>
+              <div onClick={()=>setAideOpen(false)} style={{position:"fixed",inset:0,zIndex:320,background:"rgba(58,42,32,.45)",display:"flex",alignItems:"center",justifyContent:"center",padding:"calc(env(safe-area-inset-top,0px) + 28px) 16px calc(env(safe-area-inset-bottom,0px) + 28px)"}}>
+                <div onClick={e=>e.stopPropagation()} style={{background:C.cream,width:"100%",maxWidth:430,borderRadius:22,padding:"1.2rem",boxShadow:"0 12px 40px rgba(58,42,32,.25)",maxHeight:"100%",overflowY:"auto"}}>
                   <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:10}}>
                     <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.2rem",fontWeight:600,color:C.brown}}>{aideSujet==="ecrire"?"Écrire à l'équipe":"Demander de l'aide"}</div>
                     <button onClick={()=>setAideOpen(false)} aria-label="fermer" style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:"50%",width:30,height:30,cursor:"pointer",color:C.mid,fontFamily:"inherit"}}>✕</button>
