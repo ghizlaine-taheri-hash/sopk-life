@@ -10565,8 +10565,7 @@ export default function App() {
   const [outilCat, setOutilCat] = useState(null);
   const [mouvOpen, setMouvOpen] = useState(null);
   const [bougerDepart, setBougerDepart] = useState(null); // séance à ouvrir directement dans Bouger
-  const mouvDirect = useRef(false); // « Mes mouvements » s'ouvre seulement depuis Bouger (anciennes routines) ; les autres liens mènent à Bouger
-  useEffect(()=>{ if(tab==="mouvement"&&!mouvDirect.current) setTab("bouger"); if(tab!=="mouvement") mouvDirect.current=false; },[tab]);
+  useEffect(()=>{ if(tab==="mouvement") setTab("bouger"); },[tab]); // l'ancienne rubrique « Mes mouvements » est remplacée par Bouger
   const [tisaneOpen, setTisaneOpen] = useState(null);
   const [mecaOpen, setMecaOpen] = useState(null);
   const [savoirOpen, setSavoirOpen] = useState(null);
@@ -12383,7 +12382,7 @@ export default function App() {
         )}
 
         {/* ── BOUGER : programme 8 semaines, planning, séances guidées (module src/Bouger.jsx) ── */}
-        {tab==="bouger"&&<Bouger C={C} Icon={Icon} ExIllus={ExIllus} energie={energie} setEnergie={setEnergie} setTab={setTab} depart={bougerDepart} departLu={()=>setBougerDepart(null)} anciennesRoutines={()=>{ mouvDirect.current=true; setTab("mouvement"); }}/>}
+        {tab==="bouger"&&<Bouger C={C} Icon={Icon} ExIllus={ExIllus} energie={energie} setEnergie={setEnergie} setTab={setTab} depart={bougerDepart} departLu={()=>setBougerDepart(null)}/>}
 
         {/* ── MON SOMMEIL : mes nuits, mon rituel du soir, quand ça coince ── */}
         {tab==="sommeil"&&(()=>{
@@ -14873,126 +14872,6 @@ profil · tes priorités · les analyses & questions que tu as cochées · ton s
           </div>
           );
         })()}
-
-        {/* ── MOUVEMENT ADAPTÉ ── */}
-        {tab==="mouvement"&&(
-          <div className="fu">
-            <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.3rem",color:C.brown,marginBottom:2}}>Mes mouvements</div>
-            <div style={{fontSize:12,color:C.light,marginBottom:14}}>bouger pour toi, à ton rythme.</div>
-
-            <div style={{background:`linear-gradient(135deg,${pc.p},${pc.p}CC)`,borderRadius:16,padding:"1.1rem 1.2rem",marginBottom:14,color:"#fff"}}>
-              <div style={{fontSize:9,letterSpacing:2,textTransform:"uppercase",opacity:.8,marginBottom:4}}>Pilier bien-être</div>
-              <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.15rem",fontWeight:600,marginBottom:6}}>Mouvement adapté</div>
-              <div style={{fontSize:11,lineHeight:1.6,opacity:.95}}>bouger pour ta sensibilité à l'insuline, ton énergie, ton moral — et pour te sentir bien dans ton corps, comme tu l'entends. ton objectif t'appartient : tu choisis, tu adaptes, tu écoutes ton corps.</div>
-            </div>
-
-            {/* ── QUELS SPORTS QUAND ON A UN SMOP ── */}
-            <div style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:16,padding:"14px 15px",marginBottom:14}}>
-              <div style={{fontSize:13,fontWeight:700,color:C.brown,marginBottom:3}}>Quels sports quand on a un SMOP ?</div>
-              <div style={{fontSize:11,color:C.mid,lineHeight:1.6,marginBottom:12}}>on te dit « fais du sport », jamais lequel ni comment. avec un SMOP, ce n'est pas l'intensité qui compte, c'est le bon dosage pour ton terrain.</div>
-              {[
-                {coul:"#7A9A5A",bg:"#EFF3E8",tag:"à privilégier",items:[
-                  {n:"Le renforcement musculaire doux",d:"le muscle est un grand consommateur de sucre : plus tu en as, mieux ton corps gère sa glycémie. c'est le levier n°1 pour l'insuline."},
-                  {n:"La marche, surtout après les repas",d:"10-15 min après manger lissent le pic de glycémie. simple, gratuit, redoutable."},
-                  {n:"Le yoga, le pilates, les étirements",d:"ils apaisent le système nerveux et le cortisol — précieux quand ton SMOP réagit au stress."},
-                ]},
-                {coul:"#D4A56A",bg:"#FBF3E8",tag:"à doser, à l'écoute",items:[
-                  {n:"Le cardio intense / HIIT",d:"pas interdit, mais à manier avec prudence : poussé trop fort quand tu es déjà fatiguée ou stressée, il peut faire grimper le cortisol et aller contre toi. en forme et ça te fait du bien ? vas-y. épuisée ? allège."},
-                ]},
-              ].map((cat,i)=>(
-                <div key={i} style={{marginBottom:i===0?12:0}}>
-                  <div style={{fontSize:9,letterSpacing:1,textTransform:"uppercase",color:cat.coul,fontWeight:700,marginBottom:7}}>{cat.tag}</div>
-                  {cat.items.map((it,j)=>(
-                    <div key={j} style={{background:cat.bg,borderRadius:11,padding:"10px 12px",marginBottom:7,borderLeft:`3px solid ${cat.coul}`}}>
-                      <div style={{fontSize:12,fontWeight:600,color:C.brown,marginBottom:2}}>{it.n}</div>
-                      <div style={{fontSize:10.5,color:C.mid,lineHeight:1.5}}>{it.d}</div>
-                    </div>
-                  ))}
-                </div>
-              ))}
-              <div style={{background:`${pc.p}10`,borderRadius:11,padding:"10px 12px",marginTop:4}}>
-                <div style={{fontSize:10.5,color:C.brown,lineHeight:1.6}}><strong>la règle d'or :</strong> régularité douce &gt; intensité. 20 min la plupart des jours valent mieux qu'une séance qui te met à terre une fois par semaine. tu construis dans la durée, pas dans la performance.</div>
-              </div>
-            </div>
-
-            {MOUVEMENT.map(r=>{
-              const open=mouvOpen===r.id;
-              return(
-                <div key={r.id} style={{background:C.white,border:`1.5px solid ${open?pc.p:C.border}`,borderRadius:16,marginBottom:10,overflow:"hidden"}}>
-                  <button onClick={()=>setMouvOpen(open?null:r.id)}
-                    style={{width:"100%",display:"flex",alignItems:"center",gap:12,padding:"13px 14px",background:"none",border:"none",cursor:"pointer",fontFamily:"inherit",textAlign:"left"}}>
-                    <div style={{width:42,height:42,borderRadius:12,background:`${pc.p}15`,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>
-                      <Icon name={r.ic} size={19} color={pc.p}/>
-                    </div>
-                    <div style={{flex:1}}>
-                      <div style={{fontSize:13,fontWeight:700,color:C.brown}}>{r.nom}</div>
-                      <div style={{display:"flex",gap:6,marginTop:3}}>
-                        <span style={{fontSize:9,fontWeight:600,color:pc.p,background:`${pc.p}12`,borderRadius:99,padding:"2px 8px"}}>{r.duree}</span>
-                        <span style={{fontSize:9,fontWeight:600,color:C.sage,background:`${C.sage}22`,borderRadius:99,padding:"2px 8px"}}>{r.niveau}</span>
-                      </div>
-                    </div>
-                    <div style={{fontSize:15,color:C.light,transform:open?"rotate(90deg)":"none",transition:"transform 0.2s"}}>›</div>
-                  </button>
-                  {open&&(
-                    <div style={{padding:"0 14px 14px"}}>
-                      <div style={{fontSize:11,color:C.mid,lineHeight:1.6,background:C.bubble,borderRadius:11,padding:"10px 12px",marginBottom:12}}>{r.intro}</div>
-                      {r.exercices.map((ex,i)=>(
-                        <div key={i} style={{display:"flex",gap:11,alignItems:"center",marginBottom:i<r.exercices.length-1?12:0}}>
-                          {ex.img?(
-                            <div style={{width:48,height:48,borderRadius:12,background:`${pc.p}10`,border:`1px solid ${pc.p}22`,padding:6,flexShrink:0,position:"relative"}}>
-                              <ExIllus pose={ex.img} color={pc.p}/>
-                              <div style={{position:"absolute",top:-6,left:-6,width:18,height:18,borderRadius:"50%",background:pc.p,color:"#fff",fontSize:9.5,fontWeight:700,display:"flex",alignItems:"center",justifyContent:"center"}}>{i+1}</div>
-                            </div>
-                          ):(
-                            <div style={{width:24,height:24,borderRadius:"50%",background:`${pc.p}12`,color:pc.p,fontSize:11,fontWeight:700,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>{i+1}</div>
-                          )}
-                          <div style={{flex:1}}>
-                            <div style={{fontSize:12.5,fontWeight:600,color:C.brown}}>{ex.n}</div>
-                            <div style={{fontSize:11,color:C.mid,marginTop:2,lineHeight:1.5}}>{ex.d}</div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-
-            {/* ── L'IMPACT DU STRESS + MA MÉTHODE ── */}
-            <div style={{background:`linear-gradient(135deg,#9FB3C9,#8299B2)`,borderRadius:16,padding:"15px 16px",marginTop:16,marginBottom:14,color:"#fff"}}>
-              <div style={{fontSize:9,letterSpacing:2,textTransform:"uppercase",opacity:.85,marginBottom:5}}>Le levier qu'on oublie</div>
-              <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.1rem",fontWeight:600,marginBottom:7}}>Le stress parle à ton SMOP</div>
-              <div style={{fontSize:11,lineHeight:1.65,opacity:.96}}>le stress chronique maintient ton cortisol élevé. et ce cortisol aggrave la résistance à l'insuline et pousse tes surrénales à produire des androgènes. résultat : un SMOP qui flambe dans les périodes dures. ce n'est pas dans ta tête — c'est de la chimie. donc apaiser ton stress, ce n'est pas du « bien-être » en option : c'est un vrai soin de ton terrain.</div>
-            </div>
-            <div style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:16,padding:"14px 15px",marginBottom:14}}>
-              <div style={{fontSize:13,fontWeight:700,color:C.brown,marginBottom:3}}>Ma méthode, celle qui m'a aidée</div>
-              <div style={{fontSize:11,color:C.mid,lineHeight:1.6,marginBottom:12}}>je te la partage comme mon expérience, pas comme une ordonnance. prends ce qui te parle, laisse le reste.</div>
-              {[
-                {n:"La respiration, mon outil d'urgence",d:"quand ça monte : 4 secondes d'inspiration, 6 d'expiration, pendant 3 minutes. l'expiration longue envoie à ton corps le signal « tout va bien ». c'est ce qui me ramène le plus vite."},
-                {n:"Des micro-pauses, pas une heure de méditation",d:"je ne cherche plus le temps parfait. 2 minutes les yeux fermés entre deux tâches, ça compte plus qu'une séance que je ne ferai jamais."},
-                {n:"Poser des limites, pour de vrai",d:"le stress, ce n'est pas que dans le corps : c'est aussi le trop-plein qu'on s'impose. apprendre à dire non, à déléguer, à ne pas tout porter — ça a été mon vrai tournant."},
-                {n:"Le sommeil, non négociable",d:"c'est là que le cortisol redescend. je protège mes nuits comme un rendez-vous médical (la routine complète est dans Comprendre)."},
-                {n:"Bouger pour évacuer",d:"une marche, quelques étirements : le mouvement doux fait baisser la tension nerveuse. pas pour performer — pour vider la cocotte."},
-              ].map((it,i)=>(
-                <div key={i} style={{display:"flex",gap:11,marginBottom:i<4?12:0}}>
-                  <div style={{width:24,height:24,borderRadius:"50%",background:"#9FB3C920",color:"#5E7488",fontSize:11,fontWeight:700,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>{i+1}</div>
-                  <div style={{flex:1}}>
-                    <div style={{fontSize:12.5,fontWeight:600,color:C.brown}}>{it.n}</div>
-                    <div style={{fontSize:11,color:C.mid,marginTop:2,lineHeight:1.5}}>{it.d}</div>
-                  </div>
-                </div>
-              ))}
-              <div style={{background:C.cream,borderRadius:12,padding:"13px 15px",marginTop:14,borderLeft:`3px solid ${pc.p}`}}>
-                <div style={{fontSize:8.5,letterSpacing:1.5,textTransform:"uppercase",color:pc.p,fontWeight:700,marginBottom:6}}>Mon histoire</div>
-                <div style={{fontSize:11.5,color:C.brown,lineHeight:1.7,fontStyle:"italic"}}>à l'époque, j'étais à la fac et je faisais des crises d'angoisse. je pouvais en avoir à n'importe quel moment — il m'est arrivé de sortir en plein cours. et plus je paniquais, plus ça empirait : le stress s'auto-alimentait, c'était mon point noir, et mon corps prenait tout de plein fouet.<br/><br/>ce que je viens de te partager, c'est exactement ce qui m'a aidée à desserrer cette spirale. pas en un jour — petit à petit, j'ai repris la main. si j'y suis arrivée, toi aussi tu peux.</div>
-              </div>
-            </div>
-
-            <div style={{background:C.mauveSoft,borderRadius:14,padding:"12px 14px",marginTop:4}}>
-              <div style={{fontSize:11,color:C.mid,lineHeight:1.6}}>le mouvement régulier et doux améliore la sensibilité à l'insuline et l'humeur. on écoute son corps : la fatigue normale n'est pas la douleur. en cas de doute médical, demande l'avis de ton médecin avant de commencer.</div>
-            </div>
-          </div>
-        )}
 
         {/* ── JOURNAL ── */}
         {tab==="journal"&&(
