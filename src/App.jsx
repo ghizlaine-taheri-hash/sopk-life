@@ -10015,6 +10015,7 @@ const OUTIL_CATS = {
       {id:"recettes", em:"📖", nm:"Recettes", td:"pas à pas, SMOP-friendly"},
       {id:"aliments", em:"🍽️", nm:"Chercher un aliment", td:"index glycémique, protéines"},
       {id:"sucres", em:"🔍", nm:"Sucres cachés", td:"repérer les pièges"},
+      {id:"echanges", em:"🔄", nm:"Échanges malins", td:"remplace ceci par cela, pour ta glycémie"},
       {id:"assiette", em:"🍴", nm:"L'assiette SMOP", td:"la bonne proportion dans ton assiette"},
     ]},
   complements: { label:"Mes compléments & tisanes", em:"🌿", dotBg:"#EFF3E8", hero:"ce qui soutient ton terrain, en complément de ton assiette.",
@@ -10036,6 +10037,43 @@ const OUTIL_CATS = {
 const OUTIL_CAT_OF = (oid)=>Object.keys(OUTIL_CATS).find(ck=>OUTIL_CATS[ck].tools.some(t=>t.id===oid));
 
 // ── PLANIFICATEUR DE REPAS ──────────────────────────────────────────────────
+// infos d'un repas (REPAS ou RECETTES) : texte pour les filtres, temps, tags, profils, moment
+const _repasTexte=(nom)=>{ const r=REPAS.find(x=>x.nom===nom); const rc=RECETTES[nom]; const ings=(rc&&rc.ingredients)||(r&&r.recette&&r.recette.ingredients)||[]; return (nom+" "+ings.join(" ")+" "+((r&&r.compo)||"")).toLowerCase(); };
+const _repasInfo=(nom)=>{ const r=REPAS.find(x=>x.nom===nom); const rc=RECETTES[nom]; return {temps:(rc&&rc.temps)||(r&&r.recette&&r.recette.temps)||"", tags:[...((rc&&rc.tags)||[]),...((r&&r.tags)||[])], profils:(r&&r.profils)||[], moment:(rc&&rc.moment)||(r&&r.moment)}; };
+const MOTS_ANIMAUX=["poulet","saumon","thon","sardine","steak","viande","poisson","cabillaud","crevette","jambon","dinde","bœuf","boeuf","maquereau","anchois","lardon","truite","haché"];
+const MOTS_LAITIERS=["lait","fromage","yaourt","skyr","feta","cottage","beurre","crème","mozzarella","parmesan","chèvre","ricotta","faisselle","emmental","comté"];
+const MOTS_FIBRES=["lentille","pois chiche","haricot","quinoa","flocons","avoine","chia","graines de lin","brocoli","épinard","courgette","sarrasin","complet","légume","crudités","ratatouille","edamame","courge","betterave"];
+const MOTS_PROTEINES=["œuf","oeuf","poulet","saumon","thon","sardine","tofu","skyr","grec","cottage","lentille","pois chiche","crevette","cabillaud","steak","dinde","edamame","poisson","haché"];
+const repasEstVege=(nom)=>{ const t=_repasTexte(nom); return !MOTS_ANIMAUX.some(m=>t.includes(m)); };
+const repasSansLactose=(nom)=>{ const t=_repasTexte(nom).replace(/laitue|lait (de coco|d'amande|d'avoine|végétal|de soja)|beurre d'amande|beurre de cacahuète|yaourt (de soja|végétal|coco)/g,""); return !MOTS_LAITIERS.some(m=>t.includes(m)); };
+const repasMinutes=(nom)=>{ const m=String(_repasInfo(nom).temps).match(/(\d+)/); return m?parseInt(m[1],10):null; };
+const repasRapide=(nom)=>{ const m=repasMinutes(nom); const t=String(_repasInfo(nom).temps); return m!=null&&m<=15&&!/nuit|\dh/.test(t); };
+const badgesRepas=(nom)=>{ const t=_repasTexte(nom); const i=_repasInfo(nom); const b=[];
+  if(MOTS_PROTEINES.some(m=>t.includes(m))) b.push("protéiné");
+  if(MOTS_FIBRES.some(m=>t.includes(m))) b.push("riche en fibres");
+  if(repasRapide(nom)) b.push("prêt en "+repasMinutes(nom)+" min");
+  if(i.tags.includes("nomade")) b.push("à emporter");
+  if(i.tags.includes("à préparer la veille")||i.tags.includes("batch-cookable")) b.push("à préparer à l'avance");
+  if(repasEstVege(nom)) b.push("végé");
+  return [...new Set(b)].slice(0,4); };
+// échanges malins : un geste à la fois, pour une glycémie plus stable
+const ECHANGES_MALINS = [
+  {de:"pain blanc, baguette",vers:"pain complet au levain, pain de seigle",pourquoi:"plus de fibres, un sucre qui arrive plus doucement dans ton sang."},
+  {de:"céréales du petit-déj",vers:"flocons d'avoine + yaourt grec + graines",pourquoi:"des protéines et des fibres dès le matin : tu tiens jusqu'au déjeuner sans fringale."},
+  {de:"jus de fruits",vers:"le fruit entier + une poignée d'amandes",pourquoi:"le fruit garde ses fibres, les amandes freinent le pic de sucre."},
+  {de:"riz blanc",vers:"riz basmati complet, quinoa ou lentilles",pourquoi:"plus de fibres et de protéines, une glycémie plus stable après le repas."},
+  {de:"pâtes blanches très cuites",vers:"pâtes complètes ou de légumineuses, al dente",pourquoi:"cuites al dente, elles font monter le sucre moins vite."},
+  {de:"purée de pommes de terre",vers:"purée moitié patate douce, moitié légumes",pourquoi:"le même réconfort, avec plus de fibres."},
+  {de:"biscuits du goûter",vers:"carré de chocolat 85 % + quelques amandes",pourquoi:"le plaisir reste, le pic de sucre en moins."},
+  {de:"soda, boisson sucrée",vers:"eau pétillante + citron, ou infusion froide",pourquoi:"zéro sucre ajouté, toujours de la fraîcheur."},
+  {de:"yaourt aux fruits sucré",vers:"yaourt nature + fruits rouges",pourquoi:"tu choisis la douceur, sans le sucre caché."},
+  {de:"chips à l'apéro",vers:"pois chiches grillés, olives ou oléagineux",pourquoi:"croquant et salé, avec des protéines ou de bons gras."},
+  {de:"barre de céréales",vers:"energy balls maison dattes-cacao",pourquoi:"moins de sucre ajouté, plus de bons gras."},
+  {de:"sucre dans le café",vers:"une pincée de cannelle de Ceylan",pourquoi:"la douceur sans le sucre."},
+  {de:"vinaigrette du commerce",vers:"huile d'olive ou de colza + vinaigre + moutarde",pourquoi:"de bons gras, sans sucre ajouté."},
+  {de:"confiture sur la tartine",vers:"purée d'amande ou de cacahuète + fruit frais",pourquoi:"des bons gras et des protéines qui calment la faim."},
+  {de:"dessert sucré tous les soirs",vers:"fruit + yaourt grec, ou une tisane du soir",pourquoi:"un rituel de fin de repas qui ne relance pas les envies de sucre."},
+];
 const JOURS = [["lun","Lundi"],["mar","Mardi"],["mer","Mercredi"],["jeu","Jeudi"],["ven","Vendredi"],["sam","Samedi"],["dim","Dimanche"]];
 const SLOTS = [["matin","Petit-déj"],["midi","Déjeuner"],["soir","Dîner"]];
 
@@ -10514,6 +10552,34 @@ export default function App() {
   const [repasMoment, setRepasMoment] = useState("matin");
   const [recetteOpen, setRecetteOpen] = useState(null);
   const [repasPlan, setRepasPlan] = useState(() => load("repasPlan",{}));
+  const [planPrefs, setPlanPrefs] = useState(() => ({vege:false,sansLactose:false,rapide:false,emporter:false,...load("planPrefs",{})}));
+  useEffect(()=>{ save("planPrefs",planPrefs); },[planPrefs]);
+  // « compose ma semaine pour moi » : remplit les repas (vides, ou tous) avec tes recettes, selon tes envies et ton profil
+  const composerSemaine = (remplacer) => {
+    const noms=[...new Set([...REPAS.map(r=>r.nom),...Object.keys(RECETTES)])];
+    const ok=(n)=>(!planPrefs.vege||repasEstVege(n))&&(!planPrefs.sansLactose||repasSansLactose(n));
+    const next={}; JOURS.forEach(([jk])=>{ next[jk]={...(repasPlan[jk]||{})}; });
+    let rempli=0, vides=0;
+    SLOTS.forEach(([sk])=>{
+      let pool=noms.filter(n=>_repasInfo(n).moment===sk&&ok(n));
+      if(planPrefs.rapide){ const q=pool.filter(repasRapide); if(q.length>=3) pool=q; }
+      const score=(n)=>{ const i=_repasInfo(n); let x=Math.random(); if(i.profils.includes(profil)) x+=0.8; if(planPrefs.emporter&&sk==="midi"&&i.tags.includes("nomade")) x+=1.5; return x; };
+      pool=pool.map(n=>[n,score(n)]).sort((p,q)=>q[1]-p[1]).map(x=>x[0]);
+      const used=new Set(); if(!remplacer) JOURS.forEach(([jk])=>{ if(next[jk][sk]) used.add(next[jk][sk]); });
+      let idx=0;
+      JOURS.forEach(([jk])=>{
+        if(next[jk][sk]&&!remplacer) return;
+        if(!pool.length){ vides++; return; }
+        let pick=null; for(let t=0;t<pool.length;t++){ const c=pool[(idx+t)%pool.length]; if(!used.has(c)){ pick=c; idx=(idx+t+1)%pool.length; break; } }
+        if(!pick){ pick=pool[idx%pool.length]; idx++; }
+        used.add(pick); next[jk][sk]=pick; rempli++;
+      });
+    });
+    setRepasPlan(next);
+    if(rempli===0&&vides===0) showToast("Ta semaine est déjà complète","touche « tout recomposer » pour de nouvelles idées.");
+    else if(vides>0) showToast("Semaine composée en partie","pas assez de recettes avec tous ces filtres : enlève-en un pour compléter.");
+    else showToast("Ta semaine est composée","ta liste de courses s'est remplie toute seule. change ce que tu veux.");
+  };
   const [planTab, setPlanTab] = useState("semaine"); // semaine / idees / courses
   const [planPicker, setPlanPicker] = useState(null); // {jour, moment} slot à remplir
   const [planCustom, setPlanCustom] = useState(""); // saisie repas libre dans le sélecteur
@@ -11866,6 +11932,53 @@ export default function App() {
               </button>
             )}
 
+            {/* Tes rappels aujourd'hui — ce que ton téléphone va te rappeler, et le bouton pour les activer */}
+            {(()=>{
+              const notifsOk = notifPerm==="granted";
+              const ajd=dateLocale(); const dem=(()=>{ const d=new Date(); d.setDate(d.getDate()+1); try{ return d.toLocaleDateString("en-CA"); }catch(e){ return d.toISOString().slice(0,10); } })();
+              const items=[];
+              if(notifsOk) items.push({h:8,t:day>365?"ton geste d'entretien du jour":"ton message du matin"});
+              if(notifsOk&&rappelsTisanes.actif){ const byM={}; getCureActive(profil,day).forEach(t=>{ const m=tisaneMoment(t.timing); (byM[m]=byM[m]||[]).push(t.nom); });
+                Object.entries(byM).forEach(([m,noms])=>items.push({h:rappelsTisanes[m],t:"tisane : "+[...new Set(noms)].join(", "),fait:[...new Set(noms)].every(n=>(tisanesPrises[ajd]||{})[n])})); }
+              (rdvs||[]).forEach(r=>{ if(!r||!r.titre||!r.date) return;
+                if(r.date===ajd) items.push({h:r.heure?parseInt(r.heure,10):null,t:"aujourd'hui : "+r.titre+(r.heure?" à "+String(r.heure).replace(":","h"):"")});
+                if(r.date===dem) items.push({h:null,t:"demain : "+r.titre}); });
+              items.sort((x,y)=>(x.h==null?99:x.h)-(y.h==null?99:y.h));
+              const rg=[...new Set(regles||[])].sort(); const gaps=rg.slice(1).map((x,i)=>Math.round((new Date(x+"T12:00:00")-new Date(rg[i]+"T12:00:00"))/86400000)).filter(g=>g>=18&&g<=60).slice(-6);
+              let regleTxt=null;
+              if(rg.length&&gaps.length>=2&&Math.max(...gaps)-Math.min(...gaps)<=10){ const moy=Math.round(gaps.reduce((p,q)=>p+q,0)/gaps.length); const prev=new Date(rg[rg.length-1]+"T12:00:00"); prev.setDate(prev.getDate()+moy); const dj=Math.round((prev-new Date(ajd+"T12:00:00"))/86400000);
+                if(dj>=0&&dj<=3) regleTxt=(dj===0?"tes règles pourraient arriver aujourd'hui":"tes règles pourraient arriver d'ici "+dj+" jour"+(dj>1?"s":""))+". bouillotte et douceur à portée de main."; }
+              const aActiver = !notifsOk || !rappelsTisanes.actif;
+              if(!items.length&&!regleTxt&&!aActiver) return null;
+              return(
+              <div style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:14,padding:"12px 14px",marginBottom:10}}>
+                <div style={{display:"flex",alignItems:"center",gap:7,marginBottom:items.length||regleTxt?8:4}}>
+                  <Icon name="calendar" size={14} color={pc.p}/>
+                  <div style={{fontSize:12,fontWeight:700,color:C.brown}}>Tes rappels aujourd'hui</div>
+                </div>
+                {items.map((it,i)=>(
+                  <div key={i} style={{display:"flex",alignItems:"center",gap:10,padding:"5px 0"}}>
+                    <div style={{width:34,flexShrink:0,fontSize:10.5,fontWeight:700,color:pc.p}}>{it.h!=null?it.h+"h":"·"}</div>
+                    <div style={{flex:1,fontSize:11,color:it.fait?C.light:C.brown,textDecoration:it.fait?"line-through":"none",lineHeight:1.4}}>{it.t}</div>
+                    {it.fait&&<Icon name="check" size={12} color="#4A7A52"/>}
+                  </div>
+                ))}
+                {regleTxt&&(
+                  <div style={{display:"flex",alignItems:"center",gap:10,padding:"5px 0"}}>
+                    <div style={{width:34,flexShrink:0,display:"flex"}}><Icon name="moon" size={13} color="#C98B86"/></div>
+                    <div style={{flex:1,fontSize:11,color:C.brown,lineHeight:1.45}}>{regleTxt}</div>
+                  </div>
+                )}
+                {aActiver&&(
+                  <div style={{marginTop:items.length||regleTxt?8:2}}>
+                    <div style={{fontSize:10.5,color:C.mid,lineHeight:1.5,marginBottom:8}}>{!notifsOk?"active tes rappels pour recevoir ton message du matin et tes moments tisane sur ton téléphone.":"active aussi tes rappels tisanes, à l'heure qui te convient."}</div>
+                    <button onClick={()=>setShowAccount(true)} style={{width:"100%",background:pc.p,border:"none",borderRadius:10,padding:"9px",color:"white",fontFamily:"inherit",fontSize:11,fontWeight:700,cursor:"pointer"}}>activer mes rappels</button>
+                  </div>
+                )}
+              </div>
+              );
+            })()}
+
             {/* Ta cure du moment — tisanes actives, persistant chaque jour */}
             {(()=>{
               const cure=getCureActive(profil,day);
@@ -12206,7 +12319,21 @@ export default function App() {
                 {/* MA SEMAINE */}
                 {planTab==="semaine"&&(
                   <div>
-                    <div style={{fontSize:11,color:C.mid,lineHeight:1.6,background:C.bubble,borderRadius:11,padding:"10px 12px",marginBottom:14}}>compose ta semaine : touche « + » pour piocher un repas. ta liste de courses se remplit toute seule.</div>
+                    <div style={{background:C.white,border:`1.5px solid ${pc.p}`,borderRadius:14,padding:"13px",marginBottom:12}}>
+                      <div style={{fontSize:12.5,fontWeight:700,color:C.brown}}>compose ma semaine pour moi</div>
+                      <div style={{fontSize:10.5,color:C.mid,lineHeight:1.5,marginTop:3}}>je remplis les repas vides avec tes recettes, selon tes envies et ton profil. tu changes ensuite ce que tu veux.</div>
+                      <div style={{display:"flex",gap:6,flexWrap:"wrap",margin:"10px 0"}}>
+                        {[["vege","végé"],["sansLactose","sans lactose"],["rapide","rapide (15 min max)"],["emporter","déjeuner à emporter"]].map(([k,l])=>{ const on=!!planPrefs[k]; return(
+                          <button key={k} onClick={()=>setPlanPrefs(p=>({...p,[k]:!p[k]}))} aria-pressed={on}
+                            style={{padding:"6px 11px",borderRadius:99,border:`1.5px solid ${on?pc.p:C.border}`,background:on?`${pc.p}18`:C.white,color:on?pc.p:C.mid,fontFamily:"inherit",fontSize:10.5,fontWeight:600,cursor:"pointer"}}>{l}</button>); })}
+                      </div>
+                      <button onClick={()=>composerSemaine(false)} style={{width:"100%",background:pc.p,border:"none",borderRadius:10,padding:"10px",color:"white",fontFamily:"inherit",fontSize:12,fontWeight:700,cursor:"pointer"}}>compose ma semaine →</button>
+                      {JOURS.some(([jk])=>repasPlan[jk]&&SLOTS.some(([sk])=>repasPlan[jk][sk]))&&(
+                        <button onClick={()=>{ if(window.confirm("Remplacer tous les repas de ta semaine par de nouvelles idées ?")) composerSemaine(true); }}
+                          style={{display:"block",margin:"8px auto 0",background:"none",border:"none",color:pc.p,fontFamily:"inherit",fontSize:10.5,fontWeight:600,cursor:"pointer",textDecoration:"underline"}}>tout recomposer</button>
+                      )}
+                    </div>
+                    <div style={{fontSize:10.5,color:C.mid,lineHeight:1.6,marginBottom:12}}>ou touche « + » pour choisir toi-même. ta liste de courses se remplit toute seule.</div>
                     {JOURS.map(([jk,jl])=>{
                       const d=repasPlan[jk]||{};
                       return(
@@ -12343,7 +12470,7 @@ export default function App() {
                         const recsMoment=recs.filter(n=>RECETTES[n].moment===planPicker.moment);
                         const recsAutres=recs.filter(n=>RECETTES[n].moment!==planPicker.moment);
                         const MOM={matin:"petit-déj",midi:"déjeuner",soir:"dîner",collation:"collation"};
-                        const infoRec=(n)=>[RECETTES[n].temps,...(RECETTES[n].tags||[])].filter(Boolean).join(" · ");
+                        const infoRec=(n)=>badgesRepas(n).join(" · ")||RECETTES[n].temps;
                         const titre=(t)=>(<div style={{fontSize:9,letterSpacing:1,textTransform:"uppercase",color:C.light,fontWeight:600,margin:"4px 0 9px"}}>{t}</div>);
                         const carte=(nom,sous,key)=>(
                           <button key={key} onClick={()=>ajouter(nom)}
@@ -12572,7 +12699,7 @@ export default function App() {
                             <div style={{fontSize:12.5,fontWeight:600,color:C.brown,marginBottom:3}}>{nom}</div>
                             <div style={{display:"flex",gap:5,flexWrap:"wrap",alignItems:"center"}}>
                               <span style={{fontSize:9,color:C.mid,background:C.cream,borderRadius:99,padding:"2px 7px"}}>⏱️ {r.temps}</span>
-                              {r.tags&&r.tags.slice(0,2).map((t,k)=>(
+                              {badgesRepas(nom).filter(t=>!t.startsWith("prêt en")).slice(0,3).map((t,k)=>(
                                 <span key={k} style={{fontSize:9,color:"#4F6038",background:`${C.sage}22`,borderRadius:99,padding:"2px 7px"}}>{t}</span>
                               ))}
                             </div>
@@ -12614,6 +12741,24 @@ export default function App() {
             })()}
 
             {/* OUTIL : SUCRES CACHÉS */}
+            {outilOpen==="echanges"&&(
+              <div className="fu">
+                <div style={{background:C.bubble,borderRadius:12,padding:"10px 14px",marginBottom:12,fontSize:11,color:C.mid,lineHeight:1.6,border:`1px solid ${C.border}`}}>
+                  pas besoin de tout changer d'un coup : un échange à la fois suffit. choisis celui qui te parle le plus cette semaine.
+                </div>
+                {ECHANGES_MALINS.map((e,i)=>(
+                  <div key={i} style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:12,padding:"11px 13px",marginBottom:8}}>
+                    <div style={{display:"flex",alignItems:"center",gap:8,flexWrap:"wrap"}}>
+                      <span style={{fontSize:11.5,color:C.light,textDecoration:"line-through",textDecorationColor:`${C.light}88`}}>{e.de}</span>
+                      <span style={{fontSize:12,color:pc.p,fontWeight:700}}>→</span>
+                      <span style={{fontSize:12,color:C.brown,fontWeight:700}}>{e.vers}</span>
+                    </div>
+                    <div style={{fontSize:10.5,color:C.mid,lineHeight:1.55,marginTop:5}}>{e.pourquoi}</div>
+                  </div>
+                ))}
+              </div>
+            )}
+
             {outilOpen==="sucres"&&(
               <div className="fu">
                 <div style={{background:C.bubble,borderRadius:12,padding:"12px 14px",marginBottom:14,fontSize:11,color:C.mid,lineHeight:1.6,border:`1px solid ${C.border}`}}>
