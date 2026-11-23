@@ -206,6 +206,9 @@ const SEANCES = {
   marche:{ titre:"Marche active", sous:"dehors ou sur place", type:"marche", materiel:"aucun", ic:"steps",
       intro:"une marche d'un bon pas, dehors si possible. après un repas, c'est encore mieux pour ta digestion et ton énergie.",
       echauf:[], circuit:[{id:"marcheSurPlace",s:900}], calme:[{id:"respiration",s:60}], tours:1 },
+  gainage:{ titre:"Gainage & posture", sous:"dos et sangle abdominale", type:"renfo", materiel:"tapis, mur", ic:"heart",
+      intro:"pour une sangle abdominale solide et un dos qui te porte mieux au quotidien. jamais pour « un ventre plat » : pour te sentir solide.",
+      echauf:[{id:"marcheSurPlace",s:60},{id:"chatVache",s:45},{id:"epaules",s:30}], circuit:[{id:"gainageMur",t:true},{id:"birdDog",r:true},{id:"deadBug",r:true},{id:"pontFessier",r:true}], calme:[{id:"enfant",s:60},{id:"respiration",s:60}] },
 };
 // semaine type : 0 = lundi
 const SEMAINE_TYPE = ["A","marche","mobilite","B","cardio","plaisir","repos"];
@@ -244,8 +247,10 @@ function ExImg({ id, ExIllus, h=170, rond=18 }) {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
-export default function Bouger({ C, Icon, ExIllus, energie, setEnergie, setTab }) {
-  const [vue, setVue] = useState({ v:"accueil" });
+export default function Bouger({ C, Icon, ExIllus, energie, setEnergie, setTab, depart, departLu, anciennesRoutines }) {
+  const [vue, setVue] = useState(() => depart && SEANCES[depart] ? { v:"seance", sid:depart } : { v:"accueil" });
+  useEffect(()=>{ if(depart&&departLu) departLu(); },[]);
+  const [sportsOpen, setSportsOpen] = useState(false);
   const [pile, setPile] = useState([]);
   const [debut, setDebut] = useState(() => load("bougerDebut", null));
   const [fait, setFait] = useState(() => load("bougerFait", {}));       // { "2026-11-23": [{s,min,diff,en,res,note,nom}] }
@@ -345,10 +350,45 @@ export default function Bouger({ C, Icon, ExIllus, energie, setEnergie, setTab }
       </div>
       <button onClick={()=>{ demarrer(); aller({v:"semaine",ph:ph.n}); }} style={{...btn,marginBottom:14}}>{debut?"Continuer mon parcours":"Commencer mon programme"} →</button>
 
+      <div style={{...carte,padding:0,overflow:"hidden"}}>
+        <button onClick={()=>setSportsOpen(o=>!o)} aria-expanded={sportsOpen} style={{width:"100%",display:"flex",alignItems:"center",gap:12,background:"none",border:"none",padding:"13px 14px",cursor:"pointer",fontFamily:"inherit",textAlign:"left"}}>
+          <span style={{width:40,height:40,borderRadius:12,background:LB,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><Icon name="leaf" size={18} color={L}/></span>
+          <span style={{flex:1}}><span style={{display:"block",fontSize:13,fontWeight:700,color:C.brown}}>Bien bouger avec un SMOP</span><span style={{display:"block",fontSize:10.5,color:C.mid}}>quels sports privilégier, lesquels doser</span></span>
+          <span style={{fontSize:15,color:C.light,transform:sportsOpen?"rotate(90deg)":"none",transition:"transform .2s"}}>›</span>
+        </button>
+        {sportsOpen&&(
+        <div style={{padding:"0 14px 14px"}}>
+          <div style={{fontSize:11,color:C.mid,lineHeight:1.6,marginBottom:12}}>on te dit « fais du sport », jamais lequel ni comment. avec un SMOP, ce n'est pas l'intensité qui compte, c'est le bon dosage pour ton terrain.</div>
+          {[
+            {coul:"#7A9A5A",bg:"#EFF3E8",tag:"à privilégier",items:[
+              {n:"Le renforcement musculaire doux",d:"le muscle est un grand consommateur de sucre : plus tu en as, mieux ton corps gère sa glycémie. c'est le levier n°1 pour l'insuline."},
+              {n:"La marche, surtout après les repas",d:"10-15 min après manger lissent le pic de glycémie. simple, gratuit, redoutable."},
+              {n:"Le yoga, le pilates, les étirements",d:"ils apaisent le système nerveux et le cortisol — précieux quand ton SMOP réagit au stress."},
+            ]},
+            {coul:"#D4A56A",bg:"#FBF3E8",tag:"à doser, à l'écoute",items:[
+              {n:"Le cardio intense / HIIT",d:"pas interdit, mais à manier avec prudence : poussé trop fort quand tu es déjà fatiguée ou stressée, il peut faire grimper le cortisol et aller contre toi. en forme et ça te fait du bien ? vas-y. épuisée ? allège."},
+            ]},
+          ].map((cat,i)=>(
+            <div key={i} style={{marginBottom:i===0?12:0}}>
+              <div style={{fontSize:9,letterSpacing:1,textTransform:"uppercase",color:cat.coul,fontWeight:700,marginBottom:7}}>{cat.tag}</div>
+              {cat.items.map((it,j)=>(
+                <div key={j} style={{background:cat.bg,borderRadius:11,padding:"10px 12px",marginBottom:7,borderLeft:`3px solid ${cat.coul}`}}>
+                  <div style={{fontSize:12,fontWeight:600,color:C.brown,marginBottom:2}}>{it.n}</div>
+                  <div style={{fontSize:10.5,color:C.mid,lineHeight:1.5}}>{it.d}</div>
+                </div>
+              ))}
+            </div>
+          ))}
+          <div style={{background:`${L}10`,borderRadius:11,padding:"10px 12px",marginTop:4}}>
+            <div style={{fontSize:10.5,color:C.brown,lineHeight:1.6}}><strong>la règle d'or :</strong> régularité douce &gt; intensité. 20 min la plupart des jours valent mieux qu'une séance qui te met à terre une fois par semaine. tu construis dans la durée, pas dans la performance.</div>
+          </div>
+        </div>)}
+      </div>
+
       <div style={{fontSize:10.5,color:C.mid,lineHeight:1.55,background:C.white,border:`1px solid ${C.border}`,borderRadius:14,padding:"11px 13px",marginBottom:10}}>
         <strong style={{color:C.brown}}>avant de commencer :</strong> si tu es enceinte, en post-partum, blessée, si tu as une douleur qui dure ou une restriction médicale, demande l'avis d'un professionnel de santé. pendant les séances, la douleur n'est jamais un objectif : adapte ou arrête.
       </div>
-      <button onClick={()=>setTab("mouvement")} style={{background:"none",border:"none",padding:"4px 0",color:L,fontFamily:"inherit",fontSize:11.5,fontWeight:700,cursor:"pointer"}}>retrouver mes routines libres →</button>
+      <button onClick={()=>anciennesRoutines?anciennesRoutines():setTab("mouvement")} style={{background:"none",border:"none",padding:"4px 0",color:L,fontFamily:"inherit",fontSize:11.5,fontWeight:700,cursor:"pointer"}}>retrouver mes anciennes routines →</button>
       <Toast/>
     </div>);
   }
@@ -425,7 +465,7 @@ export default function Bouger({ C, Icon, ExIllus, energie, setEnergie, setTab }
                   </div>
                   <div style={{fontSize:11,color:C.mid,marginBottom:7}}>remplacer par :</div>
                   <div style={{display:"flex",gap:5,flexWrap:"wrap"}}>
-                    {["A","B","marche","mobilite","cardio","plaisir","repos"].filter(s=>s!==x.sid).map(s=>(<button key={s} onClick={()=>{ setMoves(m=>({...m,[x.k]:s})); setVue({...vue,choix:null}); }} style={{...chip(false),padding:"6px 10px",fontSize:11}}>{SEANCES[s]?SEANCES[s].titre:LIBRES[s].titre}</button>))}
+                    {["A","B","gainage","marche","mobilite","cardio","plaisir","repos"].filter(s=>s!==x.sid).map(s=>(<button key={s} onClick={()=>{ setMoves(m=>({...m,[x.k]:s})); setVue({...vue,choix:null}); }} style={{...chip(false),padding:"6px 10px",fontSize:11}}>{SEANCES[s]?SEANCES[s].titre:LIBRES[s].titre}</button>))}
                   </div>
                 </div>
               )}
