@@ -10322,7 +10322,14 @@ export default function App() {
   const [adaptOpen, setAdaptOpen] = useState(false); // fenêtre « Adapter ma journée »
   const [adaptTemps, setAdaptTemps] = useState(10);
   const [adaptBesoin, setAdaptBesoin] = useState(null);
-  const [accompOpen, setAccompOpen] = useState(null); // « Mon accompagnement » : bloc déplié
+  const [accompOpen, setAccompOpen] = useState(null); // « Mon espace d'échange » : bloc déplié
+  const [bilans, setBilans] = useState(() => load("bilans",[])); // « Faire le point sur mon parcours »
+  useEffect(()=>{ save("bilans",bilans); },[bilans]);
+  const [bilanOpen, setBilanOpen] = useState(false);
+  const [bilanRep, setBilanRep] = useState({});
+  const [bilanFini, setBilanFini] = useState(null);
+  const [aideOpen, setAideOpen] = useState(false);
+  const [aideSujet, setAideSujet] = useState(null);
   useEffect(()=>{ setMindsetOpen(null); setMissionOpen(false); }, [day, vueJour]); // se réinitialise quand on change de jour
   const prevDayRef = useRef(day);
   useEffect(()=>{ if(prevDayRef.current!==day){ setEnergie(null); prevDayRef.current=day; } }, [day]); // l'énergie se vide quand on change de jour (gardée au rechargement du même jour)
@@ -11130,6 +11137,13 @@ export default function App() {
   // ── CENTRE DE PRIORITÉS J0 ─────────────────────────────────────────────────
   if(screen==="priorites"||modePrio) return (
     <div style={{fontFamily:"'DM Sans',sans-serif",background:C.cream,minHeight:"100vh",maxWidth:430,margin:"0 auto"}}>
+      {modePrio&&(
+        <div style={{position:"sticky",top:0,zIndex:20,background:C.cream,padding:"10px 14px",borderBottom:`1px solid ${C.border}`}}>
+          <button onClick={()=>{ setModePrio(false); setTab("kamila"); }} style={{display:"flex",alignItems:"center",gap:6,background:C.white,border:`1px solid ${C.border}`,borderRadius:99,padding:"7px 14px",cursor:"pointer",fontFamily:"inherit",fontSize:12,fontWeight:700,color:C.brown}}>
+            <Icon name="arrowL" size={15} color={C.brown}/> revenir à l'accueil
+          </button>
+        </div>
+      )}
       <div style={{background:`linear-gradient(135deg,${pc.p},#9A6040)`,padding:"2rem 1.5rem",color:"white"}}>
         <div style={{fontSize:9,letterSpacing:3,textTransform:"uppercase",opacity:.7,marginBottom:6}}>Protocole SOPK Life · Avant de commencer</div>
         <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.8rem",marginBottom:6}}>
@@ -11570,7 +11584,7 @@ export default function App() {
 
         {/* Retour à l'écran d'où l'on vient (quand on y est arrivée par un lien, une mission…) */}
         {(()=>{
-          const NAV_LABELS={kamila:"Accueil",carte:"Ma carte",suivi:"Suivi",outils:"Ressources",medecin:"Santé",apercu:"Vue d'ensemble",tendances:"Mes tendances",mesures:"Mes mesures",cycle:"Mon cycle",journal:"Mon journal",mouvement:"Mes mouvements",ancrage:"Mon ancrage",analyses:"Mes analyses",sos:"Mode crise"};
+          const NAV_LABELS={kamila:"Accueil",carte:"Ma carte",suivi:"Suivi",outils:"Ressources",medecin:"Santé",apercu:"Vue d'ensemble",tendances:"Mes tendances",mesures:"Mes mesures",cycle:"Mon cycle",journal:"Mon journal",mouvement:"Mes mouvements",ancrage:"Mon ancrage",analyses:"Mes analyses",sommeil:"Mon sommeil",soin:"Prendre soin",sos:"Mode crise"};
           const SUBP={cycle:"suivi",apercu:"suivi",tendances:"suivi",mesures:"suivi",journal:"suivi",mouvement:"suivi",sos:"outils"};
           const p=navPrevTab;
           if(!p||p===tab||p===SUBP[tab]||!NAV_LABELS[p]) return null;
@@ -11896,24 +11910,13 @@ export default function App() {
               );
             })()}
 
-            {/* ── Adapter ma journée ── */}
-            <button onClick={()=>setAdaptOpen(true)}
-              style={{width:"100%",display:"flex",alignItems:"center",gap:12,background:`linear-gradient(135deg,#D4A56A,${C.terra})`,border:"none",borderRadius:18,padding:"14px",marginBottom:12,cursor:"pointer",fontFamily:"inherit",textAlign:"left",boxShadow:"0 6px 18px rgba(203,154,121,0.35)"}}>
-              <div style={{width:46,height:46,borderRadius:13,background:"rgba(255,255,255,0.85)",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><Icon name="calendar" size={20} color={C.terra}/></div>
-              <div style={{flex:1}}>
-                <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.08rem",fontWeight:600,color:"#fff"}}>Adapter ma journée</div>
-                <div style={{fontSize:10.5,color:"rgba(255,255,255,0.92)",lineHeight:1.4,marginTop:2}}>une idée selon ton énergie, ton temps et ton besoin du moment</div>
-              </div>
-              <div style={{width:34,height:34,borderRadius:"50%",background:"rgba(255,255,255,0.85)",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,color:C.terra,fontSize:16,fontWeight:700}}>→</div>
-            </button>
-
             {/* ── Mon parcours : progression discrète, sans pression ── */}
-            {(()=>{ const postParcours = day>365 && vueJour==null; const total=day<=30?30:365; const pct=day<=30?Math.min(100,(completedCount/30)*100):(Math.min(day,365)/365)*100; return (
+            {(()=>{ const postParcours = day>365 && vueJour==null; const pct=(Math.min(day,365)/365)*100; return (
             <div style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:16,padding:"12px 14px",marginBottom:12}}>
               <div style={{display:"flex",alignItems:"center",gap:7,marginBottom:8}}>
                 <Icon name="chart" size={15} color={pc.p}/>
                 <span style={{fontFamily:"'Playfair Display',serif",fontSize:"1rem",fontWeight:600,color:C.brown}}>Mon parcours</span>
-                <span style={{marginLeft:"auto",fontSize:10.5,color:C.mid}}>{day>365?"parcours bouclé":"Jour "+day+" sur "+total}</span>
+                <span style={{marginLeft:"auto",fontSize:10.5,color:C.mid}}>{day>365?"parcours bouclé":"Jour "+day+" sur 365"+(day<=30?" · Fondation":"")}</span>
               </div>
               <div style={{height:6,background:C.bubble,borderRadius:99,marginBottom:8,overflow:"hidden"}}>
                 <div style={{height:"100%",width:`${pct}%`,background:`linear-gradient(90deg,${pc.p},${pc.p}CC)`,borderRadius:99,transition:"width 0.4s"}}/>
@@ -11923,8 +11926,24 @@ export default function App() {
                 <span>tu avances à ton rythme</span>
               </div>
               {postParcours&&<div style={{marginTop:10,fontSize:11,color:C.mid,lineHeight:1.55,background:`${pc.p}10`,borderRadius:10,padding:"8px 10px"}}><strong style={{color:C.brown}}>Bonus : ton année 2 arrive.</strong> elle est incluse dans ton espace, et tu seras prévenue dès qu'elle arrive. en attendant, un petit geste d'entretien t'attend chaque jour.</div>}
+              {!postParcours&&(
+              <div style={{display:"flex",alignItems:"center",justifyContent:"center",gap:6,marginTop:10}}>
+                <button onClick={()=>voirJour(jourAff-1)} disabled={jourAff<=1} aria-label="jour précédent"
+                  style={{flexShrink:0,width:28,height:28,borderRadius:"50%",border:`1.5px solid ${C.border}`,background:C.cream,color:jourAff<=1?C.border:pc.p,fontSize:14,cursor:jourAff<=1?"default":"pointer",fontFamily:"inherit",display:"flex",alignItems:"center",justifyContent:"center"}}>{"‹"}</button>
+                <div style={{display:"flex",gap:5,overflowX:"auto",paddingBottom:2,maxWidth:"100%"}}>
+                  {Array.from({length:7},(_,i)=>Math.min(Math.max(1,jourAff-3),359)+i).map(d=>(
+                    <button key={d} onClick={()=>voirJour(d)} aria-label={"jour "+d}
+                      style={{flexShrink:0,width:30,height:30,borderRadius:"50%",border:`2px ${d===day&&d!==jourAff?"dashed":"solid"} ${d===jourAff||checked[d]||d===day?pc.p:C.border}`,background:d===jourAff?pc.p:checked[d]?`${pc.p}20`:C.white,color:d===jourAff?"white":C.brown,fontSize:d>99?8.5:10,fontWeight:500,cursor:"pointer",fontFamily:"inherit",padding:0}}>
+                      {checked[d]&&d!==jourAff?"✓":d}
+                    </button>
+                  ))}
+                </div>
+                <button onClick={()=>voirJour(jourAff+1)} disabled={jourAff>=365} aria-label="jour suivant"
+                  style={{flexShrink:0,width:28,height:28,borderRadius:"50%",border:`1.5px solid ${jourAff>=365?C.border:pc.p}`,background:jourAff>=365?C.white:pc.p,color:jourAff>=365?C.border:"white",fontSize:14,cursor:jourAff>=365?"default":"pointer",fontFamily:"inherit",display:"flex",alignItems:"center",justifyContent:"center"}}>{"›"}</button>
+              </div>
+              )}
               <button onClick={()=>{ const md=moisDuJour(Math.min(jourAff,365)); setJourPickerMois(md.an*100+md.m.n); setJourPicker(o=>!o); }} aria-expanded={jourPicker}
-                style={{marginTop:8,background:"none",border:"none",padding:0,color:pc.p,fontFamily:"inherit",fontSize:10.5,fontWeight:700,cursor:"pointer"}}>{jourPicker?"fermer":"revoir un jour de mon parcours →"}</button>
+                style={{marginTop:8,background:"none",border:"none",padding:0,color:pc.p,fontFamily:"inherit",fontSize:10.5,fontWeight:700,cursor:"pointer"}}>{jourPicker?"fermer":"choisir un jour dans mes 365 jours →"}</button>
               {jourPicker&&(()=>{
                 const sel=jourPickerMois||101; const an=1; const mn=sel%100;
                 const anMax=1;
@@ -11961,13 +11980,24 @@ export default function App() {
               })()}
             </div>); })()}
 
+            {/* ── Adapter ma journée ── */}
+            <button onClick={()=>setAdaptOpen(true)}
+              style={{width:"100%",display:"flex",alignItems:"center",gap:12,background:`linear-gradient(135deg,#D4A56A,${C.terra})`,border:"none",borderRadius:18,padding:"14px",marginBottom:12,cursor:"pointer",fontFamily:"inherit",textAlign:"left",boxShadow:"0 6px 18px rgba(203,154,121,0.35)"}}>
+              <div style={{width:46,height:46,borderRadius:13,background:"rgba(255,255,255,0.85)",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><Icon name="calendar" size={20} color={C.terra}/></div>
+              <div style={{flex:1}}>
+                <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.08rem",fontWeight:600,color:"#fff"}}>Adapter ma journée</div>
+                <div style={{fontSize:10.5,color:"rgba(255,255,255,0.92)",lineHeight:1.4,marginTop:2}}>une idée selon ton énergie, ton temps et ton besoin du moment</div>
+              </div>
+              <div style={{width:34,height:34,borderRadius:"50%",background:"rgba(255,255,255,0.85)",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,color:C.terra,fontSize:16,fontWeight:700}}>→</div>
+            </button>
+
             {/* ── Les piliers ── */}
             <div style={{display:"grid",gridTemplateColumns:"repeat(4,minmax(0,1fr))",gap:8,marginBottom:14}}>
               {[
                 {l:"Nourrir",ic:"leaf",bg:"#FBEDE3",col:"#B97F5C",go:()=>{ setTab("outils"); setOutilCat("alimentation"); setOutilOpen(null); }},
                 {l:"Bouger",ic:"steps",bg:"#EEE9F4",col:"#8E80A3",go:()=>setTab("mouvement")},
-                {l:"Prendre soin",ic:"heart",bg:"#EEF2E8",col:"#6E8A55",go:()=>setTab("ancrage")},
-                {l:"Sommeil",ic:"bed",bg:"#F1EBF4",col:"#8E80A3",go:()=>setSosOpen("insomnie")},
+                {l:"Prendre soin",ic:"heart",bg:"#EEF2E8",col:"#6E8A55",go:()=>setTab("soin")},
+                {l:"Sommeil",ic:"bed",bg:"#F1EBF4",col:"#8E80A3",go:()=>setTab("sommeil")},
               ].map(t=>(
                 <button key={t.l} onClick={t.go} style={{background:t.bg,border:"none",borderRadius:16,padding:"14px 4px",cursor:"pointer",fontFamily:"inherit",display:"flex",flexDirection:"column",alignItems:"center",gap:6,minWidth:0}}>
                   <Icon name={t.ic} size={24} color={t.col}/>
@@ -12060,11 +12090,32 @@ export default function App() {
               );
             })()}
 
-            {/* ── Mon accompagnement : Kamila, messages, humeur, communauté ── */}
-            <div style={{display:"flex",alignItems:"center",gap:7,margin:"6px 0 10px"}}>
-              <Icon name="heart" size={15} color={pc.p}/>
-              <span style={{fontFamily:"'Playfair Display',serif",fontSize:"1.05rem",fontWeight:600,color:C.brown}}>Mon accompagnement</span>
+            {/* ── Mon espace d'échange : Kamila, faire le point, demander de l'aide, écrire à l'équipe ── */}
+            <div style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:18,padding:"14px",marginBottom:10}}>
+              <div style={{display:"flex",alignItems:"center",gap:12,paddingBottom:12,marginBottom:4,borderBottom:`1px solid ${C.border}`}}>
+                <div style={{width:46,height:46,borderRadius:"50%",background:C.terra,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><Icon name="heart" size={20} color="#fff"/></div>
+                <div style={{flex:1,minWidth:0}}>
+                  <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.08rem",fontWeight:600,color:C.brown}}>Mon espace d'échange</div>
+                  <div style={{fontSize:10.5,color:C.mid}}>un espace pour échanger et avancer, avec Kamila et l'équipe SOPK Life</div>
+                </div>
+              </div>
+              {[
+                {ic:"calendar",t:"Faire le point sur mon parcours",d:bilans.length?"ton dernier point : le "+new Date(bilans[bilans.length-1].date).toLocaleDateString("fr-FR",{day:"numeric",month:"long"}):"un rendez-vous guidé avec toi-même, en 2 minutes",go:()=>{ setBilanRep({}); setBilanFini(null); setBilanOpen(true); }},
+                {ic:"sparkle",t:"Demander de l'aide",d:"une question, un blocage : je t'oriente au bon endroit",go:()=>{ setAideSujet(null); setAideOpen(true); }},
+                {ic:"book",t:"Écrire à l'équipe",d:"une vraie personne de SOPK Life te répond, du lundi au vendredi",go:()=>{ setAideSujet("ecrire"); setAideOpen(true); }},
+              ].map((x,i)=>(
+                <button key={i} onClick={x.go} style={{width:"100%",display:"flex",alignItems:"center",gap:12,background:"none",border:"none",borderBottom:`1px solid ${C.border}`,padding:"11px 2px",cursor:"pointer",fontFamily:"inherit",textAlign:"left"}}>
+                  <Icon name={x.ic} size={18} color={C.terra}/>
+                  <span style={{flex:1,minWidth:0}}>
+                    <span style={{display:"block",fontSize:12.5,fontWeight:700,color:C.brown}}>{x.t}</span>
+                    <span style={{display:"block",fontSize:10.5,color:C.mid,lineHeight:1.4}}>{x.d}</span>
+                  </span>
+                  <span style={{fontSize:14,color:C.light}}>›</span>
+                </button>
+              ))}
+              <div style={{fontSize:9.5,color:C.light,lineHeight:1.5,marginTop:8}}>les messages de Kamila sont écrits à l'avance pour t'accompagner. quand tu écris à l'équipe, c'est une vraie personne qui te lit.</div>
             </div>
+            <div style={{fontSize:9,letterSpacing:1.5,textTransform:"uppercase",color:C.light,fontWeight:700,margin:"4px 0 8px"}}>les messages de Kamila</div>
             {todayData.msg&&(
               <div style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:16,marginBottom:10,overflow:"hidden"}}>
                 <button onClick={()=>setAccompOpen(o=>o==="mot"?null:"mot")} aria-expanded={accompOpen==="mot"}
@@ -12219,8 +12270,247 @@ export default function App() {
               );
             })()}
 
+            {/* ── Fenêtre « Faire le point sur mon parcours » ── */}
+            {bilanOpen&&(()=>{
+              const Q=[
+                {k:"ressenti",t:"comment tu te sens dans ton parcours, en ce moment ?",type:"choix",opts:["ça va bien","ça avance doucement","c'est compliqué","je me sens perdue"]},
+                {k:"facile",t:"qu'est-ce qui a été le plus facile ces derniers temps ?",type:"texte",ph:"ex : la marche après le dîner"},
+                {k:"difficile",t:"qu'est-ce qui a été le plus difficile ?",type:"texte",ph:"ex : tenir le petit-déj protéiné"},
+                {k:"changer",t:"qu'est-ce que tu aimerais changer ?",type:"texte",ph:"une seule chose suffit"},
+                {k:"besoin",t:"de quoi tu as besoin pour la suite ?",type:"choix",opts:["plus de simplicité","plus d'idées repas","bouger davantage","mieux dormir","plus de soutien"]},
+              ];
+              const rep=bilanRep; const setR=(k,v)=>setBilanRep(p=>({...p,[k]:v}));
+              const chip=(on)=>({padding:"8px 12px",borderRadius:99,border:`1.5px solid ${on?C.terra:C.border}`,background:on?C.terra:C.white,color:on?"#fff":C.brown,fontFamily:"inherit",fontSize:11.5,fontWeight:600,cursor:"pointer"});
+              const conseil={ "plus de simplicité":"garde une seule action par jour, et utilise « Adapter ma journée » les jours chargés.","plus d'idées repas":"essaie « compose ma semaine pour moi » dans Planifier ma semaine.","bouger davantage":"commence par 10 minutes : ouvre Bouger depuis l'accueil.","mieux dormir":"ouvre ton espace Sommeil et note tes nuits quelques jours.","plus de soutien":"tu peux écrire à l'équipe depuis Mon espace d'échange, et rejoindre la communauté des Cysters." }[rep.besoin];
+              const resume=()=>["Mon point du "+new Date().toLocaleDateString("fr-FR"),"Ressenti : "+(rep.ressenti||"-"),"Le plus facile : "+(rep.facile||"-"),"Le plus difficile : "+(rep.difficile||"-"),"Ce que je veux changer : "+(rep.changer||"-"),"Mon besoin : "+(rep.besoin||"-"),"Jour "+day+" de mon parcours"].join("\n");
+              return(
+              <div onClick={()=>setBilanOpen(false)} style={{position:"fixed",inset:0,zIndex:320,background:"rgba(58,42,32,.45)",display:"flex",alignItems:"flex-end",justifyContent:"center"}}>
+                <div onClick={e=>e.stopPropagation()} style={{background:C.cream,width:"100%",maxWidth:430,borderRadius:"22px 22px 0 0",padding:"1.2rem 1.2rem calc(1.4rem + env(safe-area-inset-bottom,0px))",maxHeight:"90vh",overflowY:"auto"}}>
+                  <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:6}}>
+                    <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.2rem",fontWeight:600,color:C.brown}}>Faire le point</div>
+                    <button onClick={()=>setBilanOpen(false)} aria-label="fermer" style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:"50%",width:30,height:30,cursor:"pointer",color:C.mid,fontFamily:"inherit"}}>✕</button>
+                  </div>
+                  {!bilanFini?(<>
+                    <div style={{fontSize:11.5,color:C.mid,lineHeight:1.5,marginBottom:14}}>quelques questions, sans bonne ou mauvaise réponse. tu réponds à celles que tu veux.</div>
+                    {Q.map(q=>(
+                      <div key={q.k} style={{marginBottom:14}}>
+                        <div style={{fontSize:12,fontWeight:700,color:C.brown,marginBottom:7}}>{q.t}</div>
+                        {q.type==="choix"?(
+                          <div style={{display:"flex",gap:6,flexWrap:"wrap"}}>{q.opts.map(o=>(<button key={o} onClick={()=>setR(q.k,rep[q.k]===o?null:o)} aria-pressed={rep[q.k]===o} style={chip(rep[q.k]===o)}>{o}</button>))}</div>
+                        ):(
+                          <textarea value={rep[q.k]||""} onChange={e=>setR(q.k,e.target.value)} placeholder={q.ph} rows={2} style={{width:"100%",border:`1px solid ${C.border}`,borderRadius:10,padding:"9px 10px",fontFamily:"inherit",fontSize:12,color:C.brown,background:C.white,outline:"none",resize:"vertical",boxSizing:"border-box"}}/>
+                        )}
+                      </div>
+                    ))}
+                    <button onClick={()=>{ const b={date:new Date().toISOString(),day,...rep}; setBilans(p=>[...p.slice(-23),b]); setBilanFini(b); }}
+                      style={{width:"100%",background:C.terra,border:"none",borderRadius:12,padding:"12px",color:"#fff",fontFamily:"inherit",fontSize:12.5,fontWeight:700,cursor:"pointer"}}>voir mon résumé</button>
+                  </>):(<>
+                    <div style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:14,padding:"12px 14px",marginBottom:12,fontSize:11.5,color:C.mid,lineHeight:1.7,whiteSpace:"pre-line"}}>{resume()}</div>
+                    {conseil&&<div style={{fontSize:11.5,color:C.brown,lineHeight:1.55,background:`${C.terra}18`,borderRadius:12,padding:"10px 12px",marginBottom:12}}><strong>pour la suite :</strong> {conseil}</div>}
+                    <div style={{fontSize:11,color:C.mid,lineHeight:1.5,marginBottom:10}}>ce point reste dans ton espace, rien que pour toi. tu peux aussi choisir de l'envoyer à l'équipe.</div>
+                    <a href={"mailto:contact@sopklife.com?subject="+encodeURIComponent("Mon point SMOP Map")+"&body="+encodeURIComponent(resume())} style={{display:"block",textAlign:"center",background:C.terra,color:"#fff",borderRadius:12,padding:"11px",fontSize:12.5,fontWeight:700,textDecoration:"none",marginBottom:8}}>l'envoyer à l'équipe</a>
+                    <button onClick={()=>setBilanOpen(false)} style={{width:"100%",background:"none",border:`1px solid ${C.border}`,borderRadius:12,padding:"11px",color:C.brown,fontFamily:"inherit",fontSize:12.5,cursor:"pointer"}}>le garder pour moi</button>
+                    {bilans.length>1&&<div style={{fontSize:10.5,color:C.light,marginTop:12,lineHeight:1.5}}>tes points précédents : {bilans.slice(0,-1).slice(-4).map(b=>new Date(b.date).toLocaleDateString("fr-FR",{day:"numeric",month:"short"})+" ("+(b.ressenti||"-")+")").join(" · ")}</div>}
+                  </>)}
+                </div>
+              </div>
+              );
+            })()}
+
+            {/* ── Fenêtre « Demander de l'aide / Écrire à l'équipe » ── */}
+            {aideOpen&&(()=>{
+              const SUJETS=[
+                {k:"trouver",t:"je ne trouve pas quelque chose dans mon espace"},
+                {k:"dur",t:"je traverse un moment difficile"},
+                {k:"tisanes",t:"une question sur mes tisanes ou ma commande"},
+                {k:"parcours",t:"une question sur mon parcours"},
+                {k:"ecrire",t:"je veux écrire à l'équipe"},
+              ];
+              const go=(f)=>{ setAideOpen(false); f(); };
+              const ecrire=(sujet)=>(
+                <div style={{background:C.white,border:`1.5px solid ${C.terra}`,borderRadius:14,padding:"13px"}}>
+                  <div style={{fontSize:12.5,fontWeight:700,color:C.brown,marginBottom:4}}>écrire à l'équipe SOPK Life</div>
+                  <div style={{fontSize:11,color:C.mid,lineHeight:1.55,marginBottom:10}}>une vraie personne te lit et te répond par e-mail, du lundi au vendredi. pour une urgence médicale, appelle le 15.</div>
+                  <a href={"mailto:contact@sopklife.com?subject="+encodeURIComponent("SMOP Map · "+sujet)} style={{display:"block",textAlign:"center",background:C.terra,color:"#fff",borderRadius:12,padding:"11px",fontSize:12.5,fontWeight:700,textDecoration:"none"}}>écrire un message</a>
+                  <div style={{fontSize:10,color:C.light,textAlign:"center",marginTop:6,userSelect:"all"}}>contact@sopklife.com</div>
+                </div>
+              );
+              return(
+              <div onClick={()=>setAideOpen(false)} style={{position:"fixed",inset:0,zIndex:320,background:"rgba(58,42,32,.45)",display:"flex",alignItems:"flex-end",justifyContent:"center"}}>
+                <div onClick={e=>e.stopPropagation()} style={{background:C.cream,width:"100%",maxWidth:430,borderRadius:"22px 22px 0 0",padding:"1.2rem 1.2rem calc(1.4rem + env(safe-area-inset-bottom,0px))",maxHeight:"88vh",overflowY:"auto"}}>
+                  <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:10}}>
+                    <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.2rem",fontWeight:600,color:C.brown}}>{aideSujet==="ecrire"?"Écrire à l'équipe":"Demander de l'aide"}</div>
+                    <button onClick={()=>setAideOpen(false)} aria-label="fermer" style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:"50%",width:30,height:30,cursor:"pointer",color:C.mid,fontFamily:"inherit"}}>✕</button>
+                  </div>
+                  {!aideSujet&&(<>
+                    <div style={{fontSize:11.5,color:C.mid,lineHeight:1.5,marginBottom:12}}>dis-moi ce qui se passe, je t'oriente au bon endroit.</div>
+                    {SUJETS.map(x=>(<button key={x.k} onClick={()=>setAideSujet(x.k)} style={{width:"100%",textAlign:"left",background:C.white,border:`1px solid ${C.border}`,borderRadius:12,padding:"12px 13px",marginBottom:8,cursor:"pointer",fontFamily:"inherit",fontSize:12.5,color:C.brown,fontWeight:600}}>{x.t}</button>))}
+                  </>)}
+                  {aideSujet==="trouver"&&(<>
+                    <div style={{fontSize:11.5,color:C.mid,lineHeight:1.6,marginBottom:10}}>la loupe en haut de l'écran cherche dans tes recettes, tes fiches, tes aliments et tous les jours du parcours. et l'onglet Ressources regroupe tous les outils.</div>
+                    <button onClick={()=>go(()=>setSearchOpen(true))} style={{width:"100%",background:C.terra,border:"none",borderRadius:12,padding:"11px",color:"#fff",fontFamily:"inherit",fontSize:12.5,fontWeight:700,cursor:"pointer",marginBottom:8}}>ouvrir la recherche</button>
+                    <button onClick={()=>go(()=>setTab("outils"))} style={{width:"100%",background:"none",border:`1px solid ${C.border}`,borderRadius:12,padding:"11px",color:C.brown,fontFamily:"inherit",fontSize:12.5,cursor:"pointer",marginBottom:12}}>voir toutes les ressources</button>
+                    {ecrire("je ne trouve pas")}
+                  </>)}
+                  {aideSujet==="dur"&&(<>
+                    <div style={{fontSize:11.5,color:C.mid,lineHeight:1.6,marginBottom:10}}>tu n'as rien à réussir aujourd'hui. commence par souffler, ensuite on voit.</div>
+                    <button onClick={()=>go(()=>setCriseMode(true))} style={{width:"100%",background:C.terra,border:"none",borderRadius:12,padding:"11px",color:"#fff",fontFamily:"inherit",fontSize:12.5,fontWeight:700,cursor:"pointer",marginBottom:8}}>ouvrir le mode crise</button>
+                    <button onClick={()=>go(()=>setTab("sos"))} style={{width:"100%",background:"none",border:`1px solid ${C.border}`,borderRadius:12,padding:"11px",color:C.brown,fontFamily:"inherit",fontSize:12.5,cursor:"pointer",marginBottom:10}}>voir toutes les fiches SOS</button>
+                    <div style={{fontSize:10.5,color:C.mid,lineHeight:1.5,background:C.white,borderRadius:10,padding:"9px 11px",marginBottom:12}}>si tu as des idées noires, appelle le 3114 (gratuit, 24h/24). en cas d'urgence, le 15.</div>
+                    {ecrire("moment difficile")}
+                  </>)}
+                  {aideSujet==="tisanes"&&ecrire("tisanes ou commande")}
+                  {aideSujet==="parcours"&&(<>
+                    <div style={{fontSize:11.5,color:C.mid,lineHeight:1.6,marginBottom:10}}>souvent, faire le point aide à y voir plus clair : 2 minutes, et tu repars avec une piste.</div>
+                    <button onClick={()=>go(()=>{ setBilanRep({}); setBilanFini(null); setBilanOpen(true); })} style={{width:"100%",background:C.terra,border:"none",borderRadius:12,padding:"11px",color:"#fff",fontFamily:"inherit",fontSize:12.5,fontWeight:700,cursor:"pointer",marginBottom:12}}>faire le point sur mon parcours</button>
+                    {ecrire("question sur mon parcours")}
+                  </>)}
+                  {aideSujet==="ecrire"&&ecrire("message")}
+                  {aideSujet&&<button onClick={()=>setAideSujet(null)} style={{display:"block",margin:"12px auto 0",background:"none",border:"none",color:C.light,fontFamily:"inherit",fontSize:11,cursor:"pointer",textDecoration:"underline"}}>‹ autre sujet</button>}
+                </div>
+              </div>
+              );
+            })()}
           </div>
         )}
+
+        {/* ── MON SOMMEIL : mes nuits, mon rituel du soir, quand ça coince ── */}
+        {tab==="sommeil"&&(()=>{
+          const jr=(n)=>{ const d=new Date(); d.setDate(d.getDate()-n); return d.toISOString().slice(0,10); };
+          const nuits=Array.from({length:7},(_,i)=>{ const k=jr(6-i); const v=journal[k]&&typeof journal[k].sommeil==="number"?journal[k].sommeil:null; return {k,v,l:new Date(k+"T12:00:00").toLocaleDateString("fr-FR",{weekday:"short"}).slice(0,2)}; });
+          const vals=nuits.map(n=>n.v).filter(v=>v!=null); const moy=vals.length?vals.reduce((p,q)=>p+q,0)/vals.length:null;
+          const today=journal[todayKey]||{};
+          const sympL=(d)=>{ const sy=(d&&d.symptomes)||{}; const v=Object.values(sy).filter(x=>typeof x==="number"); return v.length?v.reduce((p,q)=>p+q,0)/v.length:null; };
+          const court=[],long=[]; Array.from({length:30},(_,i)=>jr(i)).forEach(k=>{ const d=journal[k]; if(!d||typeof d.sommeil!=="number") return; const s2=sympL(d); if(s2==null) return; (d.sommeil<7?court:long).push(s2); });
+          const lien=(court.length>=3&&long.length>=3)?{c:court.reduce((p,q)=>p+q,0)/court.length,l:long.reduce((p,q)=>p+q,0)/long.length}:null;
+          const rituels=[["ecrans","écrans coupés 30 min avant"],["lumiere","lumière tamisée le soir"],["tisane","ma tisane du soir"],["heure","coucher à heure fixe"]];
+          const rit=today.rituelSoir||{};
+          const missionsSommeil=Array.from({length:365},(_,i)=>i+1).filter(d=>pilierDeMission(missionPour(d)).label==="Sommeil").slice(0,8);
+          const carte={background:C.white,border:`1px solid ${C.border}`,borderRadius:16,padding:"14px",marginBottom:12};
+          return(
+          <div className="fu">
+            <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.35rem",color:C.brown,marginBottom:2}}>Mon sommeil</div>
+            <div style={{fontSize:12,color:C.light,marginBottom:14}}>avec un SMOP, une nuit courte se paie souvent le lendemain : fringales, énergie, humeur. on la regarde ensemble.</div>
+            <div style={carte}>
+              <div style={{fontSize:12.5,fontWeight:700,color:C.brown,marginBottom:8}}>ma nuit dernière</div>
+              <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:12}}>
+                <button onClick={()=>setJ("sommeil",Math.max(0,(typeof today.sommeil==="number"?today.sommeil:7)-0.5))} aria-label="moins" style={{width:36,height:36,borderRadius:"50%",border:`1.5px solid ${C.border}`,background:C.cream,fontSize:18,color:C.brown,cursor:"pointer",fontFamily:"inherit"}}>−</button>
+                <div style={{flex:1,textAlign:"center"}}><span style={{fontFamily:"'Playfair Display',serif",fontSize:"1.8rem",color:C.brown,fontWeight:600}}>{typeof today.sommeil==="number"?String(today.sommeil).replace(".",","):"–"}</span><span style={{fontSize:12,color:C.mid}}> h</span></div>
+                <button onClick={()=>setJ("sommeil",Math.min(14,(typeof today.sommeil==="number"?today.sommeil:7)+0.5))} aria-label="plus" style={{width:36,height:36,borderRadius:"50%",border:"none",background:"#8E80A3",fontSize:18,color:"#fff",cursor:"pointer",fontFamily:"inherit"}}>+</button>
+              </div>
+              <div style={{fontSize:11,color:C.mid,marginBottom:6}}>comment était ta nuit ?</div>
+              <div style={{display:"flex",gap:6,flexWrap:"wrap",marginBottom:10}}>
+                {["reposante","moyenne","difficile"].map(q=>{ const on=today.sommeilQualite===q; return(<button key={q} onClick={()=>setJ("sommeilQualite",on?null:q)} aria-pressed={on} style={{padding:"7px 12px",borderRadius:99,border:`1.5px solid ${on?"#8E80A3":C.border}`,background:on?"#8E80A3":C.white,color:on?"#fff":C.brown,fontFamily:"inherit",fontSize:11.5,fontWeight:600,cursor:"pointer"}}>{q}</button>); })}
+              </div>
+              <button onClick={()=>setJ("reveilNuit",!today.reveilNuit)} aria-pressed={!!today.reveilNuit} style={{padding:"7px 12px",borderRadius:99,border:`1.5px solid ${today.reveilNuit?"#8E80A3":C.border}`,background:today.reveilNuit?"#8E80A3":C.white,color:today.reveilNuit?"#fff":C.brown,fontFamily:"inherit",fontSize:11.5,fontWeight:600,cursor:"pointer"}}>je me suis réveillée la nuit</button>
+              {today.reveilNuit&&<button onClick={()=>setSosOpen("reveil3h")} style={{display:"block",marginTop:8,background:"none",border:"none",padding:0,color:"#8E80A3",fontFamily:"inherit",fontSize:11,fontWeight:700,cursor:"pointer"}}>comprendre les réveils vers 3h →</button>}
+            </div>
+            <div style={carte}>
+              <div style={{display:"flex",justifyContent:"space-between",alignItems:"baseline",marginBottom:10}}>
+                <div style={{fontSize:12.5,fontWeight:700,color:C.brown}}>mes 7 dernières nuits</div>
+                <div style={{fontSize:11,color:C.mid}}>{moy!=null?"moyenne "+moy.toFixed(1).replace(".",",")+" h":"pas encore de nuits notées"}</div>
+              </div>
+              <div style={{display:"flex",alignItems:"flex-end",gap:6,height:90}}>
+                {nuits.map(n=>(<div key={n.k} style={{flex:1,display:"flex",flexDirection:"column",alignItems:"center",gap:4}}>
+                  <div style={{fontSize:9,color:C.mid}}>{n.v!=null?String(n.v).replace(".",","):""}</div>
+                  <div style={{width:"100%",maxWidth:26,height:n.v!=null?Math.max(6,Math.min(1,n.v/10)*60):4,background:n.v==null?C.border:(n.v>=7?"#8E80A3":"#C9B6D6"),borderRadius:6}}/>
+                  <div style={{fontSize:9.5,color:C.light}}>{n.l}</div>
+                </div>))}
+              </div>
+              {moy!=null&&<div style={{fontSize:11,color:C.mid,lineHeight:1.55,marginTop:10}}>{moy<6.5?"tes nuits sont plutôt courtes en ce moment. ce n'est pas un échec : on peut gagner 30 minutes, petit à petit.":moy<7?"tu es proche des 7 heures. un coucher un peu plus tôt peut suffire.":"tes nuits sont dans la bonne zone. ton corps te remercie."}</div>}
+              {lien&&<div style={{fontSize:11,color:C.brown,lineHeight:1.55,marginTop:8,background:"#F1EBF4",borderRadius:10,padding:"8px 10px"}}>ce que tes données montrent : après une nuit de moins de 7 h, tes symptômes sont en moyenne à {lien.c.toFixed(1).replace(".",",")}/5, contre {lien.l.toFixed(1).replace(".",",")}/5 après une nuit plus longue.</div>}
+              <button onClick={()=>setTab("suivi")} style={{marginTop:10,background:"none",border:"none",padding:0,color:"#8E80A3",fontFamily:"inherit",fontSize:11,fontWeight:700,cursor:"pointer"}}>noter le reste de ma journée →</button>
+            </div>
+            <div style={carte}>
+              <div style={{fontSize:12.5,fontWeight:700,color:C.brown,marginBottom:4}}>mon rituel du soir</div>
+              <div style={{fontSize:11,color:C.mid,marginBottom:10}}>coche ce que tu fais ce soir. une seule chose, c'est déjà bien.</div>
+              {rituels.map(([k,l])=>{ const on=!!rit[k]; return(
+                <button key={k} onClick={()=>setJ("rituelSoir",{...rit,[k]:!on})} aria-pressed={on} style={{width:"100%",display:"flex",alignItems:"center",gap:10,background:"none",border:"none",borderBottom:`1px solid ${C.border}`,padding:"9px 2px",cursor:"pointer",fontFamily:"inherit",textAlign:"left"}}>
+                  <span style={{width:22,height:22,borderRadius:"50%",border:`2px solid ${on?"#8E80A3":C.border}`,background:on?"#8E80A3":"transparent",color:"#fff",fontSize:12,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>{on?"✓":""}</span>
+                  <span style={{fontSize:12,color:C.brown}}>{l}</span>
+                </button>); })}
+            </div>
+            <div style={carte}>
+              <div style={{fontSize:12.5,fontWeight:700,color:C.brown,marginBottom:8}}>quand ça coince</div>
+              {[["reveil3h","Réveil à 3h du matin"],["insomnie","Réveil nocturne"],["stress","Stress qui empêche de dormir"]].map(([id,l])=>(
+                <button key={id} onClick={()=>setSosOpen(id)} style={{width:"100%",display:"flex",justifyContent:"space-between",alignItems:"center",background:C.cream,border:"none",borderRadius:10,padding:"10px 12px",marginBottom:6,cursor:"pointer",fontFamily:"inherit",fontSize:12,color:C.brown,textAlign:"left"}}>{l}<span style={{color:C.light}}>›</span></button>
+              ))}
+            </div>
+            {missionsSommeil.length>0&&(
+            <div style={carte}>
+              <div style={{fontSize:12.5,fontWeight:700,color:C.brown,marginBottom:8}}>dans ton parcours</div>
+              {missionsSommeil.map(d=>(
+                <button key={d} onClick={()=>{ voirJour(d); setTab("kamila"); }} style={{width:"100%",display:"flex",gap:10,alignItems:"center",background:"none",border:"none",borderBottom:`1px solid ${C.border}`,padding:"8px 2px",cursor:"pointer",fontFamily:"inherit",textAlign:"left"}}>
+                  <span style={{fontSize:10,fontWeight:700,color:"#8E80A3",width:34,flexShrink:0}}>J{d}</span>
+                  <span style={{flex:1,fontSize:11.5,color:C.brown}}>{missionPour(d).theme}</span>
+                  {checked[d]&&<span style={{color:"#8E80A3",fontSize:11}}>✓</span>}
+                </button>
+              ))}
+            </div>
+            )}
+          </div>
+          );
+        })()}
+
+        {/* ── PRENDRE SOIN : ce que ton corps te dit, et ce qui te fait du bien ── */}
+        {tab==="soin"&&(()=>{
+          const today=journal[todayKey]||{};
+          const rg=[...new Set(regles||[])].sort(); const der=rg[rg.length-1];
+          const jc=der?Math.floor((new Date(todayKey+"T12:00:00")-new Date(der+"T12:00:00"))/86400000)+1:null;
+          const note=(k)=>typeof today[k]==="number"?today[k]+"/5":"–";
+          const missionsSoin=Array.from({length:365},(_,i)=>i+1).filter(d=>pilierDeMission(missionPour(d)).label==="Prendre soin").slice(0,8);
+          const carte={background:C.white,border:`1px solid ${C.border}`,borderRadius:16,padding:"14px",marginBottom:12};
+          const ligne=(ic,t,d,go)=>(
+            <button key={t} onClick={go} style={{width:"100%",display:"flex",alignItems:"center",gap:12,background:"none",border:"none",borderBottom:`1px solid ${C.border}`,padding:"11px 2px",cursor:"pointer",fontFamily:"inherit",textAlign:"left"}}>
+              <div style={{width:36,height:36,borderRadius:11,background:"#EEF2E8",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><Icon name={ic} size={17} color="#6E8A55"/></div>
+              <span style={{flex:1,minWidth:0}}><span style={{display:"block",fontSize:12.5,fontWeight:700,color:C.brown}}>{t}</span><span style={{display:"block",fontSize:10.5,color:C.mid,lineHeight:1.4}}>{d}</span></span>
+              <span style={{fontSize:14,color:C.light}}>›</span>
+            </button>);
+          return(
+          <div className="fu">
+            <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.35rem",color:C.brown,marginBottom:2}}>Prendre soin</div>
+            <div style={{fontSize:12,color:C.light,marginBottom:14}}>écouter ce que ton corps te dit, et lui donner ce qui lui fait du bien.</div>
+            <div style={{...carte,background:"#EEF2E8",border:"none"}}>
+              <div style={{fontSize:12.5,fontWeight:700,color:"#4F6038",marginBottom:10}}>toi, aujourd'hui</div>
+              <div style={{display:"grid",gridTemplateColumns:"repeat(4,minmax(0,1fr))",gap:6,textAlign:"center"}}>
+                {[["humeur","humeur"],["energie","énergie"],["stress","stress"]].map(([k,l])=>(<div key={k} style={{background:C.white,borderRadius:12,padding:"8px 4px"}}><div style={{fontSize:14,fontWeight:700,color:C.brown}}>{note(k)}</div><div style={{fontSize:9.5,color:C.mid}}>{l}</div></div>))}
+                <div style={{background:C.white,borderRadius:12,padding:"8px 4px"}}><div style={{fontSize:14,fontWeight:700,color:C.brown}}>{jc?"J"+jc:"–"}</div><div style={{fontSize:9.5,color:C.mid}}>cycle</div></div>
+              </div>
+              <button onClick={()=>setTab("suivi")} style={{marginTop:10,width:"100%",background:"#6E8A55",border:"none",borderRadius:11,padding:"10px",color:"#fff",fontFamily:"inherit",fontSize:12,fontWeight:700,cursor:"pointer"}}>noter ma journée</button>
+            </div>
+            <div style={carte}>
+              <div style={{fontSize:12.5,fontWeight:700,color:C.brown,marginBottom:4}}>suivre mon corps</div>
+              {ligne("moon","Mon cycle","tes règles, ta courbe de température, tes signes",()=>setTab("cycle"))}
+              {ligne("chart","Mes tendances","ce qui t'aide vraiment, semaine après semaine",()=>setTab("tendances"))}
+              {ligne("pulse","Mes mesures","tension, glycémie, température",()=>setTab("mesures"))}
+              {ligne("bed","Mon sommeil","tes nuits et ton rituel du soir",()=>setTab("sommeil"))}
+            </div>
+            <div style={carte}>
+              <div style={{fontSize:12.5,fontWeight:700,color:C.brown,marginBottom:4}}>prendre soin de ma tête</div>
+              {ligne("book","Mon journal","ce que tu ressens, ce que tu as testé",()=>setTab("journal"))}
+              {ligne("leaf","Mon ancrage","ton affirmation, ta lettre, vider ton cerveau",()=>setTab("ancrage"))}
+              {ligne("alert","Mes fiches SOS","fringale, angoisse, réveil à 3h… quand ça ne va pas",()=>setTab("sos"))}
+            </div>
+            <div style={carte}>
+              <div style={{fontSize:12.5,fontWeight:700,color:C.brown,marginBottom:4}}>ma santé</div>
+              {ligne("flask","Mes analyses","comprendre tes résultats de prise de sang",()=>setTab("analyses"))}
+              {ligne("doctor","Mon dossier médecin","préparer ton prochain rendez-vous",()=>setTab("medecin"))}
+            </div>
+            {missionsSoin.length>0&&(
+            <div style={carte}>
+              <div style={{fontSize:12.5,fontWeight:700,color:C.brown,marginBottom:8}}>dans ton parcours</div>
+              {missionsSoin.map(d=>(
+                <button key={d} onClick={()=>{ voirJour(d); setTab("kamila"); }} style={{width:"100%",display:"flex",gap:10,alignItems:"center",background:"none",border:"none",borderBottom:`1px solid ${C.border}`,padding:"8px 2px",cursor:"pointer",fontFamily:"inherit",textAlign:"left"}}>
+                  <span style={{fontSize:10,fontWeight:700,color:"#6E8A55",width:34,flexShrink:0}}>J{d}</span>
+                  <span style={{flex:1,fontSize:11.5,color:C.brown}}>{missionPour(d).theme}</span>
+                  {checked[d]&&<span style={{color:"#6E8A55",fontSize:11}}>✓</span>}
+                </button>
+              ))}
+            </div>
+            )}
+          </div>
+          );
+        })()}
 
         {/* ── FICHES SOS ── */}
         {tab==="sos"&&(
