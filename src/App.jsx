@@ -1,4 +1,7 @@
 import { useState, useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
+// Les fenêtres s'affichent directement sur l'écran, quel que soit l'endroit où on a fait défiler la page
+const Portail = ({children}) => createPortal(<div style={{fontFamily:"'DM Sans',sans-serif"}}>{children}</div>, document.body);
 
 // ─── COULEURS ────────────────────────────────────────────────────────────────
 const C = {
@@ -3233,6 +3236,16 @@ const OUTILS_PAR_THEME = {
   "ta nuit, priorité n°1":_sos("insomnie","Ta fiche SOS réveil nocturne","pour des nuits plus calmes"),
   "soutenir sans fouetter":{emoji:"📈",label:"Mes tendances",desc:"repère ce qui te fatigue",goTab:"tendances"},
   "ta boîte à outils anti-cortisol":_sos("stress","Ta fiche SOS stress","tes outils anti-stress"),
+};
+
+// ─── PILIER D'UNE MISSION (pour l'accueil V2) ───
+const pilierDeMission = (m) => {
+  const o=(m&&m.outil)||{}; const t=((m&&m.theme)||"")+" "+((m&&m.mission)||"");
+  const tl=t.toLowerCase();
+  if(o.goTab==="mouvement"||/\b(marche|bouger|séance|renforcement|squat|yoga|étirement|mouvement)/.test(tl)) return {label:"Mouvement",ic:"steps",bg:"#EEE9F4",col:"#8E80A3"};
+  if(["insomnie","reveil3h"].includes(o.sos)||/\b(sommeil|coucher|nuit|dormir|endormissement)/.test(tl)) return {label:"Sommeil",ic:"bed",bg:"#F1EBF4",col:"#8E80A3"};
+  if(["assiette","repas","recettes","aliments","sucres","planif","courses","echanges"].includes(o.cible)||/\b(repas|assiette|petit-déj|glucide|protéine|manger|recette|aliment|fibres)/.test(tl)) return {label:"Nutrition",ic:"leaf",bg:"#FBEDE3",col:"#B97F5C"};
+  return {label:"Prendre soin",ic:"heart",bg:"#EEF2E8",col:"#6E8A55"};
 };
 
 // ─── LES MOIS DU PARCOURS (pour se repérer et revenir à n'importe quel jour) ───
@@ -10309,6 +10322,17 @@ export default function App() {
   const [toast, setToast] = useState(null);
   const [mindsetOpen, setMindsetOpen] = useState(null);
   const [missionOpen, setMissionOpen] = useState(false); // détail de la mission replié par défaut
+  const [adaptOpen, setAdaptOpen] = useState(false); // fenêtre « Adapter ma journée »
+  const [adaptTemps, setAdaptTemps] = useState(10);
+  const [adaptBesoin, setAdaptBesoin] = useState(null);
+  const [accompOpen, setAccompOpen] = useState(null); // « Mon espace d'échange » : bloc déplié
+  const [bilans, setBilans] = useState(() => load("bilans",[])); // « Faire le point sur mon parcours »
+  useEffect(()=>{ save("bilans",bilans); },[bilans]);
+  const [bilanOpen, setBilanOpen] = useState(false);
+  const [bilanRep, setBilanRep] = useState({});
+  const [bilanFini, setBilanFini] = useState(null);
+  const [aideOpen, setAideOpen] = useState(false);
+  const [aideSujet, setAideSujet] = useState(null);
   useEffect(()=>{ setMindsetOpen(null); setMissionOpen(false); }, [day, vueJour]); // se réinitialise quand on change de jour
   const prevDayRef = useRef(day);
   useEffect(()=>{ if(prevDayRef.current!==day){ setEnergie(null); prevDayRef.current=day; } }, [day]); // l'énergie se vide quand on change de jour (gardée au rechargement du même jour)
@@ -10628,7 +10652,7 @@ export default function App() {
 
   useEffect(()=>{
     const s=document.createElement("style");
-    s.innerHTML=`@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap');*{box-sizing:border-box;margin:0;padding:0;-webkit-font-smoothing:antialiased;}body{background:#FBF8F3;}@keyframes toastUp{from{opacity:0;transform:translate(-50%,12px)}to{opacity:1;transform:translate(-50%,0)}}@keyframes fadeUp{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}@keyframes spin{to{transform:rotate(360deg);}}@keyframes breathe{0%,100%{opacity:1;}50%{opacity:0.92;}}.fu{animation:fadeUp 0.35s ease forwards;}.breathe{animation:breathe 5s ease-in-out infinite;}input:focus,textarea:focus{outline:none;}::-webkit-scrollbar{width:3px;}::-webkit-scrollbar-thumb{background:#E8DDD3;border-radius:99px;}.app-shell{max-width:430px;margin:0 auto;}.sop-sidebar{display:none;}@media(min-width:900px){.app-shell{max-width:960px;display:flex;align-items:flex-start;}.sop-sidebar{display:flex!important;}.sop-main{flex:1;min-width:0;max-width:100%;}.mobile-tabs{display:none!important;}.bottom-nav-wrap{display:none!important;}}.sopk-doc{color:#3D2B1F;line-height:1.5;font-family:Arial,sans-serif;}.sopk-doc h1{font-size:20px;color:#3D2B1F;margin-bottom:8px;}.sopk-doc h2{font-size:15px;color:#B07D4F;margin-top:20px;border-bottom:2px solid #E8DDD3;padding-bottom:4px;}.sopk-doc table{border-collapse:collapse;width:100%;font-size:13px;margin-top:6px;}.sopk-doc ul{font-size:13px;margin:6px 0 0 18px;}.sopk-doc li{margin-bottom:4px;}.sopk-doc .note{font-size:11px;color:#9A8578;font-style:italic;margin-top:24px;display:block;}#sopk-print{display:none;}@media print{@page{margin:14mm 12mm;}html,body{height:auto!important;min-height:0!important;overflow:visible!important;background:#fff!important;}body>*:not(#sopk-print){display:none!important;}#sopk-print{display:block!important;position:static!important;}#sopk-print .sopk-doc{max-width:100%;padding:0;margin:0;}.sopk-doc h2{break-after:avoid;}.sopk-doc tr,.sopk-doc li{break-inside:avoid;}}.hscroll::-webkit-scrollbar{display:none;}.hscroll{scrollbar-width:none;-ms-overflow-style:none;}`;
+    s.innerHTML=`@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap');*{box-sizing:border-box;margin:0;padding:0;-webkit-font-smoothing:antialiased;}body{background:#FBF8F3;}@keyframes toastUp{from{opacity:0;transform:translate(-50%,12px)}to{opacity:1;transform:translate(-50%,0)}}@keyframes fadeUp{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:none;}}@keyframes spin{to{transform:rotate(360deg);}}@keyframes breathe{0%,100%{opacity:1;}50%{opacity:0.92;}}.fu{animation:fadeUp 0.35s ease forwards;}.breathe{animation:breathe 5s ease-in-out infinite;}input:focus,textarea:focus{outline:none;}::-webkit-scrollbar{width:3px;}::-webkit-scrollbar-thumb{background:#E8DDD3;border-radius:99px;}.app-shell{max-width:430px;margin:0 auto;}.sop-sidebar{display:none;}@media(min-width:900px){.app-shell{max-width:960px;display:flex;align-items:flex-start;}.sop-sidebar{display:flex!important;}.sop-main{flex:1;min-width:0;max-width:100%;}.mobile-tabs{display:none!important;}.bottom-nav-wrap{display:none!important;}}.sopk-doc{color:#3D2B1F;line-height:1.5;font-family:Arial,sans-serif;}.sopk-doc h1{font-size:20px;color:#3D2B1F;margin-bottom:8px;}.sopk-doc h2{font-size:15px;color:#B07D4F;margin-top:20px;border-bottom:2px solid #E8DDD3;padding-bottom:4px;}.sopk-doc table{border-collapse:collapse;width:100%;font-size:13px;margin-top:6px;}.sopk-doc ul{font-size:13px;margin:6px 0 0 18px;}.sopk-doc li{margin-bottom:4px;}.sopk-doc .note{font-size:11px;color:#9A8578;font-style:italic;margin-top:24px;display:block;}#sopk-print{display:none;}@media print{@page{margin:14mm 12mm;}html,body{height:auto!important;min-height:0!important;overflow:visible!important;background:#fff!important;}body>*:not(#sopk-print){display:none!important;}#sopk-print{display:block!important;position:static!important;}#sopk-print .sopk-doc{max-width:100%;padding:0;margin:0;}.sopk-doc h2{break-after:avoid;}.sopk-doc tr,.sopk-doc li{break-inside:avoid;}}.hscroll::-webkit-scrollbar{display:none;}.hscroll{scrollbar-width:none;-ms-overflow-style:none;}`;
     document.head.appendChild(s);
     return()=>document.head.removeChild(s);
   },[]);
@@ -11116,6 +11140,13 @@ export default function App() {
   // ── CENTRE DE PRIORITÉS J0 ─────────────────────────────────────────────────
   if(screen==="priorites"||modePrio) return (
     <div style={{fontFamily:"'DM Sans',sans-serif",background:C.cream,minHeight:"100vh",maxWidth:430,margin:"0 auto"}}>
+      {modePrio&&(
+        <div style={{position:"sticky",top:0,zIndex:20,background:C.cream,padding:"10px 14px",borderBottom:`1px solid ${C.border}`}}>
+          <button onClick={()=>{ setModePrio(false); setTab("kamila"); }} style={{display:"flex",alignItems:"center",gap:6,background:C.white,border:`1px solid ${C.border}`,borderRadius:99,padding:"7px 14px",cursor:"pointer",fontFamily:"inherit",fontSize:12,fontWeight:700,color:C.brown}}>
+            <Icon name="arrowL" size={15} color={C.brown}/> revenir à l'accueil
+          </button>
+        </div>
+      )}
       <div style={{background:`linear-gradient(135deg,${pc.p},#9A6040)`,padding:"2rem 1.5rem",color:"white"}}>
         <div style={{fontSize:9,letterSpacing:3,textTransform:"uppercase",opacity:.7,marginBottom:6}}>Protocole SOPK Life · Avant de commencer</div>
         <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.8rem",marginBottom:6}}>
@@ -11556,7 +11587,7 @@ export default function App() {
 
         {/* Retour à l'écran d'où l'on vient (quand on y est arrivée par un lien, une mission…) */}
         {(()=>{
-          const NAV_LABELS={kamila:"Accueil",carte:"Ma carte",suivi:"Suivi",outils:"Ressources",medecin:"Santé",apercu:"Vue d'ensemble",tendances:"Mes tendances",mesures:"Mes mesures",cycle:"Mon cycle",journal:"Mon journal",mouvement:"Mes mouvements",ancrage:"Mon ancrage",analyses:"Mes analyses",sos:"Mode crise"};
+          const NAV_LABELS={kamila:"Accueil",carte:"Ma carte",suivi:"Suivi",outils:"Ressources",medecin:"Santé",apercu:"Vue d'ensemble",tendances:"Mes tendances",mesures:"Mes mesures",cycle:"Mon cycle",journal:"Mon journal",mouvement:"Mes mouvements",ancrage:"Mon ancrage",analyses:"Mes analyses",sommeil:"Mon sommeil",soin:"Prendre soin",sos:"Mode crise"};
           const SUBP={cycle:"suivi",apercu:"suivi",tendances:"suivi",mesures:"suivi",journal:"suivi",mouvement:"suivi",sos:"outils"};
           const p=navPrevTab;
           if(!p||p===tab||p===SUBP[tab]||!NAV_LABELS[p]) return null;
@@ -11660,6 +11691,27 @@ export default function App() {
         {/* ── KAMILA ── */}
         {tab==="kamila"&&(
           <div className="fu">
+            {/* ══ ACCUEIL V2 — d'après la maquette : bonjour + check-in, priorité, action du jour, adapter ma journée, parcours, piliers, accompagnement ══ */}
+            {/* ── Comment te sens-tu aujourd'hui ? (check-in énergie, facultatif) ── */}
+            {(()=>{
+              const OPTS=[{k:"haute",l:"plutôt bien",tip:"belle énergie aujourd'hui : profites-en pour avancer sur ton action du jour, à ton rythme."},{k:"moyenne",l:"moyenne",tip:"rythme normal : écoute ton corps au fil de la journée."},{k:"basse",l:"fatiguée",tip:"aujourd'hui, une seule petite chose suffit. et si tu ne fais rien, c'est ok aussi."}];
+              const sel=OPTS.find(o=>o.k===energie);
+              return(
+              <div style={{marginBottom:12}}>
+                <div style={{fontSize:12,color:C.mid,marginBottom:8}}>Comment te sens-tu aujourd'hui ?</div>
+                <div style={{display:"flex",gap:7,flexWrap:"wrap"}}>
+                  {OPTS.map(o=>{ const on=energie===o.k; return(
+                    <button key={o.k} onClick={()=>setEnergie(on?null:o.k)} aria-pressed={on}
+                      style={{padding:"8px 14px",borderRadius:99,border:`1.5px solid ${on?C.terra:C.border}`,background:on?C.terra:C.white,color:on?"#fff":C.brown,fontFamily:"inherit",fontSize:12,fontWeight:600,cursor:"pointer"}}>{o.l}</button>); })}
+                  <button onClick={()=>{ setAccompOpen("coach"); setScrollAnchor("coach-mindset"); }}
+                    style={{padding:"8px 14px",borderRadius:99,border:`1.5px solid ${C.border}`,background:C.white,color:C.brown,fontFamily:"inherit",fontSize:12,fontWeight:600,cursor:"pointer"}}>+ autre</button>
+                </div>
+                {sel&&<div style={{fontSize:11,color:C.mid,lineHeight:1.5,marginTop:8}}>{sel.tip}</div>}
+                <button onClick={()=>setTab("suivi")} style={{marginTop:6,background:"none",border:"none",padding:0,color:C.light,fontFamily:"inherit",fontSize:10.5,cursor:"pointer",textDecoration:"underline"}}>noter ma journée en détail</button>
+              </div>
+              );
+            })()}
+
             {/* ══ TOUT EN HAUT — Je viens d'être diagnostiquée ══ */}
             {!load("diagSeen",false)&&(
               <div style={{display:"flex",alignItems:"center",gap:12,background:`linear-gradient(135deg,${C.mauveSoft},#fff)`,border:`1.5px solid ${C.mauve}`,borderRadius:16,padding:"13px 14px",marginBottom:10}}>
@@ -11674,60 +11726,40 @@ export default function App() {
               </div>
             )}
 
-            {/* ══ 1. TA PRIORITÉ ══ */}
+            {/* ── Ta priorité du moment (plus d'identité « Profil… » affichée) ── */}
             {(()=>{
               const prios=PRIORITES_PROFIL[profil]||PRIORITES_PROFIL.metabolique;
               const prio1=prios[0];
-              const profLabel=pc;
               return(
-                <div style={{background:`linear-gradient(135deg,${pc.l},${C.white})`,border:`1.5px solid ${pc.p}`,borderRadius:14,padding:"12px 14px",marginBottom:10}}>
-                  <div style={{display:"flex",alignItems:"center",gap:7,marginBottom:7}}>
-                    <Icon name={PROFIL_ICON[profil]||"leaf"} size={15} color={pc.p}/>
-                    <span style={{fontSize:11.5,fontWeight:700,color:C.brown}}>Ton parcours, fait pour toi</span>
+                <div style={{position:"relative",overflow:"hidden",background:`linear-gradient(135deg,${pc.l},${C.white})`,border:`1.5px solid ${pc.p}`,borderRadius:18,padding:"16px",marginBottom:12}}>
+                  <div style={{position:"absolute",right:-8,bottom:-10,opacity:.18,pointerEvents:"none"}}><Icon name="leaf" size={96} color={pc.p}/></div>
+                  <div style={{display:"flex",alignItems:"center",gap:7,marginBottom:6}}>
+                    <Icon name="bolt" size={15} color={pc.p}/>
+                    <span style={{fontSize:12,fontWeight:700,color:C.brown}}>Ta priorité du moment</span>
                   </div>
-                  <div style={{fontSize:11,color:C.mid,lineHeight:1.6,marginBottom:9}}>
-                    tu es <strong style={{color:pc.p}}>{profLabel.label}</strong>. ta priorité n°1 en ce moment : <strong style={{color:pc.p}}>{prio1.t.toLowerCase()}</strong>.
-                  </div>
-                  <div style={{background:C.white,borderRadius:10,padding:"9px 11px",border:`1px solid ${C.border}`}}>
-                    <div style={{fontSize:10,color:C.mid,lineHeight:1.5}}>c'est pour ça que ton protocole insiste sur « {prio1.geste.toLowerCase()} ». rien n'est au hasard : chaque mission sert <em>ta</em> priorité.</div>
-                  </div>
+                  <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.4rem",fontWeight:600,color:C.brown,lineHeight:1.2,marginBottom:6}}>{prio1.t}</div>
+                  <div style={{fontSize:11.5,color:C.mid,lineHeight:1.6,marginBottom:12,maxWidth:"85%"}}>d'après tes réponses, c'est l'axe à explorer en premier. on avance ensemble, un geste à la fois : {prio1.geste.toLowerCase()}.</div>
                   <button onClick={()=>setModePrio(true)}
-                    style={{width:"100%",marginTop:9,background:"none",border:`1px solid ${pc.p}`,borderRadius:9,padding:"8px",cursor:"pointer",fontFamily:"inherit",fontSize:10.5,fontWeight:600,color:pc.p}}>
-                    voir mes 3 priorités →
+                    style={{background:pc.p,border:"none",borderRadius:12,padding:"10px 16px",cursor:"pointer",fontFamily:"inherit",fontSize:12,fontWeight:700,color:"#fff"}}>
+                    Voir mes 3 priorités →
                   </button>
                   <button onClick={()=>setScreen("profil-select")}
-                    style={{width:"100%",marginTop:6,background:"none",border:"none",cursor:"pointer",fontFamily:"inherit",fontSize:10,color:C.light,textDecoration:"underline"}}>
-                    changer de profil
+                    style={{display:"block",marginTop:8,background:"none",border:"none",padding:0,cursor:"pointer",fontFamily:"inherit",fontSize:10,color:C.light,textDecoration:"underline"}}>
+                    ajuster ma priorité
                   </button>
                 </div>
               );
             })()}
 
-            {/* ══ 2. TON ACTION DU JOUR (la mission) ══ */}
-            {/* ══ Ton avancée (jours) + revenir à n'importe quel jour ══ */}
-            {(()=>{ const postParcours = day>365 && vueJour==null; return (
-            <div style={{background:postParcours?`linear-gradient(135deg, ${pc.p}1A, ${C.white} 70%)`:C.white,border:postParcours?`1.5px solid ${pc.p}`:`1px solid ${C.border}`,borderRadius:postParcours?16:12,padding:postParcours?"16px":"11px 13px",marginBottom:10}}>
-              {postParcours ? (
-                <div>
-                  <div style={{fontSize:9,letterSpacing:1.5,textTransform:"uppercase",color:pc.p,fontWeight:700,marginBottom:6}}>bonus · mise à jour à venir</div>
-                  <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.2rem",fontWeight:600,color:C.brown,lineHeight:1.3,marginBottom:8}}>ton année 2 arrive</div>
-                  <div style={{fontSize:11.5,color:C.mid,lineHeight:1.6}}>tu as bouclé tes 365 jours. ton espace prépare ta mise à jour : une deuxième année pensée pour vivre avec ton SMOP au quotidien, au rythme de tes saisons et de ta vie. elle est incluse dans ton espace, et tu seras prévenue dès qu'elle arrive.</div>
-                  <div style={{fontSize:11,color:C.mid,lineHeight:1.6,marginTop:8}}>en attendant, un petit geste d'entretien t'attend chaque jour juste en dessous. tu n'es jamais lâchée.</div>
-                  <button onClick={()=>{ setJourPickerMois(101); setJourPicker(o=>!o); }} aria-expanded={jourPicker}
-                    style={{marginTop:12,background:"none",border:`1px solid ${pc.p}`,borderRadius:99,padding:"7px 14px",color:pc.p,fontFamily:"inherit",fontSize:11,fontWeight:700,cursor:"pointer"}}>{jourPicker?"fermer":"revoir un jour de mon parcours"}</button>
-                </div>
-              ) : (<>
-              <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",gap:8,marginBottom:8}}>
-                <button onClick={()=>{ const md=moisDuJour(jourAff); setJourPickerMois(md.an*100+md.m.n); setJourPicker(o=>!o); }} aria-expanded={jourPicker}
-                  style={{background:"none",border:"none",padding:0,cursor:"pointer",fontFamily:"inherit",textAlign:"left",minWidth:0}}>
-                  <span style={{fontSize:11.5,fontWeight:700,color:C.brown}}>Jour {jourAff} </span>
-                  <span style={{color:C.light,fontWeight:500,fontSize:10}}>· {libelleJour(jourAff)} </span>
-                  <span style={{color:pc.p,fontSize:10,fontWeight:700,whiteSpace:"nowrap"}}>{jourPicker?"fermer":"choisir un jour"}</span>
-                </button>
-                <div style={{fontSize:9.5,color:C.light,flexShrink:0}}>{completedCount} mission{completedCount>1?"s":""} accomplie{completedCount>1?"s":""}</div>
-              </div>
-              <div style={{height:6,background:C.bubble,borderRadius:99,marginBottom:11,overflow:"hidden"}}>
-                <div style={{height:"100%",width:`${day<=30?Math.min(100,(completedCount/30)*100):(Math.min(day,365)/365)*100}%`,background:`linear-gradient(90deg,${pc.p},${pc.p}CC)`,borderRadius:99,transition:"width 0.4s"}}/>
+            {/* ── Ton action du jour : une seule carte, facultative ── */}
+            {(()=>{
+              const P=pilierDeMission(todayData);
+              return(
+            <div style={{background:C.white,borderRadius:20,padding:"14px",marginBottom:12,border:`1.5px solid ${checked[jourAff]?pc.p:C.border}`,transition:"border-color 0.3s",boxShadow:`0 6px 20px ${pc.p}12`}}>
+              <div style={{display:"flex",alignItems:"center",gap:7,marginBottom:10}}>
+                <Icon name="sparkle" size={14} color={pc.p}/>
+                <span style={{fontFamily:"'Playfair Display',serif",fontSize:"1.05rem",fontWeight:600,color:C.brown}}>Ton action du jour</span>
+                <span style={{marginLeft:"auto",fontSize:9.5,color:C.light}}>facultative</span>
               </div>
               {vueJour!=null&&(
                 <div style={{background:`${pc.p}10`,borderRadius:9,padding:"8px 10px",marginBottom:10,fontSize:10.5,color:C.mid,lineHeight:1.5}}>
@@ -11738,64 +11770,12 @@ export default function App() {
                   </div>
                 </div>
               )}
-              <div style={{display:"flex",alignItems:"center",justifyContent:"center",gap:6}}>
-                <button onClick={()=>voirJour(jourAff-1)} disabled={jourAff<=1} aria-label="jour précédent"
-                  style={{flexShrink:0,width:28,height:28,borderRadius:"50%",border:`1.5px solid ${C.border}`,background:C.cream,color:jourAff<=1?C.border:pc.p,fontSize:14,cursor:jourAff<=1?"default":"pointer",fontFamily:"inherit",display:"flex",alignItems:"center",justifyContent:"center"}}>{"‹"}</button>
-                <div style={{display:"flex",gap:5,overflowX:"auto",paddingBottom:2,maxWidth:"100%"}}>
-                  {Array.from({length:9},(_,i)=>Math.max(1,jourAff-4)+i).map(d=>(
-                    <button key={d} onClick={()=>voirJour(d)} aria-label={"jour "+d}
-                      style={{flexShrink:0,width:30,height:30,borderRadius:"50%",border:`2px ${d===day&&d!==jourAff?"dashed":"solid"} ${d===jourAff||checked[d]||d===day?pc.p:C.border}`,background:d===jourAff?pc.p:checked[d]?`${pc.p}20`:C.white,color:d===jourAff?"white":C.brown,fontSize:d>99?8.5:10,fontWeight:500,cursor:"pointer",fontFamily:"inherit",padding:0}}>
-                      {checked[d]&&d!==jourAff?"✓":d}
-                    </button>
-                  ))}
-                </div>
-                <button onClick={()=>voirJour(jourAff+1)} disabled={jourAff>=365} aria-label="jour suivant"
-                  style={{flexShrink:0,width:28,height:28,borderRadius:"50%",border:`1.5px solid ${pc.p}`,background:pc.p,color:"white",fontSize:14,cursor:"pointer",fontFamily:"inherit",display:"flex",alignItems:"center",justifyContent:"center"}}>{"›"}</button>
-              </div>
-              </>)}
-              {jourPicker&&(()=>{
-                const sel=jourPickerMois||101; const an=1; const mn=sel%100;
-                const anMax=1;
-                const mSel=MOIS_PARCOURS.find(x=>x.n===mn)||MOIS_PARCOURS[0];
-                const off=(an-1)*365;
-                const jours=Array.from({length:mSel.b-mSel.a+1},(_,k)=>off+mSel.a+k);
-                const chip=(on)=>({padding:"6px 10px",borderRadius:99,border:`1.5px solid ${on?pc.p:C.border}`,background:on?`${pc.p}18`:C.white,color:on?pc.p:C.mid,fontFamily:"inherit",fontSize:10.5,fontWeight:600,cursor:"pointer"});
-                return(
-                <div style={{marginTop:12,paddingTop:12,borderTop:`1px solid ${C.border}`}}>
-                  <div style={{fontSize:10.5,color:C.mid,marginBottom:8,lineHeight:1.5}}>choisis un mois, puis le jour que tu veux revoir. ta progression ne bouge pas.</div>
-                  {anMax>1&&(
-                    <div style={{display:"flex",gap:6,flexWrap:"wrap",marginBottom:8}}>
-                      {Array.from({length:anMax},(_,k)=>k+1).map(a=>(
-                        <button key={a} onClick={()=>setJourPickerMois(a*100+mn)} aria-pressed={a===an} style={chip(a===an)}>année {a}</button>
-                      ))}
-                    </div>
-                  )}
-                  <div style={{display:"flex",gap:6,flexWrap:"wrap",marginBottom:10}}>
-                    {MOIS_PARCOURS.map(x=>(
-                      <button key={x.n} onClick={()=>setJourPickerMois(an*100+x.n)} aria-pressed={x.n===mn} style={chip(x.n===mn)}>{x.n===1?"Fondation":x.n+" · "+x.label}</button>
-                    ))}
-                  </div>
-                  <div style={{maxHeight:300,overflowY:"auto"}}>
-                    {jours.map(d=>{ const m=missionPour(d); const cur=d===jourAff; return(
-                      <button key={d} onClick={()=>{ voirJour(d); setJourPicker(false); }}
-                        style={{width:"100%",textAlign:"left",display:"flex",alignItems:"center",gap:9,background:cur?`${pc.p}12`:"none",border:"none",borderBottom:`1px solid ${C.border}`,padding:"8px 4px",cursor:"pointer",fontFamily:"inherit"}}>
-                        <span style={{flexShrink:0,width:36,fontSize:10,fontWeight:700,color:d===day?pc.p:C.light}}>J{d}</span>
-                        <span style={{flex:1,fontSize:11.5,color:C.brown,lineHeight:1.35}}>{String(m.theme||"").replace(/^année \d+ · /,"")}</span>
-                        {checked[d]&&<span style={{color:pc.p,fontSize:11,fontWeight:700}}>✓</span>}
-                        {d===day&&<span style={{fontSize:8.5,color:pc.p,fontWeight:700,textTransform:"uppercase",letterSpacing:0.5}}>ton jour</span>}
-                      </button>); })}
-                  </div>
-                </div>);
-              })()}
-            </div>); })()}
-
-            {/* Mission — hero action du jour */}
-            <div style={{background:C.white,borderRadius:20,padding:"1.3rem",marginBottom:12,border:`1.5px solid ${checked[jourAff]?pc.p:C.border}`,transition:"border-color 0.3s",boxShadow:`0 8px 24px ${pc.p}14`}}>
-              <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:12}}>
-                <div style={{flex:1,paddingRight:10}}>
-                  <div style={{fontSize:9,letterSpacing:2,textTransform:"uppercase",color:pc.p,fontWeight:700,marginBottom:9,display:"flex",alignItems:"center",gap:6}}><Icon name="sparkle" size={12} color={pc.p}/>ton action du jour</div>
-                  <div style={{fontSize:10,letterSpacing:1,textTransform:"uppercase",color:C.light,marginBottom:6}}>{todayData.theme}</div>
-                  <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.25rem",fontWeight:600,color:C.brown,lineHeight:1.3,whiteSpace:"pre-line"}}>{todayData.mission}</div>
+              <div style={{display:"flex",gap:12,alignItems:"flex-start"}}>
+                <div style={{width:84,height:96,borderRadius:14,background:P.bg,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><Icon name={P.ic} size={34} color={P.col}/></div>
+                <div style={{flex:1,minWidth:0}}>
+                  <div style={{fontSize:9.5,letterSpacing:1.5,textTransform:"uppercase",color:P.col,fontWeight:700,marginBottom:3}}>{P.label}</div>
+                  <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.12rem",fontWeight:600,color:C.brown,lineHeight:1.25,marginBottom:4}}>{String(todayData.theme||"").replace(/^./,c=>c.toUpperCase())}</div>
+                  <div style={{fontSize:11.5,color:C.mid,lineHeight:1.5,display:"-webkit-box",WebkitLineClamp:missionOpen?99:3,WebkitBoxOrient:"vertical",overflow:"hidden",whiteSpace:"pre-line"}}>{todayData.mission}</div>
                 </div>
                 <button onClick={()=>{
                   const wasChecked=checked[jourAff];
@@ -11810,20 +11790,18 @@ export default function App() {
                     else if(jourAff%7===0&&jourAff<=365) showToast(`Semaine ${Math.ceil(jourAff/7)} complète`,"une semaine de plus dans la cohérence.");
                     else showToast(jourAff>365?"Geste validé":`Jour ${jourAff} validé`, todayData.victoire);
                   }
-                }}
-                  style={{width:36,height:36,borderRadius:"50%",border:`2px solid ${checked[jourAff]?pc.p:C.border}`,background:checked[jourAff]?pc.p:"transparent",cursor:"pointer",fontSize:15,color:"white",flexShrink:0,transition:"all 0.25s",fontFamily:"inherit"}}>
+                }} aria-label={checked[jourAff]?"action faite":"marquer comme faite"}
+                  style={{width:32,height:32,borderRadius:"50%",border:`2px solid ${checked[jourAff]?pc.p:C.border}`,background:checked[jourAff]?pc.p:"transparent",cursor:"pointer",fontSize:14,color:"white",flexShrink:0,transition:"all 0.25s",fontFamily:"inherit"}}>
                   {checked[jourAff]?"✓":""}
                 </button>
               </div>
-
-              {/* DÉCOUVRIR — déplie le détail (compact par défaut) */}
+              {energie==="basse"&&!checked[jourAff]&&<div style={{marginTop:10,fontSize:10.5,color:C.mid,background:C.cream,borderRadius:10,padding:"8px 10px",lineHeight:1.5}}>journée fatiguée : fais-en une version mini, ou garde-la pour demain. tu n'as rien à rattraper.</div>}
               {!missionOpen && (
                 <button onClick={()=>setMissionOpen(true)}
-                  style={{width:"100%",marginBottom:8,padding:"12px",borderRadius:12,border:"none",background:pc.p,color:"#fff",fontFamily:"inherit",fontSize:13,fontWeight:700,cursor:"pointer"}}>
+                  style={{width:"100%",marginTop:12,padding:"11px",borderRadius:12,border:`1.5px solid ${pc.p}`,background:"none",color:pc.p,fontFamily:"inherit",fontSize:12.5,fontWeight:700,cursor:"pointer"}}>
                   Découvrir ma mission →
                 </button>
               )}
-
               {missionOpen && (<>
               {/* BOUTON VALIDER — visible une fois déplié */}
               <button onClick={()=>{
@@ -11914,24 +11892,122 @@ export default function App() {
                 </div>
               )}
 
+              {todayData.outil&&(
+                <button onClick={()=>{ if(todayData.outil.lien){ try{ window.open(todayData.outil.lien,"_blank","noopener"); }catch(e){} } else if(todayData.outil.sos){setSosOpen(todayData.outil.sos);} else if(todayData.outil.goTab){setTab(todayData.outil.goTab); if(todayData.outil.ancre) setScrollAnchor(todayData.outil.ancre);} else {setTab("outils");setOutilOpen(todayData.outil.cible);if(todayData.outil.recherche!==undefined)setFoodSearch(todayData.outil.recherche);if(todayData.outil.cible==="repas"&&todayData.outil.moment)setRepasMoment(todayData.outil.moment);} }}
+                  style={{width:"100%",background:"linear-gradient(135deg, #D4A56A, #C49355)",border:"none",borderRadius:14,padding:"15px 16px",marginBottom:10,cursor:"pointer",fontFamily:"inherit",display:"flex",alignItems:"center",gap:12,textAlign:"left",boxShadow:"0 4px 14px rgba(212,165,106,0.4)"}}>
+                  <div style={{fontSize:26,flexShrink:0,background:"rgba(255,255,255,0.25)",borderRadius:12,width:46,height:46,display:"flex",alignItems:"center",justifyContent:"center"}}>{todayData.outil.emoji}</div>
+                  <div style={{flex:1}}>
+                    <div style={{fontSize:9,letterSpacing:1,textTransform:"uppercase",color:"rgba(255,255,255,0.9)",marginBottom:2,fontWeight:700}}>👆 appuie pour ouvrir l'outil</div>
+                    <div style={{fontSize:13,fontWeight:700,color:"white",lineHeight:1.2}}>{todayData.outil.label}</div>
+                    <div style={{fontSize:10,color:"rgba(255,255,255,0.9)",marginTop:1}}>{todayData.outil.desc}</div>
+                  </div>
+                  <div style={{fontSize:22,color:"white",flexShrink:0,fontWeight:700}}>→</div>
+                </button>
+              )}
+
+
               <button onClick={()=>setMissionOpen(false)} style={{width:"100%",marginTop:12,background:"none",border:"none",color:C.light,fontFamily:"inherit",fontSize:11,cursor:"pointer",textDecoration:"underline"}}>replier ↑</button>
               </>)}
               {checked[jourAff]&&<div style={{marginTop:12,fontSize:11,color:pc.p,fontWeight:500,textAlign:"center",padding:"8px",background:`${pc.p}08`,borderRadius:8}}>✓ {todayData.victoire}</div>}
             </div>
+              );
+            })()}
 
-            {/* Lien vers un outil */}
-            {todayData.outil&&(
-              <button onClick={()=>{ if(todayData.outil.lien){ try{ window.open(todayData.outil.lien,"_blank","noopener"); }catch(e){} } else if(todayData.outil.sos){setSosOpen(todayData.outil.sos);} else if(todayData.outil.goTab){setTab(todayData.outil.goTab); if(todayData.outil.ancre) setScrollAnchor(todayData.outil.ancre);} else {setTab("outils");setOutilOpen(todayData.outil.cible);if(todayData.outil.recherche!==undefined)setFoodSearch(todayData.outil.recherche);if(todayData.outil.cible==="repas"&&todayData.outil.moment)setRepasMoment(todayData.outil.moment);} }}
-                style={{width:"100%",background:"linear-gradient(135deg, #D4A56A, #C49355)",border:"none",borderRadius:14,padding:"15px 16px",marginBottom:10,cursor:"pointer",fontFamily:"inherit",display:"flex",alignItems:"center",gap:12,textAlign:"left",boxShadow:"0 4px 14px rgba(212,165,106,0.4)"}}>
-                <div style={{fontSize:26,flexShrink:0,background:"rgba(255,255,255,0.25)",borderRadius:12,width:46,height:46,display:"flex",alignItems:"center",justifyContent:"center"}}>{todayData.outil.emoji}</div>
-                <div style={{flex:1}}>
-                  <div style={{fontSize:9,letterSpacing:1,textTransform:"uppercase",color:"rgba(255,255,255,0.9)",marginBottom:2,fontWeight:700}}>👆 appuie pour ouvrir l'outil</div>
-                  <div style={{fontSize:13,fontWeight:700,color:"white",lineHeight:1.2}}>{todayData.outil.label}</div>
-                  <div style={{fontSize:10,color:"rgba(255,255,255,0.9)",marginTop:1}}>{todayData.outil.desc}</div>
+            {/* ── Mon parcours : progression discrète, sans pression ── */}
+            {(()=>{ const postParcours = day>365 && vueJour==null; const pct=(Math.min(day,365)/365)*100; return (
+            <div style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:16,padding:"12px 14px",marginBottom:12}}>
+              <div style={{display:"flex",alignItems:"center",gap:7,marginBottom:8}}>
+                <Icon name="chart" size={15} color={pc.p}/>
+                <span style={{fontFamily:"'Playfair Display',serif",fontSize:"1rem",fontWeight:600,color:C.brown}}>Mon parcours</span>
+                <span style={{marginLeft:"auto",fontSize:10.5,color:C.mid}}>{day>365?"parcours bouclé":"Jour "+day+" sur 365"+(day<=30?" · Fondation":"")}</span>
+              </div>
+              <div style={{height:6,background:C.bubble,borderRadius:99,marginBottom:8,overflow:"hidden"}}>
+                <div style={{height:"100%",width:`${pct}%`,background:`linear-gradient(90deg,${pc.p},${pc.p}CC)`,borderRadius:99,transition:"width 0.4s"}}/>
+              </div>
+              <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",gap:8,fontSize:10.5,color:C.mid}}>
+                <span>{completedCount} mission{completedCount>1?"s":""} réalisée{completedCount>1?"s":""} ✓</span>
+                <span>tu avances à ton rythme</span>
+              </div>
+              {postParcours&&<div style={{marginTop:10,fontSize:11,color:C.mid,lineHeight:1.55,background:`${pc.p}10`,borderRadius:10,padding:"8px 10px"}}><strong style={{color:C.brown}}>Bonus : ton année 2 arrive.</strong> elle est incluse dans ton espace, et tu seras prévenue dès qu'elle arrive. en attendant, un petit geste d'entretien t'attend chaque jour.</div>}
+              {!postParcours&&(
+              <div style={{display:"flex",alignItems:"center",justifyContent:"center",gap:6,marginTop:10}}>
+                <button onClick={()=>voirJour(jourAff-1)} disabled={jourAff<=1} aria-label="jour précédent"
+                  style={{flexShrink:0,width:28,height:28,borderRadius:"50%",border:`1.5px solid ${C.border}`,background:C.cream,color:jourAff<=1?C.border:pc.p,fontSize:14,cursor:jourAff<=1?"default":"pointer",fontFamily:"inherit",display:"flex",alignItems:"center",justifyContent:"center"}}>{"‹"}</button>
+                <div style={{display:"flex",gap:5,overflowX:"auto",paddingBottom:2,maxWidth:"100%"}}>
+                  {Array.from({length:7},(_,i)=>Math.min(Math.max(1,jourAff-3),359)+i).map(d=>(
+                    <button key={d} onClick={()=>voirJour(d)} aria-label={"jour "+d}
+                      style={{flexShrink:0,width:30,height:30,borderRadius:"50%",border:`2px ${d===day&&d!==jourAff?"dashed":"solid"} ${d===jourAff||checked[d]||d===day?pc.p:C.border}`,background:d===jourAff?pc.p:checked[d]?`${pc.p}20`:C.white,color:d===jourAff?"white":C.brown,fontSize:d>99?8.5:10,fontWeight:500,cursor:"pointer",fontFamily:"inherit",padding:0}}>
+                      {checked[d]&&d!==jourAff?"✓":d}
+                    </button>
+                  ))}
                 </div>
-                <div style={{fontSize:22,color:"white",flexShrink:0,fontWeight:700}}>→</div>
-              </button>
-            )}
+                <button onClick={()=>voirJour(jourAff+1)} disabled={jourAff>=365} aria-label="jour suivant"
+                  style={{flexShrink:0,width:28,height:28,borderRadius:"50%",border:`1.5px solid ${jourAff>=365?C.border:pc.p}`,background:jourAff>=365?C.white:pc.p,color:jourAff>=365?C.border:"white",fontSize:14,cursor:jourAff>=365?"default":"pointer",fontFamily:"inherit",display:"flex",alignItems:"center",justifyContent:"center"}}>{"›"}</button>
+              </div>
+              )}
+              <button onClick={()=>{ const md=moisDuJour(Math.min(jourAff,365)); setJourPickerMois(md.an*100+md.m.n); setJourPicker(o=>!o); }} aria-expanded={jourPicker}
+                style={{marginTop:8,background:"none",border:"none",padding:0,color:pc.p,fontFamily:"inherit",fontSize:10.5,fontWeight:700,cursor:"pointer"}}>{jourPicker?"fermer":"choisir un jour dans mes 365 jours →"}</button>
+              {jourPicker&&(()=>{
+                const sel=jourPickerMois||101; const an=1; const mn=sel%100;
+                const anMax=1;
+                const mSel=MOIS_PARCOURS.find(x=>x.n===mn)||MOIS_PARCOURS[0];
+                const off=(an-1)*365;
+                const jours=Array.from({length:mSel.b-mSel.a+1},(_,k)=>off+mSel.a+k);
+                const chip=(on)=>({padding:"6px 10px",borderRadius:99,border:`1.5px solid ${on?pc.p:C.border}`,background:on?`${pc.p}18`:C.white,color:on?pc.p:C.mid,fontFamily:"inherit",fontSize:10.5,fontWeight:600,cursor:"pointer"});
+                return(
+                <div style={{marginTop:12,paddingTop:12,borderTop:`1px solid ${C.border}`}}>
+                  <div style={{fontSize:10.5,color:C.mid,marginBottom:8,lineHeight:1.5}}>choisis un mois, puis le jour que tu veux revoir. ta progression ne bouge pas.</div>
+                  {anMax>1&&(
+                    <div style={{display:"flex",gap:6,flexWrap:"wrap",marginBottom:8}}>
+                      {Array.from({length:anMax},(_,k)=>k+1).map(a=>(
+                        <button key={a} onClick={()=>setJourPickerMois(a*100+mn)} aria-pressed={a===an} style={chip(a===an)}>année {a}</button>
+                      ))}
+                    </div>
+                  )}
+                  <div style={{display:"flex",gap:6,flexWrap:"wrap",marginBottom:10}}>
+                    {MOIS_PARCOURS.map(x=>(
+                      <button key={x.n} onClick={()=>setJourPickerMois(an*100+x.n)} aria-pressed={x.n===mn} style={chip(x.n===mn)}>{x.n===1?"Fondation":x.n+" · "+x.label}</button>
+                    ))}
+                  </div>
+                  <div style={{maxHeight:300,overflowY:"auto"}}>
+                    {jours.map(d=>{ const m=missionPour(d); const cur=d===jourAff; return(
+                      <button key={d} onClick={()=>{ voirJour(d); setJourPicker(false); }}
+                        style={{width:"100%",textAlign:"left",display:"flex",alignItems:"center",gap:9,background:cur?`${pc.p}12`:"none",border:"none",borderBottom:`1px solid ${C.border}`,padding:"8px 4px",cursor:"pointer",fontFamily:"inherit"}}>
+                        <span style={{flexShrink:0,width:36,fontSize:10,fontWeight:700,color:d===day?pc.p:C.light}}>J{d}</span>
+                        <span style={{flex:1,fontSize:11.5,color:C.brown,lineHeight:1.35}}>{String(m.theme||"").replace(/^année \d+ · /,"")}</span>
+                        {checked[d]&&<span style={{color:pc.p,fontSize:11,fontWeight:700}}>✓</span>}
+                        {d===day&&<span style={{fontSize:8.5,color:pc.p,fontWeight:700,textTransform:"uppercase",letterSpacing:0.5}}>ton jour</span>}
+                      </button>); })}
+                  </div>
+                </div>);
+              })()}
+            </div>); })()}
+
+            {/* ── Adapter ma journée ── */}
+            <button onClick={()=>setAdaptOpen(true)}
+              style={{width:"100%",display:"flex",alignItems:"center",gap:12,background:`linear-gradient(135deg,#D4A56A,${C.terra})`,border:"none",borderRadius:18,padding:"14px",marginBottom:12,cursor:"pointer",fontFamily:"inherit",textAlign:"left",boxShadow:"0 6px 18px rgba(203,154,121,0.35)"}}>
+              <div style={{width:46,height:46,borderRadius:13,background:"rgba(255,255,255,0.85)",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><Icon name="calendar" size={20} color={C.terra}/></div>
+              <div style={{flex:1}}>
+                <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.08rem",fontWeight:600,color:"#fff"}}>Adapter ma journée</div>
+                <div style={{fontSize:10.5,color:"rgba(255,255,255,0.92)",lineHeight:1.4,marginTop:2}}>une idée selon ton énergie, ton temps et ton besoin du moment</div>
+              </div>
+              <div style={{width:34,height:34,borderRadius:"50%",background:"rgba(255,255,255,0.85)",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,color:C.terra,fontSize:16,fontWeight:700}}>→</div>
+            </button>
+
+            {/* ── Les piliers ── */}
+            <div style={{display:"grid",gridTemplateColumns:"repeat(4,minmax(0,1fr))",gap:8,marginBottom:14}}>
+              {[
+                {l:"Nourrir",ic:"leaf",bg:"#FBEDE3",col:"#B97F5C",go:()=>{ setTab("outils"); setOutilCat("alimentation"); setOutilOpen(null); }},
+                {l:"Bouger",ic:"steps",bg:"#EEE9F4",col:"#8E80A3",go:()=>setTab("mouvement")},
+                {l:"Prendre soin",ic:"heart",bg:"#EEF2E8",col:"#6E8A55",go:()=>setTab("soin")},
+                {l:"Sommeil",ic:"bed",bg:"#F1EBF4",col:"#8E80A3",go:()=>setTab("sommeil")},
+              ].map(t=>(
+                <button key={t.l} onClick={t.go} style={{background:t.bg,border:"none",borderRadius:16,padding:"14px 4px",cursor:"pointer",fontFamily:"inherit",display:"flex",flexDirection:"column",alignItems:"center",gap:6,minWidth:0}}>
+                  <Icon name={t.ic} size={24} color={t.col}/>
+                  <span style={{fontFamily:"'Playfair Display',serif",fontSize:12,fontWeight:600,color:t.col,textAlign:"center",lineHeight:1.15}}>{t.l}</span>
+                </button>
+              ))}
+            </div>
 
             {/* Tes rappels aujourd'hui — ce que ton téléphone va te rappeler, et le bouton pour les activer */}
             {(()=>{
@@ -12017,70 +12093,50 @@ export default function App() {
               );
             })()}
 
-            {/* ══ 3. TON ÉNERGIE (facultatif) ══ */}
-            {(()=>{
-              const OPTS=[{k:"basse",l:"Basse",tip:"sois douce avec toi — vise des missions légères, du repos actif, et pas de culpabilité."},{k:"moyenne",l:"Moyenne",tip:"rythme normal, écoute ton corps au fil de la journée."},{k:"haute",l:"Haute",tip:"profites-en pour bouger un peu plus et avancer sur ta mission."}];
-              const sel=OPTS.find(o=>o.k===energie);
-              return(
-              <div style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:12,padding:"11px 13px",marginBottom:18}}>
-                <div style={{fontSize:10.5,fontWeight:600,color:C.brown,marginBottom:8,display:"flex",alignItems:"center",gap:6}}><Icon name="bolt" size={13} color={pc.p}/>Ton énergie aujourd'hui <span style={{fontSize:9,color:C.light,fontWeight:500,textTransform:"none"}}>· facultatif</span></div>
-                <div style={{display:"flex",gap:6,marginBottom:sel?9:0}}>
-                  {OPTS.map(o=>(
-                    <button key={o.k} onClick={()=>setEnergie(energie===o.k?null:o.k)}
-                      style={{flex:1,padding:"8px 4px",borderRadius:9,border:`1.5px solid ${energie===o.k?pc.p:C.border}`,background:energie===o.k?`${pc.p}15`:C.white,color:energie===o.k?pc.p:C.mid,fontFamily:"inherit",fontSize:11,fontWeight:600,cursor:"pointer"}}>{o.l}</button>
-                  ))}
+            {/* ── Mon espace d'échange : Kamila, faire le point, demander de l'aide, écrire à l'équipe ── */}
+            <div style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:18,padding:"14px",marginBottom:10}}>
+              <div style={{display:"flex",alignItems:"center",gap:12,paddingBottom:12,marginBottom:4,borderBottom:`1px solid ${C.border}`}}>
+                <div style={{width:46,height:46,borderRadius:"50%",background:C.terra,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><Icon name="heart" size={20} color="#fff"/></div>
+                <div style={{flex:1,minWidth:0}}>
+                  <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.08rem",fontWeight:600,color:C.brown}}>Mon espace d'échange</div>
+                  <div style={{fontSize:10.5,color:C.mid}}>un espace pour échanger et avancer, avec Kamila et l'équipe SOPK Life</div>
                 </div>
-                {sel&&(<div style={{fontSize:10.5,color:C.mid,lineHeight:1.5,marginBottom:9}}>{sel.tip}</div>)}
-                <button onClick={()=>setTab("cycle")}
-                  style={{width:"100%",marginTop:sel?0:9,background:"none",border:`1px solid ${pc.p}`,borderRadius:9,padding:"8px",cursor:"pointer",fontFamily:"inherit",fontSize:10.5,fontWeight:600,color:pc.p,display:"flex",alignItems:"center",justifyContent:"center",gap:6}}>
-                  <Icon name="moon" size={13} color={pc.p}/>suivre mon cycle{regles.length>0?` · dernières règles le ${new Date([...regles].sort().reverse()[0]).toLocaleDateString("fr-FR")}`:""} →
+              </div>
+              {[
+                {ic:"calendar",t:"Faire le point sur mon parcours",d:bilans.length?"ton dernier point : le "+new Date(bilans[bilans.length-1].date).toLocaleDateString("fr-FR",{day:"numeric",month:"long"}):"un rendez-vous guidé avec toi-même, en 2 minutes",go:()=>{ setBilanRep({}); setBilanFini(null); setBilanOpen(true); }},
+                {ic:"sparkle",t:"Demander de l'aide",d:"une question, un blocage : je t'oriente au bon endroit",go:()=>{ setAideSujet(null); setAideOpen(true); }},
+                {ic:"book",t:"Écrire à l'équipe",d:"une vraie personne de SOPK Life te répond, du lundi au vendredi",go:()=>{ setAideSujet("ecrire"); setAideOpen(true); }},
+              ].map((x,i)=>(
+                <button key={i} onClick={x.go} style={{width:"100%",display:"flex",alignItems:"center",gap:12,background:"none",border:"none",borderBottom:`1px solid ${C.border}`,padding:"11px 2px",cursor:"pointer",fontFamily:"inherit",textAlign:"left"}}>
+                  <Icon name={x.ic} size={18} color={C.terra}/>
+                  <span style={{flex:1,minWidth:0}}>
+                    <span style={{display:"block",fontSize:12.5,fontWeight:700,color:C.brown}}>{x.t}</span>
+                    <span style={{display:"block",fontSize:10.5,color:C.mid,lineHeight:1.4}}>{x.d}</span>
+                  </span>
+                  <span style={{fontSize:14,color:C.light}}>›</span>
                 </button>
-              </div>
-              );
-            })()}
-
-            {/* ══ 5. ACCÈS RAPIDE AU SUIVI (en évidence) ══ */}
-            <button onClick={()=>setTab("suivi")}
-              style={{width:"100%",display:"flex",alignItems:"center",gap:12,background:`linear-gradient(135deg,${pc.l},${C.white})`,border:`1.5px solid ${pc.p}`,borderRadius:15,padding:"14px 15px",marginBottom:10,cursor:"pointer",fontFamily:"inherit",textAlign:"left",boxShadow:`0 4px 14px ${pc.p}18`}}>
-              <div style={{width:40,height:40,borderRadius:11,background:pc.p,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><Icon name="chart" size={18} color="#fff"/></div>
-              <div style={{flex:1}}>
-                <div style={{fontSize:13.5,fontWeight:700,color:C.brown}}>Mon suivi du jour</div>
-                <div style={{fontSize:10,color:C.mid,marginTop:1}}>humeur, symptômes, cycle, journal</div>
-              </div>
-              <div style={{fontSize:16,color:pc.p}}>›</div>
-            </button>
-
-            {/* Accès discret — mode petite énergie */}
-            <button onClick={()=>{setFatigueOpen(true);setFatigueStep(0);}}
-              style={{width:"100%",background:"none",border:"none",cursor:"pointer",fontFamily:"inherit",textAlign:"center",padding:"6px",marginBottom:14,fontSize:11,color:C.mid}}>
-              aujourd'hui, tu manques d'énergie ? <span style={{color:C.terra,fontWeight:700}}>Adapter ma journée →</span>
-            </button>
-
-            {/* ── À RETROUVER QUAND TU VEUX ── */}
-            <div style={{fontSize:8.5,letterSpacing:1.5,textTransform:"uppercase",color:C.light,fontWeight:700,marginBottom:9}}>à retrouver quand tu veux</div>
-            <a href={WHATSAPP_URL} target="_blank" rel="noopener"
-              style={{display:"flex",alignItems:"center",gap:12,background:C.white,border:`1px solid ${C.border}`,borderRadius:14,padding:"12px 14px",marginBottom:10,textDecoration:"none"}}>
-              <span style={{width:36,height:36,borderRadius:"50%",background:"#E7F3EA",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><Icon name="heart" size={17} color="#3E8E5A"/></span>
-              <span style={{flex:1}}>
-                <span style={{display:"block",fontSize:12.5,fontWeight:700,color:C.brown}}>La communauté des Cysters</span>
-                <span style={{display:"block",fontSize:10.5,color:C.mid,lineHeight:1.4}}>le groupe WhatsApp pour partager, poser tes questions, te sentir moins seule</span>
-              </span>
-              <span style={{fontSize:14,color:pc.p}}>→</span>
-            </a>
-
-            {/* Message Kamila — compact */}
-            {todayData.msg&&(
-            <div style={{background:C.bubble,borderRadius:16,padding:"0.95rem 1.05rem",marginBottom:10,border:`1px solid ${C.border}`}}>
-              <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:7}}>
-                <div style={{width:28,height:28,borderRadius:"50%",background:pc.p,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><Icon name="leaf" size={13} color="#fff"/></div>
-                <div style={{fontSize:11,fontWeight:600,color:C.brown}}>Le mot de Kamila</div>
-              </div>
-              <div style={{fontFamily:"'Playfair Display',serif",fontSize:"0.95rem",color:C.mid,lineHeight:1.55,whiteSpace:"pre-line",fontStyle:"italic"}}>
-                {String(todayData.msg).replace(/\n{2,}/g,"\n")}
-              </div>
+              ))}
+              <div style={{fontSize:9.5,color:C.light,lineHeight:1.5,marginTop:8}}>les messages de Kamila sont écrits à l'avance pour t'accompagner. quand tu écris à l'équipe, c'est une vraie personne qui te lit.</div>
             </div>
+            <div style={{fontSize:9,letterSpacing:1.5,textTransform:"uppercase",color:C.light,fontWeight:700,margin:"4px 0 8px"}}>les messages de Kamila</div>
+            {todayData.msg&&(
+              <div style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:16,marginBottom:10,overflow:"hidden"}}>
+                <button onClick={()=>setAccompOpen(o=>o==="mot"?null:"mot")} aria-expanded={accompOpen==="mot"}
+                  style={{width:"100%",display:"flex",alignItems:"center",gap:12,background:"none",border:"none",padding:"12px 14px",cursor:"pointer",fontFamily:"inherit",textAlign:"left"}}>
+                  <div style={{width:40,height:40,borderRadius:12,background:C.terra,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><Icon name="leaf" size={18} color="#fff"/></div>
+                  <div style={{flex:1,minWidth:0}}>
+                    <div style={{fontSize:13,fontWeight:700,color:C.brown}}>Le mot de Kamila</div>
+                    <div style={{fontSize:10.5,color:C.mid,whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{String(todayData.msg).split("\n")[0]}</div>
+                  </div>
+                  <div style={{fontSize:14,color:C.light,transform:accompOpen==="mot"?"rotate(90deg)":"none",transition:"transform .2s"}}>›</div>
+                </button>
+                {accompOpen==="mot"&&(
+                  <div style={{padding:"0 14px 14px",fontFamily:"'Playfair Display',serif",fontSize:"0.95rem",color:C.mid,lineHeight:1.55,whiteSpace:"pre-line",fontStyle:"italic"}}>
+                    {String(todayData.msg).replace(/\n{2,}/g,"\n")}
+                  </div>
+                )}
+              </div>
             )}
-
             {/* Vocaux Kamila — repliable */}
             {(()=>{ const dispo=VOCAUX.filter(v=>day>=v.unlockDay).length; return (
             <div style={{background:C.white,borderRadius:14,padding:"1rem",marginBottom:10,border:`1px solid ${C.border}`}}>
@@ -12154,8 +12210,310 @@ export default function App() {
               })()}
             </div>
 
+            <a href={WHATSAPP_URL} target="_blank" rel="noopener"
+              style={{display:"flex",alignItems:"center",gap:12,background:C.white,border:`1px solid ${C.border}`,borderRadius:14,padding:"12px 14px",marginBottom:10,textDecoration:"none"}}>
+              <span style={{width:36,height:36,borderRadius:"50%",background:"#E7F3EA",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><Icon name="heart" size={17} color="#3E8E5A"/></span>
+              <span style={{flex:1}}>
+                <span style={{display:"block",fontSize:12.5,fontWeight:700,color:C.brown}}>La communauté des Cysters</span>
+                <span style={{display:"block",fontSize:10.5,color:C.mid,lineHeight:1.4}}>le groupe WhatsApp pour partager, poser tes questions, te sentir moins seule</span>
+              </span>
+              <span style={{fontSize:14,color:pc.p}}>→</span>
+            </a>
+
+
+            {/* ── Fenêtre « Adapter ma journée » ── */}
+            {adaptOpen&&(()=>{
+              const heure=new Date().getHours(); const moment=heure<11?"matin":heure<16?"midi":"soir";
+              const temps=adaptTemps||10;
+              const mins=(t)=>{ const m=String(t||"").match(/(\d+)/); return m?parseInt(m[1],10):99; };
+              let idee=null;
+              if(adaptBesoin==="bouger"){ const seances=[...MOUVEMENT].sort((x,y)=>mins(x.duree)-mins(y.duree)); const s=seances.filter(x=>mins(x.duree)<=temps).pop()||seances[0];
+                idee={t:s.nom+" · "+s.duree,d:s.intro,go:()=>{ setAdaptOpen(false); setTab("mouvement"); setMouvOpen(s.id); }}; }
+              if(adaptBesoin==="manger"){ const noms=Object.keys(RECETTES).filter(n=>RECETTES[n].moment===moment&&repasRapide(n)); const n=noms[new Date().getDate()%Math.max(1,noms.length)]||Object.keys(RECETTES)[0];
+                idee={t:n,d:"une idée rapide pour ce "+(moment==="matin"?"matin":moment==="midi"?"midi":"soir")+" : "+(RECETTES[n].temps||""),go:()=>{ setAdaptOpen(false); setTab("outils"); setOutilCat("alimentation"); setOutilOpen("recettes"); setRecetteFiche(n); }}; }
+              if(adaptBesoin==="poser") idee={t:"Souffler quelques minutes",d:"une respiration lente pour faire redescendre la pression, sans rien avoir à réussir.",go:()=>{ setAdaptOpen(false); setSosOpen("stress"); }};
+              if(adaptBesoin==="dormir") idee={t:"Préparer une nuit plus calme",d:"quelques gestes simples pour ce soir.",go:()=>{ setAdaptOpen(false); setSosOpen("insomnie"); }};
+              const chip=(on)=>({padding:"8px 13px",borderRadius:99,border:`1.5px solid ${on?C.terra:C.border}`,background:on?C.terra:C.white,color:on?"#fff":C.brown,fontFamily:"inherit",fontSize:12,fontWeight:600,cursor:"pointer"});
+              const msgE={haute:"belle énergie : on peut viser un peu plus, si tu en as envie.",moyenne:"on garde un rythme doux et réaliste.",basse:"aujourd'hui, le minimum suffit. et si tu ne fais rien, c'est ok aussi."}[energie]||"dis-moi comment tu te sens, je m'adapte.";
+              return(
+              <Portail><div onClick={()=>setAdaptOpen(false)} style={{position:"fixed",inset:0,zIndex:320,background:"rgba(58,42,32,.45)",display:"flex",alignItems:"center",justifyContent:"center",padding:"calc(env(safe-area-inset-top,0px) + 28px) 16px calc(env(safe-area-inset-bottom,0px) + 28px)"}}>
+                <div onClick={e=>e.stopPropagation()} style={{background:C.cream,width:"100%",maxWidth:430,borderRadius:22,padding:"1.2rem",boxShadow:"0 12px 40px rgba(58,42,32,.25)",maxHeight:"100%",overflowY:"auto"}}>
+                  <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:6}}>
+                    <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.2rem",fontWeight:600,color:C.brown}}>Adapter ma journée</div>
+                    <button onClick={()=>setAdaptOpen(false)} aria-label="fermer" style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:"50%",width:30,height:30,cursor:"pointer",color:C.mid,fontFamily:"inherit"}}>✕</button>
+                  </div>
+                  <div style={{fontSize:11.5,color:C.mid,lineHeight:1.5,marginBottom:14}}>{msgE}</div>
+                  <div style={{fontSize:11,fontWeight:700,color:C.brown,marginBottom:7}}>mon énergie</div>
+                  <div style={{display:"flex",gap:7,flexWrap:"wrap",marginBottom:14}}>
+                    {[["haute","plutôt bien"],["moyenne","moyenne"],["basse","fatiguée"]].map(([k,l])=>(<button key={k} onClick={()=>setEnergie(k)} aria-pressed={energie===k} style={chip(energie===k)}>{l}</button>))}
+                  </div>
+                  <div style={{fontSize:11,fontWeight:700,color:C.brown,marginBottom:7}}>le temps que j'ai</div>
+                  <div style={{display:"flex",gap:7,flexWrap:"wrap",marginBottom:14}}>
+                    {[5,10,20].map(m=>(<button key={m} onClick={()=>setAdaptTemps(m)} aria-pressed={temps===m} style={chip(temps===m)}>{m} min</button>))}
+                  </div>
+                  <div style={{fontSize:11,fontWeight:700,color:C.brown,marginBottom:7}}>ce dont j'ai besoin</div>
+                  <div style={{display:"flex",gap:7,flexWrap:"wrap",marginBottom:16}}>
+                    {[["bouger","bouger doucement"],["manger","bien manger"],["poser","me poser"],["dormir","mieux dormir"]].map(([k,l])=>(<button key={k} onClick={()=>setAdaptBesoin(k)} aria-pressed={adaptBesoin===k} style={chip(adaptBesoin===k)}>{l}</button>))}
+                  </div>
+                  {idee?(
+                    <div style={{background:C.white,border:`1.5px solid ${C.terra}`,borderRadius:16,padding:"14px"}}>
+                      <div style={{fontSize:9.5,letterSpacing:1.5,textTransform:"uppercase",color:C.terra,fontWeight:700,marginBottom:4}}>une idée pour toi, facultative</div>
+                      <div style={{fontSize:13.5,fontWeight:700,color:C.brown,marginBottom:4}}>{idee.t}</div>
+                      <div style={{fontSize:11.5,color:C.mid,lineHeight:1.5,marginBottom:12}}>{idee.d}</div>
+                      <button onClick={idee.go} style={{width:"100%",background:C.terra,border:"none",borderRadius:12,padding:"11px",color:"#fff",fontFamily:"inherit",fontSize:12.5,fontWeight:700,cursor:"pointer"}}>j'y vais →</button>
+                    </div>
+                  ):(
+                    <div style={{fontSize:11,color:C.light,textAlign:"center",padding:"6px 0 4px"}}>choisis ce dont tu as besoin, je te propose une idée.</div>
+                  )}
+                  {energie==="basse"&&(
+                    <button onClick={()=>{ setAdaptOpen(false); setFatigueOpen(true); setFatigueStep(0); }} style={{display:"block",margin:"14px auto 0",background:"none",border:"none",color:C.terra,fontFamily:"inherit",fontSize:11.5,fontWeight:700,cursor:"pointer",textDecoration:"underline"}}>comprendre ma fatigue</button>
+                  )}
+                </div>
+              </div></Portail>
+              );
+            })()}
+
+            {/* ── Fenêtre « Faire le point sur mon parcours » ── */}
+            {bilanOpen&&(()=>{
+              const Q=[
+                {k:"ressenti",t:"comment tu te sens dans ton parcours, en ce moment ?",type:"choix",opts:["ça va bien","ça avance doucement","c'est compliqué","je me sens perdue"]},
+                {k:"facile",t:"qu'est-ce qui a été le plus facile ces derniers temps ?",type:"texte",ph:"ex : la marche après le dîner"},
+                {k:"difficile",t:"qu'est-ce qui a été le plus difficile ?",type:"texte",ph:"ex : tenir le petit-déj protéiné"},
+                {k:"changer",t:"qu'est-ce que tu aimerais changer ?",type:"texte",ph:"une seule chose suffit"},
+                {k:"besoin",t:"de quoi tu as besoin pour la suite ?",type:"choix",opts:["plus de simplicité","plus d'idées repas","bouger davantage","mieux dormir","plus de soutien"]},
+              ];
+              const rep=bilanRep; const setR=(k,v)=>setBilanRep(p=>({...p,[k]:v}));
+              const chip=(on)=>({padding:"8px 12px",borderRadius:99,border:`1.5px solid ${on?C.terra:C.border}`,background:on?C.terra:C.white,color:on?"#fff":C.brown,fontFamily:"inherit",fontSize:11.5,fontWeight:600,cursor:"pointer"});
+              const conseil={ "plus de simplicité":"garde une seule action par jour, et utilise « Adapter ma journée » les jours chargés.","plus d'idées repas":"essaie « compose ma semaine pour moi » dans Planifier ma semaine.","bouger davantage":"commence par 10 minutes : ouvre Bouger depuis l'accueil.","mieux dormir":"ouvre ton espace Sommeil et note tes nuits quelques jours.","plus de soutien":"tu peux écrire à l'équipe depuis Mon espace d'échange, et rejoindre la communauté des Cysters." }[rep.besoin];
+              const resume=()=>["Mon point du "+new Date().toLocaleDateString("fr-FR"),"Ressenti : "+(rep.ressenti||"-"),"Le plus facile : "+(rep.facile||"-"),"Le plus difficile : "+(rep.difficile||"-"),"Ce que je veux changer : "+(rep.changer||"-"),"Mon besoin : "+(rep.besoin||"-"),"Jour "+day+" de mon parcours"].join("\n");
+              return(
+              <Portail><div onClick={()=>setBilanOpen(false)} style={{position:"fixed",inset:0,zIndex:320,background:"rgba(58,42,32,.45)",display:"flex",alignItems:"center",justifyContent:"center",padding:"calc(env(safe-area-inset-top,0px) + 28px) 16px calc(env(safe-area-inset-bottom,0px) + 28px)"}}>
+                <div onClick={e=>e.stopPropagation()} style={{background:C.cream,width:"100%",maxWidth:430,borderRadius:22,padding:"1.2rem",boxShadow:"0 12px 40px rgba(58,42,32,.25)",maxHeight:"100%",overflowY:"auto"}}>
+                  <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:6}}>
+                    <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.2rem",fontWeight:600,color:C.brown}}>Faire le point</div>
+                    <button onClick={()=>setBilanOpen(false)} aria-label="fermer" style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:"50%",width:30,height:30,cursor:"pointer",color:C.mid,fontFamily:"inherit"}}>✕</button>
+                  </div>
+                  {!bilanFini?(<>
+                    <div style={{fontSize:11.5,color:C.mid,lineHeight:1.5,marginBottom:14}}>quelques questions, sans bonne ou mauvaise réponse. tu réponds à celles que tu veux.</div>
+                    {Q.map(q=>(
+                      <div key={q.k} style={{marginBottom:14}}>
+                        <div style={{fontSize:12,fontWeight:700,color:C.brown,marginBottom:7}}>{q.t}</div>
+                        {q.type==="choix"?(
+                          <div style={{display:"flex",gap:6,flexWrap:"wrap"}}>{q.opts.map(o=>(<button key={o} onClick={()=>setR(q.k,rep[q.k]===o?null:o)} aria-pressed={rep[q.k]===o} style={chip(rep[q.k]===o)}>{o}</button>))}</div>
+                        ):(
+                          <textarea value={rep[q.k]||""} onChange={e=>setR(q.k,e.target.value)} placeholder={q.ph} rows={2} style={{width:"100%",border:`1px solid ${C.border}`,borderRadius:10,padding:"9px 10px",fontFamily:"inherit",fontSize:12,color:C.brown,background:C.white,outline:"none",resize:"vertical",boxSizing:"border-box"}}/>
+                        )}
+                      </div>
+                    ))}
+                    <button onClick={()=>{ const b={date:new Date().toISOString(),day,...rep}; setBilans(p=>[...p.slice(-23),b]); setBilanFini(b); }}
+                      style={{width:"100%",background:C.terra,border:"none",borderRadius:12,padding:"12px",color:"#fff",fontFamily:"inherit",fontSize:12.5,fontWeight:700,cursor:"pointer"}}>voir mon résumé</button>
+                  </>):(<>
+                    <div style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:14,padding:"12px 14px",marginBottom:12,fontSize:11.5,color:C.mid,lineHeight:1.7,whiteSpace:"pre-line"}}>{resume()}</div>
+                    {conseil&&<div style={{fontSize:11.5,color:C.brown,lineHeight:1.55,background:`${C.terra}18`,borderRadius:12,padding:"10px 12px",marginBottom:12}}><strong>pour la suite :</strong> {conseil}</div>}
+                    <div style={{fontSize:11,color:C.mid,lineHeight:1.5,marginBottom:10}}>ce point reste dans ton espace, rien que pour toi. tu peux aussi choisir de l'envoyer à l'équipe.</div>
+                    <a href={"mailto:contact@sopklife.com?subject="+encodeURIComponent("Mon point SMOP Map")+"&body="+encodeURIComponent(resume())} style={{display:"block",textAlign:"center",background:C.terra,color:"#fff",borderRadius:12,padding:"11px",fontSize:12.5,fontWeight:700,textDecoration:"none",marginBottom:8}}>l'envoyer à l'équipe</a>
+                    <button onClick={()=>setBilanOpen(false)} style={{width:"100%",background:"none",border:`1px solid ${C.border}`,borderRadius:12,padding:"11px",color:C.brown,fontFamily:"inherit",fontSize:12.5,cursor:"pointer"}}>le garder pour moi</button>
+                    {bilans.length>1&&<div style={{fontSize:10.5,color:C.light,marginTop:12,lineHeight:1.5}}>tes points précédents : {bilans.slice(0,-1).slice(-4).map(b=>new Date(b.date).toLocaleDateString("fr-FR",{day:"numeric",month:"short"})+" ("+(b.ressenti||"-")+")").join(" · ")}</div>}
+                  </>)}
+                </div>
+              </div></Portail>
+              );
+            })()}
+
+            {/* ── Fenêtre « Demander de l'aide / Écrire à l'équipe » ── */}
+            {aideOpen&&(()=>{
+              const SUJETS=[
+                {k:"trouver",t:"je ne trouve pas quelque chose dans mon espace"},
+                {k:"dur",t:"je traverse un moment difficile"},
+                {k:"tisanes",t:"une question sur mes tisanes ou ma commande"},
+                {k:"parcours",t:"une question sur mon parcours"},
+                {k:"ecrire",t:"je veux écrire à l'équipe"},
+              ];
+              const go=(f)=>{ setAideOpen(false); f(); };
+              const ecrire=(sujet)=>(
+                <div style={{background:C.white,border:`1.5px solid ${C.terra}`,borderRadius:14,padding:"13px"}}>
+                  <div style={{fontSize:12.5,fontWeight:700,color:C.brown,marginBottom:4}}>écrire à l'équipe SOPK Life</div>
+                  <div style={{fontSize:11,color:C.mid,lineHeight:1.55,marginBottom:10}}>une vraie personne te lit et te répond par e-mail, du lundi au vendredi. pour une urgence médicale, appelle le 15.</div>
+                  <a href={"mailto:contact@sopklife.com?subject="+encodeURIComponent("SMOP Map · "+sujet)} style={{display:"block",textAlign:"center",background:C.terra,color:"#fff",borderRadius:12,padding:"11px",fontSize:12.5,fontWeight:700,textDecoration:"none"}}>écrire un message</a>
+                  <div style={{fontSize:10,color:C.light,textAlign:"center",marginTop:6,userSelect:"all"}}>contact@sopklife.com</div>
+                </div>
+              );
+              return(
+              <Portail><div onClick={()=>setAideOpen(false)} style={{position:"fixed",inset:0,zIndex:320,background:"rgba(58,42,32,.45)",display:"flex",alignItems:"center",justifyContent:"center",padding:"calc(env(safe-area-inset-top,0px) + 28px) 16px calc(env(safe-area-inset-bottom,0px) + 28px)"}}>
+                <div onClick={e=>e.stopPropagation()} style={{background:C.cream,width:"100%",maxWidth:430,borderRadius:22,padding:"1.2rem",boxShadow:"0 12px 40px rgba(58,42,32,.25)",maxHeight:"100%",overflowY:"auto"}}>
+                  <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:10}}>
+                    <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.2rem",fontWeight:600,color:C.brown}}>{aideSujet==="ecrire"?"Écrire à l'équipe":"Demander de l'aide"}</div>
+                    <button onClick={()=>setAideOpen(false)} aria-label="fermer" style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:"50%",width:30,height:30,cursor:"pointer",color:C.mid,fontFamily:"inherit"}}>✕</button>
+                  </div>
+                  {!aideSujet&&(<>
+                    <div style={{fontSize:11.5,color:C.mid,lineHeight:1.5,marginBottom:12}}>dis-moi ce qui se passe, je t'oriente au bon endroit.</div>
+                    {SUJETS.map(x=>(<button key={x.k} onClick={()=>setAideSujet(x.k)} style={{width:"100%",textAlign:"left",background:C.white,border:`1px solid ${C.border}`,borderRadius:12,padding:"12px 13px",marginBottom:8,cursor:"pointer",fontFamily:"inherit",fontSize:12.5,color:C.brown,fontWeight:600}}>{x.t}</button>))}
+                  </>)}
+                  {aideSujet==="trouver"&&(<>
+                    <div style={{fontSize:11.5,color:C.mid,lineHeight:1.6,marginBottom:10}}>la loupe en haut de l'écran cherche dans tes recettes, tes fiches, tes aliments et tous les jours du parcours. et l'onglet Ressources regroupe tous les outils.</div>
+                    <button onClick={()=>go(()=>setSearchOpen(true))} style={{width:"100%",background:C.terra,border:"none",borderRadius:12,padding:"11px",color:"#fff",fontFamily:"inherit",fontSize:12.5,fontWeight:700,cursor:"pointer",marginBottom:8}}>ouvrir la recherche</button>
+                    <button onClick={()=>go(()=>setTab("outils"))} style={{width:"100%",background:"none",border:`1px solid ${C.border}`,borderRadius:12,padding:"11px",color:C.brown,fontFamily:"inherit",fontSize:12.5,cursor:"pointer",marginBottom:12}}>voir toutes les ressources</button>
+                    {ecrire("je ne trouve pas")}
+                  </>)}
+                  {aideSujet==="dur"&&(<>
+                    <div style={{fontSize:11.5,color:C.mid,lineHeight:1.6,marginBottom:10}}>tu n'as rien à réussir aujourd'hui. commence par souffler, ensuite on voit.</div>
+                    <button onClick={()=>go(()=>setCriseMode(true))} style={{width:"100%",background:C.terra,border:"none",borderRadius:12,padding:"11px",color:"#fff",fontFamily:"inherit",fontSize:12.5,fontWeight:700,cursor:"pointer",marginBottom:8}}>ouvrir le mode crise</button>
+                    <button onClick={()=>go(()=>setTab("sos"))} style={{width:"100%",background:"none",border:`1px solid ${C.border}`,borderRadius:12,padding:"11px",color:C.brown,fontFamily:"inherit",fontSize:12.5,cursor:"pointer",marginBottom:10}}>voir toutes les fiches SOS</button>
+                    <div style={{fontSize:10.5,color:C.mid,lineHeight:1.5,background:C.white,borderRadius:10,padding:"9px 11px",marginBottom:12}}>si tu as des idées noires, appelle le 3114 (gratuit, 24h/24). en cas d'urgence, le 15.</div>
+                    {ecrire("moment difficile")}
+                  </>)}
+                  {aideSujet==="tisanes"&&ecrire("tisanes ou commande")}
+                  {aideSujet==="parcours"&&(<>
+                    <div style={{fontSize:11.5,color:C.mid,lineHeight:1.6,marginBottom:10}}>souvent, faire le point aide à y voir plus clair : 2 minutes, et tu repars avec une piste.</div>
+                    <button onClick={()=>go(()=>{ setBilanRep({}); setBilanFini(null); setBilanOpen(true); })} style={{width:"100%",background:C.terra,border:"none",borderRadius:12,padding:"11px",color:"#fff",fontFamily:"inherit",fontSize:12.5,fontWeight:700,cursor:"pointer",marginBottom:12}}>faire le point sur mon parcours</button>
+                    {ecrire("question sur mon parcours")}
+                  </>)}
+                  {aideSujet==="ecrire"&&ecrire("message")}
+                  {aideSujet&&<button onClick={()=>setAideSujet(null)} style={{display:"block",margin:"12px auto 0",background:"none",border:"none",color:C.light,fontFamily:"inherit",fontSize:11,cursor:"pointer",textDecoration:"underline"}}>‹ autre sujet</button>}
+                </div>
+              </div></Portail>
+              );
+            })()}
           </div>
         )}
+
+        {/* ── MON SOMMEIL : mes nuits, mon rituel du soir, quand ça coince ── */}
+        {tab==="sommeil"&&(()=>{
+          const jr=(n)=>{ const d=new Date(); d.setDate(d.getDate()-n); return d.toISOString().slice(0,10); };
+          const nuits=Array.from({length:7},(_,i)=>{ const k=jr(6-i); const v=journal[k]&&typeof journal[k].sommeil==="number"?journal[k].sommeil:null; return {k,v,l:new Date(k+"T12:00:00").toLocaleDateString("fr-FR",{weekday:"short"}).slice(0,2)}; });
+          const vals=nuits.map(n=>n.v).filter(v=>v!=null); const moy=vals.length?vals.reduce((p,q)=>p+q,0)/vals.length:null;
+          const today=journal[todayKey]||{};
+          const sympL=(d)=>{ const sy=(d&&d.symptomes)||{}; const v=Object.values(sy).filter(x=>typeof x==="number"); return v.length?v.reduce((p,q)=>p+q,0)/v.length:null; };
+          const court=[],long=[]; Array.from({length:30},(_,i)=>jr(i)).forEach(k=>{ const d=journal[k]; if(!d||typeof d.sommeil!=="number") return; const s2=sympL(d); if(s2==null) return; (d.sommeil<7?court:long).push(s2); });
+          const lien=(court.length>=3&&long.length>=3)?{c:court.reduce((p,q)=>p+q,0)/court.length,l:long.reduce((p,q)=>p+q,0)/long.length}:null;
+          const rituels=[["ecrans","écrans coupés 30 min avant"],["lumiere","lumière tamisée le soir"],["tisane","ma tisane du soir"],["heure","coucher à heure fixe"]];
+          const rit=today.rituelSoir||{};
+          const missionsSommeil=Array.from({length:365},(_,i)=>i+1).filter(d=>pilierDeMission(missionPour(d)).label==="Sommeil").slice(0,8);
+          const carte={background:C.white,border:`1px solid ${C.border}`,borderRadius:16,padding:"14px",marginBottom:12};
+          return(
+          <div className="fu">
+            <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.35rem",color:C.brown,marginBottom:2}}>Mon sommeil</div>
+            <div style={{fontSize:12,color:C.light,marginBottom:14}}>avec un SMOP, une nuit courte se paie souvent le lendemain : fringales, énergie, humeur. on la regarde ensemble.</div>
+            <div style={carte}>
+              <div style={{fontSize:12.5,fontWeight:700,color:C.brown,marginBottom:8}}>ma nuit dernière</div>
+              <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:12}}>
+                <button onClick={()=>setJ("sommeil",Math.max(0,(typeof today.sommeil==="number"?today.sommeil:7)-0.5))} aria-label="moins" style={{width:36,height:36,borderRadius:"50%",border:`1.5px solid ${C.border}`,background:C.cream,fontSize:18,color:C.brown,cursor:"pointer",fontFamily:"inherit"}}>−</button>
+                <div style={{flex:1,textAlign:"center"}}><span style={{fontFamily:"'Playfair Display',serif",fontSize:"1.8rem",color:C.brown,fontWeight:600}}>{typeof today.sommeil==="number"?String(today.sommeil).replace(".",","):"–"}</span><span style={{fontSize:12,color:C.mid}}> h</span></div>
+                <button onClick={()=>setJ("sommeil",Math.min(14,(typeof today.sommeil==="number"?today.sommeil:7)+0.5))} aria-label="plus" style={{width:36,height:36,borderRadius:"50%",border:"none",background:"#8E80A3",fontSize:18,color:"#fff",cursor:"pointer",fontFamily:"inherit"}}>+</button>
+              </div>
+              <div style={{fontSize:11,color:C.mid,marginBottom:6}}>comment était ta nuit ?</div>
+              <div style={{display:"flex",gap:6,flexWrap:"wrap",marginBottom:10}}>
+                {["reposante","moyenne","difficile"].map(q=>{ const on=today.sommeilQualite===q; return(<button key={q} onClick={()=>setJ("sommeilQualite",on?null:q)} aria-pressed={on} style={{padding:"7px 12px",borderRadius:99,border:`1.5px solid ${on?"#8E80A3":C.border}`,background:on?"#8E80A3":C.white,color:on?"#fff":C.brown,fontFamily:"inherit",fontSize:11.5,fontWeight:600,cursor:"pointer"}}>{q}</button>); })}
+              </div>
+              <button onClick={()=>setJ("reveilNuit",!today.reveilNuit)} aria-pressed={!!today.reveilNuit} style={{padding:"7px 12px",borderRadius:99,border:`1.5px solid ${today.reveilNuit?"#8E80A3":C.border}`,background:today.reveilNuit?"#8E80A3":C.white,color:today.reveilNuit?"#fff":C.brown,fontFamily:"inherit",fontSize:11.5,fontWeight:600,cursor:"pointer"}}>je me suis réveillée la nuit</button>
+              {today.reveilNuit&&<button onClick={()=>setSosOpen("reveil3h")} style={{display:"block",marginTop:8,background:"none",border:"none",padding:0,color:"#8E80A3",fontFamily:"inherit",fontSize:11,fontWeight:700,cursor:"pointer"}}>comprendre les réveils vers 3h →</button>}
+            </div>
+            <div style={carte}>
+              <div style={{display:"flex",justifyContent:"space-between",alignItems:"baseline",marginBottom:10}}>
+                <div style={{fontSize:12.5,fontWeight:700,color:C.brown}}>mes 7 dernières nuits</div>
+                <div style={{fontSize:11,color:C.mid}}>{moy!=null?"moyenne "+moy.toFixed(1).replace(".",",")+" h":"pas encore de nuits notées"}</div>
+              </div>
+              <div style={{display:"flex",alignItems:"flex-end",gap:6,height:90}}>
+                {nuits.map(n=>(<div key={n.k} style={{flex:1,display:"flex",flexDirection:"column",alignItems:"center",gap:4}}>
+                  <div style={{fontSize:9,color:C.mid}}>{n.v!=null?String(n.v).replace(".",","):""}</div>
+                  <div style={{width:"100%",maxWidth:26,height:n.v!=null?Math.max(6,Math.min(1,n.v/10)*60):4,background:n.v==null?C.border:(n.v>=7?"#8E80A3":"#C9B6D6"),borderRadius:6}}/>
+                  <div style={{fontSize:9.5,color:C.light}}>{n.l}</div>
+                </div>))}
+              </div>
+              {moy!=null&&<div style={{fontSize:11,color:C.mid,lineHeight:1.55,marginTop:10}}>{moy<6.5?"tes nuits sont plutôt courtes en ce moment. ce n'est pas un échec : on peut gagner 30 minutes, petit à petit.":moy<7?"tu es proche des 7 heures. un coucher un peu plus tôt peut suffire.":"tes nuits sont dans la bonne zone. ton corps te remercie."}</div>}
+              {lien&&<div style={{fontSize:11,color:C.brown,lineHeight:1.55,marginTop:8,background:"#F1EBF4",borderRadius:10,padding:"8px 10px"}}>ce que tes données montrent : après une nuit de moins de 7 h, tes symptômes sont en moyenne à {lien.c.toFixed(1).replace(".",",")}/5, contre {lien.l.toFixed(1).replace(".",",")}/5 après une nuit plus longue.</div>}
+              <button onClick={()=>setTab("suivi")} style={{marginTop:10,background:"none",border:"none",padding:0,color:"#8E80A3",fontFamily:"inherit",fontSize:11,fontWeight:700,cursor:"pointer"}}>noter le reste de ma journée →</button>
+            </div>
+            <div style={carte}>
+              <div style={{fontSize:12.5,fontWeight:700,color:C.brown,marginBottom:4}}>mon rituel du soir</div>
+              <div style={{fontSize:11,color:C.mid,marginBottom:10}}>coche ce que tu fais ce soir. une seule chose, c'est déjà bien.</div>
+              {rituels.map(([k,l])=>{ const on=!!rit[k]; return(
+                <button key={k} onClick={()=>setJ("rituelSoir",{...rit,[k]:!on})} aria-pressed={on} style={{width:"100%",display:"flex",alignItems:"center",gap:10,background:"none",border:"none",borderBottom:`1px solid ${C.border}`,padding:"9px 2px",cursor:"pointer",fontFamily:"inherit",textAlign:"left"}}>
+                  <span style={{width:22,height:22,borderRadius:"50%",border:`2px solid ${on?"#8E80A3":C.border}`,background:on?"#8E80A3":"transparent",color:"#fff",fontSize:12,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>{on?"✓":""}</span>
+                  <span style={{fontSize:12,color:C.brown}}>{l}</span>
+                </button>); })}
+            </div>
+            <div style={carte}>
+              <div style={{fontSize:12.5,fontWeight:700,color:C.brown,marginBottom:8}}>quand ça coince</div>
+              {[["reveil3h","Réveil à 3h du matin"],["insomnie","Réveil nocturne"],["stress","Stress qui empêche de dormir"]].map(([id,l])=>(
+                <button key={id} onClick={()=>setSosOpen(id)} style={{width:"100%",display:"flex",justifyContent:"space-between",alignItems:"center",background:C.cream,border:"none",borderRadius:10,padding:"10px 12px",marginBottom:6,cursor:"pointer",fontFamily:"inherit",fontSize:12,color:C.brown,textAlign:"left"}}>{l}<span style={{color:C.light}}>›</span></button>
+              ))}
+            </div>
+            {missionsSommeil.length>0&&(
+            <div style={carte}>
+              <div style={{fontSize:12.5,fontWeight:700,color:C.brown,marginBottom:8}}>dans ton parcours</div>
+              {missionsSommeil.map(d=>(
+                <button key={d} onClick={()=>{ voirJour(d); setTab("kamila"); }} style={{width:"100%",display:"flex",gap:10,alignItems:"center",background:"none",border:"none",borderBottom:`1px solid ${C.border}`,padding:"8px 2px",cursor:"pointer",fontFamily:"inherit",textAlign:"left"}}>
+                  <span style={{fontSize:10,fontWeight:700,color:"#8E80A3",width:34,flexShrink:0}}>J{d}</span>
+                  <span style={{flex:1,fontSize:11.5,color:C.brown}}>{missionPour(d).theme}</span>
+                  {checked[d]&&<span style={{color:"#8E80A3",fontSize:11}}>✓</span>}
+                </button>
+              ))}
+            </div>
+            )}
+          </div>
+          );
+        })()}
+
+        {/* ── PRENDRE SOIN : ce que ton corps te dit, et ce qui te fait du bien ── */}
+        {tab==="soin"&&(()=>{
+          const today=journal[todayKey]||{};
+          const rg=[...new Set(regles||[])].sort(); const der=rg[rg.length-1];
+          const jc=der?Math.floor((new Date(todayKey+"T12:00:00")-new Date(der+"T12:00:00"))/86400000)+1:null;
+          const note=(k)=>typeof today[k]==="number"?today[k]+"/5":"–";
+          const missionsSoin=Array.from({length:365},(_,i)=>i+1).filter(d=>pilierDeMission(missionPour(d)).label==="Prendre soin").slice(0,8);
+          const carte={background:C.white,border:`1px solid ${C.border}`,borderRadius:16,padding:"14px",marginBottom:12};
+          const ligne=(ic,t,d,go)=>(
+            <button key={t} onClick={go} style={{width:"100%",display:"flex",alignItems:"center",gap:12,background:"none",border:"none",borderBottom:`1px solid ${C.border}`,padding:"11px 2px",cursor:"pointer",fontFamily:"inherit",textAlign:"left"}}>
+              <div style={{width:36,height:36,borderRadius:11,background:"#EEF2E8",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><Icon name={ic} size={17} color="#6E8A55"/></div>
+              <span style={{flex:1,minWidth:0}}><span style={{display:"block",fontSize:12.5,fontWeight:700,color:C.brown}}>{t}</span><span style={{display:"block",fontSize:10.5,color:C.mid,lineHeight:1.4}}>{d}</span></span>
+              <span style={{fontSize:14,color:C.light}}>›</span>
+            </button>);
+          return(
+          <div className="fu">
+            <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.35rem",color:C.brown,marginBottom:2}}>Prendre soin</div>
+            <div style={{fontSize:12,color:C.light,marginBottom:14}}>écouter ce que ton corps te dit, et lui donner ce qui lui fait du bien.</div>
+            <div style={{...carte,background:"#EEF2E8",border:"none"}}>
+              <div style={{fontSize:12.5,fontWeight:700,color:"#4F6038",marginBottom:10}}>toi, aujourd'hui</div>
+              <div style={{display:"grid",gridTemplateColumns:"repeat(4,minmax(0,1fr))",gap:6,textAlign:"center"}}>
+                {[["humeur","humeur"],["energie","énergie"],["stress","stress"]].map(([k,l])=>(<div key={k} style={{background:C.white,borderRadius:12,padding:"8px 4px"}}><div style={{fontSize:14,fontWeight:700,color:C.brown}}>{note(k)}</div><div style={{fontSize:9.5,color:C.mid}}>{l}</div></div>))}
+                <div style={{background:C.white,borderRadius:12,padding:"8px 4px"}}><div style={{fontSize:14,fontWeight:700,color:C.brown}}>{jc?"J"+jc:"–"}</div><div style={{fontSize:9.5,color:C.mid}}>cycle</div></div>
+              </div>
+              <button onClick={()=>setTab("suivi")} style={{marginTop:10,width:"100%",background:"#6E8A55",border:"none",borderRadius:11,padding:"10px",color:"#fff",fontFamily:"inherit",fontSize:12,fontWeight:700,cursor:"pointer"}}>noter ma journée</button>
+            </div>
+            <div style={carte}>
+              <div style={{fontSize:12.5,fontWeight:700,color:C.brown,marginBottom:4}}>suivre mon corps</div>
+              {ligne("moon","Mon cycle","tes règles, ta courbe de température, tes signes",()=>setTab("cycle"))}
+              {ligne("chart","Mes tendances","ce qui t'aide vraiment, semaine après semaine",()=>setTab("tendances"))}
+              {ligne("pulse","Mes mesures","tension, glycémie, température",()=>setTab("mesures"))}
+              {ligne("bed","Mon sommeil","tes nuits et ton rituel du soir",()=>setTab("sommeil"))}
+            </div>
+            <div style={carte}>
+              <div style={{fontSize:12.5,fontWeight:700,color:C.brown,marginBottom:4}}>prendre soin de ma tête</div>
+              {ligne("book","Mon journal","ce que tu ressens, ce que tu as testé",()=>setTab("journal"))}
+              {ligne("leaf","Mon ancrage","ton affirmation, ta lettre, vider ton cerveau",()=>setTab("ancrage"))}
+              {ligne("alert","Mes fiches SOS","fringale, angoisse, réveil à 3h… quand ça ne va pas",()=>setTab("sos"))}
+            </div>
+            <div style={carte}>
+              <div style={{fontSize:12.5,fontWeight:700,color:C.brown,marginBottom:4}}>ma santé</div>
+              {ligne("flask","Mes analyses","comprendre tes résultats de prise de sang",()=>setTab("analyses"))}
+              {ligne("doctor","Mon dossier médecin","préparer ton prochain rendez-vous",()=>setTab("medecin"))}
+            </div>
+            {missionsSoin.length>0&&(
+            <div style={carte}>
+              <div style={{fontSize:12.5,fontWeight:700,color:C.brown,marginBottom:8}}>dans ton parcours</div>
+              {missionsSoin.map(d=>(
+                <button key={d} onClick={()=>{ voirJour(d); setTab("kamila"); }} style={{width:"100%",display:"flex",gap:10,alignItems:"center",background:"none",border:"none",borderBottom:`1px solid ${C.border}`,padding:"8px 2px",cursor:"pointer",fontFamily:"inherit",textAlign:"left"}}>
+                  <span style={{fontSize:10,fontWeight:700,color:"#6E8A55",width:34,flexShrink:0}}>J{d}</span>
+                  <span style={{flex:1,fontSize:11.5,color:C.brown}}>{missionPour(d).theme}</span>
+                  {checked[d]&&<span style={{color:"#6E8A55",fontSize:11}}>✓</span>}
+                </button>
+              ))}
+            </div>
+            )}
+          </div>
+          );
+        })()}
 
         {/* ── FICHES SOS ── */}
         {tab==="sos"&&(
