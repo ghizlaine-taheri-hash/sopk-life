@@ -5,7 +5,7 @@ import { useState, useEffect, useRef } from "react";
 // Programme de 8 semaines, planning de la semaine, séances guidées, fiches exercices.
 // Contenu éducatif et bien-être : ne traite pas et ne guérit pas le SMOP.
 // Les fiches doivent être relues par une kiné avant la mise en ligne.
-// Images : déposer /public/bouger/<id>.png (une image par exercice, personnage récurrent).
+// Images : déposer /public/bouger/<id>.webp (une image par exercice, personnage récurrent).
 // Tant qu'une image manque, le pictogramme existant s'affiche à la place.
 // ═══════════════════════════════════════════════════════════════════════════
 
@@ -234,7 +234,7 @@ function ExImg({ id, ExIllus, h=170, rond=18 }) {
   return (
     <div style={{width:"100%",height:h,borderRadius:rond,background:LB,display:"flex",alignItems:"center",justifyContent:"center",overflow:"hidden"}}>
       {!ko ? (
-        <img src={"/bouger/"+id+".png"} alt={ex.nom||""} onError={()=>{ _imgKo.add(id); setKo(true); }}
+        <img src={"/bouger/"+id+".webp"} alt={ex.nom||""} loading="lazy" onError={()=>{ _imgKo.add(id); setKo(true); }}
           style={{width:"100%",height:"100%",objectFit:"contain"}}/>
       ) : (
         <div style={{width:Math.min(h*0.75,130),height:Math.min(h*0.75,130)}}><ExIllus pose={ex.pose} color={L}/></div>
