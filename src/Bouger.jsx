@@ -247,7 +247,7 @@ function ExImg({ id, ExIllus, h=170, rond=18 }) {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
-export default function Bouger({ C, Icon, ExIllus, energie, setEnergie, setTab, depart, departLu, anciennesRoutines }) {
+export default function Bouger({ C, Icon, ExIllus, energie, setEnergie, setTab, depart, departLu }) {
   const [vue, setVue] = useState(() => depart && SEANCES[depart] ? { v:"seance", sid:depart } : { v:"accueil" });
   useEffect(()=>{ if(depart&&departLu) departLu(); },[]);
   const [sportsOpen, setSportsOpen] = useState(false);
@@ -388,7 +388,6 @@ export default function Bouger({ C, Icon, ExIllus, energie, setEnergie, setTab, 
       <div style={{fontSize:10.5,color:C.mid,lineHeight:1.55,background:C.white,border:`1px solid ${C.border}`,borderRadius:14,padding:"11px 13px",marginBottom:10}}>
         <strong style={{color:C.brown}}>avant de commencer :</strong> si tu es enceinte, en post-partum, blessée, si tu as une douleur qui dure ou une restriction médicale, demande l'avis d'un professionnel de santé. pendant les séances, la douleur n'est jamais un objectif : adapte ou arrête.
       </div>
-      <button onClick={()=>anciennesRoutines?anciennesRoutines():setTab("mouvement")} style={{background:"none",border:"none",padding:"4px 0",color:L,fontFamily:"inherit",fontSize:11.5,fontWeight:700,cursor:"pointer"}}>retrouver mes anciennes routines →</button>
       <Toast/>
     </div>);
   }
