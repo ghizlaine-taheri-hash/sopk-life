@@ -12108,7 +12108,7 @@ export default function App() {
               {[
                 {ic:"calendar",t:"Faire le point sur mon parcours",d:bilans.length?"ton dernier point : le "+new Date(bilans[bilans.length-1].date).toLocaleDateString("fr-FR",{day:"numeric",month:"long"}):"un rendez-vous guidé avec toi-même, en 2 minutes",go:()=>{ setBilanRep({}); setBilanFini(null); setBilanOpen(true); }},
                 {ic:"sparkle",t:"Demander de l'aide",d:"une question, un blocage : je t'oriente au bon endroit",go:()=>{ setAideSujet(null); setAideOpen(true); }},
-                {ic:"book",t:"Écrire à l'équipe",d:"une vraie personne de SOPK Life te répond, du lundi au vendredi",go:()=>{ setAideSujet("ecrire"); setAideOpen(true); }},
+                {ic:"book",t:"Écrire à l'équipe",d:"l'équipe SOPK Life te répond, du lundi au vendredi",go:()=>{ setAideSujet("ecrire"); setAideOpen(true); }},
               ].map((x,i)=>(
                 <button key={i} onClick={x.go} style={{width:"100%",display:"flex",alignItems:"center",gap:12,background:"none",border:"none",borderBottom:`1px solid ${C.border}`,padding:"11px 2px",cursor:"pointer",fontFamily:"inherit",textAlign:"left"}}>
                   <Icon name={x.ic} size={18} color={C.terra}/>
@@ -12119,7 +12119,6 @@ export default function App() {
                   <span style={{fontSize:14,color:C.light}}>›</span>
                 </button>
               ))}
-              <div style={{fontSize:9.5,color:C.light,lineHeight:1.5,marginTop:8}}>les messages de Kamila sont écrits à l'avance pour t'accompagner. quand tu écris à l'équipe, c'est une vraie personne qui te lit.</div>
             </div>
             <div style={{fontSize:9,letterSpacing:1.5,textTransform:"uppercase",color:C.light,fontWeight:700,margin:"4px 0 8px"}}>les messages de Kamila</div>
             {todayData.msg&&(
@@ -12337,7 +12336,7 @@ export default function App() {
               const ecrire=(sujet)=>(
                 <div style={{background:C.white,border:`1.5px solid ${C.terra}`,borderRadius:14,padding:"13px"}}>
                   <div style={{fontSize:12.5,fontWeight:700,color:C.brown,marginBottom:4}}>écrire à l'équipe SOPK Life</div>
-                  <div style={{fontSize:11,color:C.mid,lineHeight:1.55,marginBottom:10}}>une vraie personne te lit et te répond par e-mail, du lundi au vendredi. pour une urgence médicale, appelle le 15.</div>
+                  <div style={{fontSize:11,color:C.mid,lineHeight:1.55,marginBottom:10}}>on te lit et on te répond par e-mail, du lundi au vendredi. pour une urgence médicale, appelle le 15.</div>
                   <a href={"mailto:contact@sopklife.com?subject="+encodeURIComponent("SMOP Map · "+sujet)} style={{display:"block",textAlign:"center",background:C.terra,color:"#fff",borderRadius:12,padding:"11px",fontSize:12.5,fontWeight:700,textDecoration:"none"}}>écrire un message</a>
                   <div style={{fontSize:10,color:C.light,textAlign:"center",marginTop:6,userSelect:"all"}}>contact@sopklife.com</div>
                 </div>
