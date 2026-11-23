@@ -10912,6 +10912,7 @@ export default function App() {
           <div style={{fontSize:12.5,color:C.mid,lineHeight:1.65,marginBottom:6}}>le compte <strong style={{color:C.brown}}>{session.user?.email}</strong> n'a pas encore accès à SMOP Map.</div>
           <div style={{fontSize:12.5,color:C.mid,lineHeight:1.65,marginBottom:24}}>si tu as déjà pris SMOP Map, connecte-toi avec l'adresse e-mail utilisée pour ta commande.</div>
           <a href={SHOP_URL} target="_blank" rel="noopener noreferrer" style={{display:"block",background:C.brown,color:"#fff",borderRadius:12,padding:"13px 22px",fontSize:13,fontWeight:600,textDecoration:"none",marginBottom:10}}>découvrir SMOP Map</a>
+          <button onClick={()=>setAccessTry(n=>n+1)} style={{background:"none",border:"none",color:C.mid,fontFamily:"inherit",fontSize:11.5,cursor:"pointer",textDecoration:"underline",marginBottom:10}}>je viens de commander : vérifier à nouveau</button>
           <button onClick={logout} style={{background:"none",border:`1px solid ${C.border}`,borderRadius:12,padding:"12px 22px",color:C.brown,fontFamily:"inherit",fontSize:12.5,cursor:"pointer"}}>me connecter avec une autre adresse</button>
         </>
       )}
