@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
+import Bouger from "./Bouger.jsx";
 // Les fenêtres s'affichent directement sur l'écran, quel que soit l'endroit où on a fait défiler la page
 const Portail = ({children}) => createPortal(<div style={{fontFamily:"'DM Sans',sans-serif"}}>{children}</div>, document.body);
 
@@ -11587,7 +11588,7 @@ export default function App() {
 
         {/* Retour à l'écran d'où l'on vient (quand on y est arrivée par un lien, une mission…) */}
         {(()=>{
-          const NAV_LABELS={kamila:"Accueil",carte:"Ma carte",suivi:"Suivi",outils:"Ressources",medecin:"Santé",apercu:"Vue d'ensemble",tendances:"Mes tendances",mesures:"Mes mesures",cycle:"Mon cycle",journal:"Mon journal",mouvement:"Mes mouvements",ancrage:"Mon ancrage",analyses:"Mes analyses",sommeil:"Mon sommeil",soin:"Prendre soin",sos:"Mode crise"};
+          const NAV_LABELS={kamila:"Accueil",carte:"Ma carte",suivi:"Suivi",outils:"Ressources",medecin:"Santé",apercu:"Vue d'ensemble",tendances:"Mes tendances",mesures:"Mes mesures",cycle:"Mon cycle",journal:"Mon journal",mouvement:"Mes mouvements",bouger:"Bouger",ancrage:"Mon ancrage",analyses:"Mes analyses",sommeil:"Mon sommeil",soin:"Prendre soin",sos:"Mode crise"};
           const SUBP={cycle:"suivi",apercu:"suivi",tendances:"suivi",mesures:"suivi",journal:"suivi",mouvement:"suivi",sos:"outils"};
           const p=navPrevTab;
           if(!p||p===tab||p===SUBP[tab]||!NAV_LABELS[p]) return null;
@@ -11998,7 +11999,7 @@ export default function App() {
             <div style={{display:"grid",gridTemplateColumns:"repeat(4,minmax(0,1fr))",gap:8,marginBottom:14}}>
               {[
                 {l:"Nourrir",ic:"leaf",bg:"#FBEDE3",col:"#B97F5C",go:()=>{ setTab("outils"); setOutilCat("alimentation"); setOutilOpen(null); }},
-                {l:"Bouger",ic:"steps",bg:"#EEE9F4",col:"#8E80A3",go:()=>setTab("mouvement")},
+                {l:"Bouger",ic:"steps",bg:"#EEE9F4",col:"#8E80A3",go:()=>setTab("bouger")},
                 {l:"Prendre soin",ic:"heart",bg:"#EEF2E8",col:"#6E8A55",go:()=>setTab("soin")},
                 {l:"Sommeil",ic:"bed",bg:"#F1EBF4",col:"#8E80A3",go:()=>setTab("sommeil")},
               ].map(t=>(
@@ -12376,6 +12377,9 @@ export default function App() {
             })()}
           </div>
         )}
+
+        {/* ── BOUGER : programme 8 semaines, planning, séances guidées (module src/Bouger.jsx) ── */}
+        {tab==="bouger"&&<Bouger C={C} Icon={Icon} ExIllus={ExIllus} energie={energie} setEnergie={setEnergie} setTab={setTab}/>}
 
         {/* ── MON SOMMEIL : mes nuits, mon rituel du soir, quand ça coince ── */}
         {tab==="sommeil"&&(()=>{
