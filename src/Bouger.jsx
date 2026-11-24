@@ -169,60 +169,217 @@ const EXOS = {
     bienfaits:"moment de retour au calme.", muscles:"dos, hanches",
     erreurs:["forcer sur les genoux"], facile:"coussin entre fesses et talons.", avance:"bras allongés plus loin.",
     precautions:"évite si les genoux sont douloureux." },
+  gobletSquat:{ nom:"Squat avec haltère (goblet squat)", cat:"muscu", pose:"wallSquat", zone:"cuisses, fessiers", niveau:"intermédiaire", materiel:"1 haltère",
+    etapes:["tiens un haltère contre ta poitrine, coudes vers le bas, pieds un peu plus larges que les hanches.","descends en reculant les hanches, dos droit, genoux dans l'axe des pieds.","remonte en poussant dans tes talons."],
+    respiration:"inspire en descendant, expire en remontant.",
+    bienfaits:"renforce les plus grands muscles du corps, les cuisses et les fessiers.", muscles:"quadriceps, fessiers, ischio-jambiers, sangle abdominale",
+    erreurs:["genoux qui rentrent vers l'intérieur","dos qui s'arrondit","talons qui décollent"], facile:"squat vers une chaise, sans charge.", avance:"charge plus lourde, ou 3 secondes à la descente.",
+    precautions:"commence léger : la technique d'abord, la charge ensuite." },
+  rdlHalteres:{ nom:"Soulevé de terre jambes tendues (haltères)", cat:"muscu", pose:"forwardFold", zone:"arrière des cuisses, fessiers, dos", niveau:"intermédiaire", materiel:"2 haltères",
+    etapes:["debout, un haltère dans chaque main devant les cuisses, genoux légèrement fléchis.","pousse les fesses en arrière et laisse glisser les haltères le long des jambes, dos bien droit.","remonte en serrant les fessiers."],
+    respiration:"inspire en descendant, expire en remontant.",
+    bienfaits:"renforce toute l'arrière du corps : fessiers, arrière des cuisses et dos. un mouvement clé pour porter sans se faire mal.", muscles:"ischio-jambiers, fessiers, muscles du dos",
+    erreurs:["arrondir le dos","descendre trop bas","plier trop les genoux"], facile:"charnière de hanche, sans charge.", avance:"sur une jambe, avec un appui.",
+    precautions:"si le bas du dos tire, réduis l'amplitude et la charge." },
+  rowingHaltere:{ nom:"Rowing avec haltère", cat:"muscu", pose:"shoulderRoll", zone:"dos, bras", niveau:"intermédiaire", materiel:"1 haltère, chaise", cote:true,
+    etapes:["une main et un genou en appui sur une chaise, dos plat.","l'autre main tient l'haltère, bras tendu vers le sol.","tire le coude vers la hanche, puis redescends lentement."],
+    respiration:"expire en tirant.",
+    bienfaits:"renforce le haut du dos et aide à garder une bonne posture.", muscles:"dorsaux, rhomboïdes, biceps",
+    erreurs:["tourner le buste","tirer avec l'épaule plutôt qu'avec le coude"], facile:"charge plus légère, ou tirage avec élastique.", avance:"charge plus lourde, avec une pause d'une seconde en haut.",
+    precautions:"garde le dos plat du début à la fin." },
+  developpeEpaules:{ nom:"Développé épaules (haltères)", cat:"muscu", pose:"reachUp", zone:"épaules, bras", niveau:"intermédiaire", materiel:"2 haltères",
+    etapes:["assise ou debout, haltères à hauteur d'épaules, paumes vers l'avant.","pousse les haltères vers le plafond sans cambrer le dos.","redescends lentement à hauteur d'épaules."],
+    respiration:"expire en poussant.",
+    bienfaits:"renforce les épaules et les bras pour porter et lever au quotidien.", muscles:"deltoïdes, triceps",
+    erreurs:["cambrer le bas du dos","verrouiller les coudes"], facile:"assise, avec une charge légère.", avance:"debout, en alternant les bras.",
+    precautions:"si l'épaule pince, arrête et allège la charge." },
+  fentesHalteres:{ nom:"Fentes arrière avec haltères", cat:"muscu", pose:"lunge", zone:"cuisses, fessiers", niveau:"intermédiaire", materiel:"2 haltères", cote:true,
+    etapes:["debout, un haltère dans chaque main le long du corps.","fais un pas en arrière et descends, les deux genoux pliés.","remonte en poussant dans le pied avant."],
+    respiration:"inspire en descendant, expire en remontant.",
+    bienfaits:"renforce chaque jambe et l'équilibre, avec une charge qui fait travailler plus de muscle.", muscles:"quadriceps, fessiers",
+    erreurs:["genou avant qui part vers l'intérieur","buste penché"], facile:"sans charge, une main sur une chaise.", avance:"charge plus lourde.",
+    precautions:"garde un appui à portée de main si ton équilibre est fragile." },
+  hipThrust:{ nom:"Hip thrust avec haltère", cat:"muscu", pose:"bridge", zone:"fessiers", niveau:"intermédiaire", materiel:"1 haltère, canapé ou chaise basse",
+    etapes:["le haut du dos en appui contre un canapé, genoux pliés, haltère posé sur le bassin.","pousse dans les talons pour monter le bassin jusqu'à l'horizontale.","redescends lentement."],
+    respiration:"expire en montant.",
+    bienfaits:"l'exercice de référence pour les fessiers, qui stabilisent le bassin et soulagent le bas du dos.", muscles:"fessiers, ischio-jambiers",
+    erreurs:["cambrer en haut du mouvement","pousser avec les orteils"], facile:"pont fessier au sol, sans charge.", avance:"pause de 2 secondes en haut.",
+    precautions:"pose une serviette sous l'haltère pour le confort." },
+  coherence:{ nom:"Cohérence cardiaque", cat:"apaiser", pose:"seatedBreath", zone:"respiration", niveau:"tous niveaux", materiel:"aucun",
+    etapes:["assise confortablement, dos droit, pieds au sol.","inspire par le nez pendant 5 secondes.","expire doucement pendant 5 secondes. continue ainsi jusqu'à la fin du minuteur."],
+    respiration:"6 respirations par minute : 5 secondes pour inspirer, 5 pour expirer.",
+    bienfaits:"aide à relâcher les tensions et à apaiser ton système nerveux.", muscles:"diaphragme",
+    erreurs:["forcer l'inspiration","hausser les épaules"], facile:"inspire 4 secondes, expire 4 secondes.", avance:"inspire 4 secondes, expire 6 secondes.",
+    precautions:"si la tête tourne, reprends une respiration normale." },
+  jambesMur:{ nom:"Jambes au mur", cat:"apaiser", pose:"bridge", zone:"jambes, dos", niveau:"tous niveaux", materiel:"mur, tapis",
+    etapes:["allongée sur le dos, les fesses près d'un mur.","monte les jambes le long du mur, bras relâchés.","respire lentement, les yeux fermés si tu veux."],
+    respiration:"respiration lente, ventre qui se gonfle.",
+    bienfaits:"une posture de repos qui aide à se détendre et soulage les jambes lourdes.", muscles:"relâchement global",
+    erreurs:["forcer sur la nuque"], facile:"jambes posées sur une chaise.", avance:"reste plus longtemps.",
+    precautions:"évite cette posture en cas de glaucome ou si on t'a déconseillé d'avoir la tête plus basse que les jambes." },
+  papillon:{ nom:"Papillon", cat:"apaiser", pose:"seatedBreath", zone:"hanches", niveau:"tous niveaux", materiel:"tapis",
+    etapes:["assise, plantes de pieds collées, genoux ouverts.","tiens tes pieds et grandis-toi.","laisse les genoux descendre doucement, sans forcer."],
+    respiration:"expire en relâchant les genoux.",
+    bienfaits:"ouvre les hanches et relâche le bas du ventre.", muscles:"adducteurs, hanches",
+    erreurs:["appuyer sur les genoux","arrondir le dos"], facile:"assise sur un coussin.", avance:"penche doucement le buste en avant.",
+    precautions:"ne force jamais sur les genoux." },
+  psoas:{ nom:"Étirement du psoas", cat:"apaiser", pose:"lunge", zone:"avant de la hanche", niveau:"tous niveaux", materiel:"coussin", cote:true,
+    etapes:["un genou au sol sur un coussin, l'autre pied devant.","avance doucement le bassin, buste droit.","tiens la position, puis change de côté."],
+    respiration:"respire lentement, sans bloquer.",
+    bienfaits:"relâche l'avant de la hanche, souvent tendu quand on reste assise longtemps.", muscles:"psoas, quadriceps",
+    erreurs:["cambrer le bas du dos","pencher le buste en avant"], facile:"debout, une main sur une chaise.", avance:"lève le bras du côté étiré.",
+    precautions:"coussin sous le genou si c'est inconfortable." },
+  torsion:{ nom:"Torsion allongée", cat:"apaiser", pose:"childPose", zone:"dos", niveau:"tous niveaux", materiel:"tapis",
+    etapes:["allongée sur le dos, genoux pliés, bras en croix.","laisse tomber les genoux d'un côté, la tête de l'autre.","respire, puis change de côté."],
+    respiration:"expire en laissant descendre les genoux.",
+    bienfaits:"relâche le dos et invite au calme.", muscles:"dos, fessiers",
+    erreurs:["forcer pour toucher le sol"], facile:"coussin sous les genoux.", avance:"reste plus longtemps de chaque côté.",
+    precautions:"amplitude réduite si le dos est sensible." },
+  marcheInclinee:{ nom:"Marche inclinée sur tapis de course", cat:"machine", pose:"march", zone:"jambes, fessiers, cœur", niveau:"tous niveaux", materiel:"tapis de course",
+    etapes:["règle une pente de 5 à 10 % et une vitesse de 4 à 5,5 km/h.","marche sans te tenir aux barres, bras qui balancent.","tu dois pouvoir parler, en étant un peu essoufflée."],
+    respiration:"régulière, par le nez si possible.",
+    bienfaits:"fait travailler les jambes, les fessiers et le cœur, sans impact.", muscles:"fessiers, mollets, ischio-jambiers",
+    erreurs:["se tenir aux barres","pente trop forte dès le début"], facile:"pente plus faible.", avance:"pente plus forte ou séance plus longue.",
+    precautions:"commence par 3 minutes sans pente." },
+  velo:{ nom:"Vélo d'appartement", cat:"machine", pose:"kneeLift", zone:"jambes, cœur", niveau:"tous niveaux", materiel:"vélo d'appartement",
+    etapes:["règle la selle à hauteur de hanche.","pédale à un rythme où tu peux parler.","en fractionné : 30 secondes plus vite, 30 secondes tranquille."],
+    respiration:"régulière.",
+    bienfaits:"un cardio sans impact, doux pour les genoux.", muscles:"quadriceps, fessiers, mollets",
+    erreurs:["selle trop basse","pédaler sans résistance"], facile:"résistance faible, rythme lent.", avance:"résistance plus forte, ou fractionné.",
+    precautions:"arrête si tu ressens une douleur au genou." },
 };
 
-const CATS = [["mobilite","Mobilité"],["renfo","Renforcement"],["cardio","Cardio doux"],["calme","Retour au calme"]];
+const CATS = [["renfo","Renforcement"],["muscu","Musculation avec charge"],["cardio","Cardio doux"],["machine","Sur machine"],["mobilite","Mobilité"],["apaiser","Apaiser & relâcher"],["calme","Retour au calme"]];
 
 // ─── PHASES ─────────────────────────────────────────────────────────────────
 const PHASES = [
-  { n:1, sem:"1 – 2", titre:"Réveiller le mouvement", tours:2, reps:"8 à 10", tenue:20, repos:45, renfoMin:20, cardioMin:15,
-    texte:"on installe l'habitude, sans forcer. l'objectif : apprendre les mouvements et finir chaque séance en te sentant bien." },
-  { n:2, sem:"3 – 4", titre:"Construire sa force", tours:3, reps:"10 à 12", tenue:25, repos:45, renfoMin:25, cardioMin:15,
-    texte:"un tour de plus, quelques répétitions en plus. tu peux tester la variante avancée d'un exercice qui te semble facile." },
-  { n:3, sem:"5 – 6", titre:"Développer son endurance", tours:3, reps:"12", tenue:30, repos:30, renfoMin:25, cardioMin:20,
+  { n:1, sem:"1 – 2", titre:"Réveiller le mouvement", tours:3, reps:"8 à 10", tenue:20, repos:45,
+    texte:"on installe l'habitude avec de vraies séances, à un rythme confortable. l'objectif : apprendre les mouvements et finir chaque séance en te sentant bien." },
+  { n:2, sem:"3 – 4", titre:"Construire sa force", tours:3, reps:"10 à 12", tenue:25, repos:40,
+    texte:"quelques répétitions en plus, des pauses un peu plus courtes. tu peux tester la variante avancée d'un exercice qui te semble facile." },
+  { n:3, sem:"5 – 6", titre:"Développer son endurance", tours:3, reps:"12", tenue:30, repos:30,
     texte:"des pauses un peu plus courtes et un cardio un peu plus long. toujours à un rythme où tu peux parler." },
-  { n:4, sem:"7 – 8", titre:"Gagner en autonomie", tours:3, reps:"12 à 15", tenue:35, repos:30, renfoMin:30, cardioMin:20,
-    texte:"tu choisis tes variantes et tu ajustes toi-même. le but : repartir avec une routine que tu sais faire seule." },
+  { n:4, sem:"7 – 8", titre:"Gagner en autonomie", tours:4, reps:"12 à 15", tenue:35, repos:30,
+    texte:"un tour de plus et tu choisis tes variantes. le but : repartir avec une routine que tu sais faire seule." },
 ];
-const phaseDe = (sem) => PHASES[Math.min(3, Math.floor((Math.max(1,sem)-1)/2))];
+// niveau 2 : après les 8 premières semaines, on monte d'un cran
+const PHASES2 = [
+  { n:1, sem:"1 – 2", titre:"Ajouter de la charge", tours:3, reps:"10 à 12", tenue:30, repos:40,
+    texte:"les mêmes mouvements, avec plus de charge : haltères, bouteilles d'eau ou variantes avancées. la technique d'abord." },
+  { n:2, sem:"3 – 4", titre:"Gagner en force", tours:4, reps:"8 à 10", tenue:35, repos:45,
+    texte:"un tour de plus, des charges un peu plus lourdes et moins de répétitions : c'est là que la force se construit." },
+  { n:3, sem:"5 – 6", titre:"Force et endurance", tours:4, reps:"12", tenue:40, repos:30,
+    texte:"des pauses plus courtes, et le fractionné doux pour le cœur et le souffle. toujours sans saut." },
+  { n:4, sem:"7 – 8", titre:"Autonomie avancée", tours:4, reps:"12 à 15", tenue:45, repos:30,
+    texte:"tu choisis tes charges et tes variantes. tu repars avec une vraie routine de musculation." },
+];
+let PHX = PHASES;   // phases du niveau en cours (fixé à chaque affichage)
+let MAT = {};       // matériel déclaré (fixé à chaque affichage)
+const phaseDe = (sem) => PHX[Math.min(3, Math.floor((Math.max(1,sem)-1)/2))];
 
 // ─── SÉANCES ────────────────────────────────────────────────────────────────
 // item : {id, r:true} = répétitions selon la phase ; {id, s:N} = durée en secondes ; {id, t:true} = tenue selon la phase
-const ECHAUF = [{id:"marcheSurPlace",s:60},{id:"epaules",s:30},{id:"hanches",s:40}];
+const ECHAUF = [{id:"marcheSurPlace",s:120},{id:"epaules",s:30},{id:"cerclesBras",s:30},{id:"hanches",s:40}];
 const CALME  = [{id:"respiration",s:60},{id:"flexionAvant",s:30}];
 const SEANCES = {
   A:{ titre:"Renforcement A", sous:"corps entier", type:"renfo", materiel:"chaise", ic:"heart",
-      intro:"5 mouvements simples pour tout le corps. prends ton temps, la qualité compte plus que la vitesse.",
-      echauf:ECHAUF, circuit:[{id:"squatChaise",r:true},{id:"pompesMur",r:true},{id:"pontFessier",r:true},{id:"birdDog",r:true},{id:"mollets",r:true}], calme:CALME },
+      intro:"6 mouvements pour tout le corps, avec la priorité aux cuisses et aux fessiers. prends ton temps, la qualité compte plus que la vitesse.",
+      smop:"les cuisses et les fessiers sont les plus grands muscles du corps : en les renforçant, tu aides ton corps à mieux utiliser le sucre.",
+      echauf:ECHAUF, circuit:[{id:"squatChaise",r:true},{id:"pompesMur",r:true},{id:"pontFessier",r:true},{id:"abduction",r:true},{id:"birdDog",r:true},{id:"mollets",r:true}], calme:CALME },
   B:{ titre:"Renforcement B", sous:"corps entier", type:"renfo", materiel:"élastique, chaise, charge légère", ic:"heart",
-      intro:"la séance complémentaire de la A : le dos, l'arrière des jambes et la sangle abdominale.",
-      echauf:ECHAUF, circuit:[{id:"charniere",r:true},{id:"tirageElastique",r:true},{id:"assisDebout",r:true},{id:"deadBug",r:true},{id:"marcheCharge",s:60}], calme:CALME },
-  mobilite:{ titre:"Mobilité & récupération", sous:"en douceur", type:"mobilite", materiel:"tapis", ic:"leaf", min:10,
-      intro:"10 minutes pour délier le corps. parfaite les jours de petite énergie ou le lendemain d'une séance.",
-      echauf:[], circuit:[{id:"respiration",s:60},{id:"epaules",s:40},{id:"cerclesBras",s:40},{id:"chatVache",s:60},{id:"hanches",s:60},{id:"enfant",s:60}], calme:[], tours:1 },
+      intro:"la complémentaire de la A : l'arrière des jambes, le dos et la sangle abdominale.",
+      smop:"dos, arrière des jambes et fessiers : de grands groupes musculaires qui consomment du sucre et soutiennent ta sensibilité à l'insuline.",
+      echauf:ECHAUF, circuit:[{id:"charniere",r:true},{id:"tirageElastique",r:true},{id:"fenteAppui",r:true},{id:"assisDebout",r:true},{id:"deadBug",r:true},{id:"marcheCharge",s:60}], calme:CALME },
+  force:{ titre:"Force & glycémie", sous:"musculation des grands muscles", type:"renfo", materiel:"chaise, élastique (haltères en option)", ic:"bolt",
+      intro:"la séance phare avec un SMOP : les grands muscles en priorité, puis une marche pour finir. avec des haltères si tu en as.",
+      smop:"le muscle est un grand consommateur de sucre : plus tu en as, mieux ton corps gère sa glycémie. c'est le levier n°1 pour l'insuline.",
+      echauf:ECHAUF, circuit:[{id:"squatChaise",r:true},{id:"charniere",r:true},{id:"tirageElastique",r:true},{id:"fenteAppui",r:true},{id:"pompesMur",r:true},{id:"pontFessier",r:true}],
+      fin:[{id:"marcheSurPlace",s:600}], calme:[{id:"respiration",s:60}] },
+  fractionne:{ titre:"Fractionné doux", sous:"30 s d'effort, 30 s de récupération", type:"cardio", materiel:"chaise (vélo ou tapis en option)", ic:"bolt",
+      intro:"des efforts courts et soutenus, suivis d'une récupération en marchant. sans saut. idéal quand tu as déjà une base. sur vélo ou tapis : 30 secondes plus vite, 30 secondes tranquille.",
+      smop:"dans une étude de 12 semaines chez des femmes avec un SMOP, le fractionné a amélioré la capacité aérobie, la sensibilité à l'insuline et la régularité des cycles. l'effort modéré a aussi montré des bénéfices : le fractionné est un plus, pas une obligation.",
+      echauf:[{id:"marcheSurPlace",s:120},{id:"epaules",s:30},{id:"hanches",s:40},{id:"genoux",s:30}],
+      circuit:[{id:"genoux",s:30,effort:true},{id:"marcheSurPlace",s:30,recup:true},{id:"squatChaise",s:30,effort:true},{id:"marcheSurPlace",s:30,recup:true},{id:"stepTouch",s:30,effort:true},{id:"marcheSurPlace",s:30,recup:true},{id:"pompesMur",s:30,effort:true},{id:"marcheSurPlace",s:30,recup:true}], calme:CALME },
+  apaiser:{ titre:"Apaiser & relâcher", sous:"pour les jours de stress", type:"mobilite", materiel:"tapis, mur", ic:"leaf", tours:1,
+      intro:"un moment calme pour relâcher les tensions. pas de performance : respire, ralentis, écoute ton corps.",
+      smop:"le mouvement doux et la respiration lente aident à relâcher les tensions et à apaiser ton système nerveux, précieux quand ton SMOP réagit au stress.",
+      echauf:[], circuit:[{id:"coherence",s:300},{id:"chatVache",s:60},{id:"papillon",s:60},{id:"psoas",s:90},{id:"torsion",s:90},{id:"jambesMur",s:180},{id:"enfant",s:60}], calme:[] },
+  marcheInclinee:{ titre:"Marche inclinée", sous:"sur tapis de course", type:"machine", req:"tapisCourse", materiel:"tapis de course", ic:"steps", tours:1,
+      intro:"une marche en pente à vitesse modérée : très efficace, sans courir et sans impact.",
+      smop:"la marche en pente fait travailler les fessiers et les jambes, de grands muscles qui consomment du sucre, tout en restant douce pour le corps.",
+      echauf:[{id:"marcheSurPlace",s:180}], circuit:[{id:"marcheInclinee",s:1500}], calme:[{id:"flexionAvant",s:45},{id:"respiration",s:60}] },
+  velo:{ titre:"Vélo d'appartement", sous:"doux ou en fractionné", type:"machine", req:"velo", materiel:"vélo d'appartement", ic:"pulse", tours:1,
+      intro:"pédale à un rythme où tu peux parler. en énergie haute, alterne 30 secondes plus vite et 30 secondes tranquille.",
+      smop:"un cardio sans impact, doux pour les genoux, qui fait travailler les cuisses.",
+      echauf:[], circuit:[{id:"velo",s:1200}], calme:[{id:"flexionAvant",s:45},{id:"respiration",s:60}] },
+  mixte:{ titre:"Séance mixte", sous:"renforcement et cardio", type:"mixte", materiel:"chaise", ic:"bolt",
+      intro:"renforcement et cardio doux en alternance : un exercice de force, puis un exercice pour le cœur. très complet, sans saut.",
+      smop:"alterner renforcement et cardio fait travailler les grands muscles tout en gardant le cœur actif, sans épuiser ton corps.",
+      echauf:ECHAUF, circuit:[{id:"squatChaise",r:true},{id:"genoux",s:40},{id:"pompesMur",r:true},{id:"stepTouch",s:40},{id:"fenteAppui",r:true},{id:"pasLateraux",s:40},{id:"pontFessier",r:true}], calme:CALME },
+  cardioGainage:{ titre:"Cardio doux + gainage", sous:"souffle et sangle abdominale", type:"cardio", materiel:"tapis, mur", ic:"pulse",
+      intro:"du cardio sans impact, puis du gainage pour finir chaque tour. tu dois pouvoir parler pendant l'effort : c'est le bon rythme.",
+      smop:"un cardio doux fait du bien au cœur sans faire grimper le stress, et le gainage protège ton dos pour tous les autres exercices.",
+      echauf:[{id:"marcheSurPlace",s:90},{id:"epaules",s:30}], circuit:[{id:"pasLateraux",s:60},{id:"stepTouch",s:60},{id:"genoux",s:45},{id:"talonsFesses",s:45},{id:"gainageMur",t:true},{id:"birdDog",r:true},{id:"deadBug",r:true}], calme:[{id:"enfant",s:60},{id:"respiration",s:60}] },
   cardio:{ titre:"Cardio doux", sous:"sans saut", type:"cardio", materiel:"aucun", ic:"pulse",
       intro:"du cardio sans impact. tu dois pouvoir parler pendant l'effort : c'est le bon rythme.",
+      smop:"un cardio doux fait du bien au cœur et au moral sans faire grimper le stress.",
       echauf:[{id:"marcheSurPlace",s:90}], circuit:[{id:"pasLateraux",s:60},{id:"stepTouch",s:60},{id:"talonsFesses",s:45},{id:"genoux",s:45},{id:"marcheSurPlace",s:60}], calme:CALME },
-  marche:{ titre:"Marche active", sous:"dehors ou sur place", type:"marche", materiel:"aucun", ic:"steps",
-      intro:"une marche d'un bon pas, dehors si possible. après un repas, c'est encore mieux pour ta digestion et ton énergie.",
-      echauf:[], circuit:[{id:"marcheSurPlace",s:900}], calme:[{id:"respiration",s:60}], tours:1 },
   gainage:{ titre:"Gainage & posture", sous:"dos et sangle abdominale", type:"renfo", materiel:"tapis, mur", ic:"heart",
       intro:"pour une sangle abdominale solide et un dos qui te porte mieux au quotidien. jamais pour « un ventre plat » : pour te sentir solide.",
+      smop:"une sangle abdominale solide protège ton dos et t'aide dans tous les autres exercices.",
       echauf:[{id:"marcheSurPlace",s:60},{id:"chatVache",s:45},{id:"epaules",s:30}], circuit:[{id:"gainageMur",t:true},{id:"birdDog",r:true},{id:"deadBug",r:true},{id:"pontFessier",r:true}], calme:[{id:"enfant",s:60},{id:"respiration",s:60}] },
+  mobilite:{ titre:"Mobilité & récupération", sous:"en douceur", type:"mobilite", materiel:"tapis", ic:"leaf", tours:2,
+      intro:"un enchaînement doux pour délier le corps, à faire deux fois. parfait les jours de petite énergie ou le lendemain d'une séance.",
+      smop:"les jours de petite énergie, bouger doucement vaut mieux que ne rien faire : ça détend et ça prépare la séance suivante.",
+      echauf:[], circuit:[{id:"respiration",s:60},{id:"epaules",s:45},{id:"cerclesBras",s:45},{id:"chatVache",s:60},{id:"hanches",s:60},{id:"flexionAvant",s:45},{id:"enfant",s:60}], calme:[] },
+  marche:{ titre:"Marche active", sous:"dehors ou sur place", type:"marche", materiel:"aucun", ic:"steps", tours:1,
+      intro:"une marche d'un bon pas, dehors si possible. tu dois pouvoir parler, mais un peu essoufflée.",
+      smop:"après un repas, quelques minutes de marche lissent le pic de glycémie. une marche active fait aussi travailler les jambes et le cœur.",
+      echauf:[], circuit:[{id:"marcheSurPlace",s:1200}], calme:[{id:"respiration",s:60}] },
 };
-// semaine type : 0 = lundi
-const SEMAINE_TYPE = ["A","marche","mobilite","B","cardio","plaisir","repos"];
-const JOURS = ["Lun","Mar","Mer","Jeu","Ven","Sam","Dim"];
-const LIBRES = { plaisir:{ titre:"Activité plaisir", sous:"danse, vélo, piscine, balade…", min:"20 – 30" }, repos:{ titre:"Repos ou mobilité libre", sous:"au choix", min:"au choix" } };
+// remplacements quand il manque du matériel (exercices de la même famille)
+const BESOIN = { squatChaise:"chaise", assisDebout:"chaise", tirageElastique:"elastique" };
+const REMPLACE = { squatChaise:"charniere", assisDebout:"pontFessier", tirageElastique:"birdDog" };
+// bloc bonus quand l'énergie est haute
+// avec des haltères : version avec charge des mêmes mouvements
+const SUB_HALT = { squatChaise:"gobletSquat", charniere:"rdlHalteres", tirageElastique:"rowingHaltere", fenteAppui:"fentesHalteres", pontFessier:"hipThrust", assisDebout:"developpeEpaules" };
+const BONUS = { renfo:[{id:"genoux",s:40},{id:"stepTouch",s:40},{id:"pasLateraux",s:40}], mixte:[{id:"gainageMur",t:true},{id:"deadBug",r:true}], cardio:[{id:"squatChaise",r:true},{id:"pontFessier",r:true}] };
+const dureeItem = (it,p) => { if(it.s) return it.s; if(it.t) return p.tenue; const ex=EXOS[it.id]||{}; return ex.cote?75:45; };
+// construit une séance selon la phase, l'énergie et les réglages (tours, matériel manquant, durée de marche)
+function construire(sid, p, energie, cfg={}){
+  const s=SEANCES[sid]; if(!s) return null;
+  const mat=cfg.mat||MAT;
+  const sans={...(mat.defini&&!mat.elastique?{elastique:true}:{}),...(cfg.sans||{})};
+  const halt=(cfg.halteres!==undefined?cfg.halteres:!!mat.halteres)&&["renfo","mixte"].includes(s.type);
+  const sub=(it)=>{ if(halt&&SUB_HALT[it.id]) return {...it,id:SUB_HALT[it.id],charge:true}; const b=BESOIN[it.id]; return b&&sans[b] ? {...it,id:REMPLACE[it.id],remplace:it.id} : it; };
+  const unique=(arr)=>arr.filter((it,i,a)=>!(it.remplace||it.charge)||a.findIndex(x=>x.id===it.id)===i);
+  let circuit=unique(s.circuit.map(sub));
+  const minMarche=(b,m,h)=>cfg.min||(energie==="basse"?b:energie==="haute"?h:m);
+  if(sid==="marche"){ const m=minMarche(15,p.n>=3?30:20,p.n>=3?40:30); circuit=[{id:"marcheSurPlace",s:m*60}]; }
+  if(sid==="marcheInclinee"){ circuit=[{id:"marcheInclinee",s:minMarche(20,25,35)*60}]; }
+  if(sid==="velo"){ circuit=[{id:"velo",s:minMarche(15,20,30)*60}]; }
+  const echauf=s.echauf.map(sub), calme=s.calme, fin=(s.fin||[]);
+  const base=s.tours||p.tours;
+  const tours=cfg.tours || (energie==="basse"?Math.max(1,base-1):(energie==="haute"&&!s.tours?base+1:base));
+  const avecBonus=cfg.bonus!==undefined?cfg.bonus:energie==="haute";
+  const bonus=avecBonus&&BONUS[s.type]?unique(BONUS[s.type].map(sub)):[];
+  const pauses=!["mobilite","marche","machine"].includes(s.type);
+  const e=[]; echauf.forEach(it=>e.push({...it,bloc:"Échauffement"}));
+  for(let t=1;t<=tours;t++){ circuit.forEach(it=>{ const lab=tours>1?"Tour "+t+" sur "+tours:(["marche","machine"].includes(s.type)?"Cardio":"Enchaînement"); e.push({...it,bloc:it.recup?lab+" · récupération":it.effort?lab+" · effort":lab}); }); if(t<tours&&pauses) e.push({pause:true,s:p.repos,bloc:"Pause"}); }
+  bonus.forEach(it=>e.push({...it,bloc:"Bonus énergie"}));
+  fin.forEach(it=>e.push({...it,bloc:"Marche pour finir"}));
+  calme.forEach(it=>e.push({...it,bloc:"Retour au calme"}));
+  const sec=e.reduce((a,it)=>a+dureeItem(it,p)+(it.pause?0:10),0);
+  return { s, echauf, circuit, calme, bonus, fin, tours, halt, etapes:e, min:Math.max(1,Math.round(sec/60)) };
+}
 
-const toursDe = (sid, ph, energie) => { const s=SEANCES[sid]; if(!s) return 1; const base=s.tours||ph.tours; return energie==="basse"?Math.max(1,base-1):base; };
-const dureeDe = (sid, ph, energie) => {
-  if(sid==="mobilite") return 10;
-  if(sid==="marche") return ph.n>=3?20:15;
-  if(sid==="cardio") return energie==="basse"?Math.max(10,ph.cardioMin-5):ph.cardioMin;
-  if(SEANCES[sid]) return energie==="basse"?Math.max(12,ph.renfoMin-7):ph.renfoMin;
-  return null;
-};
+// semaine type : 0 = lundi
+const SEMAINE_TYPE = ["A","cardioGainage","mobilite","B","force","plaisir","repos"];
+const SEMAINE_TYPE_2 = ["A","fractionne","mobilite","B","force","plaisir","apaiser"];
+const JOURS = ["Lun","Mar","Mer","Jeu","Ven","Sam","Dim"];
+const LIBRES = { plaisir:{ titre:"Activité plaisir", sous:"danse, vélo, piscine, balade…", min:"30 min ou plus" }, repos:{ titre:"Repos ou mobilité libre", sous:"au choix", min:"au choix" } };
+
+const dureeDe = (sid, ph, energie, cfg) => { const c=construire(sid,ph,energie,cfg); return c?c.min:null; };
 
 // ─── DATES ──────────────────────────────────────────────────────────────────
 const dkey = (d) => { const x=new Date(d); x.setMinutes(x.getMinutes()-x.getTimezoneOffset()); return x.toISOString().slice(0,10); };
@@ -256,6 +413,12 @@ export default function Bouger({ C, Icon, ExIllus, energie, setEnergie, setTab, 
   const [fait, setFait] = useState(() => load("bougerFait", {}));       // { "2026-11-23": [{s,min,diff,en,res,note,nom}] }
   const [moves, setMoves] = useState(() => load("bougerMoves", {}));    // { "2026-11-24": "A" | "repos" }
   const [toast, setToast] = useState(null);
+  const [marches, setMarches] = useState(() => load("bougerMarche", {})); // { "2026-11-24": ["midi","soir"] }
+  const [materiel, setMateriel] = useState(() => load("bougerMateriel", {})); // { defini, tapis, elastique, halteres, tapisCourse, velo }
+  const [cycle, setCycle] = useState(() => load("bougerCycle", null));       // { niveau:1|2, entretien:bool, debut:"AAAA-MM-JJ" }
+  useEffect(()=>{ save("bougerMateriel", materiel); },[materiel]);
+  useEffect(()=>{ if(cycle) save("bougerCycle", cycle); },[cycle]);
+  useEffect(()=>{ save("bougerMarche", marches); },[marches]);
   useEffect(()=>{ save("bougerFait", fait); },[fait]);
   useEffect(()=>{ save("bougerMoves", moves); },[moves]);
   useEffect(()=>{ if(debut) save("bougerDebut", debut); },[debut]);
@@ -268,9 +431,15 @@ export default function Bouger({ C, Icon, ExIllus, energie, setEnergie, setTab, 
 
   const auj = new Date(); const aujK = dkey(auj);
   const lundi = lundiDe(auj);
-  const semProg = debut ? Math.min(8, Math.max(1, Math.floor((lundi - lundiDe(new Date(debut+"T12:00:00")))/(7*86400000))+1)) : 1;
+  const niveau = (cycle&&cycle.niveau)||1; const entretien = !!(cycle&&cycle.entretien);
+  PHX = niveau===2 ? PHASES2 : PHASES; MAT = materiel;
+  const ST = niveau===2 ? SEMAINE_TYPE_2 : SEMAINE_TYPE;
+  const debutEff = (cycle&&cycle.debut) || debut;
+  const semBrut = debutEff ? Math.max(1, Math.floor((lundi - lundiDe(new Date(debutEff+"T12:00:00")))/(7*86400000))+1) : 1;
+  const semProg = Math.min(8, semBrut);
+  const finCycle = !!debutEff && semBrut>8 && !entretien;
   const ph = phaseDe(semProg);
-  const prevuLe = (d) => { const k=dkey(d); return moves[k] || SEMAINE_TYPE[(d.getDay()+6)%7]; };
+  const prevuLe = (d) => { const k=dkey(d); return moves[k] || ST[(d.getDay()+6)%7]; };
   const faitLe = (k) => (fait[k]||[]);
   const semaine = Array.from({length:7},(_,i)=>{ const d=ajout(lundi,i); const k=dkey(d); return {i,d,k,sid:prevuLe(d),done:faitLe(k).length>0}; });
   const duJour = semaine.find(x=>x.k===aujK);
@@ -319,11 +488,17 @@ export default function Bouger({ C, Icon, ExIllus, energie, setEnergie, setTab, 
         ))}
       </div>
 
+      {finCycle&&(
+        <button onClick={()=>aller({v:"bilan"})} style={{...carte,width:"100%",display:"flex",alignItems:"center",gap:12,cursor:"pointer",fontFamily:"inherit",textAlign:"left",border:`1.5px solid ${T}`,background:"#FBF3EC"}}>
+          <span style={{width:42,height:42,borderRadius:"50%",background:T,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><Icon name="sparkle" size={19} color="#fff"/></span>
+          <span style={{flex:1}}><span style={{display:"block",fontSize:13,fontWeight:700,color:C.brown}}>Tu as bouclé tes 8 semaines</span><span style={{display:"block",fontSize:11,color:C.mid}}>regarde ton bilan et choisis la suite</span></span>
+          <span style={{fontSize:16,color:T}}>›</span>
+        </button>)}
       <div style={{fontSize:12,color:C.mid,marginBottom:8}}>Mon énergie aujourd'hui</div>
       <div style={{display:"flex",gap:7,marginBottom:6}}>
         {[["basse","Basse"],["moyenne","Moyenne"],["haute","Haute"]].map(([k,l])=>(<button key={k} onClick={()=>setEnergie(energie===k?null:k)} aria-pressed={energie===k} style={{...chip(energie===k),flex:1}}>{l}</button>))}
       </div>
-      <div style={{fontSize:10.5,color:C.light,lineHeight:1.5,marginBottom:14}}>{energie==="basse"?"jour plus calme : tes séances passent en version courte, avec un tour de moins.":energie==="haute"?"belle énergie : tu peux tester la variante avancée d'un exercice.":"c'est la même énergie que sur ton accueil. elle ajuste la durée de tes séances."}</div>
+      <div style={{fontSize:10.5,color:C.light,lineHeight:1.5,marginBottom:14}}>{energie==="basse"?"jour plus calme : tes séances passent en version courte, avec un tour de moins.":energie==="haute"?"belle énergie : tes séances passent en version complète, avec un tour en plus et un bloc bonus.":"c'est la même énergie que sur ton accueil. elle ajuste tes séances : plus courtes si tu es fatiguée, plus complètes si tu es en forme."}</div>
 
       <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.05rem",fontWeight:600,color:C.brown,marginBottom:8}}>Ta séance du jour</div>
       <button onClick={()=>{ demarrer(); SEANCES[sid]?aller({v:"seance",sid,k:aujK}):aller({v:"semaine",ph:ph.n}); }} style={{...carte,width:"100%",display:"flex",alignItems:"center",gap:12,cursor:"pointer",fontFamily:"inherit",textAlign:"left"}}>
@@ -334,13 +509,47 @@ export default function Bouger({ C, Icon, ExIllus, energie, setEnergie, setTab, 
         </div>
         <span style={{width:36,height:36,borderRadius:"50%",background:L,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><Icon name="arrowR" size={16} color="#fff"/></span>
       </button>
+      {SEANCES[sid]&&(()=>{ const B=construire(sid,ph,energie); const mn=(items)=>Math.max(1,Math.round(items.reduce((a,it)=>a+dureeItem(it,ph)+10,0)/60)); const noms=(items)=>items.map(it=>EXOS[it.id].nom.toLowerCase()).join(", ");
+        const parts=[["Échauffement",B.echauf,mn(B.echauf)+" min"],[["marche","machine"].includes(B.s.type)?"Cardio":B.s.type==="mobilite"?"Enchaînement × "+B.tours:"Circuit × "+B.tours+" tours",B.circuit,["marche","machine"].includes(B.s.type)?Math.round(B.circuit[0].s/60)+" min":mn(B.circuit)*B.tours+" min"],["Bonus énergie",B.bonus,mn(B.bonus)+" min"],["Marche pour finir",B.fin,mn(B.fin)+" min"],["Retour au calme",B.calme,mn(B.calme)+" min"]].filter(x=>x[1].length);
+        const noms2=(items)=>[...new Set(items.map(it=>EXOS[it.id].nom.toLowerCase()))].join(", ");
+        return (
+        <div style={{...carte,marginTop:-4,padding:"10px 14px"}}>
+          <div style={{fontSize:10,letterSpacing:1.3,textTransform:"uppercase",color:L,fontWeight:700,marginBottom:6}}>le déroulé de ta séance · environ {B.min} min</div>
+          {parts.map(([t,items,d],i)=>(
+            <div key={t} style={{display:"flex",gap:10,padding:"7px 0",borderTop:i?`1px solid ${C.border}`:"none"}}>
+              <span style={{width:22,height:22,borderRadius:"50%",background:LB,color:L,fontSize:11,fontWeight:700,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>{i+1}</span>
+              <span style={{flex:1,minWidth:0}}><span style={{display:"block",fontSize:12,fontWeight:700,color:C.brown}}>{t}</span><span style={{display:"block",fontSize:10.5,color:C.mid,lineHeight:1.45}}>{noms2(items)}</span></span>
+              <span style={{fontSize:10.5,color:C.mid,flexShrink:0}}>{d}</span>
+            </div>))}
+        </div>); })()}
+      <div style={{display:"flex",gap:8,marginTop:0,marginBottom:14}}>
+        <button onClick={()=>aller({v:"adapter",envie:SEANCES[sid]?({renfo:"renfo",mixte:"mixte",cardio:"cardio",mobilite:"mobilite",marche:"cardio",machine:"cardio"}[SEANCES[sid].type]):"renfo"})} style={{...btn2,flex:1,padding:"10px 6px",fontSize:11.5}}>Adapter ma séance</button>
+        <button onClick={()=>aller({v:"seances"})} style={{...btn2,flex:1,padding:"10px 6px",fontSize:11.5}}>Envie d'autre chose ?</button>
+      </div>
+
+      {(()=>{ const m=marches[aujK]||[]; const tog=(r)=>setMarches(o=>{ const a=o[aujK]||[]; return {...o,[aujK]:a.includes(r)?a.filter(x=>x!==r):[...a,r]}; }); const sem=semaine.reduce((a,x)=>a+(marches[x.k]||[]).length,0);
+        return (
+        <div style={carte}>
+          <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:6}}>
+            <span style={{width:36,height:36,borderRadius:11,background:LB,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><Icon name="steps" size={17} color={L}/></span>
+            <div style={{flex:1}}><div style={{fontSize:12.5,fontWeight:700,color:C.brown}}>Ma marche après un repas</div><div style={{fontSize:10.5,color:C.mid}}>en plus de ta séance · {sem} cette semaine</div></div>
+          </div>
+          <div style={{fontSize:10.5,color:C.mid,lineHeight:1.5,marginBottom:9}}>10 à 15 minutes après manger aident à lisser le pic de glycémie. une seule par jour, c'est déjà très bien.</div>
+          <div style={{display:"flex",gap:6,flexWrap:"wrap"}}>{[["matin","après le petit-déj"],["midi","après le déjeuner"],["soir","après le dîner"]].map(([k,l])=>(<button key={k} onClick={()=>tog(k)} aria-pressed={m.includes(k)} style={{...chip(m.includes(k)),fontSize:11,padding:"7px 11px"}}>{m.includes(k)?"✓ ":""}{l}</button>))}</div>
+        </div>); })()}
+
+      <button onClick={()=>aller({v:"materiel"})} style={{...carte,width:"100%",display:"flex",alignItems:"center",gap:12,cursor:"pointer",fontFamily:"inherit",textAlign:"left",padding:"11px 14px"}}>
+        <span style={{width:36,height:36,borderRadius:11,background:LB,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><Icon name="tools" size={17} color={L}/></span>
+        <span style={{flex:1}}><span style={{display:"block",fontSize:12.5,fontWeight:700,color:C.brown}}>Mon matériel</span><span style={{display:"block",fontSize:10.5,color:C.mid}}>{materiel.defini?(["tapis","elastique","halteres","tapisCourse","velo"].filter(k=>materiel[k]).map(k=>({tapis:"tapis",elastique:"élastique",halteres:"haltères",tapisCourse:"tapis de course",velo:"vélo"}[k])).join(", ")||"aucun matériel"):"facultatif : haltères, élastique, tapis de course…"}</span></span>
+        <span style={{fontSize:15,color:C.light}}>›</span>
+      </button>
 
       <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.05rem",fontWeight:600,color:C.brown,marginBottom:8}}>Mon programme en cours</div>
       <div style={carte}>
         <div style={{display:"flex",alignItems:"center",gap:12}}>
           <span style={{width:44,height:44,borderRadius:12,background:LB,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><Icon name="calendar" size={20} color={L}/></span>
           <div style={{flex:1}}>
-            <div style={{fontSize:13,fontWeight:700,color:C.brown}}>{debut?"Semaine "+semProg+" sur 8":"Prête à commencer ?"}</div>
+            <div style={{fontSize:13,fontWeight:700,color:C.brown}}>{debutEff?(entretien?"Entretien · niveau "+niveau:"Niveau "+niveau+" · semaine "+semProg+" sur 8"):"Prête à commencer ?"}</div>
             <div style={{fontSize:11,color:C.mid}}>{ph.titre}</div>
           </div>
           <span style={{fontSize:11,color:C.mid}}>{debut?pctProg+" %":""}</span>
@@ -362,10 +571,12 @@ export default function Bouger({ C, Icon, ExIllus, energie, setEnergie, setTab, 
           {[
             {coul:"#7A9A5A",bg:"#EFF3E8",tag:"à privilégier",items:[
               {n:"Le renforcement musculaire doux",d:"le muscle est un grand consommateur de sucre : plus tu en as, mieux ton corps gère sa glycémie. c'est le levier n°1 pour l'insuline."},
+              {n:"La musculation, même avec des charges légères",d:"squats, fentes, rowing, soulevé de terre : travailler les grands muscles avec une charge, même des bouteilles d'eau, aide ton corps à mieux utiliser le sucre. 2 à 3 séances par semaine, c'est un bon rythme."},
               {n:"La marche, surtout après les repas",d:"10-15 min après manger lissent le pic de glycémie. simple, gratuit, redoutable."},
               {n:"Le yoga, le pilates, les étirements",d:"ils apaisent le système nerveux et le cortisol — précieux quand ton SMOP réagit au stress."},
             ]},
             {coul:"#D4A56A",bg:"#FBF3E8",tag:"à doser, à l'écoute",items:[
+              {n:"Le fractionné doux",d:"dans une étude de 12 semaines chez des femmes avec un SMOP, le fractionné a amélioré la capacité aérobie, la sensibilité à l'insuline et la régularité des cycles. l'effort modéré a aussi montré des bénéfices. idéal quand tu as déjà une base, sans saut."},
               {n:"Le cardio intense / HIIT",d:"pas interdit, mais à manier avec prudence : poussé trop fort quand tu es déjà fatiguée ou stressée, il peut faire grimper le cortisol et aller contre toi. en forme et ça te fait du bien ? vas-y. épuisée ? allège."},
             ]},
           ].map((cat,i)=>(
@@ -382,6 +593,7 @@ export default function Bouger({ C, Icon, ExIllus, energie, setEnergie, setTab, 
           <div style={{background:`${L}10`,borderRadius:11,padding:"10px 12px",marginTop:4}}>
             <div style={{fontSize:10.5,color:C.brown,lineHeight:1.6}}><strong>la règle d'or :</strong> régularité douce &gt; intensité. 20 min la plupart des jours valent mieux qu'une séance qui te met à terre une fois par semaine. tu construis dans la durée, pas dans la performance.</div>
           </div>
+          <div style={{fontSize:10.5,color:C.mid,lineHeight:1.6,marginTop:10}}><strong style={{color:C.brown}}>et l'inflammation ?</strong> chez les femmes avec un SMOP, bouger régulièrement, surtout en endurance, a montré une baisse de la CRP, un marqueur de l'inflammation de fond. pendant l'effort, le muscle libère des molécules qui aident à la calmer.</div>
         </div>)}
       </div>
 
@@ -400,11 +612,11 @@ export default function Bouger({ C, Icon, ExIllus, energie, setEnergie, setTab, 
       <div style={{...carte,background:`linear-gradient(135deg,#F6EFE8,${LB})`,border:"none",display:"flex",gap:12,alignItems:"center"}}>
         <span style={{width:50,height:50,borderRadius:"50%",background:C.white,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><Icon name="sparkle" size={22} color={T}/></span>
         <div>
-          <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.15rem",fontWeight:600,color:C.brown}}>Programme SMOP · 8 semaines</div>
+          <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.15rem",fontWeight:600,color:C.brown}}>Programme SMOP · 8 semaines · niveau {niveau}{entretien?" · entretien":""}</div>
           <div style={{fontSize:11,color:C.mid,lineHeight:1.5}}>installer des bases solides, progresser et bouger durablement. tout est consultable, rien n'est verrouillé.</div>
         </div>
       </div>
-      {PHASES.map(p=>{ const enCours=p.n===ph.n; const passe=p.n<ph.n;
+      {PHX.map(p=>{ const enCours=p.n===ph.n; const passe=p.n<ph.n;
         return (
         <button key={p.n} onClick={()=>aller({v:"semaine",ph:p.n})} style={{...carte,width:"100%",display:"flex",alignItems:"center",gap:12,cursor:"pointer",fontFamily:"inherit",textAlign:"left",border:`1.5px solid ${enCours?L:C.border}`}}>
           <div style={{width:64,height:64,flexShrink:0}}><ExImg id={["hanches","squatChaise","pasLateraux","fenteAppui"][p.n-1]} ExIllus={ExIllus} h={64} rond={14}/></div>
@@ -415,17 +627,73 @@ export default function Bouger({ C, Icon, ExIllus, energie, setEnergie, setTab, 
           </div>
           <span style={{fontSize:16,color:C.light}}>›</span>
         </button>); })}
+      <button onClick={()=>aller({v:"bilan"})} style={{...btn2,marginBottom:10}}>{finCycle||entretien?"Mon bilan et la suite":"Voir mon bilan et les niveaux"}</button>
+      <Toast/>
+    </div>);
+  }
+
+  // ══ BILAN DES 8 SEMAINES ET SUITE ══════════════════════════════════════════
+  if(vue.v==="bilan"){
+    const deb = debutEff||aujK;
+    const periode = toutes.filter(x=>x.k>=deb);
+    const minutes = periode.reduce((a,x)=>a+(x.min||0),0);
+    const muscu = periode.filter(x=>["A","B","force","mixte"].includes(x.s)).length;
+    const nbM = Object.entries(marches).filter(([k])=>k>=deb).reduce((a,[,x])=>a+(x||[]).length,0);
+    const parTemps = [...periode].reverse(); const moitie = Math.floor(parTemps.length/2);
+    const top = (arr)=>{ const c={}; arr.flatMap(x=>x.res||[]).forEach(r=>c[r]=(c[r]||0)+1); return Object.entries(c).sort((a,b)=>b[1]-a[1]).slice(0,2).map(x=>x[0]); };
+    const avant = top(parTemps.slice(0,moitie)), apres = top(parTemps.slice(moitie));
+    const choisir = (c,msg) => { setCycle(c); setMoves({}); setToast(msg); accueil(); };
+    const opt = (titre,txt,ic,go,reco) => (<button onClick={go} style={{...carte,width:"100%",display:"flex",gap:12,alignItems:"center",cursor:"pointer",fontFamily:"inherit",textAlign:"left",border:`1.5px solid ${reco?L:C.border}`}}>
+      <span style={{width:42,height:42,borderRadius:12,background:LB,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><Icon name={ic} size={19} color={L}/></span>
+      <span style={{flex:1}}><span style={{display:"block",fontSize:13,fontWeight:700,color:C.brown}}>{titre}{reco&&<span style={{fontSize:9.5,color:L,fontWeight:700,marginLeft:6}}>recommandé</span>}</span><span style={{display:"block",fontSize:11,color:C.mid,lineHeight:1.45}}>{txt}</span></span>
+      <span style={{fontSize:16,color:C.light}}>›</span></button>);
+    return (
+    <div className="fu">
+      <Haut titre="Mon bilan"/>
+      <div style={{...carte,background:`linear-gradient(135deg,#F6EFE8,${LB})`,border:"none"}}>
+        <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.2rem",fontWeight:600,color:C.brown,marginBottom:4}}>{finCycle?"Tu as bouclé tes 8 semaines":"Ton chemin depuis le début du niveau "+niveau}</div>
+        <div style={{fontSize:11.5,color:C.mid,lineHeight:1.55}}>{finCycle?"prends une seconde pour regarder ce que tu as fait pour toi.":"tu es en semaine "+semProg+" sur 8. tu peux changer de rythme quand tu veux."}</div>
+      </div>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(3,minmax(0,1fr))",gap:8,marginBottom:12}}>
+        {[[periode.length+"",periode.length>1?"activités":"activité","calendar"],[minutes+" min","de mouvement","pulse"],[muscu+"",muscu>1?"séances de musculation":"séance de musculation","heart"]].map(([a,b,ic])=>(<div key={b} style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:16,padding:"12px 6px",textAlign:"center"}}><Icon name={ic} size={18} color={L}/><div style={{fontSize:15,fontWeight:700,color:C.brown,marginTop:4}}>{a}</div><div style={{fontSize:10,color:C.mid}}>{b}</div></div>))}
+      </div>
+      {(avant.length>0||apres.length>0||nbM>0)&&<div style={carte}>
+        {apres.length>0&&<div style={{fontSize:11.5,color:C.mid,lineHeight:1.55,marginBottom:6}}><strong style={{color:C.brown}}>ces dernières semaines, après tes séances :</strong> {apres.join(", ")}{avant.length>0&&avant.join()!==apres.join()?" (au début : "+avant.join(", ")+")":""}.</div>}
+        {nbM>0&&<div style={{fontSize:11.5,color:C.mid}}><strong style={{color:C.brown}}>{nbM} marches après un repas.</strong> une habitude précieuse pour ta glycémie.</div>}
+      </div>}
+      <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.05rem",fontWeight:600,color:C.brown,margin:"4px 0 8px"}}>Et maintenant ?</div>
+      {opt(niveau===1?"Niveau 2 · Aller plus loin":"Refaire le niveau 2, plus fort",niveau===1?"8 nouvelles semaines : plus de musculation, des charges (haltères ou bouteilles d'eau), le fractionné doux et un tour de plus.":"repars sur 8 semaines avec des charges un peu plus lourdes que la dernière fois.","bolt",()=>choisir({niveau:2,debut:dkey(lundi)},"c'est parti pour le niveau 2. on monte d'un cran, à ton rythme."),finCycle&&niveau===1)}
+      {opt("Entretien · Garder mes acquis","tu gardes ta semaine type et tu t'adaptes librement, sans programme qui avance. idéal quand tu as trouvé ton rythme.","heart",()=>choisir({niveau,entretien:true,debut:debutEff||dkey(lundi)},"mode entretien activé. tu gardes ton rythme."))}
+      {opt("Recommencer le niveau "+niveau,"après une pause, une période difficile ou juste l'envie de reprendre les bases. sans culpabilité.","leaf",()=>choisir({niveau,debut:dkey(lundi)},"on reprend le niveau "+niveau+" depuis le début."))}
+      <Toast/>
+    </div>);
+  }
+
+  // ══ MON MATÉRIEL ═══════════════════════════════════════════════════════════
+  if(vue.v==="materiel"){
+    const items=[["tapis","Tapis de sol","leaf"],["elastique","Élastique","heart"],["halteres","Haltères (ou bouteilles d'eau)","bolt"],["tapisCourse","Tapis de course","steps"],["velo","Vélo d'appartement","pulse"]];
+    return (
+    <div className="fu">
+      <Haut titre="Mon matériel"/>
+      <div style={{fontSize:11.5,color:C.mid,lineHeight:1.55,marginBottom:12}}>coche ce que tu as chez toi. rien n'est obligatoire : sans matériel, toutes les séances fonctionnent. avec des haltères, tes séances de musculation passent en version avec charge.</div>
+      {items.map(([k,l,ic])=>{ const on=!!materiel[k]; return (
+        <button key={k} onClick={()=>setMateriel(m=>({...m,defini:true,[k]:!m[k]}))} aria-pressed={on} style={{...carte,width:"100%",display:"flex",alignItems:"center",gap:12,cursor:"pointer",fontFamily:"inherit",textAlign:"left",border:`1.5px solid ${on?L:C.border}`}}>
+          <span style={{width:40,height:40,borderRadius:12,background:LB,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><Icon name={ic} size={18} color={L}/></span>
+          <span style={{flex:1,fontSize:13,fontWeight:600,color:C.brown}}>{l}</span>
+          <span style={{width:26,height:26,borderRadius:"50%",border:`2px solid ${on?L:C.border}`,background:on?L:"transparent",display:"flex",alignItems:"center",justifyContent:"center"}}>{on&&<Icon name="check" size={14} color="#fff" stroke={2.4}/>}</span>
+        </button>); })}
+      <div style={{fontSize:10.5,color:C.light,lineHeight:1.5}}>pas d'haltères ? deux bouteilles d'eau ou deux sacs avec quelques livres font très bien l'affaire pour commencer.</div>
       <Toast/>
     </div>);
   }
 
   // ══ SEMAINE (planning + détails de la phase) ═══════════════════════════════
   if(vue.v==="semaine"){
-    const p = PHASES[(vue.ph||ph.n)-1];
+    const p = PHX[(vue.ph||ph.n)-1];
     const actuelle = p.n===ph.n;
     const onglet = vue.onglet||"planning";
     const choix = vue.choix; // jour sélectionné pour les actions
-    const lignes = actuelle ? semaine : SEMAINE_TYPE.map((sid,i)=>({i,sid,k:null,done:false}));
+    const lignes = actuelle ? semaine : ST.map((sid,i)=>({i,sid,k:null,done:false}));
     return (
     <div className="fu">
       <Haut titre={"Semaines "+p.sem}/>
@@ -436,8 +704,8 @@ export default function Bouger({ C, Icon, ExIllus, energie, setEnergie, setTab, 
         <div style={carte}>
           <div style={{fontSize:13,fontWeight:700,color:C.brown,marginBottom:6}}>{p.titre}</div>
           <div style={{fontSize:11.5,color:C.mid,lineHeight:1.6,marginBottom:10}}>{p.texte}</div>
-          {[["tours de circuit",p.tours],["répétitions",p.reps],["tenue (gainage)",p.tenue+" s"],["pause entre deux tours",p.repos+" s"],["séance de renforcement","environ "+p.renfoMin+" min"]].map(([a,b])=>(<div key={a} style={{display:"flex",justifyContent:"space-between",fontSize:11.5,padding:"7px 0",borderTop:`1px solid ${C.border}`}}><span style={{color:C.mid}}>{a}</span><strong style={{color:C.brown}}>{b}</strong></div>))}
-          <div style={{fontSize:10.5,color:C.light,marginTop:10,lineHeight:1.5}}>la semaine type : 2 séances de renforcement, une marche, une mobilité, un cardio doux, une activité plaisir et un jour de repos. tu peux tout déplacer.</div>
+          {[["tours de circuit",p.tours],["répétitions",p.reps],["tenue (gainage)",p.tenue+" s"],["pause entre deux tours",p.repos+" s"],["séance de renforcement","environ "+dureeDe("A",p,"moyenne")+" min"]].map(([a,b])=>(<div key={a} style={{display:"flex",justifyContent:"space-between",fontSize:11.5,padding:"7px 0",borderTop:`1px solid ${C.border}`}}><span style={{color:C.mid}}>{a}</span><strong style={{color:C.brown}}>{b}</strong></div>))}
+          <div style={{fontSize:10.5,color:C.light,marginTop:10,lineHeight:1.5}}>la semaine type : 3 séances de musculation (A, B et Force & glycémie), un cardio, une mobilité, une activité plaisir et un jour plus calme. et chaque jour, une petite marche après un repas si tu peux. tu peux tout déplacer.</div>
         </div>
       ):(<>
         {!actuelle&&<div style={{fontSize:11,color:C.mid,background:LB,borderRadius:12,padding:"9px 12px",marginBottom:10,lineHeight:1.5}}>{p.n>ph.n?"un aperçu de ce qui t'attend. tu peux ouvrir les séances pour les découvrir.":"une phase déjà parcourue. tu peux refaire ses séances quand tu veux."}</div>}
@@ -464,7 +732,7 @@ export default function Bouger({ C, Icon, ExIllus, energie, setEnergie, setTab, 
                   </div>
                   <div style={{fontSize:11,color:C.mid,marginBottom:7}}>remplacer par :</div>
                   <div style={{display:"flex",gap:5,flexWrap:"wrap"}}>
-                    {["A","B","gainage","marche","mobilite","cardio","plaisir","repos"].filter(s=>s!==x.sid).map(s=>(<button key={s} onClick={()=>{ setMoves(m=>({...m,[x.k]:s})); setVue({...vue,choix:null}); }} style={{...chip(false),padding:"6px 10px",fontSize:11}}>{SEANCES[s]?SEANCES[s].titre:LIBRES[s].titre}</button>))}
+                    {[...Object.keys(SEANCES).filter(k=>!SEANCES[k].req||materiel[SEANCES[k].req]),"plaisir","repos"].filter(s=>s!==x.sid).map(s=>(<button key={s} onClick={()=>{ setMoves(m=>({...m,[x.k]:s})); setVue({...vue,choix:null}); }} style={{...chip(false),padding:"6px 10px",fontSize:11}}>{SEANCES[s]?SEANCES[s].titre:LIBRES[s].titre}</button>))}
                   </div>
                 </div>
               )}
@@ -503,7 +771,7 @@ export default function Bouger({ C, Icon, ExIllus, energie, setEnergie, setTab, 
     <div className="fu">
       <Haut titre="Séances à la carte"/>
       <div style={{fontSize:11.5,color:C.mid,lineHeight:1.55,marginBottom:12}}>envie de bouger en dehors de ton planning ? choisis une séance, elle s'adapte à ta phase et à ton énergie.</div>
-      {Object.entries(SEANCES).map(([sid,s])=>(
+      {Object.entries(SEANCES).filter(([,s])=>!s.req||materiel[s.req]).map(([sid,s])=>(
         <button key={sid} onClick={()=>aller({v:"seance",sid,k:aujK})} style={{...carte,width:"100%",display:"flex",alignItems:"center",gap:12,cursor:"pointer",fontFamily:"inherit",textAlign:"left"}}>
           <div style={{width:58,height:58,flexShrink:0}}><ExImg id={s.circuit[0].id} ExIllus={ExIllus} h={58} rond={14}/></div>
           <div style={{flex:1,minWidth:0}}>
@@ -518,8 +786,8 @@ export default function Bouger({ C, Icon, ExIllus, energie, setEnergie, setTab, 
 
   // ══ DÉTAIL D'UNE SÉANCE ════════════════════════════════════════════════════
   if(vue.v==="seance"){
-    const s = SEANCES[vue.sid]; const p = PHASES[(vue.ph||ph.n)-1];
-    const tours = toursDe(vue.sid,p,energie);
+    const p = PHX[(vue.ph||ph.n)-1];
+    const B = construire(vue.sid,p,energie,vue.cfg); const s=B.s;
     const ouvert = vue.ouvert;
     const bloc = (cle,titre,ic,items,sousTitre) => items.length ? (
       <div key={cle} style={{borderTop:`1px solid ${C.border}`}}>
@@ -531,32 +799,73 @@ export default function Bouger({ C, Icon, ExIllus, energie, setEnergie, setTab, 
         {ouvert===cle&&items.map((it,i)=>(
           <button key={i} onClick={()=>aller({v:"exo",id:it.id,ph:p.n})} style={{width:"100%",display:"flex",alignItems:"center",gap:10,background:C.cream,border:"none",borderRadius:12,padding:"8px 10px",marginBottom:6,cursor:"pointer",fontFamily:"inherit",textAlign:"left"}}>
             <div style={{width:40,height:40,flexShrink:0}}><ExImg id={it.id} ExIllus={ExIllus} h={40} rond={10}/></div>
-            <span style={{flex:1,fontSize:12,color:C.brown}}>{EXOS[it.id].nom}</span>
+            <span style={{flex:1,fontSize:12,color:C.brown}}>{EXOS[it.id].nom}{it.remplace&&<span style={{display:"block",fontSize:10,color:C.light}}>à la place de : {EXOS[it.remplace].nom.toLowerCase()}</span>}</span>
             <span style={{fontSize:10.5,color:C.mid}}>{consigne(it,p)}</span>
           </button>))}
       </div>) : null;
-    const minBloc = (items)=>Math.max(1,Math.round(items.reduce((a,it)=>a+(it.s||45),0)/60));
+    const minBloc = (items)=>Math.max(1,Math.round(items.reduce((a,it)=>a+dureeItem(it,p)+10,0)/60));
     return (
     <div className="fu">
       <Haut titre="Ta séance"/>
       <ExImg id={s.circuit[0].id} ExIllus={ExIllus} h={190}/>
       <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.35rem",fontWeight:600,color:C.brown,margin:"12px 0 8px"}}>{s.titre} – {s.sous}</div>
-      <div style={{display:"flex",gap:6,flexWrap:"wrap",marginBottom:10}}>{tag(dureeDe(vue.sid,p,energie)+" min","calendar")}{tag("phase "+p.n+" · "+p.titre.toLowerCase())}{tag(s.materiel==="aucun"?"sans matériel":s.materiel)}</div>
+      <div style={{display:"flex",gap:6,flexWrap:"wrap",marginBottom:10}}>{tag("environ "+B.min+" min","calendar")}{tag("phase "+p.n+" · "+p.titre.toLowerCase())}{tag(s.materiel==="aucun"?"sans matériel":s.materiel)}</div>
       <div style={{fontSize:11.5,color:C.mid,lineHeight:1.55,marginBottom:10}}>{s.intro}</div>
-      {energie==="basse"&&tours>0&&s.type!=="mobilite"&&s.type!=="marche"&&<div style={{fontSize:11,color:C.brown,background:LB,borderRadius:12,padding:"9px 12px",marginBottom:10,lineHeight:1.5}}>énergie basse : version courte, avec un tour de moins. si même ça c'est trop, la mobilité est là pour toi.</div>}
+      {B.halt&&<div style={{fontSize:11,color:C.brown,background:LB,borderRadius:12,padding:"9px 12px",marginBottom:10,lineHeight:1.5}}>version avec haltères : les mouvements principaux passent avec charge. choisis un poids qui te permet de finir tes répétitions avec une bonne technique.</div>}
+      {s.smop&&<div style={{fontSize:11,color:C.brown,background:"#F6EFE8",borderRadius:12,padding:"9px 12px",marginBottom:10,lineHeight:1.55}}><strong>avec un SMOP :</strong> {s.smop}</div>}
+      {!vue.cfg&&energie==="basse"&&s.type!=="marche"&&<div style={{fontSize:11,color:C.brown,background:LB,borderRadius:12,padding:"9px 12px",marginBottom:10,lineHeight:1.5}}>énergie basse : version courte, avec un tour de moins. si même ça c'est trop, la mobilité est là pour toi.</div>}
+      {!vue.cfg&&energie==="haute"&&B.bonus.length>0&&<div style={{fontSize:11,color:C.brown,background:LB,borderRadius:12,padding:"9px 12px",marginBottom:10,lineHeight:1.5}}>belle énergie : version complète, avec un tour en plus et un bloc bonus à la fin.</div>}
       <div style={{...carte,padding:"0 14px"}}>
-        {bloc("e","Échauffement","sparkle",s.echauf,minBloc(s.echauf)+" min")}
-        {bloc("c",s.type==="marche"?"Marche":s.type==="mobilite"?"Enchaînement":"Circuit ("+tours+" tour"+(tours>1?"s":"")+")","heart",s.circuit,s.type==="marche"?(dureeDe(vue.sid,p,energie)+" min"):(s.circuit.length+" exercices"))}
-        {bloc("r","Retour au calme","leaf",s.calme,minBloc(s.calme)+" min")}
+        {bloc("e","Échauffement","sparkle",B.echauf,minBloc(B.echauf)+" min")}
+        {bloc("c",["marche","machine"].includes(s.type)?"Cardio":s.type==="mobilite"?"Enchaînement ("+B.tours+" fois)":"Circuit ("+B.tours+" tour"+(B.tours>1?"s":"")+")","heart",B.circuit,["marche","machine"].includes(s.type)?(Math.round(B.circuit[0].s/60)+" min"):(B.circuit.length+" exercices"))}
+        {bloc("b","Bonus énergie","bolt",B.bonus,B.bonus.length+" exercices en plus")}
+        {bloc("f","Marche pour finir","steps",B.fin,Math.round(B.fin.reduce((a,x)=>a+(x.s||0),0)/60)+" min")}
+        {bloc("r","Retour au calme","leaf",B.calme,minBloc(B.calme)+" min")}
       </div>
-      <button onClick={()=>{ demarrer(); aller({v:"guide",sid:vue.sid,k:vue.k||aujK,ph:p.n,i:0}); }} style={btn}>Commencer la séance →</button>
+      <button onClick={()=>{ demarrer(); aller({v:"guide",sid:vue.sid,cfg:vue.cfg,k:vue.k||aujK,ph:p.n,i:0}); }} style={btn}>Commencer la séance →</button>
+      <div style={{display:"flex",gap:8,marginTop:8}}>
+        <button onClick={()=>aller({v:"adapter",envie:{renfo:"renfo",mixte:"mixte",cardio:"cardio",mobilite:"mobilite",marche:"cardio",machine:"cardio"}[s.type]})} style={{...btn2,flex:1,padding:"10px 6px",fontSize:11.5}}>Adapter ma séance</button>
+        <button onClick={()=>aller({v:"seances"})} style={{...btn2,flex:1,padding:"10px 6px",fontSize:11.5}}>Envie d'autre chose ?</button>
+      </div>
+      <Toast/>
+    </div>);
+  }
+
+  // ══ ADAPTER MA SÉANCE ══════════════════════════════════════════════════════
+  if(vue.v==="adapter"){
+    const temps=vue.temps||30, envie=vue.envie||"renfo", sans=vue.sans||{};
+    const setA=(o)=>setVue({...vue,...o});
+    const choix = envie==="renfo" ? (temps>=30?"force":(sans.elastique?"A":(new Date().getDate()%2?"A":"B"))) : envie==="cardio" ? (energie==="haute"&&temps>=20?"fractionne":(materiel.tapisCourse&&temps>=25?"marcheInclinee":(temps>=25?"cardioGainage":"cardio"))) : envie;
+    const s0=SEANCES[choix]; const base=s0.tours||ph.tours; const max=["marche","machine"].includes(s0.type)?1:(energie==="basse"?Math.max(1,base-1):(s0.tours?base+1:base+2));
+    let cfg=null, B=null;
+    for(let t=max;t>=1;t--){ for(const bonus of (energie!=="basse"&&BONUS[s0.type]?[true,false]:[false])){ const c={tours:t,bonus,sans}; const b=construire(choix,ph,energie,c); if(!B||b.min<=temps){ cfg=c; B=b; } if(b.min<=temps) break; } if(B&&B.min<=temps) break; }
+    const trop = B.min>temps+3;
+    return (
+    <div className="fu">
+      <Haut titre="Adapter ma séance"/>
+      <div style={{...carte,background:`linear-gradient(135deg,#F6EFE8,${LB})`,border:"none",fontSize:11.5,color:C.mid,lineHeight:1.55}}>dis-moi comment tu te sens et ce que tu as comme temps : je te construis une séance à partir des exercices du programme.</div>
+      <div style={{fontSize:12,fontWeight:700,color:C.brown,marginBottom:7}}>ton énergie</div>
+      <div style={{display:"flex",gap:7,marginBottom:14}}>{[["basse","Basse"],["moyenne","Moyenne"],["haute","Haute"]].map(([k,l])=>(<button key={k} onClick={()=>setEnergie(k)} aria-pressed={energie===k} style={{...chip(energie===k),flex:1}}>{l}</button>))}</div>
+      <div style={{fontSize:12,fontWeight:700,color:C.brown,marginBottom:7}}>ton temps disponible</div>
+      <div style={{display:"flex",gap:6,flexWrap:"wrap",marginBottom:14}}>{[10,15,20,30,45].map(m=>(<button key={m} onClick={()=>setA({temps:m})} aria-pressed={temps===m} style={chip(temps===m)}>{m} min</button>))}</div>
+      <div style={{fontSize:12,fontWeight:700,color:C.brown,marginBottom:7}}>ton envie du jour</div>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(5,minmax(0,1fr))",gap:5,marginBottom:14}}>{[["renfo","Muscu","heart"],["cardio","Cardio","pulse"],["mixte","Mixte","bolt"],["mobilite","Mobilité","leaf"],["apaiser","Apaiser","moon"]].map(([k,l,ic])=>(<button key={k} onClick={()=>setA({envie:k})} aria-pressed={envie===k} style={{...chip(envie===k),display:"flex",flexDirection:"column",alignItems:"center",gap:4,padding:"10px 4px",borderRadius:14}}><Icon name={ic} size={18} color={envie===k?L:C.mid}/>{l}</button>))}</div>
+      <div style={{fontSize:12,fontWeight:700,color:C.brown,marginBottom:7}}>le matériel que tu n'as pas</div>
+      <div style={{display:"flex",gap:6,flexWrap:"wrap",marginBottom:16}}>{[["chaise","pas de chaise"],["elastique","pas d'élastique"]].map(([k,l])=>(<button key={k} onClick={()=>setA({sans:{...sans,[k]:!sans[k]}})} aria-pressed={!!sans[k]} style={chip(!!sans[k])}>{l}</button>))}</div>
+      <div style={{...carte,border:`1.5px solid ${L}`}}>
+        <div style={{fontSize:9.5,letterSpacing:1.5,textTransform:"uppercase",color:L,fontWeight:700,marginBottom:4}}>ta séance adaptée</div>
+        <div style={{fontSize:14,fontWeight:700,color:C.brown}}>{s0.titre}</div>
+        <div style={{fontSize:11.5,color:C.mid,lineHeight:1.55,margin:"4px 0 10px"}}>environ {B.min} min · {s0.type==="marche"?"marche":(s0.type==="mobilite"?B.tours+" fois l'enchaînement":B.tours+" tour"+(B.tours>1?"s":""))} · {B.circuit.length} exercices{B.bonus.length?" + bonus":""}{B.circuit.some(x=>x.remplace)?" · exercices remplacés selon ton matériel":""}</div>
+        {trop&&<div style={{fontSize:10.5,color:C.brown,background:C.cream,borderRadius:10,padding:"8px 10px",marginBottom:10,lineHeight:1.5}}>c'est la version la plus courte de cette séance. pour {temps} minutes, la mobilité est plus adaptée.</div>}
+        <button onClick={()=>aller({v:"seance",sid:choix,cfg,k:aujK})} style={btn}>Voir ma séance →</button>
+      </div>
       <Toast/>
     </div>);
   }
 
   // ══ FICHE EXERCICE ═════════════════════════════════════════════════════════
   if(vue.v==="exo"){
-    const ex = EXOS[vue.id]; const p = PHASES[(vue.ph||ph.n)-1]; const onglet=vue.onglet||"comment";
+    const ex = EXOS[vue.id]; const p = PHX[(vue.ph||ph.n)-1]; const onglet=vue.onglet||"comment";
     const liste = (titre,arr)=>(<div style={{marginBottom:12}}><div style={{fontSize:12,fontWeight:700,color:C.brown,marginBottom:5}}>{titre}</div>{arr.map((a,i)=>(<div key={i} style={{fontSize:11.5,color:C.mid,lineHeight:1.55,paddingLeft:12,position:"relative",marginBottom:3}}><span style={{position:"absolute",left:0,color:T}}>·</span>{a}</div>))}</div>);
     const repsTxt = ex.cat==="renfo" ? (["gainageMur"].includes(vue.id) ? p.tours+" × "+p.tenue+" secondes" : p.tours+" séries de "+p.reps+" répétitions"+(ex.cote?" par côté":"")) : "30 à 60 secondes, à ton rythme";
     return (
@@ -616,14 +925,17 @@ export default function Bouger({ C, Icon, ExIllus, energie, setEnergie, setTab, 
   if(vue.v==="evolution"){
     const semMin = semaine.reduce((a,x)=>a+faitLe(x.k).reduce((b,y)=>b+(y.min||0),0),0);
     const totMin = toutes.reduce((a,x)=>a+(x.min||0),0);
-    const nbRenfo = toutes.filter(x=>x.s==="A"||x.s==="B").length;
+    const nbRenfo = toutes.filter(x=>["A","B","mixte","force"].includes(x.s)).length;
+    const nbMarches = Object.values(marches).reduce((a,x)=>a+(x||[]).length,0);
     const victoires = [
       toutes.length>=1&&"ta première activité enregistrée",
       toutes.length>=5&&"5 activités : l'habitude s'installe",
-      nbRenfo>=4&&"4 séances de renforcement réalisées",
+      nbRenfo>=4&&"4 séances de musculation réalisées",
+      nbRenfo>=12&&"12 séances de musculation : ta force se construit",
       totMin>=120&&"plus de 2 heures de mouvement au total",
       toutes.some(x=>x.s==="libre")&&"tu as bougé aussi en dehors du programme",
       toutes.some(x=>x.en==="haute")&&"tu as fini une séance pleine d'énergie",
+      nbMarches>=5&&nbMarches+" marches après un repas : une habitude précieuse",
     ].filter(Boolean);
     const ressentis = toutes.flatMap(x=>x.res||[]); const compte = {}; ressentis.forEach(r=>compte[r]=(compte[r]||0)+1);
     return (
@@ -672,15 +984,9 @@ function consigne(it, p){
 
 // ─── LECTEUR DE SÉANCE ──────────────────────────────────────────────────────
 function Guide({ C, Icon, ExIllus, vue, energie, retour, onFin }){
-  const s = SEANCES[vue.sid]; const p = PHASES[(vue.ph||1)-1];
-  const tours = toursDe(vue.sid,p,energie);
+  const p = PHX[(vue.ph||1)-1];
   const etapes = useRef(null);
-  if(!etapes.current){
-    const e=[]; s.echauf.forEach(it=>e.push({...it,bloc:"Échauffement"}));
-    for(let t=1;t<=tours;t++){ s.circuit.forEach(it=>e.push({...it,bloc:tours>1?"Tour "+t+" sur "+tours:(s.type==="marche"?"Marche":"Enchaînement")})); if(t<tours) e.push({pause:true,s:p.repos,bloc:"Pause"}); }
-    s.calme.forEach(it=>e.push({...it,bloc:"Retour au calme"}));
-    etapes.current=e;
-  }
+  if(!etapes.current) etapes.current = construire(vue.sid,p,energie,vue.cfg).etapes;
   const E = etapes.current;
   const [i, setI] = useState(0);
   const [fin, setFin] = useState(false);
@@ -690,7 +996,7 @@ function Guide({ C, Icon, ExIllus, vue, energie, retour, onFin }){
   const [bilan, setBilan] = useState({});
   const t0 = useRef(Date.now());
   const cur = E[i]||{}; const ex = cur.pause?null:EXOS[cur.id];
-  const duree = cur.s || (cur.id==="gainageMur"?p.tenue:null);
+  const duree = cur.s || (cur.t||cur.id==="gainageMur"?p.tenue:null);
 
   useEffect(()=>{ setReste(duree||null); setMarche(false); setAide(false); try{ window.scrollTo(0,0); }catch(e){} },[i]);
   useEffect(()=>{ if(!marche) return; const t=setInterval(()=>setReste(r=>{ if(r<=1){ clearInterval(t); setMarche(false); try{ navigator.vibrate&&navigator.vibrate(200); }catch(e){} return 0; } return r-1; }),1000); return ()=>clearInterval(t); },[marche]);
@@ -701,7 +1007,7 @@ function Guide({ C, Icon, ExIllus, vue, energie, retour, onFin }){
   const fmt = (n)=>Math.floor(n/60)+":"+String(n%60).padStart(2,"0");
 
   if(fin){
-    const min = dureeDe(vue.sid,p,energie) || Math.max(1,Math.round((Date.now()-t0.current)/60000));
+    const min = dureeDe(vue.sid,p,energie,vue.cfg) || Math.max(1,Math.round((Date.now()-t0.current)/60000));
     const tog = (r)=>setBilan(b=>{ const a=b.res||[]; return {...b,res:a.includes(r)?a.filter(x=>x!==r):[...a,r]}; });
     return (
     <div className="fu">
@@ -719,6 +1025,11 @@ function Guide({ C, Icon, ExIllus, vue, energie, retour, onFin }){
         <div style={{fontSize:12,fontWeight:700,color:C.brown,marginBottom:7}}>comment je me sens</div>
         <div style={{display:"flex",gap:6,flexWrap:"wrap",marginBottom:12}}>{["plus d'énergie","moins de tensions","meilleure humeur","plus de force","fatiguée mais fière"].map(r=>(<button key={r} onClick={()=>tog(r)} style={chip((bilan.res||[]).includes(r))}>{r}</button>))}</div>
         <textarea value={bilan.note||""} onChange={e=>setBilan(b=>({...b,note:e.target.value}))} rows={2} placeholder="un mot pour toi (facultatif)" style={{width:"100%",border:`1px solid ${C.border}`,borderRadius:10,padding:"9px 10px",fontFamily:"inherit",fontSize:12,color:C.brown,background:C.white,boxSizing:"border-box",resize:"vertical"}}/>
+      </div>
+      <div style={{background:"#F6EFE8",borderRadius:16,padding:"12px 14px",marginBottom:12}}>
+        <div style={{fontSize:12,fontWeight:700,color:C.brown,marginBottom:7}}>après l'effort</div>
+        {[["drop","bois un grand verre d'eau, pour bien récupérer et éviter les crampes."],["leaf","étire-toi en douceur, sans jamais forcer : ça garde de la souplesse dans tes muscles."],["moon","et si tu peux : un bain chaud avec quelques gouttes d'huile essentielle de lavande vraie, reconnue pour son effet relaxant. dilue-la d'abord dans une base pour le bain ou une cuillère d'huile végétale. à éviter pendant la grossesse, l'allaitement et en cas d'allergie."]].map(([ic,t])=>(
+          <div key={ic} style={{display:"flex",gap:9,alignItems:"flex-start",marginBottom:6}}><Icon name={ic} size={15} color={L2}/><span style={{fontSize:11,color:C.mid,lineHeight:1.5}}>{t}</span></div>))}
       </div>
       <button onClick={()=>onFin({s:vue.sid,min,...bilan})} style={{width:"100%",background:L2,border:"none",borderRadius:14,padding:"13px",color:"#fff",fontFamily:"inherit",fontSize:13,fontWeight:700,cursor:"pointer",marginBottom:8}}>enregistrer ma séance</button>
       <button onClick={()=>onFin({s:vue.sid,min})} style={{width:"100%",background:"none",border:"none",color:C.light,fontFamily:"inherit",fontSize:11.5,cursor:"pointer",textDecoration:"underline"}}>enregistrer sans bilan</button>
