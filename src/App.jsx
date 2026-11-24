@@ -12230,7 +12230,7 @@ export default function App() {
               const mins=(t)=>{ const m=String(t||"").match(/(\d+)/); return m?parseInt(m[1],10):99; };
               let idee=null;
               if(adaptBesoin==="bouger"){ const sid=(temps<=10||energie==="basse")?"mobilite":(temps>=20?"A":"cardio");
-                const S={mobilite:["Mobilité & récupération · 10 min","10 minutes pour délier le corps, en douceur."],cardio:["Cardio doux · 15 min","du cardio sans impact, à un rythme où tu peux parler."],A:["Renforcement A · 20 min","5 mouvements simples pour tout le corps, avec ta séance guidée."]}[sid];
+                const S={mobilite:["Mobilité & récupération","un enchaînement doux pour délier le corps, adapté à ton énergie."],cardio:["Cardio doux","du cardio sans impact, à un rythme où tu peux parler."],A:["Renforcement A","6 mouvements pour tout le corps, avec ta séance guidée."]}[sid];
                 idee={t:S[0],d:S[1],go:()=>{ setAdaptOpen(false); setBougerDepart(sid); setTab("bouger"); }}; }
               if(adaptBesoin==="manger"){ const noms=Object.keys(RECETTES).filter(n=>RECETTES[n].moment===moment&&repasRapide(n)); const n=noms[new Date().getDate()%Math.max(1,noms.length)]||Object.keys(RECETTES)[0];
                 idee={t:n,d:"une idée rapide pour ce "+(moment==="matin"?"matin":moment==="midi"?"midi":"soir")+" : "+(RECETTES[n].temps||""),go:()=>{ setAdaptOpen(false); setTab("outils"); setOutilCat("alimentation"); setOutilOpen("recettes"); setRecetteFiche(n); }}; }
