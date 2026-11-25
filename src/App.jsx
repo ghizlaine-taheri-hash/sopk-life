@@ -797,7 +797,7 @@ const COMPLEMENTS = [
 ];
 
 // ─── LOCALSTORAGE ─────────────────────────────────────────────────────────────
-const save = (key, val) => { try { localStorage.setItem("sopklife_"+key, JSON.stringify(val)); } catch(e) {} };
+const save = (key, val) => { if(window.__smopGel) return; try { localStorage.setItem("sopklife_"+key, JSON.stringify(val)); } catch(e) {} };
 const load = (key, def) => { try { const v = localStorage.getItem("sopklife_"+key); return v ? JSON.parse(v) : def; } catch(e) { return def; } };
 
 // ─── SUPABASE (comptes + sauvegarde cloud) ───────────────────────────────────
@@ -822,6 +822,37 @@ const getSupabase = () => {
 // miroir localStorage <-> cloud : on sauvegarde tout le bloc "sopklife_*"
 const collectLocal = () => { const o={}; try { for(let i=0;i<localStorage.length;i++){ const k=localStorage.key(i); if(k && k.indexOf("sopklife_")===0) o[k]=localStorage.getItem(k); } } catch(e){} return o; };
 const applyLocal = (obj) => { try { Object.entries(obj||{}).forEach(([k,v])=>{ if(k && k.indexOf("sopklife_")===0 && typeof v==="string") localStorage.setItem(k,v); }); } catch(e){} };
+// ─── UN COMPTE PAR APPAREIL À LA FOIS ─────────────────────────────────────────
+// Les données gardées sur l'appareil appartiennent à UN compte (smop_owner).
+// Pendant un changement de compte, __smopGel bloque toute écriture locale et tout envoi.
+const lireProprio = () => { try { return localStorage.getItem("smop_owner")||""; } catch(e){ return ""; } };
+const noterProprio = (id) => { try { localStorage.setItem("smop_owner",id); } catch(e){} };
+const viderLocal = () => { window.__smopGel=true; try {
+  Object.keys(localStorage).forEach(k=>{ if(k.indexOf("sopklife_")===0 || k==="smop_seenTs" || k==="smop_owner") localStorage.removeItem(k); });
+} catch(e){} };
+const prenomDuBloc = (o) => { try { return String(JSON.parse((o||{})["sopklife_prenom"]||'""')||"").trim().toLowerCase(); } catch(e){ return ""; } };
+const donneesReelles = (o) => !!o && (o["sopklife_onboardingDone"]==='"yes"' || !!prenomDuBloc(o));
+const lireFrais = () => { try { return sessionStorage.getItem("smop_fresh")==="1"; } catch(e){ return false; } };
+const noterFrais = (oui) => { try { oui ? sessionStorage.setItem("smop_fresh","1") : sessionStorage.removeItem("smop_fresh"); } catch(e){} };
+try { if(/access_token=|[?&]code=/.test(window.location.hash+window.location.search)) noterFrais(true); } catch(e){} // arrivée par un lien reçu par mail
+// appareil d'avant cette protection (aucun propriétaire noté) : à qui sont les données déjà là ?
+const decisionCompte = ({owner,uid,frais,local,cloud}) => {
+  if(owner) return owner===uid ? "garder" : "changer";
+  if(!donneesReelles(local) || !frais) return "garder";
+  if(cloud===undefined) return "attendre";
+  if(!donneesReelles(cloud)) return "demander";
+  const p=prenomDuBloc(local);
+  return p && p===prenomDuBloc(cloud) ? "garder" : "changer";
+};
+const avecLimite = (p,delai) => Promise.race([p,new Promise((_,non)=>setTimeout(()=>non(new Error("delai")),delai))]);
+// les rappels de cet appareil ne doivent plus suivre le compte précédent
+const couperRappels = async () => { try {
+  if(!("serviceWorker" in navigator)||!("PushManager" in window)) return;
+  await avecLimite((async()=>{ const reg=await navigator.serviceWorker.getRegistration(); const s=reg && await reg.pushManager.getSubscription(); if(s) await s.unsubscribe(); })(),3000);
+} catch(e){} };
+const changerCompte = async (uid) => { viderLocal(); noterProprio(uid); noterFrais(false);
+  try { sessionStorage.removeItem("sopklife_hydrated"); } catch(e){}
+  await couperRappels(); window.location.reload(); };
 const authErrFr = (msg="") => {
   const m=String(msg).toLowerCase();
   if(m.includes("invalid login")) return "Email ou mot de passe incorrect.";
@@ -10351,6 +10382,10 @@ export default function App() {
   const [authMsg, setAuthMsg] = useState("");
   const [authBusy, setAuthBusy] = useState(false);
   const pulledRef = useRef(false);
+  const syncOk = useRef(false);       // true seulement quand le cloud a été lu : avant, rien n'est envoyé
+  const dernierEnvoi = useRef(null);  // dernier bloc réellement enregistré dans le cloud
+  const uidVu = useRef(null);
+  const sortieRef = useRef(false);
   const [hydrated, setHydrated] = useState(false); // true quand les données cloud sont chargées (sécurité : on n'affiche pas l'app avant)
   // accès réservé : undefined = vérification en cours · true = accès ok · false = pas d'accès · "error" = vérification impossible
   const [access, setAccess] = useState(ACCESS_GATE ? undefined : true);
@@ -10435,29 +10470,53 @@ export default function App() {
     return ()=>{ try{ subref&&subref.unsubscribe(); }catch(e){} };
   },[]);
 
+  // changement de compte ou session terminée pendant que l'espace est ouvert (autre onglet, session expirée…) :
+  // on repart d'une page propre, pour qu'aucune donnée du compte précédent ne reste en mémoire.
+  useEffect(()=>{ if(session===undefined || window.__smopGel) return;
+    const uid=session?.user?.id||null; const avant=uidVu.current; uidVu.current=uid;
+    if(avant && avant!==uid){ window.__smopGel=true; if(uid) noterFrais(true); try{ sessionStorage.removeItem("sopklife_hydrated"); }catch(e){} window.location.reload(); }
+  },[session]);
+
   // à la connexion : le LOCAL fait foi sur un appareil déjà utilisé (on n'écrase jamais tes changements récents).
   // on ne charge le cloud QUE sur un appareil vierge (pas encore de données ici).
-  useEffect(()=>{ if(!sb||!session||pulledRef.current) return; pulledRef.current=true;
+  useEffect(()=>{ if(!sb||!session||window.__smopGel||pulledRef.current) return; pulledRef.current=true;
+    const uid=session.user.id; const localAvant=collectLocal(); const localReel=donneesReelles(localAvant); const owner=lireProprio();
+    const choix=decisionCompte({owner,uid,frais:lireFrais(),local:localAvant});
+    if(choix==="changer"){ changerCompte(uid); return; }
+    const adopter=()=>{ noterProprio(uid); noterFrais(false); };
+    if(choix==="garder") adopter();
     const finish=()=>setHydrated(true);
-    const safety=setTimeout(finish, 9000); // si le réseau traîne, on ne reste pas bloquée sur le splash
+    // pas de réseau : on n'ouvre que si les données de cet appareil sont bien à ce compte
+    const sansReseau=()=>{ if(choix==="garder" && localReel) finish(); else setSbError(true); };
+    const safety=setTimeout(sansReseau, 9000); // si le réseau traîne, on ne reste pas bloquée sur le splash
     const ms=(s)=>{ const t=Date.parse(s); return isNaN(t)?0:t; };
     const localOnb = (()=>{ try{ return !!localStorage.getItem("sopklife_onboardingDone"); }catch(e){ return false; } })();
     const seenTs = (()=>{ try{ return localStorage.getItem("smop_seenTs")||""; }catch(e){ return ""; } })();
     // restaure le cloud sur ce device puis recharge une fois pour que l'app relise tout
     const restore=(cloud,ts)=>{ applyLocal(cloud); try{ if(ts) localStorage.setItem("smop_seenTs",ts); }catch(e){}
-      if(!sessionStorage.getItem("sopklife_hydrated")){ try{ sessionStorage.setItem("sopklife_hydrated","1"); }catch(e){} window.location.reload(); return true; }
+      const marque=ts||"1"; let deja=""; try{ deja=sessionStorage.getItem("sopklife_hydrated")||""; }catch(e){}
+      if(deja!==marque){ window.__smopGel=true; try{ sessionStorage.setItem("sopklife_hydrated",marque); }catch(e){} window.location.reload(); return true; }
       return false; };
-    const pushLocal=(ts)=>{ sb.from("user_data").upsert({user_id:session.user.id,data:collectLocal(),updated_at:ts})
-      .then(()=>{ try{ localStorage.setItem("smop_seenTs",ts); }catch(e){} finish(); }, finish); };
+    const pushLocal=(ts)=>{ const bloc=collectLocal(); sb.from("user_data").upsert({user_id:uid,data:bloc,updated_at:ts})
+      .then(({error})=>{ if(!error){ dernierEnvoi.current=JSON.stringify(bloc); try{ localStorage.setItem("smop_seenTs",ts); }catch(e){} } finish(); }, finish); };
     sb.from("user_data").select("data, updated_at").eq("user_id",session.user.id).maybeSingle().then(({data,error})=>{
-      clearTimeout(safety);
-      if(error){ finish(); return; }
+      clearTimeout(safety); if(window.__smopGel) return;
+      if(error){ sansReseau(); return; }
+      setSbError(false);
       const cloud = (data && data.data && Object.keys(data.data).length) ? data.data : null;
       const cloudOnb = !!(cloud && cloud["sopklife_onboardingDone"]);
       const cloudTs = (data && data.updated_at) ? String(data.updated_at) : "";
       const now = new Date().toISOString();
+      // 0) données déjà là sans propriétaire connu + connexion qui vient d'être faite : on vérifie avant de mélanger
+      if(choix==="attendre"){
+        let suite=decisionCompte({owner,uid,frais:true,local:localAvant,cloud});
+        if(suite==="demander") suite=window.confirm("Des données sont déjà enregistrées sur cet appareil. Sont-elles à toi ?\n\nOK : oui, je les garde.\nAnnuler : non, je commence avec un espace vide (elles seront effacées de cet appareil).") ? "garder" : "changer";
+        if(suite==="changer"){ changerCompte(uid); return; }
+        adopter();
+      }
+      syncOk.current=true;
       // 1) appareil vidé (iOS a effacé le local) mais le cloud a de vraies données → on restaure
-      if(cloudOnb && !localOnb){ if(restore(cloud,cloudTs)) return; finish(); return; }
+      if((cloudOnb && !localOnb) || (donneesReelles(cloud) && !localReel)){ if(restore(cloud,cloudTs)) return; finish(); return; }
       // 2) le local a les données, le cloud est vide → on pousse (jamais d'écrasement de cloud riche par un local vide)
       if(localOnb && !cloudOnb){ pushLocal(now); return; }
       // 3) les deux ont des données → le plus récent gagne
@@ -10467,12 +10526,23 @@ export default function App() {
       }
       // 4) aucun des deux n'a de vraies données (nouvelle utilisatrice)
       pushLocal(now);
-    }, ()=>{ clearTimeout(safety); finish(); });
+    }, ()=>{ clearTimeout(safety); sansReseau(); });
   },[sb,session]);
 
   // synchro continue : on pousse le local vers le cloud dès qu'il change — SEULEMENT une fois hydratée
-  useEffect(()=>{ if(!sb||!session||!hydrated) return; let last=JSON.stringify(collectLocal()); let alive=true;
-    const push=()=>{ try{ const cur=JSON.stringify(collectLocal()); if(cur!==last){ last=cur; const ts=new Date().toISOString(); sb.from("user_data").upsert({user_id:session.user.id,data:JSON.parse(cur),updated_at:ts}); try{ localStorage.setItem("smop_seenTs",ts); }catch(e){} } }catch(e){} };
+  // (on n'envoie que si les données de l'appareil sont bien à ce compte, et on réessaie en cas d'échec)
+  useEffect(()=>{ if(!sb||!session||!hydrated) return; let alive=true, enCours=0, pause=0; const uid=session.user.id;
+    if(dernierEnvoi.current===null && syncOk.current) dernierEnvoi.current="";
+    const push=()=>{ try{
+      const t=Date.now(); if(window.__smopGel || !syncOk.current || lireProprio()!==uid || t<pause || (enCours && t-enCours<15000)) return;
+      const bloc=collectLocal(); const cur=JSON.stringify(bloc); if(cur===dernierEnvoi.current) return;
+      enCours=t; const ts=new Date().toISOString();
+      sb.from("user_data").upsert({user_id:uid,data:bloc,updated_at:ts}).then(({error})=>{ enCours=0;
+        if(error){ pause=Date.now()+30000; return; }
+        if(lireProprio()!==uid) return;
+        dernierEnvoi.current=cur; try{ localStorage.setItem("smop_seenTs",ts); }catch(e){}
+      },()=>{ enCours=0; pause=Date.now()+30000; });
+    }catch(e){} };
     const iv=setInterval(()=>{ if(alive) push(); }, 6000);
     const onHide=()=>push();
     window.addEventListener("beforeunload",onHide); document.addEventListener("visibilitychange",onHide);
@@ -10482,15 +10552,15 @@ export default function App() {
   const doAuth = async () => {
     if(!sb||authBusy) return; setAuthErr(""); setAuthMsg("");
     if(authMode==="signup" && authPw!==authPw2){ setAuthErr("Les deux mots de passe ne correspondent pas."); return; }
-    setAuthBusy(true);
+    setAuthBusy(true); noterFrais(true);
     try{
       const email=authEmail.trim().toLowerCase();
       const { data, error } = authMode==="signup"
         ? await sb.auth.signUp({ email, password:authPw })
         : await sb.auth.signInWithPassword({ email, password:authPw });
-      if(error){ setAuthErr(authErrFr(error.message)); }
-      else if(authMode==="signup" && !data.session){ setAuthMsg("Compte créé vérifie ta boîte mail pour le confirmer, puis connecte-toi."); setAuthMode("login"); }
-    }catch(e){ setAuthErr("Une erreur est survenue, réessaie."); }
+      if(error){ noterFrais(false); setAuthErr(authErrFr(error.message)); }
+      else if(authMode==="signup" && !data.session){ noterFrais(false); setAuthMsg("Compte créé vérifie ta boîte mail pour le confirmer, puis connecte-toi."); setAuthMode("login"); }
+    }catch(e){ noterFrais(false); setAuthErr("Une erreur est survenue, réessaie."); }
     setAuthBusy(false);
   };
   const forgotPw = async () => {
@@ -10521,7 +10591,25 @@ export default function App() {
     }catch(e){ setAccErr("Une erreur est survenue, réessaie."); }
     setAccBusy(false);
   };
-  const logout = async () => { try{ sessionStorage.removeItem("sopklife_hydrated"); pulledRef.current=false; setShowAccount(false); await sb?.auth.signOut(); }catch(e){} };
+  // se déconnecter : on enregistre d'abord, puis on vide l'appareil. si l'enregistrement échoue, on ne vide rien.
+  const logout = async () => {
+    if(!sb||sortieRef.current) return; sortieRef.current=true;
+    const uid=session?.user?.id; const aMoi=!!uid && lireProprio()===uid; let sauve=false;
+    if(aMoi && syncOk.current){
+      try{
+        const { error } = await avecLimite(sb.from("user_data").upsert({user_id:uid,data:collectLocal(),updated_at:new Date().toISOString()}).then(x=>x),8000);
+        sauve=!error;
+      }catch(e){}
+      if(!sauve){ sortieRef.current=false; window.alert("Tes dernières notes n'ont pas pu être enregistrées. Vérifie ta connexion, puis réessaie."); return; }
+    }
+    window.__smopGel=true;
+    await couperRappels();
+    try{ const { error } = await avecLimite(sb.auth.signOut(),6000); if(error) throw error; }
+    catch(e){ try{ Object.keys(localStorage).forEach(k=>{ if(/^sb-.*-auth-token/.test(k)) localStorage.removeItem(k); }); }catch(e2){} }
+    if(sauve) viderLocal();
+    try{ ["sopklife_hydrated","sopklife_recovery","smop_fresh"].forEach(k=>sessionStorage.removeItem(k)); }catch(e){}
+    window.location.reload();
+  };
   useEffect(()=>{ if(showAccount){ setAccPrenom(prenom||""); setAccErr(""); setAccMsg(""); setNewPw(""); setAccNewEmail(""); } },[showAccount]);
   const showToast = (titre, sousTitre) => { setToast({titre,sousTitre}); setTimeout(()=>setToast(null), 3400); };
   // retour d'un lien « mot de passe oublié » : on rouvre Mon compte même après un rechargement
