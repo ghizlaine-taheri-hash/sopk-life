@@ -32,7 +32,7 @@ export const MASQUES = [
 export const QUOTIDIEN = [["enfants","j'ai des enfants"],["horaires","mes horaires sont décalés"],["assise","je travaille assise"],["dehors","je mange souvent dehors"]];
 export const NIVEAUX = [["express","express"],["classique","classique"],["approfondi","complète"]];
 
-export const ETAT_VIDE = {niv:{},remplace:{},deCote:[],express:null,detail:null,ordre:null,ordreMain:false,points:{},legerJusqu:"",msg:{},avis:{},reponses:[]};
+export const ETAT_VIDE = {niv:{},remplace:{},deCote:[],express:null,detail:null,ordre:null,ordreMain:false,points:{},histo:[],pasmoi:{},auj:null,legerJusqu:"",msg:{},avis:{},reponses:[]};
 
 const jourLocal = (plus=0) => { const d=new Date(); d.setDate(d.getDate()+plus); const z=(n)=>String(n).padStart(2,"0"); return d.getFullYear()+"-"+z(d.getMonth()+1)+"-"+z(d.getDate()); };
 const nomDe = (liste,k) => { const x=liste.find(y=>y[0]===k); return x?x[1]:""; };
@@ -114,6 +114,30 @@ const ASTUCES = {
 };
 export const astuceDuQuotidien = ({code,perso}) => { if(!perso) return ""; for(const q of (perso.quotidien||[])){ const a=ASTUCES[q]&&ASTUCES[q][code]; if(a) return a; } return ""; };
 
+// ── ce que l'espace a fait changer, daté : visible sur Ma carte ──
+export const noterHisto = (e,t) => { const h=e.histo||[]; const d=h[h.length-1]; if(d&&d.t===t&&d.le===jourLocal()) return e; return {...e,histo:[...h,{le:jourLocal(),t}].slice(-40)}; };
+const DITHISTO = {temps:"« pas le temps » : des formats courts pour 4 missions",fatigue:"« trop fatiguée » : une semaine légère",compris:"« pas compris » : la version expliquée",vie:"« pas adapté à ma vie » : une autre mission",deja:"« je le fais déjà » : acquis, on passe à la suite",rien:"« pas aujourd'hui » : la mission revient plus tard",bien:"petit point : le rythme te va",court:"petit point : 7 jours plus courts",doux:"petit point : 7 jours plus doux",detail:"petit point : 7 jours plus détaillés"};
+
+// ── « ce que nous avons compris de toi » : uniquement ce qu'elle a dit ou fait ──
+const SOUHAITS = {fringales:"mieux vivre tes fringales et ton énergie",douleurs:"mieux vivre tes douleurs et ta digestion",peau:"mieux comprendre ta peau, tes poils ou tes cheveux",stress:"retrouver du calme et de meilleures nuits",cycle:"mieux comprendre ton cycle",comprendre:"mieux comprendre ton SMOP et arriver préparée à tes rendez-vous"};
+const BESOINS = {cherche:"de repères, le temps d'avoir un diagnostic",vient:"de comprendre, une chose à la fois",perdue:"de clarté : une seule chose à faire, pas dix",place:"d'affiner ce que tu fais déjà, sans repartir de zéro"};
+const RYTHMES = {2:"avancer sans pression, avec des gestes de 2 minutes",10:"avancer à un rythme régulier, sans y passer tes soirées",20:"prendre le temps de comprendre ce que tu fais"};
+export const compris = ({perso,etat}) => {
+  if(!perso) return [];
+  const l=[]; const p=(perso.priorites||[]).map(k=>SOUHAITS[k]).filter(Boolean);
+  if(p.length) l.push({k:"souhait",t:"tu souhaites "+p.join(", et "),q:2});
+  if(BESOINS[perso.stade]) l.push({k:"besoin",t:"tu as besoin "+BESOINS[perso.stade],q:1});
+  if(RYTHMES[perso.temps]) l.push({k:"rythme",t:"tu préfères "+RYTHMES[perso.temps],q:3});
+  if((perso.quotidien||[]).length) l.push({k:"quotidien",t:"ton quotidien compte : "+perso.quotidien.map(k=>({enfants:"des enfants",horaires:"des horaires décalés",assise:"un travail assise",dehors:"des repas souvent dehors"})[k]).join(", "),q:5});
+  if((perso.masques||[]).length) l.push({k:"masques",t:"on laisse de côté pour l'instant : "+perso.masques.map(k=>nomDe(MASQUES,k)).join(", "),q:4});
+  const n=(r)=>etat.reponses.filter(x=>x.raison===r).length; const vu=[];
+  if(n("fatigue")>=2) vu.push({k:"v_fatigue",t:"tu as souvent répondu « trop fatiguée » : la douceur passe d'abord"});
+  if(n("temps")>=2) vu.push({k:"v_temps",t:"tu as souvent répondu « pas le temps » : le court te va mieux"});
+  if(n("deja")>=2) vu.push({k:"v_deja",t:"tu connais déjà pas mal de choses : on peut aller plus loin"});
+  if(n("compris")>=2) vu.push({k:"v_compris",t:"tu aimes quand c'est expliqué pas à pas"});
+  return [...l,...vu.filter(x=>!(etat.pasmoi||{})[x.k]).map(x=>({...x,vu:true}))]; };
+export const pasMoi = (e,k) => ({...e,pasmoi:{...(e.pasmoi||{}),[k]:true}});
+
 // ── styles communs ──
 const puce = (C,on) => ({padding:"9px 14px",borderRadius:99,border:`1.5px solid ${on?C.terra:C.border}`,background:on?C.terra:C.white,color:on?"#fff":C.brown,fontFamily:"inherit",fontSize:12.5,fontWeight:600,cursor:"pointer",textAlign:"left"});
 const plein = (C) => ({width:"100%",background:C.terra,border:"none",borderRadius:12,padding:"12px",color:"#fff",fontFamily:"inherit",fontSize:13,fontWeight:700,cursor:"pointer"});
@@ -172,6 +196,7 @@ export function FeuillePerso({C,perso,setPerso,etat,setEtat,onClose,titreDuJour,
   const maj=(k,v)=>setBrouillon(b=>({...b,[k]:v}));
   const bascule=(k,v,max)=>setBrouillon(b=>{ const a=b[k]||[]; if(a.includes(v)) return {...b,[k]:a.filter(x=>x!==v)}; return {...b,[k]:max&&a.length>=max?[...a.slice(1),v]:[...a,v]}; });
   const enregistrer=()=>{ setPerso({...brouillon,phrase:String(brouillon.phrase||"").trim().slice(0,200),accord:brouillon.accord||{le:jourLocal(),version:1},maj:jourLocal()}); setUnique(false); setEtape("recap");
+    if(perso) setEtat(e=>noterHisto(e,"tu as mis à jour tes réponses"));
     if(!etat.ordreMain) changerOrdre(ordrePropose({perso:brouillon,ordre,jour,mois0}),false); };
   const Q=[null,
     {k:"stade",t:"Où tu en es ?",s:"choisis ce qui te ressemble le plus.",ok:!!brouillon.stade},
@@ -219,7 +244,13 @@ export function FeuillePerso({C,perso,setPerso,etat,setEtat,onClose,titreDuJour,
 
   return (
     <Feuille C={C} titre="Mon parcours à moi" onClose={onClose}>
-      <div style={{fontSize:12,color:C.mid,lineHeight:1.6,marginBottom:12}}>voilà ce que ton espace sait, et ce dont il se sert. tu changes ce que tu veux, quand tu veux.</div>
+      <div style={{background:`linear-gradient(150deg,${C.mauveSoft},${C.white})`,border:`1.5px solid ${C.mauve}`,borderRadius:16,padding:"14px",marginBottom:12}}>
+        <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.08rem",fontWeight:600,color:C.brown,marginBottom:8}}>Ce que nous avons compris de toi</div>
+        {compris({perso:perso||brouillon,etat}).map(x=>(
+          <div key={x.k} style={{display:"flex",gap:9,alignItems:"flex-start",marginBottom:8}}><span style={{width:7,height:7,borderRadius:"50%",background:x.vu?C.terra:C.mauve,flexShrink:0,marginTop:6}}/><span style={{flex:1,fontSize:12.5,color:C.brown,lineHeight:1.5}}>{x.t}.{x.vu&&<> <button onClick={()=>setEtat(e=>pasMoi(e,x.k))} style={{...lien(C),fontSize:10.5}}>ce n'est pas moi</button></>}</span></div>))}
+        <div style={{fontSize:11,color:C.mid,lineHeight:1.5,marginTop:2}}>tu peux modifier ces informations à tout moment.</div>
+      </div>
+      <div style={{fontSize:12.5,fontWeight:700,color:C.brown,margin:"2px 0 6px"}}>mes réponses</div>
       <div style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:14,padding:"4px 14px",marginBottom:12}}>
         {[1,2,3,4,5,6].map(i=>{ const k=Q[i].k; return (
           <div key={k} style={{display:"flex",gap:10,alignItems:"center",padding:"10px 0",borderBottom:i<6?`1px solid ${C.border}`:"none"}}>
@@ -267,7 +298,7 @@ export function SousMission({part,C,pc,d,jour,code,perso,etat,setEtat,mission,ni
   const note=(e,type,raison)=>({...e,reponses:[...e.reponses,{d,type,raison,le:jourLocal()}].slice(-200)});
   const cote=(e,raison)=>e.deCote.some(x=>x.d===d)?e.deCote:[...e.deCote,{d,raison,le:jourLocal()}];
   const repondre=(type,raison)=>{ setQuoi(null); setEtat(e0=>{
-    let e=note(e0,type,raison); const dire=(t)=>{ e={...e,msg:{...e.msg,[d]:t}}; };
+    let e=noterHisto(note(e0,type,raison),DITHISTO[raison]); const dire=(t)=>{ e={...e,msg:{...e.msg,[d]:t}}; };
     if(raison==="temps"){ e={...e,express:{de:d,a:d+3},niv:{...e.niv,[d]:"express"}}; dire("je te garde des formats courts pour aujourd'hui et les 3 prochaines missions."); }
     else if(raison==="fatigue"){ e={...e,legerJusqu:jourLocal(7),deCote:cote(e,raison),remplace:{...e.remplace,[d]:{rit:0,motif:"fatigue"}}}; dire("on allège pendant 7 jours. rien n'est perdu, rien n'est à rattraper."); }
     else if(raison==="compris"){ e={...e,niv:{...e.niv,[d]:"approfondi"}}; dire("voilà la version expliquée pas à pas, avec les pièges et les détails."); }
@@ -312,7 +343,7 @@ export function SousMission({part,C,pc,d,jour,code,perso,etat,setEtat,mission,ni
 // ── le petit point de la semaine : une réponse, un effet, jamais obligatoire ──
 const POINTS = [["bien","ça me va comme ça"],["court","plus court"],["doux","plus doux"],["detail","plus de détails"]];
 const DITPOINT = {bien:"parfait, on ne change rien.",court:"noté : des missions courtes pour les 7 prochains jours.",doux:"noté : on allège pendant 7 jours. rien n'est à rattraper.",detail:"noté : des missions complètes pour les 7 prochains jours."};
-const pointer = (e,sem,k,jour) => { const x={...e,points:{...e.points,[sem]:k}};
+const pointer = (e,sem,k,jour) => { const x=noterHisto({...e,points:{...e.points,[sem]:k}},DITHISTO[k]);
   const sansApres=Object.fromEntries(Object.entries(e.niv).filter(([d])=>+d<jour));
   if(k==="court") return {...x,niv:sansApres,express:{de:jour,a:jour+6},detail:null};
   if(k==="doux") return {...x,niv:sansApres,legerJusqu:jourLocal(6),detail:null};
