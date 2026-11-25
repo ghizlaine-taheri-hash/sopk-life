@@ -11858,6 +11858,9 @@ export default function App() {
               );
             })()}
 
+            {/* ── Personnalisation : invitation, puis « mon parcours à moi » ── */}
+            {day<=365&&<CartePerso C={C} Icon={Icon} perso={perso} jour={day} etat={persoEtat} setEtat={setPersoEtat} ouvrir={()=>setPersoOpen(true)} setTab={setTab}/>}
+
             {/* ── Ton action du jour : une seule carte, facultative ── */}
             {(()=>{
               const P=pilierDeMission({...todayData,day:jourAff});
@@ -11928,7 +11931,7 @@ export default function App() {
                     else showToast(jourAff>365?"Geste validé":`Jour ${jourAff} validé`, todayData.victoire);
                   }
                 }}
-                style={{width:"100%",padding:"12px",borderRadius:12,border:`2px solid ${pc.p}`,background:checked[jourAff]?pc.p:"transparent",color:checked[jourAff]?"white":pc.p,fontFamily:"inherit",fontSize:13,fontWeight:700,cursor:"pointer",marginBottom:4,transition:"all 0.25s"}}>
+                style={{width:"100%",padding:"12px",borderRadius:12,border:`2px solid ${pc.p}`,background:checked[jourAff]?pc.p:"transparent",color:checked[jourAff]?"white":pc.p,fontFamily:"inherit",fontSize:13,fontWeight:700,cursor:"pointer",marginTop:16,marginBottom:4,transition:"all 0.25s"}}>
                 {checked[jourAff]?"✓ Mission validée — bravo !":"Valider ma mission du jour"}
               </button>
 
@@ -12011,7 +12014,7 @@ export default function App() {
                     const ancre=ou.ancre||(onglet!=="kamila"?null:/coach/i.test(ou.label)?"coach-mindset":/mot de Kamila/i.test(ou.desc||"")?"mot-kamila":"mon-parcours");
                     if(ancre==="mot-kamila") setAccompOpen("mot"); if(ancre) setScrollAnchor(ancre); }
                   else {setTab("outils");setOutilOpen(todayData.outil.cible);if(todayData.outil.recherche!==undefined)setFoodSearch(todayData.outil.recherche);if(todayData.outil.cible==="repas"&&todayData.outil.moment)setRepasMoment(todayData.outil.moment);} }}
-                  style={{width:"100%",background:"linear-gradient(135deg, #D4A56A, #C49355)",border:"none",borderRadius:14,padding:"15px 16px",marginBottom:10,cursor:"pointer",fontFamily:"inherit",display:"flex",alignItems:"center",gap:12,textAlign:"left",boxShadow:"0 4px 14px rgba(212,165,106,0.4)"}}>
+                  style={{width:"100%",background:"linear-gradient(135deg, #D4A56A, #C49355)",border:"none",borderRadius:14,padding:"15px 16px",marginTop:16,marginBottom:10,cursor:"pointer",fontFamily:"inherit",display:"flex",alignItems:"center",gap:12,textAlign:"left",boxShadow:"0 4px 14px rgba(212,165,106,0.4)"}}>
                   <div style={{fontSize:26,flexShrink:0,background:"rgba(255,255,255,0.25)",borderRadius:12,width:46,height:46,display:"flex",alignItems:"center",justifyContent:"center"}}>{todayData.outil.emoji}</div>
                   <div style={{flex:1}}>
                     <div style={{fontSize:9,letterSpacing:1,textTransform:"uppercase",color:"rgba(255,255,255,0.9)",marginBottom:2,fontWeight:700}}>👆 appuie pour ouvrir l'outil</div>
@@ -12030,9 +12033,6 @@ export default function App() {
             </div>
               );
             })()}
-
-            {/* ── Personnalisation : invitation, puis « mon parcours à moi » ── */}
-            {day<=365&&<CartePerso C={C} Icon={Icon} perso={perso} jour={day} etat={persoEtat} setEtat={setPersoEtat} ouvrir={()=>setPersoOpen(true)} setTab={setTab}/>}
 
             {/* ── Mon parcours : progression discrète, sans pression ── */}
             {(()=>{ const postParcours = day>365 && vueJour==null; const pct=(Math.min(day,365)/365)*100; return (
