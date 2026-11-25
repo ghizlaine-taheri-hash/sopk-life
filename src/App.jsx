@@ -822,6 +822,16 @@ const getSupabase = () => {
 // miroir localStorage <-> cloud : on sauvegarde tout le bloc "sopklife_*"
 const collectLocal = () => { const o={}; try { for(let i=0;i<localStorage.length;i++){ const k=localStorage.key(i); if(k && k.indexOf("sopklife_")===0) o[k]=localStorage.getItem(k); } } catch(e){} return o; };
 const applyLocal = (obj) => { try { Object.entries(obj||{}).forEach(([k,v])=>{ if(k && k.indexOf("sopklife_")===0 && typeof v==="string") localStorage.setItem(k,v); }); } catch(e){} };
+// vraies données = espace déjà commencé (et pas seulement les valeurs vides du départ)
+const prenomDuBloc = (o) => { try { return String(JSON.parse((o||{})["sopklife_prenom"]||'""')||"").trim(); } catch(e){ return ""; } };
+const donneesReelles = (o) => !!o && (o["sopklife_onboardingDone"]==='"yes"' || !!prenomDuBloc(o));
+const avecLimite = (p,delai) => Promise.race([p,new Promise((_,non)=>setTimeout(()=>non(new Error("delai")),delai))]);
+const lireVuTs = () => { try { return localStorage.getItem("smop_seenTs")||""; } catch(e){ return ""; } };
+// on garde l'heure telle que le serveur l'a enregistrée (elle peut différer de celle du téléphone)
+const noterVuTs = (lignes,ts) => { try { localStorage.setItem("smop_seenTs", String((lignes && lignes[0] && lignes[0].updated_at) || ts)); } catch(e){} };
+const enMs = (s) => { const t=Date.parse(s); return isNaN(t)?0:t; };
+// autre appareil enregistré entre-temps : on part du cloud, et on y remet seulement ce qui a changé ici
+const fusionner = (base,local,cloud) => { const m={...cloud}; Object.keys(local).forEach(k=>{ if(!base || base[k]!==local[k]) m[k]=local[k]; }); return m; };
 const authErrFr = (msg="") => {
   const m=String(msg).toLowerCase();
   if(m.includes("invalid login")) return "Email ou mot de passe incorrect.";
@@ -10351,6 +10361,10 @@ export default function App() {
   const [authMsg, setAuthMsg] = useState("");
   const [authBusy, setAuthBusy] = useState(false);
   const pulledRef = useRef(false);
+  const syncOk = useRef("");          // compte dont le cloud a bien été lu : avant, on n'envoie rien
+  const dernierEnvoi = useRef(null);  // dernier bloc réellement enregistré dans le cloud
+  const envoyerRef = useRef(null);
+  const [etatSauv, setEtatSauv] = useState(null); // {ok,quand} : affiché dans Mon compte
   const [hydrated, setHydrated] = useState(false); // true quand les données cloud sont chargées (sécurité : on n'affiche pas l'app avant)
   // accès réservé : undefined = vérification en cours · true = accès ok · false = pas d'accès · "error" = vérification impossible
   const [access, setAccess] = useState(ACCESS_GATE ? undefined : true);
@@ -10439,25 +10453,31 @@ export default function App() {
   // on ne charge le cloud QUE sur un appareil vierge (pas encore de données ici).
   useEffect(()=>{ if(!sb||!session||pulledRef.current) return; pulledRef.current=true;
     const finish=()=>setHydrated(true);
-    const safety=setTimeout(finish, 9000); // si le réseau traîne, on ne reste pas bloquée sur le splash
+    const localReel=donneesReelles(collectLocal());
+    // pas de réseau : on ouvre avec les données de l'appareil ; s'il est vide, on le dit (rien ne serait sauvegardé)
+    const sansReseau=()=>{ setEtatSauv({ok:false}); if(localReel) finish(); else setSbError(true); };
+    const safety=setTimeout(sansReseau, 9000); // si le réseau traîne, on ne reste pas bloquée sur le splash
     const ms=(s)=>{ const t=Date.parse(s); return isNaN(t)?0:t; };
     const localOnb = (()=>{ try{ return !!localStorage.getItem("sopklife_onboardingDone"); }catch(e){ return false; } })();
     const seenTs = (()=>{ try{ return localStorage.getItem("smop_seenTs")||""; }catch(e){ return ""; } })();
     // restaure le cloud sur ce device puis recharge une fois pour que l'app relise tout
     const restore=(cloud,ts)=>{ applyLocal(cloud); try{ if(ts) localStorage.setItem("smop_seenTs",ts); }catch(e){}
-      if(!sessionStorage.getItem("sopklife_hydrated")){ try{ sessionStorage.setItem("sopklife_hydrated","1"); }catch(e){} window.location.reload(); return true; }
+      const marque=ts||"1"; let deja=""; try{ deja=sessionStorage.getItem("sopklife_hydrated")||""; }catch(e){}
+      if(deja!==marque){ try{ sessionStorage.setItem("sopklife_hydrated",marque); }catch(e){} window.location.reload(); return true; }
       return false; };
-    const pushLocal=(ts)=>{ sb.from("user_data").upsert({user_id:session.user.id,data:collectLocal(),updated_at:ts})
-      .then(()=>{ try{ localStorage.setItem("smop_seenTs",ts); }catch(e){} finish(); }, finish); };
+    const pushLocal=(ts)=>{ const bloc=collectLocal(); syncOk.current=session.user.id;
+      sb.from("user_data").upsert({user_id:session.user.id,data:bloc,updated_at:ts})
+      .select("updated_at").then(({data:ligne,error})=>{ if(!error){ dernierEnvoi.current=bloc; noterVuTs(ligne,ts); setEtatSauv({ok:true,quand:Date.now()}); } else setEtatSauv({ok:false}); finish(); }, ()=>{ setEtatSauv({ok:false}); finish(); }); };
     sb.from("user_data").select("data, updated_at").eq("user_id",session.user.id).maybeSingle().then(({data,error})=>{
       clearTimeout(safety);
-      if(error){ finish(); return; }
+      if(error){ sansReseau(); return; }
+      setSbError(false);
       const cloud = (data && data.data && Object.keys(data.data).length) ? data.data : null;
       const cloudOnb = !!(cloud && cloud["sopklife_onboardingDone"]);
       const cloudTs = (data && data.updated_at) ? String(data.updated_at) : "";
       const now = new Date().toISOString();
       // 1) appareil vidé (iOS a effacé le local) mais le cloud a de vraies données → on restaure
-      if(cloudOnb && !localOnb){ if(restore(cloud,cloudTs)) return; finish(); return; }
+      if((cloudOnb && !localOnb) || (donneesReelles(cloud) && !localReel)){ if(restore(cloud,cloudTs)) return; finish(); return; }
       // 2) le local a les données, le cloud est vide → on pousse (jamais d'écrasement de cloud riche par un local vide)
       if(localOnb && !cloudOnb){ pushLocal(now); return; }
       // 3) les deux ont des données → le plus récent gagne
@@ -10467,16 +10487,39 @@ export default function App() {
       }
       // 4) aucun des deux n'a de vraies données (nouvelle utilisatrice)
       pushLocal(now);
-    }, ()=>{ clearTimeout(safety); finish(); });
+    }, ()=>{ clearTimeout(safety); sansReseau(); });
   },[sb,session]);
 
   // synchro continue : on pousse le local vers le cloud dès qu'il change — SEULEMENT une fois hydratée
-  useEffect(()=>{ if(!sb||!session||!hydrated) return; let last=JSON.stringify(collectLocal()); let alive=true;
-    const push=()=>{ try{ const cur=JSON.stringify(collectLocal()); if(cur!==last){ last=cur; const ts=new Date().toISOString(); sb.from("user_data").upsert({user_id:session.user.id,data:JSON.parse(cur),updated_at:ts}); try{ localStorage.setItem("smop_seenTs",ts); }catch(e){} } }catch(e){} };
+  // avant chaque envoi on regarde si un autre appareil a enregistré entre-temps ; en cas d'échec on réessaie.
+  useEffect(()=>{ if(!sb||!session||!hydrated) return; let alive=true, enCours=null, pause=0; const uid=session.user.id;
+    const echec=()=>{ pause=Date.now()+20000; if(alive) setEtatSauv(e=>({...(e||{}),ok:false})); };
+    const envoyer=async()=>{
+      const debut=Date.now(); const vu=lireVuTs();
+      const { data, error } = await sb.from("user_data").select("data, updated_at").eq("user_id",uid).maybeSingle();
+      if(error) throw error;
+      if(Date.now()-debut>15000) return; // page endormie entre-temps : on recommencera avec des données fraîches
+      const cloudTs=data?.updated_at?String(data.updated_at):""; const plusRecent=!!cloudTs && enMs(cloudTs)!==enMs(vu);
+      if(syncOk.current!==uid){ if(plusRecent || !donneesReelles(collectLocal())) return; syncOk.current=uid; } // cloud illisible à l'ouverture
+      const local=collectLocal(); const fusion=plusRecent && donneesReelles(data.data);
+      if(fusion && /^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement?.tagName||"")) return; // on attend la fin de la saisie
+      const bloc=fusion?fusionner(dernierEnvoi.current,local,data.data):local; const ts=new Date().toISOString();
+      const ecr=await sb.from("user_data").upsert({user_id:uid,data:bloc,updated_at:ts}).select("updated_at");
+      if(ecr.error) throw ecr.error;
+      dernierEnvoi.current=bloc; noterVuTs(ecr.data,ts);
+      if(alive) setEtatSauv({ok:true,quand:Date.now()});
+      if(fusion && alive){ applyLocal(bloc); window.location.reload(); }
+    };
+    const push=()=>{ try{
+      if(enCours) return enCours; if(Date.now()<pause) return null;
+      if(dernierEnvoi.current && JSON.stringify(dernierEnvoi.current)===JSON.stringify(collectLocal())) return null;
+      enCours=avecLimite(envoyer(),20000).catch(echec).then(()=>{ enCours=null; }); return enCours;
+    }catch(e){ return null; } };
+    envoyerRef.current=()=>{ pause=0; return push(); };
     const iv=setInterval(()=>{ if(alive) push(); }, 6000);
     const onHide=()=>push();
     window.addEventListener("beforeunload",onHide); document.addEventListener("visibilitychange",onHide);
-    return ()=>{ alive=false; clearInterval(iv); window.removeEventListener("beforeunload",onHide); document.removeEventListener("visibilitychange",onHide); push(); };
+    return ()=>{ alive=false; clearInterval(iv); window.removeEventListener("beforeunload",onHide); document.removeEventListener("visibilitychange",onHide); };
   },[sb,session,hydrated]);
 
   const doAuth = async () => {
@@ -10521,7 +10564,8 @@ export default function App() {
     }catch(e){ setAccErr("Une erreur est survenue, réessaie."); }
     setAccBusy(false);
   };
-  const logout = async () => { try{ sessionStorage.removeItem("sopklife_hydrated"); pulledRef.current=false; setShowAccount(false); await sb?.auth.signOut(); }catch(e){} };
+  const logout = async () => { try{ await avecLimite(Promise.resolve(envoyerRef.current?.()),5000); }catch(e){}
+    try{ sessionStorage.removeItem("sopklife_hydrated"); pulledRef.current=false; syncOk.current=""; dernierEnvoi.current=null; setShowAccount(false); await sb?.auth.signOut(); }catch(e){} };
   useEffect(()=>{ if(showAccount){ setAccPrenom(prenom||""); setAccErr(""); setAccMsg(""); setNewPw(""); setAccNewEmail(""); } },[showAccount]);
   const showToast = (titre, sousTitre) => { setToast({titre,sousTitre}); setTimeout(()=>setToast(null), 3400); };
   // retour d'un lien « mot de passe oublié » : on rouvre Mon compte même après un rechargement
@@ -15208,7 +15252,7 @@ profil · tes priorités · les analyses & questions que tu as cochées · ton s
             <button onClick={logout} style={{width:"100%",display:"flex",alignItems:"center",justifyContent:"center",gap:8,background:C.white,border:`1px solid ${C.border}`,borderRadius:12,padding:"13px",fontFamily:"inherit",fontSize:12.5,fontWeight:600,color:"#B5553F",cursor:"pointer"}}>
               se déconnecter
             </button>
-            <div style={{fontSize:9.5,color:C.light,textAlign:"center",marginTop:14,lineHeight:1.6}}>tes données sont sauvegardées automatiquement sur ton compte.</div>
+            <div style={{fontSize:9.5,color:C.light,textAlign:"center",marginTop:14,lineHeight:1.6}}>tes données sont sauvegardées automatiquement sur ton compte.{etatSauv&&<><br/>{etatSauv.ok?("dernière sauvegarde à "+new Date(etatSauv.quand).toLocaleTimeString("fr-FR",{hour:"2-digit",minute:"2-digit",second:"2-digit"})):"pas de connexion : tes dernières notes sont gardées ici, et partiront dès que possible."}</>}</div>
           </div>
         </div>
       )}
