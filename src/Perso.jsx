@@ -30,7 +30,7 @@ export const MASQUES = [
   ["corps","l'image du corps et les remarques",[156,170,182,332,333]],
 ];
 export const QUOTIDIEN = [["enfants","j'ai des enfants"],["horaires","mes horaires sont décalés"],["assise","je travaille assise"],["dehors","je mange souvent dehors"]];
-export const NIVEAUX = [["express","express"],["classique","classique"],["approfondi","complète"]];
+export const NIVEAUX = [["express","express","juste le geste et les pièges."],["classique","classique","le geste, le pourquoi et les étapes."],["approfondi","complète","tout : le + de Kamila, ce que tu peux observer, la source."]];
 
 export const ETAT_VIDE = {niv:{},remplace:{},deCote:[],express:null,detail:null,ordre:null,ordreMain:false,points:{},histo:[],pasmoi:{},auj:null,legerJusqu:"",msg:{},avis:{},reponses:[]};
 
@@ -316,7 +316,8 @@ export function SousMission({part,C,pc,d,jour,code,perso,etat,setEtat,mission,ni
       {!mission._geste&&d<=365&&perso&&(
         <div style={{display:"flex",alignItems:"center",gap:6,marginTop:10,flexWrap:"wrap"}}>
           <span style={{fontSize:10,color:C.light}}>version</span>
-          {NIVEAUX.map(([k,l])=>{ const on=niveau===k; return <button key={k} aria-pressed={on} onClick={()=>{ setEtat(e=>({...e,niv:{...e.niv,[d]:k}})); if(k!=="express") ouvrirDetail(true); }} style={{padding:"5px 11px",borderRadius:99,border:`1px solid ${on?pc.p:C.border}`,background:on?`${pc.p}18`:C.white,color:on?pc.p:C.mid,fontFamily:"inherit",fontSize:10.5,fontWeight:600,cursor:"pointer"}}>{l}</button>; })}
+          {NIVEAUX.filter(([k])=>k!=="express"||(code!=="T"&&code!=="D")).map(([k,l])=>{ const on=niveau===k; return <button key={k} aria-pressed={on} onClick={()=>{ setEtat(e=>({...e,niv:{...e.niv,[d]:k}})); ouvrirDetail(true); }} style={{padding:"5px 11px",borderRadius:99,border:`1px solid ${on?pc.p:C.border}`,background:on?`${pc.p}18`:C.white,color:on?pc.p:C.mid,fontFamily:"inherit",fontSize:10.5,fontWeight:600,cursor:"pointer"}}>{l}</button>; })}
+          <span style={{width:"100%",fontSize:10.5,color:C.mid,lineHeight:1.4}}>{(NIVEAUX.find(x=>x[0]===niveau)||[])[2]}</span>
         </div>)}
     </div>);
   return (
@@ -352,8 +353,6 @@ const pointer = (e,sem,k,jour) => { const x=noterHisto({...e,points:{...e.points
 
 // ── SUR L'ACCUEIL : l'invitation, sa phrase, et le petit avis ──
 export function CartePerso({C,Icon,perso,jour,etat,setEtat,ouvrir,setTab,mois}){
-  const moisNow=mois&&mois.find(m=>jour>=m.a&&jour<=m.b), moisSuiv=moisNow&&mois[mois.indexOf(moisNow)+1];
-  const suite=moisNow?"en ce moment : "+moisNow.label+(moisSuiv?" · ensuite : "+moisSuiv.label:""):"";
   const s0=jour>=7&&jour%7<=1?Math.floor(jour/7):0; const sem=s0&&!etat.points[s0]?s0:0; const fait=s0&&DITPOINT[etat.points[s0]];
   const carte={background:C.white,border:`1px solid ${C.border}`,borderRadius:16,padding:"12px 14px",marginBottom:12};
   if(!perso) return (
@@ -374,18 +373,13 @@ export function CartePerso({C,Icon,perso,jour,etat,setEtat,ouvrir,setTab,mois}){
       <div style={{fontSize:12.5,color:C.brown,marginBottom:8}}>est-ce que ce parcours te ressemble ?</div>
       <div style={{display:"flex",gap:7,alignItems:"center"}}><span style={{fontSize:10,color:C.light}}>pas du tout</span>{[1,2,3,4,5].map(n=><button key={n} onClick={()=>setEtat(e=>({...e,avis:{...e.avis,[avisA]:n}}))} style={{width:34,height:34,borderRadius:"50%",border:`1.5px solid ${C.border}`,background:C.white,color:C.brown,fontFamily:"inherit",fontSize:12.5,fontWeight:600,cursor:"pointer"}}>{n}</button>)}<span style={{fontSize:10,color:C.light}}>tout à fait</span></div>
     </div>}
-    {!avisA&&sem&&<div style={carte}>
+    {!avisA&&sem>0&&<div style={carte}>
       <div style={{fontSize:12.5,fontWeight:700,color:C.brown,marginBottom:3}}>ta semaine, en 20 secondes</div>
       <div style={{fontSize:11.5,color:C.mid,marginBottom:8}}>on ajuste quelque chose pour la suite ? c'est facultatif.</div>
       <div style={{display:"flex",gap:7,flexWrap:"wrap"}}>{POINTS.map(([k,l])=><button key={k} onClick={()=>setEtat(e=>pointer(e,sem,k,jour))} style={{...puce(C,false),fontSize:11.5,padding:"7px 11px"}}>{l}</button>)}</div>
       <div style={{marginTop:9}}><button onClick={()=>setEtat(e=>({...e,points:{...e.points,[sem]:"passe"}}))} style={lien(C)}>pas cette semaine</button></div>
     </div>}
-    {fait&&<div style={{...carte,background:C.mauveSoft,border:"none",fontSize:12,color:C.brown,lineHeight:1.5}}>{fait}</div>}
-    <button onClick={ouvrir} style={{...carte,width:"100%",display:"flex",alignItems:"center",gap:10,cursor:"pointer",fontFamily:"inherit",textAlign:"left"}}>
-      <Icon name="sparkle" size={16} color={C.mauve}/>
-      <span style={{flex:1,minWidth:0}}><span style={{display:"block",fontSize:12.5,fontWeight:700,color:C.brown}}>Mon parcours à moi</span>{suite&&<span style={{display:"block",fontSize:10.5,color:C.mid,lineHeight:1.4}}>{suite}</span>}</span>
-      <span style={{fontSize:11,color:C.mid,flexShrink:0}}>voir et modifier</span><span style={{fontSize:14,color:C.light}}>›</span>
-    </button>
+    {!!fait&&<div style={{...carte,background:C.mauveSoft,border:"none",fontSize:12,color:C.brown,lineHeight:1.5}}>{fait}</div>}
   </>);
 }
 

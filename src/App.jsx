@@ -7,6 +7,16 @@ import { ORDRE_BASE, ordreValide, estBase, moisSelon, moisDe, idDuJour, texteLib
 // Les fenêtres s'affichent directement sur l'écran, quel que soit l'endroit où on a fait défiler la page
 const Portail = ({children}) => createPortal(<div style={{fontFamily:"'DM Sans',sans-serif"}}>{children}</div>, document.body);
 
+// une partie de l'accueil qui se replie : titre, une ligne, et le contenu seulement si on l'ouvre
+const Repli = ({C,id,titre,sous,ouvert,onToggle,children}) => (
+  <div id={id} style={{marginBottom:10}}>
+    <button onClick={onToggle} aria-expanded={ouvert} style={{width:"100%",display:"flex",alignItems:"center",gap:10,background:C.white,border:`1px solid ${C.border}`,borderRadius:14,padding:"12px 14px",cursor:"pointer",fontFamily:"inherit",textAlign:"left"}}>
+      <span style={{flex:1,minWidth:0}}><span style={{display:"block",fontSize:12.5,fontWeight:700,color:C.brown}}>{titre}</span>{sous&&<span style={{display:"block",fontSize:10.5,color:C.mid,lineHeight:1.4}}>{sous}</span>}</span>
+      <span style={{fontSize:13,color:C.light,transform:ouvert?"rotate(180deg)":"none",transition:"transform .2s"}}>▾</span>
+    </button>
+    {ouvert&&<div style={{marginTop:8}}>{children}</div>}
+  </div>);
+
 // ─── COULEURS ────────────────────────────────────────────────────────────────
 const C = {
   cream:"#FBF8F3",terra:"#CB9A79",mauve:"#A89AB8",gold:"#D4A56A",
@@ -850,7 +860,7 @@ const authErrFr = (msg="") => {
 // Lien de la communauté WhatsApp des Cysters
 const WHATSAPP_URL = "https://chat.whatsapp.com/D3nMeUIpW2N9A2D0cj31u2";
 
-// ─── COACH MINDSET KAMILA ───
+// ─── LES MOTS DE KAMILA, SELON L'HUMEUR ───
 // états émotionnels → message de Kamila (à retoucher par Ghiz, voix authentique)
 const MINDSET = [
   {id:"decouragee", emoji:"😔", label:"découragée",
@@ -890,7 +900,7 @@ const SOS_DATA = [
     kamila:"chaque fringale que tu comprends est une fringale que tu subis moins la prochaine fois.",
     secret:"la fringale de l'après-midi vient souvent d'un petit-déjeuner trop sucré le matin — même un « healthy » jus + granola. le pic du matin programme la chute de 16h. règle ton matin, et la fringale de l'aprèm s'efface souvent toute seule. la cause n'est pas là où tu crois.",
     monMot:"longtemps, chaque craquage me faisait honte. je pensais manquer de contrôle, je me promettais d'être plus forte la prochaine fois — et à 16h je me retrouvais encore devant le placard, à culpabiliser. comprendre que ces fringales étaient liées à mon insuline a tout changé. parce qu'on ne combat pas un signal biologique avec de la culpabilité. aujourd'hui, quand une fringale arrive, je ne me traite plus de faible : je cherche d'abord ce qui l'a déclenchée. souvent, la réponse avait commencé bien plus tôt dans la journée. et ça, personne ne me l'avait jamais expliqué.",
-    liens:["ta mission \"l'ordre dans l'assiette\" (Jour 1)","tes recettes collations anti-fringale","la fiche SOS \"fatigue après repas\" si ça t'arrive souvent"]
+    liens:["le geste \"l'ordre dans l'assiette\"","tes recettes collations anti-fringale","la fiche SOS \"fatigue après repas\" si ça t'arrive souvent"]
   },
   {
     id:"coupdebarre", emoji:"🔋", titre:"Coup de barre de 16h", couleur:"#CB9A79",
@@ -935,7 +945,7 @@ const SOS_DATA = [
     kamila:"ton ventre te parle. le gonflement est un message, pas une punition.",
     secret:"si le gonflement revient toujours après les mêmes repas, c'est une piste d'intolérance (souvent gluten ou laitages) à explorer calmement — pas une fatalité, et surtout pas « c'est dans ta tête ».",
     monMot:"le ventre gonflé du soir, c'est un truc dont on n'ose pas trop parler. je me sentais serrée dans mes vêtements en fin de journée, avec l'impression d'avoir « trop mangé » alors que non. longtemps j'ai cru que je mangeais mal, ou que c'était dans ma tête. comprendre que c'est lié au SMOP — l'inflammation, une digestion sensible, les hormones — m'a réconciliée avec mon corps. il ne me punissait pas, il réagissait à un déséquilibre. j'aurais tellement aimé qu'on me l'explique plus tôt, au lieu de me laisser croire que c'était ma faute.",
-    liens:["le sujet \"L'intestin et ton SMOP\" dans Comprendre","ta tisane Inflamma Tea","l'onglet Chercher un aliment pour repérer ce qui te gonfle"]
+    liens:["le sujet \"L'intestin et ton SMOP\" dans Comprendre","ta tisane Inflamma Tea","Chercher un aliment, dans Ressources, pour repérer ce qui te gonfle"]
   },
   {
     id:"spm", emoji:"🌷", titre:"SPM et humeur", couleur:"#C2AEBA",
@@ -950,7 +960,7 @@ const SOS_DATA = [
     kamila:"tu n'es pas « invivable » quelques jours par mois. tu traverses une vague hormonale, et elle redescend.",
     secret:"anticiper change tout : repère ces jours dans ton cycle, et protège ton sommeil + ton magnésium en phase lutéale. savoir que la vague arrive, c'est déjà moins la subir.",
     monMot:"quelques jours par mois, je devenais quelqu'un que je ne reconnaissais pas : à fleur de peau, triste sans raison, irritable avec les gens que j'aime le plus. et juste après, je culpabilisais d'avoir été « trop ». je pensais que c'était mon caractère, un défaut à corriger. comprendre que c'était la chute hormonale de la deuxième partie de cycle, et pas moi, ça a été un soulagement immense. aujourd'hui je repère ces jours à l'avance, je préviens mon entourage, et je m'accorde de la douceur au lieu de me juger. savoir que la vague va redescendre, ça change déjà tout.",
-    liens:["ton onglet Mon cycle pour repérer ta phase lutéale","ta tisane Équilibre Féminin","ton Journal pour suivre ton humeur au fil du cycle"]
+    liens:["Mon cycle, dans ton suivi, pour repérer ta phase lutéale","ta tisane Équilibre Féminin","ton Journal pour suivre ton humeur au fil du cycle"]
   },
   {
     id:"fatigue", emoji:"😴", titre:"Fatigue profonde", couleur:"#7A5C45",
@@ -965,7 +975,7 @@ const SOS_DATA = [
     kamila:"ton corps ne fait pas exprès. il essaie de te parler. aujourd'hui tu l'écoutes.",
     secret:"avant de penser « je dors mal », fais vérifier ta ferritine ET ta vitamine D. une fatigue de fond avec un SMOP cache très souvent une ferritine basse (< 70) ou une vitamine D insuffisante — même quand le médecin dit que c'est « normal ». ce sont les deux premières choses à regarder.",
     monMot:"la fatigue a été l'un de mes symptômes les plus violents. parce qu'elle est invisible : les gens voient ton visage, pas le poids que tu portes à l'intérieur. je culpabilisais énormément, je me traitais de paresseuse. puis j'ai compris qu'on peut dormir toute une nuit et être épuisée quand même, quand le corps lutte en permanence. le jour où j'ai arrêté de me juger, j'ai commencé à chercher les vraies causes. aujourd'hui encore, quand la fatigue revient, je ne me demande plus « qu'est-ce qui ne va pas chez moi ? » mais « qu'est-ce que mon corps essaie de me dire ? »",
-    liens:["l'onglet Analyses pour comprendre ta ferritine et ta vitamine D","tes recettes riches en fer (lentilles, saumon)","la fiche SOS \"réveil nocturne\" si ton sommeil est haché"]
+    liens:["Mes analyses, dans Santé, pour comprendre ta ferritine et ta vitamine D","tes recettes riches en fer (lentilles, saumon)","la fiche SOS \"réveil nocturne\" si ton sommeil est haché"]
   },
   {
     id:"brouillard", emoji:"🌫️", titre:"Brouillard mental", couleur:"#5B7FA6",
@@ -996,7 +1006,7 @@ const SOS_DATA = [
     kamila:"ce bouton va partir. et le protocole s'attaque à ce qui le produit.",
     secret:"l'acné du SMOP n'est pas un problème de peau de surface — elle vient de l'intérieur, du versant hormonal. c'est pour ça que les crèmes seules ne suffisent souvent pas. travailler la glycémie et l'insuline agit sur une des racines, là où aucun soin local ne va. la peau est le messager, pas la cause.",
     monMot:"l'acné m'a volé une grande partie de ma confiance. au lycée c'est devenu profond, douloureux. je me cachais derrière le fond de teint, je vérifiais mon visage dix fois par jour, et un seul nouveau bouton suffisait à gâcher ma journée. ce qui me faisait le plus souffrir, ce n'était pas l'acné — c'était de ne pas comprendre pourquoi elle revenait malgré tous mes efforts. j'avais l'impression que mon corps me déclarait la guerre. puis j'ai découvert que ce n'était pas un problème de peau : c'était hormonal, et ça se montrait sur ma peau. cette différence a tout changé. parce qu'à partir du moment où tu comprends la cause, tu arrêtes de te battre contre ton reflet.",
-    liens:["l'onglet Analyses pour comprendre ton versant hormonal","tes recettes à index glycémique bas","tes scripts médecin pour aborder l'acné hormonale"]
+    liens:["Mes analyses, dans Santé, pour comprendre ton versant hormonal","tes recettes à index glycémique bas","tes scripts médecin pour aborder l'acné hormonale"]
   },
   {
     id:"cheveux", emoji:"💇‍♀️", titre:"Chute de cheveux", couleur:"#CB9A79",
@@ -1011,7 +1021,7 @@ const SOS_DATA = [
     kamila:"ce que tu perds maintenant reviendra. le protocole travaille sur la cause.",
     secret:"une chute de cheveux avec un SMOP n'est pas toujours « hormonale » : très souvent, c'est une ferritine trop basse qui en est la vraie cause. exige le chiffre exact de ta ferritine — pas un « c'est normal ». en dessous de 70, les cheveux tombent, même si la valeur est dans les normes du labo.",
     monMot:"je me souviens du moment où j'ai commencé à regarder la brosse avant même de regarder mes cheveux. chaque douche était une angoisse, chaque mèche tombée semblait confirmer que je perdais une partie de moi. ce qui m'a le plus aidée, ce n'est pas une solution miracle : c'est de comprendre que la chute avait une cause — et qu'une cause, ça se travaille. les cheveux sont souvent les derniers à montrer une amélioration. c'est frustrant. mais ça ne veut pas dire que rien ne se passe : pendant des semaines, ton corps répare avant que tes yeux voient le résultat. accroche-toi à ça les jours où le miroir te décourage.",
-    liens:["l'onglet Analyses pour traduire ta ferritine","tes scripts médecin pour demander le bon bilan","la fiche SOS \"poussée d'acné\" (même mécanisme hormonal)"]
+    liens:["Mes analyses, dans Santé, pour traduire ta ferritine","tes scripts médecin pour demander le bon bilan","la fiche SOS \"poussée d'acné\" (même mécanisme hormonal)"]
   },
   {
     id:"regles", emoji:"🌙", titre:"Règles absentes", couleur:"#A89AB8",
@@ -1026,7 +1036,7 @@ const SOS_DATA = [
     kamila:"chaque action du protocole travaille à ramener ce cycle. c'est lent. mais c'est réel.",
     secret:"l'absence de règles n'est pas le problème en soi — c'est le signal d'une ovulation qui ne se fait pas régulièrement. noter tes cycles (même absents) sur plusieurs mois donne à ton médecin une information précieuse, bien plus utile qu'un simple « j'ai des cycles irréguliers ». tes données, c'est ton pouvoir en consultation.",
     monMot:"j'ai attendu mes règles pendant des mois, parfois presque un an. et quand elles arrivaient, elles ne repartaient plus — je pouvais saigner un mois, parfois deux. personne autour de moi ne vivait ça. je me sentais différente, cassée, comme si mon corps avait oublié comment fonctionner. longtemps j'ai cru que mes règles étaient le problème. avec le recul, je comprends qu'elles n'étaient que le signal : le vrai sujet se jouait en arrière-plan, dans mes hormones, mon ovulation, mon métabolisme. aujourd'hui je regarde mes cycles autrement. ils ne sont pas là pour me punir, mais pour me raconter ce qui se passe à l'intérieur.",
-    liens:["ton Journal pour noter tes cycles dans le temps","l'onglet Analyses pour comprendre ton bilan hormonal","tes scripts médecin pour demander le bon suivi"]
+    liens:["Mon cycle, dans ton suivi, pour noter tes cycles dans le temps","Mes analyses, dans Santé, pour comprendre ton bilan hormonal","tes scripts médecin pour demander le bon suivi"]
   },
   {
     id:"douleurs", emoji:"🌡️", titre:"Douleurs de règles", couleur:"#D4A56A",
@@ -1041,7 +1051,7 @@ const SOS_DATA = [
     kamila:"ces douleurs méritent d'être prises au sérieux. par toi. et par ton médecin.",
     secret:"une douleur de règles qui te plie en deux, qui te réveille la nuit, n'est PAS « normale » — même si on te l'a répété. une douleur intense mérite toujours une vraie recherche de cause (et parfois un avis sur l'endométriose, fréquemment associée). soulager sans comprendre, ce n'est pas se soigner.",
     monMot:"ce qui me met encore en colère, c'est qu'on a longtemps cherché à calmer ma douleur sans chercher à la comprendre. des douleurs qui me réveillaient la nuit, qui me pliaient en deux. on me donnait des médicaments, on me disait que ça passerait — mais personne ne me disait pourquoi. pendant des années, j'ai cru que souffrir faisait partie du contrat. aujourd'hui je sais que non. la douleur est un signal. pas une personnalité, pas une fatalité, pas quelque chose qu'on doit simplement apprendre à supporter.",
-    liens:["tes scripts médecin pour faire entendre ta douleur","l'onglet Analyses pour préparer ta consultation","la fiche SOS \"mon médecin ne m'écoute pas\""]
+    liens:["tes scripts médecin pour faire entendre ta douleur","Mes analyses, dans Santé, pour préparer ta consultation","la fiche SOS \"mon médecin ne m'écoute pas\""]
   },
   {
     id:"decouragement", emoji:"💙", titre:"Découragement", couleur:"#5B7FA6",
@@ -1056,7 +1066,7 @@ const SOS_DATA = [
     kamila:"t'es pas en train d'échouer Cyster. t'es en train de traverser quelque chose de difficile. c'est pas la même chose.",
     secret:"le découragement arrive presque toujours au même moment : autour de la 2e-3e semaine, quand l'effort est là mais que les résultats visibles ne sont pas encore arrivés. ce n'est pas que ça ne marche pas — c'est que ton corps change à l'intérieur avant que ça se voie dehors. ce creux est NORMAL et il annonce souvent que le tournant est proche.",
     monMot:"longtemps, j'ai cru que j'étais juste nulle en discipline. je recommençais chaque lundi, puis j'abandonnais — et chaque abandon devenait la preuve que je n'y arriverais jamais. ce que je ne comprenais pas, c'est que je me battais contre quelque chose que personne ne m'avait expliqué. le jour où j'ai découvert le SMOP, j'ai arrêté de me voir comme un échec, et j'ai commencé à me voir comme une femme qui avait enfin une explication. le découragement n'a pas disparu d'un coup. mais j'ai arrêté de confondre une journée difficile avec une vie ratée. aujourd'hui si t'as plus de force, ne pense pas aux 30 prochains jours. pense juste au prochain petit pas.",
-    liens:["ton onglet Journal pour voir ton évolution noir sur blanc","le coach mindset de Kamila quand le moral est bas","tes victoires déjà accomplies cette semaine"]
+    liens:["ton Journal pour voir ton évolution noir sur blanc","les mots de Kamila quand le moral est bas","tes victoires déjà accomplies cette semaine"]
   },
   {
     id:"craquage", emoji:"🍪", titre:"Craquage alimentaire", couleur:"#CB9A79",
@@ -1071,7 +1081,7 @@ const SOS_DATA = [
     kamila:"le prochain repas recommence tout. pas lundi. le prochain repas.",
     secret:"un craquage suit presque toujours une restriction ou une glycémie en montagnes russes — pas un manque de volonté. plus tu te prives en journée, plus le cerveau réclame le soir. la solution n'est pas de te serrer encore plus la ceinture : c'est de manger ASSEZ et équilibré plus tôt, pour que le craquage n'ait plus de raison d'exister.",
     monMot:"pendant des années, j'ai cru que je manquais simplement de volonté. je tenais, puis je craquais, puis venait la culpabilité, puis la promesse de recommencer lundi — et le même scénario encore. ce que personne ne m'avait expliqué, c'est qu'un corps privé, épuisé ou soumis à des montagnes russes glycémiques finit souvent par réclamer de l'énergie. fort. très fort. aujourd'hui je vois ça autrement : un craquage n'est pas une preuve que tu es faible, c'est souvent une information, un message, une conséquence. quand j'ai commencé à chercher les causes plutôt qu'à me punir, j'ai enfin commencé à sortir du cycle.",
-    liens:["ta mission \"l'ordre dans l'assiette\"","tes recettes collations anti-fringale","la fiche SOS \"fringale sucrée\""]
+    liens:["le geste \"l'ordre dans l'assiette\"","tes recettes collations anti-fringale","la fiche SOS \"fringale sucrée\""]
   },
   {
     id:"stress", emoji:"😤", titre:"Stress aigu", couleur:"#D97706",
@@ -1086,7 +1096,7 @@ const SOS_DATA = [
     kamila:"ce que tu ressens là est réel. et biologique. la cohérence cardiaque n'est pas du yoga — c'est de la neurobiologie appliquée.",
     secret:"le SMOP et le stress s'aggravent mutuellement — c'est une relation bidirectionnelle bien documentée. un cortisol élevé en continu perturbe la glycémie et les hormones. ce n'est pas « juste dans la tête » : agir sur le stress (respiration, sommeil) agit aussi, concrètement, sur ton terrain hormonal.",
     monMot:"longtemps, j'ai cru que j'étais simplement quelqu'un de stressée. avec le recul, je vois surtout un corps qui tirait sur la corde depuis des années : les douleurs, les symptômes, les rendez-vous, les analyses, les inquiétudes. à force, le système d'alarme finit par rester allumé en permanence. le moindre imprévu me vidait, et je culpabilisais de ne pas gérer comme les autres. aujourd'hui je sais que quand un corps lutte depuis longtemps, il devient plus sensible aux signaux de danger. ça ne veut pas dire que tu es faible. ça veut souvent dire que tu es épuisée depuis trop longtemps.",
-    liens:["le coach mindset de Kamila","la fiche SOS \"crise d'angoisse\" si ça monte fort","ton Journal pour relâcher la pression par écrit"]
+    liens:["les mots de Kamila, selon ton humeur","la fiche SOS \"crise d'angoisse\" si ça monte fort","ton Journal pour relâcher la pression par écrit"]
   },
   {
     id:"restaurant", emoji:"🍽️", titre:"Restaurant / sortie", couleur:"#B8C5A0",
@@ -1101,7 +1111,7 @@ const SOS_DATA = [
     kamila:"une sortie ne brise pas un protocole. profite. et applique juste l'ordre des aliments.",
     secret:"au restaurant, ce qui compte n'est pas d'être parfaite — c'est l'ordre des aliments. commence par les légumes et les protéines, garde le féculent et le dessert pour après : tu lisses ton pic glycémique sans rien sacrifier du plaisir. un seul réflexe change tout, sans privation.",
     monMot:"je me souviens quand sortir manger devenait une source de stress. j'avais l'impression de devoir choisir entre profiter du moment ou prendre soin de moi — alors je culpabilisais avant, ou après. avec le temps, j'ai compris une chose importante : ce n'est pas un repas qui crée le problème, c'est ce qu'on fait 95% du temps qui compte. aujourd'hui je vais au restaurant, je profite, et je fais simplement les meilleurs choix possibles sans chercher la perfection. parce que la santé doit aussi laisser une place à la vie.",
-    liens:["ta mission \"l'ordre dans l'assiette\"","la fiche SOS \"buffet / fête\"","la fiche SOS \"craquage alimentaire\""]
+    liens:["le geste \"l'ordre dans l'assiette\"","la fiche SOS \"buffet / fête\"","la fiche SOS \"craquage alimentaire\""]
   },
   {
     id:"medecin", emoji:"👩‍⚕️", titre:"Mon médecin ne m'écoute pas", couleur:"#5B7FA6",
@@ -1116,7 +1126,7 @@ const SOS_DATA = [
     kamila:"tu mérites un médecin qui te prend au sérieux. si c'est pas celui-là — il y en a un autre.",
     secret:"le délai moyen de diagnostic du SMOP en France est de 2 à 4 ans, et 70% des femmes concernées l'ignorent encore. si tu sens qu'on ne t'écoute pas, tu n'es ni difficile ni « trop » : tu fais face à une vraie errance médicale documentée. arriver avec tes symptômes notés et tes questions écrites change radicalement une consultation.",
     monMot:"si je pouvais parler à la version plus jeune de moi, je lui dirais : tu n'inventes rien, tu n'exagères rien, et tu as le droit de poser des questions. j'ai passé des années à entendre des réponses à mes symptômes, mais rarement des explications. on traitait l'acné, les douleurs, les règles — mais personne ne reliait les points, personne ne me racontait l'histoire complète. ce n'est qu'en rencontrant les bonnes personnes que j'ai compris ce qui se passait. si aujourd'hui tu sens qu'on ne t'écoute pas, ne remets pas ton ressenti en question. tu vis dans ton corps tous les jours. ta voix compte. tes symptômes comptent. tes questions comptent.",
-    liens:["tes scripts médecin prêts à l'emploi","l'onglet Analyses pour préparer ton bilan","ton Journal pour documenter tes symptômes"]
+    liens:["tes scripts médecin prêts à l'emploi","Mes analyses, dans Santé, pour préparer ton bilan","ton Journal pour documenter tes symptômes"]
   },
   {
     id:"miroir", emoji:"🪞", titre:"Je ne me reconnais plus", couleur:"#C2AEBA",
@@ -1131,7 +1141,7 @@ const SOS_DATA = [
     kamila:"ton corps n'est pas ton ennemi. il essaie de te dire quelque chose. maintenant tu comprends la langue.",
     secret:"ne plus se reconnaître, ce n'est pas de la coquetterie — c'est l'effet d'une accumulation de symptômes visibles (peau, poils, poids) qui ont tous une même racine hormonale. travailler la cause commune, plutôt que chaque symptôme isolément, est ce qui te fait peu à peu te retrouver. tu n'as pas disparu : tu es enfouie sous des symptômes explicables.",
     monMot:"« je ne me reconnais plus. » cette phrase résume une grande partie de mon histoire. les poils, l'acné, le ventre, le visage gonflé, les sautes d'humeur, les douleurs. à force d'accumuler les symptômes, j'avais l'impression que mon corps devenait quelqu'un d'autre. je regardais les autres filles et je me demandais pourquoi ça semblait tellement plus simple pour elles. ce que je ne savais pas, c'est que je n'avais pas disparu : j'étais simplement enfouie sous des symptômes que personne ne m'avait appris à comprendre. et le jour où j'ai commencé à comprendre mon corps, j'ai commencé à me retrouver. pas parfaitement, pas tout de suite, mais assez pour savoir que je n'étais pas perdue.",
-    liens:["l'encart \"ton parcours, fait pour toi\" sur l'accueil","le coach mindset de Kamila","ton Journal pour mesurer ton évolution réelle"]
+    liens:["Mon parcours, sur l'accueil","les mots de Kamila, selon ton humeur","ton Journal pour mesurer ton évolution réelle"]
   },
   {
     id:"voyage", emoji:"✈️", titre:"Voyage / déplacement", couleur:"#D4A56A",
@@ -1146,7 +1156,7 @@ const SOS_DATA = [
     kamila:"le protocole voyage avec toi. adapté. pas parfait. mais présent.",
     secret:"en voyage, l'objectif n'est pas le protocole à 100% — c'est de garder 2-3 repères simples (protéines au petit-déj, ordre des aliments, marche). la vraie réussite, ce n'est pas la perfection pendant une semaine, c'est de revenir naturellement à tes habitudes après. la rigidité, elle, mène au craquage.",
     monMot:"avant, les voyages me stressaient. comment manger ? comment garder mes habitudes ? comment éviter de tout perdre ? puis un jour j'ai réalisé quelque chose : je ne pars pas en voyage pour être parfaite, je pars pour vivre. aujourd'hui j'emporte quelques repères simples, mais je laisse la perfection à la maison. parce que la vraie réussite, ce n'est pas de suivre un protocole à 100% pendant une semaine — c'est d'être capable de revenir naturellement à ses habitudes après. et ça, c'est une liberté que j'ai mis des années à construire.",
-    liens:["tes recettes nomades à emporter","la fiche SOS \"restaurant / sortie\"","ta mission \"l'ordre dans l'assiette\""]
+    liens:["tes recettes nomades à emporter","la fiche SOS \"restaurant / sortie\"","le geste \"l'ordre dans l'assiette\""]
   },
   {
     id:"insomnie", emoji:"🌙", titre:"Réveil nocturne", couleur:"#7A5C45",
@@ -1161,7 +1171,7 @@ const SOS_DATA = [
     kamila:"demain tu seras fatiguée. et tu continueras quand même. parce que t'as prouvé que tu peux.",
     secret:"le réveil nocturne vers 3-4h est souvent lié à une chute de glycémie pendant la nuit ou à un cortisol qui grimpe trop tôt. une collation protéinée légère le soir (pas sucrée) aide parfois à éviter la chute. ce n'est pas « juste du stress » : ton corps a des raisons physiologiques que tu peux apaiser.",
     monMot:"longtemps, je croyais que dormir était censé me reposer. sauf que je me réveillais en pleine nuit — 3h, 4h — les yeux grands ouverts, le cerveau en marche alors que mon corps était épuisé. je calculais combien d'heures il me restait, et plus je m'inquiétais, moins je me rendormais. je pensais que c'était le stress. parfois oui. mais j'ai découvert que les hormones, la glycémie, le cortisol et même les carences pouvaient jouer leur rôle. ce n'était pas que dans ma tête : c'était mon corps qui essayait de me parler. le jour où j'ai arrêté de me traiter comme une machine défectueuse, j'ai commencé à écouter les messages derrière les symptômes.",
-    liens:["tes recettes collations du soir","la fiche SOS \"stress aigu\"","l'onglet Analyses pour vérifier tes carences"]
+    liens:["tes recettes collations du soir","la fiche SOS \"stress aigu\"","Mes analyses, dans Santé, pour vérifier tes carences"]
   },
   {
     id:"buffet", emoji:"🍽️", titre:"Buffet / fête", couleur:"#CB9A79",
@@ -1176,7 +1186,7 @@ const SOS_DATA = [
     kamila:"un repas de fête ne défait pas des semaines de cohérence. profite, savoure, et reprends ton rythme demain.",
     secret:"l'envie de tout dévorer à un buffet vient souvent de la restriction — plus on s'est privée avant, plus le cerveau compense. se servir ce qui fait vraiment envie, lentement, sans interdit, désamorce justement la compulsion. la perfection alimentaire crée le craquage qu'elle prétend éviter.",
     monMot:"les buffets étaient mon piège préféré. tout avait l'air bon, tout donnait envie, et cette petite voix me disait : « profites-en, après tu recommenceras sérieusement. » je connais cette voix, je l'ai écoutée pendant des années. puis j'ai compris qu'elle venait souvent de la restriction : quand on se sent privée, le cerveau cherche à compenser. aujourd'hui je me sers ce qui me fait vraiment envie, je mange lentement, je profite, et je repars sans avoir besoin de me punir le lendemain. parce qu'un buffet ne définit pas ta santé, pas plus qu'un repas ne définit ta valeur.",
-    liens:["la fiche SOS \"craquage alimentaire\"","la fiche SOS \"restaurant / sortie\"","ta mission \"l'ordre dans l'assiette\""]
+    liens:["la fiche SOS \"craquage alimentaire\"","la fiche SOS \"restaurant / sortie\"","le geste \"l'ordre dans l'assiette\""]
   },
   {
     id:"poids-soudain", emoji:"⚖️", titre:"Prise de poids soudaine", couleur:"#B07050",
@@ -1215,7 +1225,7 @@ const SOS_DATA = [
     kamila:"ce que tu ressens est réel et tu n'exagères pas. mais ça va passer, comme à chaque fois. tu es plus solide que cette vague.",
     secret:"une crise d'angoisse est une fausse alarme du système nerveux — terrifiante sur le coup, mais sans danger réel. le SMOP, via les variations hormonales et un cortisol souvent élevé, rend ce système plus réactif. l'expiration longue (plus longue que l'inspiration) envoie au cerveau le signal physiologique que la menace est passée.",
     monMot:"je me souviens surtout de cette sensation de perdre le contrôle. le cœur qui s'emballe, la poitrine serrée, l'impression qu'il se passe quelque chose de grave — et plus tu essaies de te calmer, plus ton corps semble paniquer. quand ça m'arrivait, je croyais parfois avoir un vrai problème physique grave. puis j'ai compris qu'une crise d'angoisse est souvent un système d'alarme qui se déclenche au mauvais moment. sur le coup c'est terrifiant, mais ça ne définit pas qui tu es, et ça ne veut pas dire que tu deviens folle. aujourd'hui encore, quand mon corps me lance ce signal, j'essaie de me rappeler une chose : ce que je ressens est réel, mais le danger que mon cerveau imagine ne l'est pas forcément.",
-    liens:["le coach mindset de Kamila","la fiche SOS \"stress aigu\"","ton Journal pour poser ce que tu ressens"]
+    liens:["les mots de Kamila, selon ton humeur","la fiche SOS \"stress aigu\"","ton Journal pour poser ce que tu ressens"]
   },
   {
     id:"solitude", emoji:"🤍", titre:"Je me sens seule", couleur:"#C2AEBA",
@@ -1230,7 +1240,7 @@ const SOS_DATA = [
     kamila:"tu te sens seule, mais tu ne l'es pas. il existe toute une communauté de femmes qui vivent exactement ce que tu traverses — tu peux t'y appuyer, dès maintenant.",
     secret:"le sentiment de solitude vient du fait que le SMOP est invisible et incompris — ce n'est pas « dans ta tête », c'est une charge réelle. et 70% des femmes concernées ignorent même qu'elles l'ont. tu fais partie d'une immense communauté silencieuse. mettre des mots et partager, c'est ce qui allège le plus vite ce poids.",
     monMot:"le pire avec le SMOP, ce ne sont pas toujours les symptômes. c'est parfois le sentiment que personne ne comprend vraiment. les autres voient les boutons, les poils, le poids — mais pas les heures passées à chercher des réponses, les analyses, les rendez-vous, les inquiétudes, les larmes. longtemps je me suis sentie seule. puis j'ai découvert d'autres femmes qui vivaient exactement la même chose, et ça a changé quelque chose d'immense. parce qu'à partir du moment où quelqu'un met des mots sur ce que tu vis, tu te sens un peu moins seule à le porter.",
-    liens:["la communauté Cysters","le coach mindset de Kamila","ton Journal pour déposer ce que tu portes"]
+    liens:["la communauté Cysters","les mots de Kamila, selon ton humeur","ton Journal pour déposer ce que tu portes"]
   },
 ];
 
@@ -1307,7 +1317,7 @@ pourquoi:"à J7, ton pancréas produit déjà moins d'insuline à chaque repas. 
 source:"la résistance à l'insuline est au cœur des mécanismes du SMOP, et son amélioration précède les changements visibles (Diamanti-Kandarakis & Dunaif, 2012, Endocrine Reviews).",
 comment:["repense à ta semaine, jour par jour","note les changements d'énergie, de faim, de sommeil","note les changements d'humeur ou de digestion","ne cherche pas le poids ou le miroir — trop tôt","garde cette liste, tu la reliras à J14 et J30"],
 pieges:["juger la semaine sur la balance — elle ne dit rien à J7","se dévaloriser pour les jours imparfaits — la cohérence n'est pas la perfection","ne rien noter en pensant que rien n'a changé — les petits signaux comptent"],
-plus:"écris ce bilan dans l'onglet Journal. dans 3 semaines, le relire te montrera noir sur blanc le chemin parcouru. c'est ta meilleure arme les jours de doute.",
+plus:"écris ce bilan dans ton journal. dans 3 semaines, le relire te montrera noir sur blanc le chemin parcouru. c'est ta meilleure arme les jours de doute.",
 observes:["aujourd'hui : tu mesures ta première semaine autrement","dans 2 semaines : tu compares et tu vois la progression","dans 3 semaines : ce bilan devient ta preuve personnelle"],
 victoire:"une semaine de cohérence. c'est déjà infiniment plus que rien."},
   {day:8,emoji:"💪",theme:"les protéines et tes hormones",
@@ -1317,7 +1327,7 @@ pourquoi:"voici le mécanisme central de ton profil : quand ton insuline est él
 source:"le lien insuline élevée → hyperandrogénie est un mécanisme central et documenté du SMOP (Diamanti-Kandarakis & Dunaif, 2012, Endocrine Reviews).",
 comment:["petit-déjeuner : œufs, skyr, ou restes protéinés","déjeuner : viande, poisson, légumineuses + légumes","dîner : protéine légère (poisson, œufs, tofu)","collation si besoin : oléagineux, fromage blanc","vise environ une portion de la taille de ta paume par repas"],
 pieges:["oublier les protéines au petit-déjeuner — c'est le repas le plus important pour ça","croire qu'une salade verte seule suffit — il faut la protéine avec","compter le pain ou les féculents comme des protéines — ce n'en sont pas"],
-plus:"si tu manques d'idées, va dans l'onglet Outils → Aliments et cherche par catégorie 'Protéines'. tu y trouveras des dizaines d'options avec leur teneur exacte.",
+plus:"si tu manques d'idées, va dans Ressources → Chercher un aliment et choisis « Protéines ». tu y trouveras des dizaines d'options avec leur teneur exacte.",
 observes:["aujourd'hui : tu tiens mieux entre les repas","dans quelques jours : moins de fringales de sucre","dans 2 semaines : une satiété plus stable, une énergie plus régulière"],
 victoire:"chaque repas avec des protéines est un repas où ton insuline travaille pour toi.",
 outil:{emoji:"🍽️",label:"Trouve tes sources de protéines",desc:"toutes les protéines classées par teneur",cible:"aliments",recherche:""},
@@ -1345,11 +1355,11 @@ observes:["les premiers jours : une digestion qui s'habitue","dans 2 semaines : 
 victoire:"dix jours. ton foie commence à travailler différemment.",
 outil:{emoji:"🍽️",label:"Explore les légumes crucifères",desc:"cherche brocoli, chou-fleur, roquette",cible:"aliments",recherche:"chou"}},
   {day:11,emoji:"🏋️‍♀️",theme:"le renforcement musculaire",
-mission:"fais 20 minutes de renforcement aujourd'hui — Squats 3×15, Fentes 3×12, Pompes 3×10, Gainage 3×30s.",
+mission:"fais ta séance Renforcement A dans Bouger : 6 mouvements guidés, à ton rythme.",
 msg:"tu ne fais pas du sport pour brûler des calories.\n\ntu construis un muscle qui travaille pour toi 24h/24.\n\naujourd'hui on pose la première brique.",
 pourquoi:"voici un fait que peu de gens connaissent : tes muscles captent 70 à 80% du glucose de ton corps. plus tu as de masse musculaire, plus tu as de 'réservoirs' pour absorber le sucre de ton sang — et le mieux, c'est qu'à l'effort, tes muscles le font sans avoir besoin d'insuline.\n\nconcrètement : construire du muscle, c'est agrandir ta capacité à gérer la glycémie en permanence, même au repos. un corps plus musclé est un corps plus sensible à l'insuline.\n\nle renforcement n'est pas réservé aux sportives. pour le SMOP métabolique, c'est un des leviers les plus puissants sur le long terme.",
 source:"l'activité physique, en particulier le renforcement musculaire, améliore la sensibilité à l'insuline dans le SMOP (Diamanti-Kandarakis & Dunaif, 2012, Endocrine Reviews).",
-comment:["échauffe-toi 2-3 minutes (montées de genoux, rotations)","Squats : 3 séries de 15 — assise imaginaire sur une chaise","Fentes : 3 séries de 12 par jambe","Pompes : 3×10 (sur les genoux ou contre un mur si besoin)","Gainage : 3×30 secondes — dos droit, ventre serré"],
+comment:["ouvre la séance : l'échauffement est compris","squat vers une chaise, pompes contre un mur, pont fessier","abduction de hanche, Bird-Dog, élévations des mollets","choisis ton nombre de tours selon ton énergie","termine par le retour au calme"],
 pieges:["aller trop vite — la lenteur fait travailler le muscle davantage","sauter l'échauffement — risque de blessure","viser la perfection dès la première fois — la régularité prime"],
 plus:"si certains exercices sont trop durs, adapte sans culpabiliser : pompes contre un mur, demi-squats, gainage plus court. ce qui compte c'est de solliciter le muscle, pas de faire un exploit.",
 observes:["après la séance : une fatigue saine, pas un épuisement","2-3 jours après : de légères courbatures (signe que ça marche)","dans 3 semaines : plus de force, des gestes du quotidien plus faciles"],
@@ -1418,14 +1428,14 @@ observes:["aujourd'hui : tu es rassasiée plus longtemps","dans quelques jours :
 victoire:"tu viens de désactiver une croyance nutritionnelle qui t'a freinée pendant des années.",
 outil:{emoji:"🍽️",label:"Explore les bons gras",desc:"cherche avocat, amandes, noix, chocolat",cible:"aliments",recherche:"avocat"}},
   {day:18,emoji:"🔥",theme:"deuxième séance de renforcement",
-mission:"fais ta 2e séance : Rowing avec bouteilles 3×15, Élévations 3×15, Squat+press 3×12, Superman 3×15.",
+mission:"fais ta 2e séance : Renforcement B dans Bouger, pour le dos, l'arrière des jambes et la sangle abdominale.",
 msg:"deux séances. tu atteins le seuil qui fait la différence.\n\nce n'est plus un essai, c'est un rythme.",
-pourquoi:"une séance par semaine, c'est bien. deux séances, c'est là que la magie opère. à ce rythme, les fenêtres d'amélioration de la sensibilité à l'insuline commencent à se chevaucher : ton corps reste 'amélioré' plus longtemps entre les séances.\n\naujourd'hui on travaille le haut du corps, qu'on néglige souvent. or le muscle, où qu'il soit, agrandit ta capacité à capter le glucose. plus tu construis de muscle réparti sur tout le corps, plus tu as de réservoirs pour gérer ta glycémie au repos.\n\ndeux séances hebdo de renforcement, c'est un des piliers les plus solides du SMOP métabolique sur le long terme.",
+pourquoi:"une séance par semaine, c'est bien. deux séances, c'est là que la magie opère. à ce rythme, les fenêtres d'amélioration de la sensibilité à l'insuline commencent à se chevaucher : ton corps reste 'amélioré' plus longtemps entre les séances.\n\naujourd'hui on travaille le dos et l'arrière du corps, qu'on néglige souvent. or le muscle, où qu'il soit, agrandit ta capacité à capter le glucose. plus tu construis de muscle réparti sur tout le corps, plus tu as de réservoirs pour gérer ta glycémie au repos.\n\ndeux séances hebdo de renforcement, c'est un des piliers les plus solides du SMOP métabolique sur le long terme.",
 source:"l'entraînement en résistance améliore la sensibilité à l'insuline dans le SMOP (Diamanti-Kandarakis & Dunaif, 2012, Endocrine Reviews).",
-comment:["échauffe-toi 2-3 minutes","Rowing : penchée en avant, tire 2 bouteilles d'eau vers toi, 3×15","Élévations latérales : bras sur les côtés avec bouteilles, 3×15","Squat + press : squat puis pousse les bouteilles au-dessus de la tête, 3×12","Superman : allongée sur le ventre, soulève bras et jambes, 3×15"],
-pieges:["négliger le haut du corps — il compte autant que les jambes","forcer sur une charge trop lourde — la technique d'abord","sauter cette 2e séance — c'est elle qui fait passer un cap"],
-plus:"pas de bouteilles ? des packs de lait, des boîtes de conserve, ou même ton propre poids font l'affaire. l'important c'est de créer une résistance pour le muscle, pas d'avoir du matériel.",
-observes:["après la séance : une fatigue saine du haut du corps","dans 2 semaines : une posture qui se redresse, plus de force","sur la durée : un métabolisme qui gère mieux le sucre en continu"],
+comment:["ouvre la séance : l'échauffement est compris","charnière de hanche, tirage avec élastique, fente avec appui","assis-debout, Dead Bug simplifié, marche avec charge légère","garde une charge avec laquelle tu peux bien bouger","termine par le retour au calme"],
+pieges:["négliger le dos — il compte autant que les jambes","forcer sur une charge trop lourde — la technique d'abord","sauter cette 2e séance — c'est elle qui fait passer un cap"],
+plus:"pas d'élastique ? Bouger te propose un autre mouvement à la place. et pour la charge, une bouteille d'eau suffit.",
+observes:["après la séance : une fatigue saine du dos et des jambes","dans 2 semaines : une posture qui se redresse, plus de force","sur la durée : un métabolisme qui gère mieux le sucre en continu"],
 victoire:"ce n'est plus un essai. c'est un rythme."},
   {day:19,emoji:"⚡",theme:"le zinc",
 mission:"commence le zinc — 15 à 25mg avec un repas, jamais à jeun.",
@@ -1453,7 +1463,7 @@ mission:"note ce qui a changé depuis le Jour 14 — traque les micro-victoires,
 msg:"regarde déjà tout ce que tu comprends aujourd'hui\nque tu ne comprenais pas il y a 3 semaines.\n\naujourd'hui on rend visible l'invisible.",
 pourquoi:"la troisième semaine est souvent celle où les premiers changements deviennent perceptibles. pas de façon spectaculaire — de façon subtile. une énergie plus stable dans l'après-midi. des fringales moins violentes. un réveil un peu plus clair.\n\nle problème, c'est que ces changements sont progressifs, donc on s'y habitue sans les remarquer. ton cerveau normalise vite. c'est pour ça qu'il faut les écrire : pour les rendre visibles à toi-même.\n\nnoter tes micro-victoires, ce n'est pas de l'optimisme forcé. c'est de la donnée. c'est la preuve concrète que ton corps répond.",
 source:"l'amélioration des marqueurs métaboliques dans le SMOP est progressive et précède les changements cliniques majeurs (Diamanti-Kandarakis & Dunaif, 2012, Endocrine Reviews).",
-comment:["relis tes bilans des Jours 7 et 14","note tout ce qui a bougé depuis 3 semaines","énergie, sommeil, fringales, digestion, humeur, peau","même un mieux léger compte — écris-le","garde tout dans l'onglet Journal"],
+comment:["relis tes bilans des Jours 7 et 14","note tout ce qui a bougé depuis 3 semaines","énergie, sommeil, fringales, digestion, humeur, peau","même un mieux léger compte — écris-le","garde tout dans ton journal"],
 pieges:["attendre un changement spectaculaire — la vraie progression est discrète","oublier les changements non physiques (humeur, clarté mentale)","comparer ta vitesse à celle des autres — chaque corps a son rythme"],
 plus:"prends une photo ou note tes mensurations si tu veux un repère objectif. mais souviens-toi : à 3 semaines, le plus grand changement est souvent dans ta tête et ton énergie, pas dans le miroir.",
 observes:["aujourd'hui : tu vois noir sur blanc ce qui a changé","dans 9 jours (J30) : le bilan final, encore plus parlant","sur les mois suivants : les changements physiques s'installent"],
@@ -1463,7 +1473,7 @@ mission:"si tu as des analyses récentes, ouvre le Traducteur dans ton espace et
 msg:"tu n'as plus besoin d'attendre qu'on t'explique.\n\ntu lis ton propre corps.\n\naujourd'hui tu deviens actrice de tes résultats.",
 pourquoi:"il y a une nuance que peu de patientes connaissent : les normes de laboratoire ne sont pas les normes optimales. les normes de labo définissent ce qui est 'pathologique', pas ce qui est 'idéal'.\n\nrésultat : ton insuline à jeun peut être affichée comme 'dans les normes' alors qu'elle est déjà trop haute pour un fonctionnement optimal. c'est exactement pour ça que tant de Cysters s'entendent dire 'tout va bien' alors qu'elles se sentent mal. les valeurs sont 'normales' au sens du labo, mais pas fonctionnelles.\n\nsavoir lire la différence entre 'normal' et 'optimal', c'est arrêter de douter de ton ressenti. ton corps ne ment pas.",
 source:"la résistance à l'insuline est sous-diagnostiquée dans le SMOP car les normes de laboratoire ne reflètent pas toujours l'optimal fonctionnel (Diamanti-Kandarakis & Dunaif, 2012, Endocrine Reviews).",
-comment:["récupère tes analyses (insuline à jeun, glycémie, HOMA-IR…)","ouvre l'onglet Analyses → Traducteur","entre tes valeurs pour les comprendre en langage clair","repère l'écart entre 'normal labo' et 'optimal'","note tes questions pour ton médecin"],
+comment:["récupère tes analyses (insuline à jeun, glycémie, HOMA-IR…)","ouvre Santé → Mes analyses, puis le traducteur","entre tes valeurs pour les comprendre en langage clair","repère l'écart entre 'normal labo' et 'optimal'","note tes questions pour ton médecin"],
 pieges:["paniquer devant un chiffre hors norme — ton espace t'aide à le mettre en contexte","prendre les normes de labo pour des objectifs de santé — ce n'est pas pareil","te passer de ton médecin — ton espace éclaire, il ne remplace pas un avis médical"],
 plus:"si tu n'as pas encore d'analyses, ce n'est pas grave : le Jour 15 t'a préparée à les demander. reviens à cette mission quand tu les auras. comprendre ses propres analyses, c'est une compétence que tu gardes à vie.",
 observes:["aujourd'hui : tu comprends tes chiffres sans angoisse","à ton prochain bilan : tu suis ton évolution toi-même","sur la durée : tu dialogues d'égale à égale avec les soignants"],
@@ -1481,11 +1491,11 @@ observes:["les premières semaines : rien de visible (la D travaille en fond)","
 victoire:"tu construis des fondations que tu porteras longtemps après ces 30 jours.",
 outil:{emoji:"💊",label:"Voir tes compléments adaptés",desc:"dosage, timing et délai pour ton profil",cible:"complements"}},
   {day:24,emoji:"💥",theme:"troisième séance",
-mission:"refais ta séance de renforcement (comme au Jour 18) — tu en es à 3 séances cette semaine.",
+mission:"fais la séance Force & glycémie dans Bouger. si c'est ta 3e de la semaine, bravo. sinon, celle-ci suffit.",
 msg:"trois séances. tu atteins la fréquence optimale.\n\naujourd'hui tu passes un cap réservé à peu de monde.",
 pourquoi:"à trois séances de renforcement par semaine, quelque chose de spécial se produit : l'amélioration de ta sensibilité à l'insuline devient quasi continue. les effets de chaque séance se chevauchent, ton corps reste 'optimisé' en permanence.\n\net il y a un bonus que peu de gens connaissent : pendant l'exercice, tes muscles sécrètent des myokines — des molécules anti-inflammatoires. comme l'inflammation de fond fait partie du tableau du SMOP, c'est un effet doublement utile.\n\ntrois séances hebdo, ce n'est pas réservé aux athlètes. c'est la fréquence où le renforcement devient un vrai traitement de fond pour ton métabolisme.",
 source:"l'entraînement en résistance régulier améliore durablement la sensibilité à l'insuline et réduit l'inflammation dans le SMOP (Diamanti-Kandarakis & Dunaif, 2012, Endocrine Reviews).",
-comment:["reprends le programme du Jour 18","échauffe-toi avant de commencer","respecte les temps de repos entre les séries","reste à l'écoute de ton corps (la fatigue normale ≠ douleur)","note ta séance dans le Journal pour suivre ta régularité"],
+comment:["ouvre la séance Force & glycémie : tout est guidé","échauffe-toi avant de commencer","respecte les temps de repos entre les séries","reste à l'écoute de ton corps (la fatigue normale ≠ douleur)","note ta séance dans le Journal pour suivre ta régularité"],
 pieges:["enchaîner sans aucun jour de repos — le muscle se construit au repos","vouloir progresser trop vite en charge — la régularité prime","culpabiliser si tu n'as fait que 2 séances — 2 c'est déjà excellent"],
 plus:"si 3 séances te paraît trop, garde 2 séances : c'est déjà très efficace. l'objectif n'est pas la performance, c'est la régularité sur les mois et les années à venir.",
 observes:["cette semaine : une force qui progresse nettement","dans un mois : des gestes du quotidien plus faciles","sur la durée : un métabolisme transformé en profondeur"],
@@ -1587,7 +1597,7 @@ mission:"aujourd'hui, note simplement comment tu te sens APRÈS chaque repas —
 msg:"ton corps te parle à chaque repas.\n\nla plupart du temps on n'écoute pas.\n\naujourd'hui on commence juste à observer — sans juger, sans changer.",
 pourquoi:"l'inflammation est très personnelle. un aliment qui ne pose aucun problème à ta voisine peut, chez toi, déclencher ballonnements, fatigue ou douleurs.\n\nles signaux post-repas — ventre gonflé, coup de barre, lourdeur, brouillard mental dans l'heure qui suit — sont des indices précieux de ce que ton corps tolère mal.\n\naujourd'hui on ne supprime rien. on observe. parce qu'avant de changer quoi que ce soit, il faut d'abord savoir lire ses propres signaux. tu deviens ta meilleure observatrice.",
 source:"les réponses alimentaires sont individuelles ; l'auto-observation est un outil reconnu pour identifier ses propres sensibilités.",
-comment:["après chaque repas, pose-toi 2 minutes","note : mon ventre ? mon énergie ? ma tête ? (gonflé / lourd / fatiguée / ok)","note aussi ce que tu as mangé, grossièrement","ne juge pas, ne te prive pas aujourd'hui — tu collectes","utilise l'onglet Journal pour garder une trace"],
+comment:["après chaque repas, pose-toi 2 minutes","note : mon ventre ? mon énergie ? ma tête ? (gonflé / lourd / fatiguée / ok)","note aussi ce que tu as mangé, grossièrement","ne juge pas, ne te prive pas aujourd'hui — tu collectes","utilise ton journal pour garder une trace"],
 pieges:["culpabiliser fausse l'observation — tu n'es pas en train de te surveiller, tu apprends à te connaître","vouloir tout supprimer d'un coup : on observe d'abord, on ajuste après","oublier de noter les petits inconforts — même un léger ballonnement compte"],
 plus:"les coupables les plus fréquents du ballonnement chez les femmes SMOP : les produits laitiers, le gluten raffiné, les édulcorants et les plats ultra-transformés. mais chacune est différente — c'est TON corps qui a la réponse, pas une règle générale.",
 observes:["aujourd'hui : tu commences à repérer des schémas","dans quelques jours : tu identifies 1 ou 2 aliments qui te pèsent","dans 2 semaines : tu sais mieux ce qui t'apaise et ce qui t'enflamme"],
@@ -1639,9 +1649,9 @@ mission:"prends 5 minutes pour noter les petits changements de cette première s
 msg:"une semaine que tu apaises ton terrain.\n\net voilà ce que personne ne te dit : les premiers changements sont discrets, intérieurs, avant d'être visibles.\n\naujourd'hui on apprend à les voir.",
 pourquoi:"en 7 jours, ton corps a déjà commencé à changer. tu as réduit les pics de sucre, les pro-inflammatoires, tu as mieux hydraté et bougé en douceur. ton inflammation de bas grade a commencé à desserrer son étreinte.\n\nmais voilà le piège : ces premiers changements ne se voient pas dans le miroir. ils se passent à l'intérieur — digestion, énergie, sommeil, ballonnements. c'est pour ça que tant de femmes abandonnent trop tôt : elles cherchent au mauvais endroit.\n\nfaire le bilan des petits signaux, c'est apprendre à reconnaître les vrais résultats, ceux qui annoncent les changements visibles à venir.",
 source:"les changements métaboliques et inflammatoires précèdent les changements visibles ; les suivre soutient l'adhésion au long cours.",
-comment:["ouvre l'onglet Journal","note ce qui a bougé : digestion, énergie, ballonnements, sommeil, humeur","même un mieux léger compte — écris-le","relis ce que tu as observé au Jour 3 sur tes repas","garde cette trace : dans 3 semaines, la relire te montrera le chemin"],
+comment:["ouvre ton journal","note ce qui a bougé : digestion, énergie, ballonnements, sommeil, humeur","même un mieux léger compte — écris-le","relis ce que tu as observé au Jour 3 sur tes repas","garde cette trace : dans 3 semaines, la relire te montrera le chemin"],
 pieges:["chercher un résultat visible dans le miroir après 7 jours — c'est trop tôt, et ce n'est pas là que ça se passe","minimiser les petits progrès : « juste un peu moins ballonnée » est un vrai signal","oublier de noter : la mémoire oublie, le journal non"],
-plus:"écris ce bilan dans l'onglet Journal. c'est ta meilleure arme les jours de doute — la preuve noir sur blanc que ton corps répond, même quand le miroir n'a pas encore suivi.",
+plus:"écris ce bilan dans ton journal. c'est ta meilleure arme les jours de doute — la preuve noir sur blanc que ton corps répond, même quand le miroir n'a pas encore suivi.",
 observes:["aujourd'hui : tu mesures ta première semaine autrement","dans 2 semaines : tu compares et tu vois la progression","dans 3 semaines : ce bilan devient ta preuve personnelle"],
 victoire:"tu as tenu une semaine à apaiser ton terrain — et tu commences à lire les vrais signaux de ton corps.",
 outil:null,
@@ -1762,7 +1772,7 @@ pieges:["les jus de fruits « antioxydants » industriels : trop de sucre, peu d
 plus:"mon réflexe : un bol de fruits rouges surgelés que je sors le matin, il décongèle tout seul, et je l'ajoute à mon skyr ou mon porridge. toute l'année, pas cher, et c'est un des gestes antioxydants les plus simples qui soient.",
 observes:["au fil des semaines : une peau parfois plus lumineuse","au long cours : un terrain mieux défendu contre le stress oxydatif","un effet global, en soutien de tout le reste"],
 victoire:"tu viens de renforcer tes défenses anti-inflammatoires, couleur après couleur.",
-outil:{emoji:"⭐",label:"La fiche des super-aliments",desc:"les aliments les plus riches en antioxydants",cible:"telechargements"},
+outil:{emoji:"⭐",label:"La fiche des incontournables",desc:"12 aliments simples qui apportent beaucoup",cible:"telechargements"},
 tisane:{nom:"Inflamma Tea",timing:"milieu de journée",lien:"https://sopklife.com/products/inflamma-tea",texte:"l'Inflamma Tea contient de l'églantier, une source naturelle de vitamine C antioxydante — en soutien de ton assiette colorée du jour."}},
 
   {day:17,emoji:"🦠",theme:"ton ventre, clé de l'inflammation",
@@ -1788,7 +1798,7 @@ pieges:["vouloir soudain « passer au niveau supérieur » en intensité : reste
 plus:"le vrai signe que ça marche, ce n'est pas de soulever plus lourd. c'est de te rendre compte qu'un geste du quotidien — monter les escaliers, porter tes courses — te coûte un peu moins qu'avant. ça, c'est ton corps qui se renforce en silence.",
 observes:["aujourd'hui : un mouvement un peu plus fluide qu'au début","dans 2 semaines : une habitude vraiment installée","au long cours : un corps plus tonique et moins enflammé"],
 victoire:"tu viens de transformer un effort en habitude — c'est ça qui dure.",
-outil:{emoji:"💪",label:"Bouger",desc:"ta séance de renforcement, pas à pas",goTab:"mouvement"},
+outil:{emoji:"💪",label:"Bouger",desc:"ta séance, pas à pas",goTab:"mouvement"},
 tisane:null},
 
   {day:19,emoji:"⚡",theme:"le zinc",
@@ -1822,7 +1832,7 @@ mission:"fais le point sur 3 semaines : qu'est-ce qui a changé dans ton quotidi
 msg:"trois semaines.\n\ntu as changé énormément de choses en douceur.\n\naujourd'hui on rend tout ça visible, noir sur blanc.",
 pourquoi:"après 3 semaines, les changements s'accumulent. mais notre cerveau s'habitue vite au mieux et oublie d'où on est parti. c'est pour ça qu'il faut rendre les progrès VISIBLES : les écrire, les comparer à tes bilans des Jours 7 et 14.\n\nsur un terrain inflammatoire, les signes qui bougent en premier sont souvent la digestion, l'énergie, le sommeil, les ballonnements, parfois la peau et les douleurs. ce sont des signaux réels, même s'ils ne se voient pas encore clairement dans le miroir.\n\nvoir le chemin parcouru, c'est ce qui te donne la force de tenir la dernière semaine — et de continuer après.",
 source:"suivre ses progrès de façon concrète soutient la motivation et l'adhésion sur le long terme.",
-comment:["relis tes bilans des Jours 7 et 14","note tout ce qui a bougé depuis 3 semaines","énergie, sommeil, digestion, ballonnements, humeur, peau, douleurs","compare : où en étais-tu il y a 3 semaines ?","garde tout dans l'onglet Journal"],
+comment:["relis tes bilans des Jours 7 et 14","note tout ce qui a bougé depuis 3 semaines","énergie, sommeil, digestion, ballonnements, humeur, peau, douleurs","compare : où en étais-tu il y a 3 semaines ?","garde tout dans ton journal"],
 pieges:["ne pas voir ses progrès faute de les avoir notés","chercher LA grande transformation visible : ce sont les petits signaux cumulés qui comptent","se dévaloriser : 3 semaines de constance, c'est une vraie réussite"],
 plus:"relis-toi vraiment, en détail. presque à chaque fois, en comparant avec le Jour 7, on découvre des changements qu'on avait déjà intégrés sans s'en rendre compte. c'est la preuve concrète que ton corps répond — garde-la précieusement pour les jours de doute.",
 observes:["aujourd'hui : tu vois 3 semaines de travail rassemblées","dans 9 jours (J30) : le bilan final, encore plus net","dans 2-3 mois : les changements visibles s'installent"],
@@ -1836,7 +1846,7 @@ mission:"si tu as des analyses récentes, ressors-les et repère tes marqueurs d
 msg:"des chiffres sur une feuille.\n\nmais derrière, c'est l'état réel de ton terrain.\n\naujourd'hui on apprend à les lire.",
 pourquoi:"tes analyses racontent ce qui se passe à l'intérieur. sur un terrain inflammatoire, trois éléments méritent ton attention : la CRP ultra-sensible (plus elle est basse, mieux c'est pour ton inflammation de fond), la ferritine (une ferritine basse entretient la fatigue, et une ferritine très haute peut aussi signaler de l'inflammation), et la vitamine D (souvent insuffisante).\n\nmais attention : lire ses analyses n'est pas poser un diagnostic. l'interprétation revient à ton médecin. l'objectif ici, c'est de comprendre les grandes lignes pour avoir une vraie conversation avec lui, pas de jouer au docteur.\n\nsi tu n'as pas d'analyses récentes, ce jour est l'occasion de planifier le rendez-vous pour les faire.",
 source:"la CRP ultra-sensible reflète l'inflammation de bas grade ; la ferritine basse entretient la fatigue. L'interprétation reste du ressort médical.",
-comment:["ressors tes analyses récentes si tu en as","repère : CRP, ferritine, vitamine D, glycémie/insuline","utilise l'onglet Analyses pour comprendre ce que chaque marqueur raconte","note tes questions pour ton médecin","compare avec d'anciennes analyses si tu en as, pour voir l'évolution"],
+comment:["ressors tes analyses récentes si tu en as","repère : CRP, ferritine, vitamine D, glycémie/insuline","utilise Mes analyses, dans Santé, pour comprendre ce que chaque marqueur raconte","note tes questions pour ton médecin","compare avec d'anciennes analyses si tu en as, pour voir l'évolution"],
 pieges:["interpréter seule un résultat comme un diagnostic : non, c'est le rôle du médecin","se fier à « c'est normal » sans le chiffre exact : demande les valeurs","paniquer devant un marqueur : un chiffre isolé ne dit pas tout, c'est l'ensemble qui compte"],
 plus:"le guide des analyses SMOP (dans tes fiches à télécharger) t'explique chaque marqueur simplement. garde-le sous la main pour tes prochains rendez-vous — tu arriveras en comprenant ce dont on parle, et ça change tout dans l'échange avec le médecin.",
 observes:["aujourd'hui : tu comprends mieux ton bilan","au rendez-vous : un échange plus éclairé","au long cours : tu suis l'évolution de ton terrain dans le temps"],
@@ -1854,7 +1864,7 @@ pieges:["se supplémenter à l'aveugle à forte dose : la vitamine D se stocke, 
 plus:"c'est vraiment le complément que je recommande de faire doser en priorité, parce que la carence est tellement fréquente et qu'elle touche directement l'énergie, l'humeur et l'inflammation. demande-le à ton prochain bilan, c'est une analyse simple.",
 observes:["au fil des semaines (si carence corrigée) : plus d'énergie, meilleure humeur","côté immunité : un soutien de fond","un effet global sur le terrain inflammatoire"],
 victoire:"tu viens de t'occuper d'une des carences les plus fréquentes et les plus impactantes.",
-outil:{emoji:"🩸",label:"Comprendre ta vitamine D",desc:"dans le guide des analyses",cible:"telechargements"},
+outil:{emoji:"🩸",label:"Comprendre ta vitamine D",desc:"dans le guide des analyses",cible:"telechargements",fiche:"dl-analyses"},
 tisane:null},
 
   {day:24,emoji:"🧠",theme:"le stress, ce grand déclencheur",
@@ -1867,7 +1877,7 @@ pieges:["croire que « gérer son stress » est secondaire : c'est une racine, p
 plus:"les moments où j'en ai le moins envie sont souvent ceux où j'en ai le plus besoin. 5 minutes de respiration avant un rendez-vous stressant, ou le soir quand ma tête tourne, et je sens physiquement la pression redescendre. c'est gratuit, ça marche, et personne ne le prescrit.",
 observes:["dès aujourd'hui : un apaisement immédiat après la séance","dans quelques jours : une réactivité au stress un peu moindre","au long cours : un cortisol mieux régulé, un terrain plus calme"],
 victoire:"tu viens d'agir sur une des vraies racines de ton inflammation : le stress.",
-outil:{emoji:"🤍",label:"Le coach mindset de Kamila",desc:"quand le moral ou le stress montent",goTab:"kamila",ancre:"coach-mindset"},
+outil:{emoji:"🤍",label:"Les mots de Kamila, selon ton humeur",desc:"quand le moral ou le stress montent",goTab:"kamila",ancre:"coach-mindset"},
 tisane:{nom:"Serenitea",timing:"le soir au coucher",lien:"https://sopklife.com/products/serenitea-detente-absolue",texte:"la Serenitea est ta tisane anti-stress : l'ashwagandha aide à réguler le cortisol, en complément direct de ta respiration du jour. le soir, en rituel."}},
 
   {day:25,emoji:"🌅",theme:"ancrer l'habitude",
@@ -2036,7 +2046,7 @@ mission:"prends 5 minutes pour noter les petits changements de cette première s
 msg:"une semaine que tu agis sur la cause de tes symptômes.\n\net voilà ce que personne ne te dit : les premiers changements sont intérieurs, bien avant d'être visibles sur ta peau.\n\naujourd'hui on apprend à les voir.",
 pourquoi:"en 7 jours, tu as déjà commencé à lisser ton insuline, à soutenir ton foie, à couper le signal androgénique plusieurs fois par jour. ton terrain hormonal a commencé à changer.\n\nmais sur un profil androgénique, il faut être patiente avec le miroir : l'acné met 4 à 8 semaines à répondre, la pilosité et les cheveux 3 à 6 mois. c'est biologique : les androgènes agissent lentement, donc ils se calment lentement aussi.\n\nce qui bouge en premier, c'est l'intérieur : énergie, fringales, digestion, parfois l'aspect de la peau (moins de brillance). c'est là qu'il faut regarder au début. ces signaux annoncent les changements visibles à venir.",
 source:"les changements métaboliques précèdent l'amélioration clinique de l'hyperandrogénie, qui s'étale sur plusieurs semaines à plusieurs mois.",
-comment:["ouvre l'onglet Journal","note ce qui a bougé : énergie, fringales, digestion, peau (brillance, texture)","relis ta cartographie du Jour 3","même un mieux léger compte — écris-le","garde cette trace : dans quelques semaines, elle te montrera le chemin"],
+comment:["ouvre ton journal","note ce qui a bougé : énergie, fringales, digestion, peau (brillance, texture)","relis ta cartographie du Jour 3","même un mieux léger compte — écris-le","garde cette trace : dans quelques semaines, elle te montrera le chemin"],
 pieges:["chercher un changement spectaculaire sur ta peau après 7 jours — c'est trop tôt","minimiser les petits progrès intérieurs : ils annoncent la suite","te décourager : le délai est NORMAL sur ce profil, ce n'est pas que ça ne marche pas"],
 plus:"la patience est ta meilleure alliée sur ce profil. les femmes qui abandonnent le font souvent à 2-3 semaines, pile avant que la peau commence à répondre. ton bilan d'aujourd'hui, c'est ce qui te donnera la force de tenir jusqu'aux résultats visibles.",
 observes:["aujourd'hui : tu mesures ta première semaine autrement","dans 4-8 semaines : la peau commence à répondre","dans 3-6 mois : la pilosité et les cheveux"],
@@ -2079,7 +2089,7 @@ pieges:["croire que « gérer son stress » est secondaire : c'est une source d'
 plus:"si ton stress est vraiment dominant (réveils à 3h, tension permanente, épuisement surrénalien), la Serenitea est la tisane pensée pour ce mécanisme précis — l'ashwagandha aide à réguler le cortisol. c'est une option à envisager en plus de ton protocole, selon ton ressenti.",
 observes:["dès aujourd'hui : un apaisement immédiat après la séance","dans quelques jours : une réactivité au stress un peu moindre","au fil des semaines : un cortisol mieux régulé = moins d'androgènes surrénaliens"],
 victoire:"tu viens d'agir sur une source de tes androgènes que personne ne t'avait expliquée.",
-outil:{emoji:"🤍",label:"Le coach mindset de Kamila",desc:"quand le stress monte",goTab:"kamila",ancre:"coach-mindset"},
+outil:{emoji:"🤍",label:"Les mots de Kamila, selon ton humeur",desc:"quand le stress monte",goTab:"kamila",ancre:"coach-mindset"},
 tisane:{nom:"Équilibre Féminin",timing:"milieu de journée",lien:"https://sopklife.com/products/cure-sopk-equilibre-feminin",texte:"l'Équilibre Féminin contient de la mélisse, un adaptogène doux qui aide à réguler l'axe du stress (HPA) — un soutien direct sur ton versant surrénalien."}},
 
   {day:11,emoji:"🧘‍♀️",theme:"bouger sans relancer tes androgènes",
@@ -2183,7 +2193,7 @@ pieges:["vouloir soudain passer à l'intensité : garde le doux pour ton profil"
 plus:"le vrai signe que ça marche, ce n'est pas de soulever plus lourd. c'est qu'un geste du quotidien te coûte un peu moins qu'avant. ton corps se renforce en silence, et ton insuline te remercie.",
 observes:["aujourd'hui : un mouvement un peu plus fluide qu'au début","dans 2 semaines : une habitude vraiment installée","au long cours : tes deux voies androgéniques apaisées"],
 victoire:"tu viens de transformer un effort en habitude — c'est ça qui dure.",
-outil:{emoji:"💪",label:"Bouger",desc:"ta séance de renforcement, pas à pas",goTab:"mouvement"},
+outil:{emoji:"💪",label:"Bouger",desc:"ta séance, pas à pas",goTab:"mouvement"},
 tisane:null},
 
   {day:19,emoji:"🍵",theme:"le thé vert, antioxydant anti-androgènes",
@@ -2230,7 +2240,7 @@ mission:"si tu as des analyses récentes, ressors-les et repère tes marqueurs a
 msg:"des chiffres sur une feuille.\n\nmais derrière, c'est l'état réel de ton équilibre hormonal.\n\naujourd'hui on apprend à les lire.",
 pourquoi:"tes analyses racontent ce qui se passe à l'intérieur. sur ton profil, les éléments à regarder : la testostérone (totale et libre) et la SHBG — c'est le rapport entre les deux qui compte le plus, pas la testostérone seule. une SHBG basse laisse plus de testostérone libre active, même si la testostérone totale paraît « normale ».\n\ncôté surrénalien : la DHEA-S (si elle est au-dessus de la norme de ton âge, tes surrénales contribuent à tes androgènes) et le cortisol. et la 17-OH-progestérone, si elle a été dosée, pour écarter l'hyperplasie congénitale des surrénales.\n\nmais lire ses analyses n'est pas poser un diagnostic : l'interprétation revient à ton médecin, selon ton âge et ton labo. l'objectif ici, c'est de comprendre les grandes lignes pour une vraie conversation avec lui.",
 source:"le rapport testostérone/SHBG reflète l'androgénie active ; la DHEA-S situe l'origine surrénalienne. Interprétation médicale selon l'âge et le laboratoire.",
-comment:["ressors tes analyses récentes si tu en as","repère : testostérone totale + libre, SHBG (et leur rapport)","repère le volet surrénalien : DHEA-S, cortisol, 17-OHP","utilise l'onglet Analyses et ton guide pour comprendre chaque marqueur","note tes questions pour ton médecin"],
+comment:["ressors tes analyses récentes si tu en as","repère : testostérone totale + libre, SHBG (et leur rapport)","repère le volet surrénalien : DHEA-S, cortisol, 17-OHP","utilise Mes analyses, dans Santé, et ton guide pour comprendre chaque marqueur","note tes questions pour ton médecin"],
 pieges:["regarder la testostérone totale seule : c'est le rapport avec la SHBG qui parle","interpréter un chiffre comme un diagnostic : c'est le rôle du médecin, selon ton âge","paniquer devant un marqueur isolé : c'est l'ensemble qui compte"],
 plus:"le guide des analyses SMOP (dans tes fiches à télécharger) t'explique chaque marqueur simplement. garde-le pour tes rendez-vous : arriver en comprenant le rapport testostérone/SHBG, ça change complètement l'échange avec le médecin.",
 observes:["aujourd'hui : tu comprends mieux ton bilan","au rendez-vous : un échange plus éclairé","au long cours : tu suis l'évolution de ton terrain dans le temps"],
@@ -2248,7 +2258,7 @@ pieges:["se supplémenter à l'aveugle à forte dose : la vitamine D se stocke, 
 plus:"c'est le complément que je recommande de faire doser en priorité : la carence est tellement fréquente, et elle touche l'énergie, l'humeur et l'équilibre hormonal. une analyse simple à demander à ton prochain bilan.",
 observes:["au fil des semaines (si carence corrigée) : plus d'énergie, meilleure humeur","sur l'équilibre hormonal : un soutien de fond","un effet global sur ton terrain"],
 victoire:"tu viens de t'occuper d'une des carences les plus fréquentes et les plus impactantes.",
-outil:{emoji:"🩸",label:"Comprendre ta vitamine D",desc:"dans le guide des analyses",cible:"telechargements"},
+outil:{emoji:"🩸",label:"Comprendre ta vitamine D",desc:"dans le guide des analyses",cible:"telechargements",fiche:"dl-analyses"},
 tisane:null},
 
   {day:24,emoji:"🧠",theme:"ancrer la gestion du stress",
@@ -2261,7 +2271,7 @@ pieges:["croire que c'est « réglé » après quelques séances : c'est une pra
 plus:"les habitudes anti-stress sont les plus faciles à laisser tomber, parce qu'on ne « voit » pas leur effet immédiatement. mais sur ton profil, elles agissent sur une vraie source d'androgènes. traite-les comme un levier hormonal, pas comme un bonus détente.",
 observes:["aujourd'hui : une pratique plus naturelle qu'il y a 2 semaines","au fil des semaines : une réactivité au stress réduite","au long cours : un cortisol et des androgènes surrénaliens mieux régulés"],
 victoire:"tu viens d'ancrer une habitude qui agit directement sur tes androgènes surrénaliens.",
-outil:{emoji:"🤍",label:"Le coach mindset de Kamila",desc:"quand le stress monte",goTab:"kamila",ancre:"coach-mindset"},
+outil:{emoji:"🤍",label:"Les mots de Kamila, selon ton humeur",desc:"quand le stress monte",goTab:"kamila",ancre:"coach-mindset"},
 tisane:{nom:"Équilibre Féminin",timing:"milieu de journée",lien:"https://sopklife.com/products/cure-sopk-equilibre-feminin",texte:"la mélisse de l'Équilibre Féminin soutient ton axe du stress au quotidien — et si le stress domine vraiment, la Serenitea est l'option à envisager en plus."}},
 
   {day:25,emoji:"🌅",theme:"ancrer l'habitude",
@@ -2434,7 +2444,7 @@ const MISSIONS_MIXTE_MI = [
    plus:"sur un profil mixte, le stress est souvent le fil qui relie tes deux versants. en l'apaisant, tu agis sur l'insuline et sur l'inflammation en même temps. c'est un des leviers les plus rentables pour toi.",
    observes:["dès aujourd'hui : un apaisement immédiat après la séance","dans quelques jours : une réactivité au stress moindre","au fil des semaines : insuline et inflammation mieux régulées"],
    victoire:"tu viens d'agir sur un carburant commun à tes deux moteurs : le stress.",
-   outil:{emoji:"🤍",label:"Le coach mindset de Kamila",desc:"quand le stress monte",goTab:"kamila",ancre:"coach-mindset"},
+   outil:{emoji:"🤍",label:"Les mots de Kamila, selon ton humeur",desc:"quand le stress monte",goTab:"kamila",ancre:"coach-mindset"},
    tisane:_tSer("aujourd'hui on ajoute la Serenitea le soir : l'ashwagandha aide à réguler le cortisol, le point commun de tes deux versants. en rituel du soir.")},
   {...MISSIONS_INFLA[9], tisane:null},
   {...MISSIONS_INFLA[11], tisane:null},
@@ -2501,7 +2511,7 @@ const MISSIONS_MIXTE_AI = [
    plus:"sur un profil mixte androgénique + inflammatoire, le stress est le fil qui relie tes deux problèmes. en l'apaisant, tu agis sur tes androgènes surrénaliens et sur ton inflammation en même temps.",
    observes:["dès aujourd'hui : un apaisement immédiat","dans quelques jours : une réactivité au stress moindre","au fil des semaines : androgènes surrénaliens et inflammation mieux régulés"],
    victoire:"tu viens d'agir sur une racine commune à tes deux versants : le stress.",
-   outil:{emoji:"🤍",label:"Le coach mindset de Kamila",desc:"quand le stress monte",goTab:"kamila",ancre:"coach-mindset"},
+   outil:{emoji:"🤍",label:"Les mots de Kamila, selon ton humeur",desc:"quand le stress monte",goTab:"kamila",ancre:"coach-mindset"},
    tisane:_tSer("aujourd'hui on ajoute la Serenitea le soir : l'ashwagandha régule le cortisol, le point commun de tes deux versants. en rituel du soir.")},
   {...MISSIONS_INFLA[9], tisane:null},
   {..._adapte(MISSIONS_ANDRO[11],_andro21), tisane:null},
@@ -3201,7 +3211,7 @@ const _sante=(desc)=>({emoji:"👩‍⚕️",label:"Ton espace Santé",desc,goTa
 const _sos=(id,label,desc)=>({emoji:"🆘",label,desc,sos:id});
 const _tis=(desc)=>({emoji:"🌿",label:"Compléments & tisanes",desc,cible:"complements"});
 const _ancre=(desc)=>({emoji:"🤍",label:"Mon ancrage",desc,goTab:"ancrage"});
-const _coach=(desc)=>({emoji:"🤍",label:"Le coach mindset de Kamila",desc,goTab:"kamila",ancre:"coach-mindset"});
+const _coach=(desc)=>({emoji:"🤍",label:"Les mots de Kamila, selon ton humeur",desc,goTab:"kamila",ancre:"coach-mindset"});
 const _journee=(desc)=>({emoji:"✅",label:"Ta journée",desc,goTab:"suivi"});
 const OUTILS_PAR_THEME = {
   "lire ses fringales comme des données":_sos("fringale","Ta fiche SOS fringale","quoi faire quand l'envie monte"),
@@ -3258,6 +3268,14 @@ const OUTILS_PAR_THEME = {
 };
 
 // ─── PILIER D'UNE MISSION (pour l'accueil V2) ───
+// la séance de Bouger qui correspond à la mission (sinon, l'accueil de Bouger)
+// les liens des missions ouvrent la bonne fiche, pas seulement la bonne page
+const SAVOIR_DE = (ou)=>{ if(!ou||ou.cible!=="comprendre") return null; const t=(ou.label+" "+(ou.desc||"")).toLowerCase(); const m=[[/routine de sommeil/,"routine de sommeil"],[/pilule|contraception/,"La pilule"],[/intestin/,"intestin"],[/fertilité/,"fertilité"],[/androgènes|dht/,"Peau, poils"],[/cycles? irréguliers/,"suivre ton cycle"]].find(x=>x[0].test(t)); const f=m&&SAVOIRS.find(x=>x.t.includes(m[1])); return f?f.t:null; };
+const FICHE_DE = (ou)=>{ if(!ou||ou.cible!=="telechargements") return null; const t=(ou.label+" "+(ou.desc||"")).toLowerCase(); const m=[[/guide des analyses/,"dl-analyses"],[/bons gras/,"dl-bons-gras"],[/incontournables/,"dl-incontournables"],[/fibres/,"dl-fibres"],[/protéines/,"dl-proteines"],[/peau/,"dl-peau-cheveux-ongles"]].find(x=>x[0].test(t)); return m?m[1]:null; };
+const SEANCE_NOM = {A:"Renforcement A",B:"Renforcement B",force:"Force & glycémie",marche:"Marche active",mobilite:"Mobilité & récupération",apaiser:"Apaiser & relâcher",cardio:"Cardio doux",gainage:"Gainage & posture",velo:"Vélo d'appartement"};
+const SEANCE_DE = {"ton café, ton cortisol, ta glycémie":"apaiser","la cohérence cardiaque, ton anti-pic de stress":"apaiser","ton nerf vague, l'interrupteur du calme":"apaiser","ton sas du soir":"apaiser","bouge dans la nature":"marche","brise la position assise":"mobilite","le renforcement musculaire":"A","deuxième séance de renforcement":"B","troisième séance":"force","le mouvement qui change la glycémie":"marche","marche double":"marche","le mouvement qui apaise":"marche","le mouvement qui calme les androgènes":"marche","bouger pour désenflammer":"mobilite","ancrer le mouvement":"mobilite","bouger sans relancer tes androgènes":"mobilite","bouger sans te vider":"mobilite",
+  "la marche qui efface le pic":"marche","ton muscle, ton réservoir à sucre":"A","bouger même quand tu es fatiguée":"mobilite","bouger pour calmer le feu":"mobilite","relâcher les tensions du corps":"apaiser","le repos fait partie de l'entraînement":"apaiser","marcher dans la nature":"marche","bouger pour décharger le stress":"cardio","le yoga doux du soir":"apaiser","marcher en pleine conscience":"marche","bouger (ou pas) pendant tes règles":"mobilite","la force douce pour tes hormones":"A","bouger pour ta peau et tes cheveux":"marche","ta rétention d'eau & tes jambes lourdes":"marche","bouger pour ton cœur de demain":"cardio","ta marche après le repas":"marche","ton muscle, ton allié anti-insuline":"A","ta séance de renforcement de 15 minutes":"A","vélo, natation : bouger sans impact":"velo","étire-toi, relâche tes tensions":"mobilite","la marche nordique, ta marche boostée":"marche","ton socle, le gainage profond":"gainage","bouger avec un dos ou des genoux qui grincent":"mobilite","bouge pour faire circuler":"marche"};
+
 // chaque mission a son étiquette, choisie une par une (plus de devinette par mots-clés)
 const PILIERS = {
   N:{label:"Nutrition",ic:"leaf",bg:"#FBEDE3",col:"#B97F5C"}, M:{label:"Mouvement",ic:"steps",bg:"#EEE9F4",col:"#8E80A3"},
@@ -3322,7 +3340,7 @@ const MISSIONS_365 = [
    plus:"pas possible de marcher ? rester debout à faire la vaisselle ou quelques montées sur la pointe des pieds aident déjà. le pire, c'est le canapé juste après manger.",
    observes:["ce soir : une digestion plus légère","dans quelques jours : moins de somnolence après les repas","dans 2 semaines : l'envie de bouger après manger devient naturelle"],
    victoire:"tu as fait passer ta marche au niveau supérieur : plus longue, plus vive, avec tes muscles en renfort.",
-   outil:{emoji:"🧘‍♀️",label:"Mes routines de mouvement",desc:"des formats doux, adaptés à ton terrain",goTab:"mouvement"},
+   outil:{emoji:"🧘‍♀️",label:"Bouger",desc:"des formats doux, adaptés à ton terrain",goTab:"mouvement"},
    accents:{
      metabolique:"c'est un multiplicateur direct de ton levier glycémie : marche + ordre des aliments, le combo gagnant.",
      androgenique:"le mouvement aide à faire baisser l'insuline, donc le signal androgénique — un vrai geste de fond pour ta peau.",
@@ -3362,7 +3380,7 @@ const MISSIONS_365 = [
    plus:"mon réflexe anti-fringale de stress : l'expiration longue (inspire 4s, expire 6s) pendant 2 minutes. ça fait redescendre le cortisol, et souvent l'envie de sucre avec.",
    observes:["aujourd'hui : tu identifies une fringale « de stress »","dans quelques jours : tu la vois venir et tu la désamorces","dans 2 semaines : moins de craquages dans les moments durs"],
    victoire:"tu viens de relier ton stress et ta glycémie — un angle mort que personne ne t'explique.",
-   outil:{emoji:"🤍",label:"Le coach mindset de Kamila",desc:"quand le stress monte",goTab:"kamila"},
+   outil:{emoji:"🤍",label:"Les mots de Kamila, selon ton humeur",desc:"quand le stress monte",goTab:"kamila"},
    accents:{
      metabolique:"même avec une assiette parfaite, ton stress peut saboter ta glycémie : ce jour-là complète ton levier.",
      androgenique:"le cortisol pousse aussi tes surrénales à produire des androgènes — gérer ton stress agit sur deux fronts.",
@@ -3463,7 +3481,7 @@ const MISSIONS_365 = [
    plus:"pas besoin de matériel : ton poids de corps suffit largement au début. l'important, c'est de commencer et de revenir, pas d'en faire beaucoup d'un coup.",
    observes:["dès aujourd'hui : un corps qui se sent un peu plus fort","dans quelques semaines : une énergie plus stable","sur la durée : une meilleure gestion naturelle de ta glycémie"],
    victoire:"tu viens d'agrandir ton réservoir à sucre — un investissement qui travaille pour toi en continu.",
-   outil:{emoji:"🧘‍♀️",label:"Mes routines de mouvement",desc:"du renforcement doux, illustré",goTab:"mouvement"},
+   outil:{emoji:"🧘‍♀️",label:"Bouger",desc:"du renforcement doux, illustré",goTab:"mouvement"},
    accents:{
      metabolique:"c'est un de tes meilleurs investissements : le muscle améliore ta sensibilité à l'insuline en continu.",
      androgenique:"meilleure sensibilité à l'insuline = moins d'insuline = moins de signal androgénique, sur le long terme.",
@@ -3518,7 +3536,7 @@ const MISSIONS_365 = [
    msg:"tu as l'impression de « tout lâcher » quelques jours par mois ?\n\nce n'est pas toi qui flanches.\n\nc'est ton cycle qui change ta glycémie — et aujourd'hui on comprend pourquoi.",
    pourquoi:"en deuxième partie de cycle (phase lutéale, après l'ovulation), ton corps devient naturellement un peu plus résistant à l'insuline. ta glycémie est plus instable, et ton besoin de sucre augmente. c'est physiologique, pas un défaut de volonté.\n\navec un SMOP, ces variations sont souvent amplifiées. savoir que cette fenêtre arrive te permet de l'anticiper : plus de protéines, plus de régularité, plus de douceur avec toi — au lieu de te juger.",
    source:"les symptômes métaboliques et d'humeur varient au fil du cycle et sont souvent amplifiés dans le SMOP (Diamanti-Kandarakis & Dunaif, 2012, Endocrine Reviews).",
-   comment:["repère ta phase dans l'onglet Mon cycle","en 2e partie de cycle, renforce les protéines et les bons gras","anticipe : prévois des collations protéinées pour ces jours-là","bouge un peu plus si tu le peux, ça lisse la glycémie","et surtout : zéro culpabilité, c'est hormonal"],
+   comment:["repère ta phase dans Mon cycle","en 2e partie de cycle, renforce les protéines et les bons gras","anticipe : prévois des collations protéinées pour ces jours-là","bouge un peu plus si tu le peux, ça lisse la glycémie","et surtout : zéro culpabilité, c'est hormonal"],
    pieges:["te juger « sans volonté » pendant ces jours : c'est de la biologie","te restreindre encore plus, ce qui provoque le craquage","oublier de noter ton cycle, et donc de voir le schéma"],
    plus:"anticiper change tout : quand tu sais que la vague arrive, tu la prépares au lieu de la subir. note tes cycles, les schémas deviennent évidents.",
    observes:["ce mois-ci : tu relies tes fringales à ta phase de cycle","dans quelques cycles : tu anticipes au lieu de subir","sur la durée : moins de culpabilité, plus de stratégie"],
@@ -3604,7 +3622,7 @@ const MISSIONS_365 = [
    plus:"mon truc : un minuteur discret qui me rappelle de me lever toutes les heures. 2 minutes debout, et je repars. invisible, mais ça change ma journée métabolique.",
    observes:["aujourd'hui : une journée moins statique","dans quelques jours : plus d'énergie en fin de journée","dans 2 semaines : le mouvement invisible devient un réflexe"],
    victoire:"tu as compris que bouger pour ton SMOP ne passe pas forcément par le sport.",
-   outil:{emoji:"🧘‍♀️",label:"Mes routines de mouvement",desc:"quand tu veux un format un peu plus structuré",goTab:"mouvement"},
+   outil:{emoji:"🧘‍♀️",label:"Bouger",desc:"quand tu veux un format un peu plus structuré",goTab:"mouvement"},
    accents:{
      metabolique:"le NEAT est un levier glycémie continu, sans la contrainte d'une séance : fait pour ton quotidien.",
      androgenique:"bouger souvent = insuline plus basse = moins de signal androgénique, sans t'épuiser.",
@@ -3644,7 +3662,7 @@ const MISSIONS_365 = [
    plus:"si tu es très sensible au stress, teste une matinée sans café, ou un café plus léger. parfois, l'énergie 'stable' qu'on cherche vient justement d'un cortisol moins fouetté.",
    observes:["ce matin : une énergie peut-être plus posée","dans quelques jours : moins de nervosité matinale","dans 2 semaines : un rapport au café plus conscient"],
    victoire:"tu viens d'ajuster un geste quotidien que personne ne relie jamais à ton SMOP.",
-   outil:{emoji:"🤍",label:"Le coach mindset de Kamila",desc:"apaiser ton système nerveux",goTab:"kamila"},
+   outil:{emoji:"🤍",label:"Bouger",desc:"un moment pour apaiser ton système nerveux",goTab:"mouvement"},
    accents:{
      metabolique:"le café à jeun pique ta glycémie via le cortisol : le décaler protège ton levier.",
      androgenique:"moins de cortisol = moins de stimulation des androgènes surrénaliens.",
@@ -3742,10 +3760,10 @@ const MISSIONS_365 = [
    source:"l'activité physique régulière, adaptée, soutient l'énergie et le métabolisme dans le SMOP (Diamanti-Kandarakis & Dunaif, 2012, Endocrine Reviews).",
    comment:["évalue ton énergie du jour, honnêtement","énergie basse ? étirements doux, marche lente, respiration","énergie moyenne ? mouvement modéré, sans forcer","garde le lien avec le mouvement, même minime","la régularité douce bat les séances parfaites espacées"],
    pieges:["le tout ou rien : 'je n'ai pas la force d'une vraie séance, donc rien'","forcer une séance intense un jour d'épuisement : ça stresse ton corps","culpabiliser un jour de repos nécessaire : écouter son corps est une force"],
-   plus:"le mode 'adapter ma journée' est là pour les jours bas : il te propose des gestes à la hauteur de ton énergie. parce que tenir dans la durée, c'est aussi savoir lever le pied.",
+   plus:"les jours bas, dis où tu en es en haut de l'accueil et choisis la version express de ta mission : elle est à la hauteur de ton énergie. parce que tenir dans la durée, c'est aussi savoir lever le pied.",
    observes:["aujourd'hui : du mouvement malgré la fatigue, sans te forcer","dans quelques jours : moins de ruptures dans ta régularité","sur la durée : un rapport apaisé à l'effort"],
    victoire:"tu as compris que la régularité se gagne en adaptant, pas en forçant.",
-   outil:{emoji:"🧘‍♀️",label:"Mes routines de mouvement",desc:"des formats doux pour les jours bas",goTab:"mouvement"},
+   outil:{emoji:"🧘‍♀️",label:"Bouger",desc:"des formats doux pour les jours bas",goTab:"mouvement"},
    accents:{
      metabolique:"même doux, le mouvement soutient ta sensibilité à l'insuline : ne romps pas le fil les jours bas.",
      androgenique:"la régularité douce agit sur ton insuline sur la durée, bien plus que des séances intenses espacées.",
@@ -3785,7 +3803,7 @@ const MISSIONS_365 = [
    plus:"mon moment préféré : le matin au réveil ou avant de dormir. c'est un rendez-vous avec moi-même qui change toute la tonalité de ma journée.",
    observes:["aujourd'hui : un apaisement en quelques minutes","dans quelques jours : un outil que tu dégaines dans les moments tendus","dans 2 semaines : un système nerveux plus posé"],
    victoire:"tu as maintenant un outil anti-stress gratuit, toujours sur toi.",
-   outil:{emoji:"🤍",label:"Le coach mindset de Kamila",desc:"pour les moments où ça monte",goTab:"kamila"},
+   outil:{emoji:"🤍",label:"Bouger",desc:"respirer et relâcher, en douceur",goTab:"mouvement"},
    accents:{
      metabolique:"moins de cortisol = glycémie plus stable : la respiration est un vrai geste métabolique.",
      androgenique:"apaiser ton stress réduit les androgènes d'origine surrénalienne.",
@@ -3800,7 +3818,7 @@ const MISSIONS_365 = [
    msg:"et si tu arrêtais de te demander le même effort tous les jours du mois ?\n\nton énergie suit ton cycle.\n\naujourd'hui, on apprend à s'en servir comme d'une boussole.",
    pourquoi:"ton cycle, même irrégulier, crée des variations d'énergie et de besoins. en phase folliculaire (après les règles), l'énergie et la tolérance au glucose sont souvent meilleures : c'est le moment des élans. en phase lutéale (avant les règles), le corps devient plus résistant à l'insuline, plus fatigable : c'est le moment de la douceur et des protéines.\n\ns'aligner sur ces phases, au lieu de les ignorer, rend tout plus facile : tu arrêtes de te juger les jours bas et tu profites des jours hauts. ton cycle devient un allié, pas un ennemi.",
    source:"les besoins métaboliques varient au fil du cycle, souvent amplifiés dans le SMOP (Diamanti-Kandarakis & Dunaif, 2012, Endocrine Reviews).",
-   comment:["repère ta phase dans l'onglet Mon cycle","phase folliculaire : profite de l'élan, bouge un peu plus","phase lutéale : douceur, protéines, sommeil protégé","adapte tes attentes à ta phase, pas l'inverse","note tes cycles pour voir tes schémas se dessiner"],
+   comment:["repère ta phase dans Mon cycle","phase folliculaire : profite de l'élan, bouge un peu plus","phase lutéale : douceur, protéines, sommeil protégé","adapte tes attentes à ta phase, pas l'inverse","note tes cycles pour voir tes schémas se dessiner"],
    pieges:["exiger la même énergie tous les jours du mois","te juger les jours bas alors que c'est hormonal","ignorer ton cycle quand il est irrégulier : il parle quand même"],
    plus:"même avec des cycles irréguliers, noter tes ressentis fait apparaître des rythmes. ton corps a une logique — l'observer, c'est commencer à danser avec, au lieu de lutter contre.",
    observes:["ce mois-ci : tu relies ton énergie à ta phase","dans quelques cycles : tu anticipes tes hauts et tes bas","sur la durée : un rythme respecté, moins de culpabilité"],
@@ -3845,7 +3863,7 @@ const MISSIONS_365 = [
    plus:"une question qui recentre : 'est-ce que cette comparaison m'inspire, ou est-ce qu'elle me vole mon énergie ?' si c'est la deuxième, tu as le droit de détourner le regard.",
    observes:["aujourd'hui : une comparaison désamorcée","dans quelques jours : un regard plus tourné vers ton chemin","sur la durée : une motivation qui ne dépend plus des autres"],
    victoire:"tu viens de reprendre à la comparaison l'énergie qu'elle te volait.",
-   outil:{emoji:"🤍",label:"Le coach mindset de Kamila",desc:"revenir à toi quand ça vacille",goTab:"kamila"},
+   outil:{emoji:"🤍",label:"Les mots de Kamila, selon ton humeur",desc:"revenir à toi quand ça vacille",goTab:"kamila"},
    accents:{
      metabolique:"ton terrain a son rythme : le comparer à un autre n'a aucun sens métaboliquement.",
      androgenique:"les symptômes visibles (peau, pilosité) nourrissent la comparaison : reviens à TON évolution.",
@@ -3865,7 +3883,7 @@ const MISSIONS_365 = [
    plus:"ta fiche 'gérer les situations' est là pour le resto, les fêtes, les buffets. mais retiens l'essentiel : un repas est un moment de vie, pas un examen.",
    observes:["aujourd'hui : un repas social abordé sereinement","dans quelques jours : moins d'anxiété autour de la nourriture","sur la durée : une vie sociale préservée, et ton terrain aussi"],
    victoire:"tu viens de prouver que ton SMOP n'a pas à te couper des autres.",
-   outil:{emoji:"📍",label:"Gérer les situations",desc:"resto, fêtes, voyages, imprévus",cible:"situations"},
+   outil:{emoji:"📍",label:"Manger dehors sans stress",desc:"resto, cantine, invitation",cible:"situations",guide:"dehors"},
    accents:{
      metabolique:"l'ordre des aliments te suit partout : même dehors, tu protèges ta glycémie sans y penser.",
      androgenique:"un repas plaisir occasionnel ne défait pas ton travail de fond sur l'insuline et les androgènes.",
@@ -3927,7 +3945,7 @@ const MISSIONS_365 = [
    plus:"la marche en forêt ou dans un parc a un double effet : le mouvement doux ET le contact avec la nature, qui fait baisser le cortisol. mon anti-inflammatoire préféré est gratuit.",
    observes:["aujourd'hui : un corps détendu, pas épuisé","dans quelques jours : une récupération plus facile","sur la durée : un terrain plus calme"],
    victoire:"tu as compris que pour ton inflammation, la douceur est plus puissante que l'intensité.",
-   outil:{emoji:"🧘‍♀️",label:"Mes routines de mouvement",desc:"des formats doux et apaisants",goTab:"mouvement"},
+   outil:{emoji:"🧘‍♀️",label:"Bouger",desc:"des formats doux et apaisants",goTab:"mouvement"},
    accents:{
      metabolique:"le mouvement doux soutient ta sensibilité à l'insuline sans le stress d'un effort violent.",
      androgenique:"éviter l'excès limite le cortisol et le stress oxydatif qui amplifient tes androgènes.",
@@ -3967,7 +3985,7 @@ const MISSIONS_365 = [
    plus:"la Serenitea, dans ta cure, est justement pensée pour ce cercle stress-inflammation (ashwagandha, passiflore). le soir, elle accompagne ce moment de retour au calme.",
    observes:["aujourd'hui : un moment de vraie pause","dans quelques jours : un système nerveux plus posé","sur la durée : un cercle stress-inflammation qui se desserre"],
    victoire:"tu viens de transformer 10 minutes de calme en geste anti-inflammatoire.",
-   outil:{emoji:"🤍",label:"Le coach mindset de Kamila",desc:"revenir au calme quand ça monte",goTab:"kamila"},
+   outil:{emoji:"🤍",label:"Les mots de Kamila, selon ton humeur",desc:"revenir au calme quand ça monte",goTab:"kamila"},
    accents:{
      metabolique:"moins de cortisol = inflammation et glycémie plus calmes : le repos sert ton levier aussi.",
      androgenique:"apaiser le stress réduit l'inflammation ET les androgènes surrénaliens : double bénéfice.",
@@ -4068,7 +4086,7 @@ const MISSIONS_365 = [
    plus:"la mâchoire est un indicateur précieux : si tu la surprends serrée dans la journée, c'est souvent que le stress monte. la relâcher est un premier geste anti-feu instantané.",
    observes:["aujourd'hui : un corps plus détendu","dans quelques jours : tu repères tes tensions plus vite","sur la durée : moins de crispation chronique"],
    victoire:"tu viens d'ouvrir une porte corporelle pour apaiser ton terrain.",
-   outil:{emoji:"🧘‍♀️",label:"Mes routines de mouvement",desc:"étirements doux et relâchement",goTab:"mouvement"},
+   outil:{emoji:"🧘‍♀️",label:"Bouger",desc:"étirements doux et relâchement",goTab:"mouvement"},
    accents:{
      metabolique:"moins de tension nerveuse = cortisol plus bas = glycémie plus stable.",
      androgenique:"relâcher le stress limite les androgènes surrénaliens liés à la crispation chronique.",
@@ -4108,7 +4126,7 @@ const MISSIONS_365 = [
    plus:"combine deux anti-inflammatoires d'un coup : une marche douce DANS la nature. mouvement + vert + lumière = un cocktail apaisant que rien ne remplace.",
    observes:["aujourd'hui : un apaisement après être sortie","dans quelques jours : l'envie de recommencer","sur la durée : un cortisol et un terrain plus calmes"],
    victoire:"tu viens de t'offrir le soin anti-inflammatoire le plus simple et le plus oublié.",
-   outil:{emoji:"🤍",label:"Le coach mindset de Kamila",desc:"revenir à soi, en douceur",goTab:"kamila"},
+   outil:{emoji:"🤍",label:"Les mots de Kamila, selon ton humeur",desc:"revenir à soi, en douceur",goTab:"kamila"},
    accents:{
      metabolique:"moins de cortisol et un meilleur sommeil soutiennent ta glycémie, en plus du calme.",
      androgenique:"baisser le cortisol réduit les androgènes surrénaliens : la nature y contribue.",
@@ -4209,7 +4227,7 @@ const MISSIONS_365 = [
    plus:"la fatigue du SMOP est réelle (inflammation, sommeil haché). la respecter n'est pas un échec : c'est de l'intelligence. tu tiendras bien plus longtemps en alternant effort doux et vraie récupération.",
    observes:["aujourd'hui : un repos pris sans culpabilité","dans quelques jours : une énergie qui remonte","sur la durée : un équilibre effort/repos qui soutient ton terrain"],
    victoire:"tu viens de faire du repos un soin, pas une faiblesse.",
-   outil:{emoji:"🧘‍♀️",label:"Mes routines de mouvement",desc:"inclut le repos actif et le doux",goTab:"mouvement"},
+   outil:{emoji:"🧘‍♀️",label:"Bouger",desc:"inclut le repos actif et le doux",goTab:"mouvement"},
    accents:{
      metabolique:"le repos et le sommeil soutiennent ta sensibilité à l'insuline : récupérer, c'est métabolique.",
      androgenique:"moins de surmenage = moins de cortisol = moins d'androgènes surrénaliens.",
@@ -4350,7 +4368,7 @@ const MISSIONS_365 = [
    plus:"si tu peux, essaie une activité plaisir régulière dans la nature — une petite randonnée, du vélo tranquille. le plaisir fait baisser le cortisol encore plus que l'effort seul.",
    observes:["aujourd'hui : un corps et un esprit apaisés","dans quelques jours : l'envie d'y revenir","sur la durée : un cortisol et un terrain plus calmes"],
    victoire:"tu viens de réunir deux soins anti-inflammatoires en une seule marche.",
-   outil:{emoji:"🧘‍♀️",label:"Mes routines de mouvement",desc:"le doux, à combiner avec la nature",goTab:"mouvement"},
+   outil:{emoji:"🧘‍♀️",label:"Bouger",desc:"le doux, à combiner avec la nature",goTab:"mouvement"},
    accents:{
      metabolique:"marche + lumière = sensibilité à l'insuline soutenue et cortisol apaisé.",
      androgenique:"mouvement doux et baisse du cortisol réduisent la pression androgénique.",
@@ -4430,7 +4448,7 @@ const MISSIONS_365 = [
    plus:"la communauté des Cysters est là pour ça : un espace où tu es comprise sans jugement. depuis une fiche SOS, le lien t'y emmène directement. un message, même court, peut alléger ta journée.",
    observes:["aujourd'hui : un lien tendu vers l'extérieur","dans quelques jours : moins de poids porté seule","sur la durée : un soutien qui apaise ton terrain"],
    victoire:"tu viens de transformer 'tout porter seule' en 'je m'entoure' — une vraie force.",
-   outil:{emoji:"🤍",label:"Le coach mindset de Kamila",desc:"et la communauté, quand c'est lourd",goTab:"kamila"},
+   outil:{emoji:"🤍",label:"La communauté des Cysters",desc:"rejoindre le groupe WhatsApp",lien:WHATSAPP_URL},
    accents:{
      metabolique:"moins d'isolement = moins de stress = soutien indirect de ta glycémie.",
      androgenique:"réduire le stress social diminue les androgènes surrénaliens liés à la charge mentale.",
@@ -4512,7 +4530,7 @@ const MISSIONS_365 = [
    plus:"la danse, même 5 minutes seule dans ton salon, est une des façons les plus joyeuses de décharger le stress. ça fait monter les hormones du bien-être et redescendre le cortisol.",
    observes:["aujourd'hui : une tension évacuée","dans quelques jours : un réflexe pour les moments tendus","sur la durée : un système nerveux qui se régule mieux"],
    victoire:"tu viens de transformer le mouvement en soupape pour ton stress.",
-   outil:{emoji:"🧘‍♀️",label:"Mes routines de mouvement",desc:"doux ou défoulant, selon ton énergie",goTab:"mouvement"},
+   outil:{emoji:"🧘‍♀️",label:"Bouger",desc:"doux ou défoulant, selon ton énergie",goTab:"mouvement"},
    accents:{
      metabolique:"bouger évacue le stress ET consomme le glucose : double bénéfice pour toi.",
      androgenique:"décharger le cortisol réduit les androgènes surrénaliens liés au stress.",
@@ -4552,7 +4570,7 @@ const MISSIONS_365 = [
    plus:"l'expiration longue est ton outil d'urgence, toujours disponible. 6 respirations lentes (expiration allongée) suffisent souvent à faire basculer ton corps du mode stress au mode calme. gratuit, invisible, puissant.",
    observes:["aujourd'hui : un apaisement en quelques respirations","dans quelques jours : un interrupteur que tu actionnes plus vite","sur la durée : un système nerveux plus souple"],
    victoire:"tu viens de découvrir l'interrupteur du calme que tu as toujours eu sur toi.",
-   outil:{emoji:"🤍",label:"Le coach mindset de Kamila",desc:"des outils pour revenir au calme",goTab:"kamila"},
+   outil:{emoji:"🤍",label:"Bouger",desc:"respirer et relâcher, en douceur",goTab:"mouvement"},
    accents:{
      metabolique:"activer le calme fait baisser le cortisol et soutient ta glycémie.",
      androgenique:"moins de cortisol = moins d'androgènes surrénaliens : le nerf vague y aide.",
@@ -4653,7 +4671,7 @@ const MISSIONS_365 = [
    plus:"associe ce moment à ta Serenitea le soir, si elle est dans ta cure : étirements doux + tisane apaisante + lumière tamisée = un vrai sas de décompression qui prépare ta nuit.",
    observes:["ce soir : un corps plus détendu avant de dormir","dans quelques jours : un endormissement plus facile","sur la durée : un sommeil plus réparateur"],
    victoire:"tu viens de créer un pont physique entre ta journée et ton repos.",
-   outil:{emoji:"🧘‍♀️",label:"Mes routines de mouvement",desc:"des étirements doux du soir",goTab:"mouvement"},
+   outil:{emoji:"🧘‍♀️",label:"Bouger",desc:"des étirements doux du soir",goTab:"mouvement"},
    accents:{
      metabolique:"un meilleur sommeil soutient ta sensibilité à l'insuline du lendemain.",
      androgenique:"calmer le cortisol du soir réduit la stimulation des androgènes surrénaliens.",
@@ -4693,7 +4711,7 @@ const MISSIONS_365 = [
    plus:"ta Serenitea le soir est pensée pour ce moment : crée un vrai rituel autour d'elle — t'asseoir, poser le téléphone, sentir la vapeur. 'revenir à soi' avant de dormir.",
    observes:["ce soir : un endormissement peut-être plus doux","dans quelques jours : moins de ruminations au coucher","sur la durée : un sommeil de meilleure qualité"],
    victoire:"tu viens de créer la transition qui manquait entre ta journée et ta nuit.",
-   outil:{emoji:"🤍",label:"Le coach mindset de Kamila",desc:"des rituels pour décompresser",goTab:"kamila"},
+   outil:{emoji:"🤍",label:"Bouger",desc:"respirer et relâcher, en douceur",goTab:"mouvement"},
    accents:{
      metabolique:"un meilleur sommeil soutient ta glycémie du lendemain.",
      androgenique:"baisser le cortisol du soir réduit les androgènes surrénaliens.",
@@ -4794,7 +4812,7 @@ const MISSIONS_365 = [
    plus:"si la méditation assise te rebute, la marche consciente est ta porte d'entrée. tu bouges, tu t'apaises, et tu entraînes ton attention — trois bénéfices en une seule marche quotidienne.",
    observes:["aujourd'hui : un esprit plus présent et apaisé","dans quelques jours : un réflexe pour couper les ruminations","sur la durée : une attention plus stable, moins happée par le stress"],
    victoire:"tu viens de transformer une simple marche en méditation anti-stress.",
-   outil:{emoji:"🧘‍♀️",label:"Mes routines de mouvement",desc:"le mouvement doux et conscient",goTab:"mouvement"},
+   outil:{emoji:"🧘‍♀️",label:"Bouger",desc:"le mouvement doux et conscient",goTab:"mouvement"},
    accents:{
      metabolique:"marche + calme = glucose consommé et cortisol apaisé.",
      androgenique:"réduire les ruminations baisse le cortisol et les androgènes surrénaliens.",
@@ -4849,7 +4867,7 @@ const MISSIONS_365 = [
    msg:"ta tolérance au stress n'est pas la même tout le mois.\n\nelle suit ton cycle.\n\naujourd'hui, on apprend à s'y adapter au lieu de lutter.",
    pourquoi:"au fil de ton cycle, tes hormones modulent ta sensibilité au stress. en phase folliculaire (après les règles), tu encaisses souvent mieux : énergie, clarté, meilleure résistance. en phase lutéale (avant les règles), la chute hormonale te rend plus sensible, plus irritable, plus fatigable — et le stress te touche davantage.\n\ns'aligner sur ces phases, au lieu de t'imposer le même niveau d'exigence tout le mois, est une stratégie anti-stress puissante : tu charges les gros défis en phase haute, et tu protèges la phase basse (plus de douceur, de sommeil, de calme). même avec un cycle irrégulier, apprendre à écouter ces variations change ta relation à ton stress.",
    source:"les variations hormonales du cycle modulent la sensibilité au stress, souvent amplifiée dans le SMOP (Diamanti-Kandarakis & Dunaif, 2012 ; Pasquali et al., 2006).",
-   comment:["repère ta phase dans l'onglet Mon cycle","phase folliculaire : profite de ton énergie pour les défis","phase lutéale : douceur, sommeil protégé, moins d'exigence","n'attends pas de toi la même chose tous les jours du mois","note tes ressentis : les schémas apparaissent, même en cycle irrégulier"],
+   comment:["repère ta phase dans Mon cycle","phase folliculaire : profite de ton énergie pour les défis","phase lutéale : douceur, sommeil protégé, moins d'exigence","n'attends pas de toi la même chose tous les jours du mois","note tes ressentis : les schémas apparaissent, même en cycle irrégulier"],
    pieges:["t'imposer le même rythme et la même exigence tout le mois","te juger 'moins forte' en phase basse : c'est hormonal","ignorer ton cycle quand il est irrégulier : il module quand même ton stress"],
    plus:"planifier tes gros rendez-vous ou décisions en phase folliculaire quand c'est possible, et protéger ta phase lutéale, peut transformer ta gestion du stress. ton cycle devient une boussole, pas une contrainte.",
    observes:["ce mois-ci : un lien observé entre phase et tolérance au stress","sur quelques cycles : une gestion plus alignée","sur la durée : moins de lutte contre toi-même"],
@@ -4935,7 +4953,7 @@ const MISSIONS_365 = [
    plus:"la randonnée est un combo parfait : nature, mouvement doux, immersion. mais le meilleur choix, c'est celui que TU aimes — c'est le plaisir qui fait baisser le cortisol, pas l'activité en soi.",
    observes:["cette semaine : une activité plaisir vécue","dans quelques jours : un esprit plus léger","sur la durée : le plaisir comme régulateur de stress"],
    victoire:"tu viens de faire du plaisir un outil anti-stress à part entière.",
-   outil:{emoji:"🧘‍♀️",label:"Mes routines de mouvement",desc:"et toute activité plaisir qui te fait du bien",goTab:"mouvement"},
+   outil:{emoji:"🧘‍♀️",label:"Bouger",desc:"et toute activité plaisir qui te fait du bien",goTab:"mouvement"},
    accents:{
      metabolique:"le plaisir en mouvement baisse le cortisol et soutient ta glycémie.",
      androgenique:"moins de cortisol via le plaisir = moins d'androgènes surrénaliens.",
@@ -4975,7 +4993,7 @@ const MISSIONS_365 = [
    plus:"si tu ne peux pas siester, la 'sieste flash' — 5 minutes assise, les yeux fermés, à respirer — apaise déjà ton système nerveux. le repos n'a pas besoin d'être long pour compter.",
    observes:["aujourd'hui : un reset en milieu de journée","dans quelques jours : une énergie d'après-midi plus stable","sur la durée : un système nerveux qui récupère mieux"],
    victoire:"tu viens de t'autoriser un reset sans culpabilité.",
-   outil:{emoji:"🤍",label:"Le coach mindset de Kamila",desc:"s'autoriser la pause",goTab:"kamila"},
+   outil:{emoji:"🤍",label:"Les mots de Kamila, selon ton humeur",desc:"s'autoriser la pause",goTab:"kamila"},
    accents:{
      metabolique:"le repos soutient ta sensibilité à l'insuline et calme le cortisol.",
      androgenique:"récupérer baisse le cortisol et les androgènes surrénaliens.",
@@ -5015,7 +5033,7 @@ const MISSIONS_365 = [
    plus:"un lien utile vers le soin dentaire : si tu grinces des dents la nuit, un contrôle chez le dentiste (et parfois une gouttière) protège tes dents. prendre rendez-vous régulièrement fait partie de prendre soin de toi globalement.",
    observes:["aujourd'hui : un signal de stress repéré en temps réel","dans quelques jours : une mâchoire que tu relâches plus vite","sur la durée : moins de tensions et de maux de tête"],
    victoire:"tu viens de transformer ta mâchoire en détecteur de stress.",
-   outil:{emoji:"🎓",label:"Comprendre ton SMOP",desc:"stress, tensions et corps",cible:"comprendre"},
+   outil:{emoji:"🎓",label:"Comprendre ton SMOP",desc:"les mécanismes, en clair",cible:"comprendre"},
    accents:{
      metabolique:"repérer ton stress en temps réel t'aide à le désamorcer avant qu'il ne pique ta glycémie.",
      androgenique:"relâcher les tensions baisse le cortisol et les androgènes surrénaliens.",
@@ -5112,12 +5130,12 @@ const MISSIONS_365 = [
    msg:"et si tu arrêtais de forcer le même sport toute l'année ?\n\nton énergie suit ton cycle.\n\naujourd'hui, on apprend à bouger avec lui, pas contre lui.",
    pourquoi:"au fil de ton cycle, ton énergie et ta récupération varient. en phase folliculaire (après les règles) et autour de l'ovulation, tu as souvent plus d'énergie et tu récupères mieux : c'est le bon moment pour les séances plus toniques si tu en as envie. en phase lutéale (avant les règles) et pendant les règles, le corps demande plus de douceur.\n\ns'aligner sur ces phases, c'est travailler AVEC ta physiologie : tu profites des phases hautes et tu respectes les phases basses, au lieu de t'épuiser à vouloir la même intensité tout le temps. résultat : plus de régularité, moins de blessures et de découragement, et un cycle mieux respecté.",
    source:"les variations hormonales du cycle influencent l'énergie et la récupération ; adapter l'activité soutient la régularité (Diamanti-Kandarakis & Dunaif, 2012).",
-   comment:["repère ta phase dans l'onglet Mon cycle","phase folliculaire / ovulation : plus de tonus si tu en as envie","phase lutéale / règles : douceur, étirements, marche, yoga","écoute ton énergie du jour avant tout","même avec un cycle irrégulier, suis tes ressentis"],
+   comment:["repère ta phase dans Mon cycle","phase folliculaire / ovulation : plus de tonus si tu en as envie","phase lutéale / règles : douceur, étirements, marche, yoga","écoute ton énergie du jour avant tout","même avec un cycle irrégulier, suis tes ressentis"],
    pieges:["t'imposer la même intensité toute l'année","forcer une grosse séance en phase basse et te décourager","ignorer ton cycle quand il est irrégulier : tes ressentis guident quand même"],
    plus:"le 'cycle syncing' n'est pas une règle rigide : c'est une écoute. certains jours, ton corps dira oui à l'intensité, d'autres non. apprendre à suivre ça, c'est la fin de la lutte contre toi-même.",
    observes:["cette semaine : un mouvement plus aligné sur ton énergie","sur quelques cycles : moins d'épuisement et de blessures","sur la durée : un cycle mieux respecté"],
    victoire:"tu viens d'apprendre à bouger avec ton cycle, pas contre lui.",
-   outil:{emoji:"🧘‍♀️",label:"Mes routines de mouvement",desc:"doux ou tonique, selon ta phase",goTab:"mouvement"},
+   outil:{emoji:"🧘‍♀️",label:"Bouger",desc:"doux ou tonique, selon ta phase",goTab:"mouvement"},
    accents:{
      metabolique:"adapter l'effort à ta phase optimise ton levier glycémie sans t'épuiser.",
      androgenique:"éviter le surmenage limite le stress qui amplifie tes androgènes.",
@@ -5258,7 +5276,7 @@ const MISSIONS_365 = [
    plus:"ton corps est ton meilleur guide ici. certaines se sentent mieux en marchant un peu, d'autres en se posant avec une bouillotte. les deux sont des façons justes de respecter ton cycle.",
    observes:["pendant tes règles : une écoute plus juste de ton corps","sur quelques cycles : tu sais ce qui te soulage","sur la durée : un cycle respecté dans toutes ses phases"],
    victoire:"tu viens d'apprendre à honorer ta phase de règles, sans dogme ni culpabilité.",
-   outil:{emoji:"🧘‍♀️",label:"Mes routines de mouvement",desc:"du très doux, pour les jours de règles",goTab:"mouvement"},
+   outil:{emoji:"🧘‍♀️",label:"Bouger",desc:"du très doux, pour les jours de règles",goTab:"mouvement"},
    accents:{
      metabolique:"respecter ta phase de repos évite le stress qui perturbe ta glycémie.",
      androgenique:"ne pas forcer limite le stress qui amplifie tes androgènes.",
@@ -5399,7 +5417,7 @@ const MISSIONS_365 = [
    plus:"la santé osseuse est un enjeu silencieux du SMOP : des cycles longtemps irréguliers (donc des œstrogènes souvent bas) peuvent fragiliser les os. le renforcement musculaire est une de tes meilleures protections, en douceur.",
    observes:["cette semaine : un corps un peu plus fort","sur quelques semaines : une énergie plus stable","sur la durée : un soutien de ton équilibre et de tes os"],
    victoire:"tu viens d'investir dans un allié de fond pour tes hormones et tes os.",
-   outil:{emoji:"🧘‍♀️",label:"Mes routines de mouvement",desc:"du renforcement doux",goTab:"mouvement"},
+   outil:{emoji:"🧘‍♀️",label:"Bouger",desc:"du renforcement doux",goTab:"mouvement"},
    accents:{
      metabolique:"le muscle améliore ta sensibilité à l'insuline en continu : pur levier.",
      androgenique:"meilleure sensibilité à l'insuline = moins d'androgènes, sur la durée.",
@@ -5419,7 +5437,7 @@ const MISSIONS_365 = [
    plus:"cette compréhension est un déclic pour beaucoup : 'donc si je ne me sens apaisée nulle part dans mon cycle, c'est peut-être que je manque de progestérone faute d'ovuler'. c'est exactement pour ça qu'on travaille à soutenir ton ovulation.",
    observes:["aujourd'hui : un duo hormonal enfin compris","dans quelques jours : tes symptômes qui prennent sens","sur la durée : l'ovulation comme clé de ton équilibre"],
    victoire:"tu viens de comprendre le duo hormonal qui orchestre tout ton cycle.",
-   outil:{emoji:"🎓",label:"Comprendre ton SMOP",desc:"œstrogènes, progestérone et cycle",cible:"comprendre"},
+   outil:{emoji:"🎓",label:"Comprendre ton SMOP",desc:"ton cycle avec un SMOP, en clair",cible:"comprendre"},
    accents:{
      metabolique:"la sensibilité à l'insuline soutient l'ovulation, donc ta progestérone.",
      androgenique:"réduire les androgènes libère l'ovulation et la production de progestérone.",
@@ -5479,7 +5497,7 @@ const MISSIONS_365 = [
    plus:"la libido est un bon baromètre global : quand ton terrain s'apaise (moins de stress, meilleur sommeil, hormones plus équilibrées), le désir revient souvent de lui-même. sois douce avec toi sur ce sujet intime.",
    observes:["aujourd'hui : un regard sans jugement sur ton désir","sur quelques cycles : un lien observé avec tes phases","sur la durée : une libido soutenue par l'apaisement de ton terrain"],
    victoire:"tu viens de déculpabiliser ta libido et de la relier à ton cycle.",
-   outil:{emoji:"🎓",label:"Comprendre ton SMOP",desc:"hormones, cycle et bien-être",cible:"comprendre"},
+   outil:{emoji:"🎓",label:"Comprendre ton SMOP",desc:"ton cycle avec un SMOP, en clair",cible:"comprendre"},
    accents:{
      metabolique:"fatigue et glycémie instable pèsent sur la libido : ton levier la soutient aussi.",
      androgenique:"l'équilibre des androgènes influence la libido : ton travail de fond compte.",
@@ -5540,7 +5558,7 @@ const MISSIONS_365 = [
    plus:"tu ne pourras pas tout caler sur ton cycle (la vie a ses contraintes), et ce n'est pas grave. mais chaque fois que tu PEUX honorer ta phase — dire oui à l'élan, t'accorder le repos — tu travailles avec ton corps. c'est un apprentissage de toute une vie.",
    observes:["aujourd'hui : un regard plus doux sur tes variations","sur quelques cycles : une organisation plus alignée","sur la durée : moins de lutte contre ton propre rythme"],
    victoire:"tu viens d'accepter ton énergie cyclique au lieu de la combattre.",
-   outil:{emoji:"🧘‍♀️",label:"Mes routines de mouvement",desc:"adapte selon ta phase",goTab:"mouvement"},
+   outil:{emoji:"🧘‍♀️",label:"Bouger",desc:"adapte selon ta phase",goTab:"mouvement"},
    accents:{
      metabolique:"respecter ton énergie évite le surmenage qui déstabilise ta glycémie.",
      androgenique:"ne pas forcer en phase basse limite le stress qui amplifie tes androgènes.",
@@ -5560,7 +5578,7 @@ const MISSIONS_365 = [
    plus:"ces marqueurs (LH, FSH) peuvent être dosés dans un bilan hormonal, à un moment précis du cycle. si tu fais un bilan, ton médecin saura quand et comment les interpréter. c'est une pièce de plus du puzzle de TON SMOP.",
    observes:["aujourd'hui : la source cérébrale de ton cycle comprise","à ton prochain bilan : des marqueurs à explorer","sur la durée : une vision complète de ton SMOP"],
    victoire:"tu viens de remonter à la source de ton ovulation — dans ton cerveau.",
-   outil:{emoji:"🎓",label:"Comprendre ton SMOP",desc:"LH, FSH et l'ovulation",cible:"comprendre"},
+   outil:{emoji:"🎓",label:"Comprendre ton SMOP",desc:"ton cycle avec un SMOP, en clair",cible:"comprendre"},
    accents:{
      metabolique:"l'insuline élevée perturbe l'équilibre LH/FSH : ton levier agit à la source.",
      androgenique:"les androgènes participent au déséquilibre des signaux : les réduire aide.",
@@ -5640,7 +5658,7 @@ const MISSIONS_365 = [
    plus:"si ce sujet réveille des émotions fortes, c'est normal, et tu n'as pas à les porter seule : en parler (à la communauté, à une personne de confiance, parfois à un professionnel) fait partie du soin. ta relation à ton corps se répare aussi, doucement.",
    observes:["aujourd'hui : un pas vers la paix avec ton cycle","dans quelques semaines : moins de charge émotionnelle","sur la durée : une relation apaisée à ton corps de femme"],
    victoire:"tu viens de faire un pas pour réconcilier ton cycle et ton identité de femme.",
-   outil:{emoji:"🤍",label:"Le coach mindset de Kamila",desc:"faire la paix avec ton corps",goTab:"kamila"},
+   outil:{emoji:"🤍",label:"Les mots de Kamila, selon ton humeur",desc:"faire la paix avec ton corps",goTab:"kamila"},
    accents:{
      metabolique:"apaiser ta relation au corps réduit le stress qui déstabilise ta glycémie.",
      androgenique:"faire la paix avec ton corps allège le poids des symptômes visibles.",
@@ -5722,7 +5740,7 @@ const MISSIONS_365 = [
    plus:"un massage doux du cuir chevelu (quelques minutes, du bout des doigts) stimule la microcirculation locale et accompagne le mouvement — un petit geste agréable pour tes cheveux.",
    observes:["cette semaine : une circulation activée","sur quelques semaines : un cuir chevelu mieux nourri","sur la durée : peau et cheveux soutenus par le mouvement"],
    victoire:"tu viens de relier ton mouvement à la santé de ta peau et de tes cheveux.",
-   outil:{emoji:"🧘‍♀️",label:"Mes routines de mouvement",desc:"du doux pour la circulation",goTab:"mouvement"},
+   outil:{emoji:"🧘‍♀️",label:"Bouger",desc:"du doux pour la circulation",goTab:"mouvement"},
    accents:{
      metabolique:"le mouvement améliore l'insuline, levier de ton acné.",
      androgenique:"bouger réduit insuline et stress, deux moteurs de tes symptômes visibles.",
@@ -5762,7 +5780,7 @@ const MISSIONS_365 = [
    plus:"le cercle 'ma peau me stresse / le stress abîme ma peau' est réel. le casser passe autant par le soin de ta peau que par l'apaisement de ton mental. ta Serenitea ou tes gestes anti-stress soignent ta peau de l'intérieur.",
    observes:["aujourd'hui : un geste anti-stress au service de ta peau","sur quelques semaines : moins de poussées liées au stress","sur la durée : un cercle stress-peau qui se desserre"],
    victoire:"tu viens de relier ton stress à ta peau — et d'agir sur les deux.",
-   outil:{emoji:"🤍",label:"Le coach mindset de Kamila",desc:"apaiser le stress qui marque ta peau",goTab:"kamila"},
+   outil:{emoji:"🤍",label:"Les mots de Kamila, selon ton humeur",desc:"apaiser le stress qui marque ta peau",goTab:"kamila"},
    accents:{
      metabolique:"le cortisol aggrave insuline et acné : l'apaiser sert ta peau et ta glycémie.",
      androgenique:"le stress stimule les androgènes qui marquent ta peau : clé pour ton profil.",
@@ -5883,7 +5901,7 @@ const MISSIONS_365 = [
    plus:"c'est un bon exemple de symptôme que beaucoup de Cysters ont sans savoir qu'il peut être relié à leur terrain. apaiser androgènes, inflammation et stress soutient le fond ; pour la surface, un avis dermato est précieux.",
    observes:["aujourd'hui : un symptôme identifié et nommé","sur quelques semaines : des poussées peut-être moins fréquentes","à retenir : douceur en surface, apaisement du terrain au fond"],
    victoire:"tu viens de mettre un nom sur un symptôme que beaucoup ignorent — et de savoir l'apaiser en douceur.",
-   outil:{emoji:"🩹",label:"Situations du quotidien",desc:"gérer les symptômes de peau",cible:"situations"},
+   outil:{emoji:"🩹",label:"La fiche peau, cheveux & ongles",desc:"prendre soin d'une peau réactive",cible:"telechargements"},
    accents:{
      metabolique:"stabiliser ta glycémie soutient le fond, via moins de sébum à terme.",
      androgenique:"l'excès d'androgènes augmente le sébum : travailler ta racine peut aider.",
@@ -5903,7 +5921,7 @@ const MISSIONS_365 = [
    plus:"c'est un sujet peu documenté, et je préfère être honnête là-dessus : si tu le vis, ton ressenti est valide même sans étude pour le 'prouver'. travailler ton stress reste le levier le plus concret et le plus accessible.",
    observes:["aujourd'hui : un vécu validé, sorti du non-dit","sur quelques semaines : moins de poussées quand le stress baisse","à retenir : ton ressenti compte, même peu documenté"],
    victoire:"tu viens de valider un vécu que beaucoup taisent — et de repérer le levier du stress.",
-   outil:{emoji:"🩹",label:"Situations du quotidien",desc:"mieux vivre ce symptôme",cible:"situations"},
+   outil:{emoji:"🩹",label:"Mon espace Santé",desc:"préparer la question pour ton médecin",goTab:"medecin"},
    accents:{
      metabolique:"les variations glycémiques peuvent aussi déclencher des sueurs : stabilise-les.",
      androgenique:"les fluctuations hormonales peuvent jouer : apaiser ton terrain aide.",
@@ -6004,7 +6022,7 @@ const MISSIONS_365 = [
    plus:"la kératose pilaire est très fréquente et bénigne : l'hydratation régulière est ton meilleur geste, bien plus que les gommages agressifs. et habiter ton corps avec douceur, zones 'oubliées' comprises, fait partie du chemin.",
    observes:["aujourd'hui : un soin pour la peau de ton corps","sur quelques semaines : des zones mieux hydratées, plus douces","à retenir : ta peau, c'est tout ton corps, avec douceur"],
    victoire:"tu viens de prendre soin de zones qu'on oublie toujours — tout ton corps mérite de la douceur.",
-   outil:{emoji:"🩹",label:"Situations du quotidien",desc:"soigner la peau du corps",cible:"situations"},
+   outil:{emoji:"🩹",label:"La fiche peau, cheveux & ongles",desc:"les nutriments qui soutiennent de l'intérieur",cible:"telechargements"},
    accents:{
      metabolique:"ta glycémie agit sur toute ta peau, dos et corps compris.",
      androgenique:"l'acné du tronc suit tes androgènes, comme celle du visage.",
@@ -6145,7 +6163,7 @@ const MISSIONS_365 = [
    plus:"si tu as de l'acné du dos (bacne), c'est souvent de l'acné mécanique/transpiration : les gestes d'après-sport changent beaucoup. le mouvement reste un allié majeur de ta peau, via l'insuline et le stress.",
    observes:["aujourd'hui : un mouvement peau-friendly","sur quelques semaines : moins de boutons d'après-sport","à retenir : bouge librement, nettoie en douceur ensuite"],
    victoire:"tu viens de garder tous les bienfaits du sport pour ta peau, sans ses petits inconvénients.",
-   outil:{emoji:"🧘‍♀️",label:"Mes routines de mouvement",desc:"bouger pour ta peau",goTab:"mouvement"},
+   outil:{emoji:"🧘‍♀️",label:"Bouger",desc:"bouger pour ta peau",goTab:"mouvement"},
    accents:{
      metabolique:"le mouvement améliore ton insuline, levier direct de ta peau.",
      androgenique:"bouger réduit insuline et stress, deux moteurs de ton acné.",
@@ -6265,7 +6283,7 @@ const MISSIONS_365 = [
    plus:"la communauté WhatsApp des Cysters est là pour ça : un espace où tu peux parler sans honte de ce que tu ne dis à personne. une astuce partagée, un 'moi aussi' reçu, et la charge s'allège. tu y as ta place.",
    observes:["aujourd'hui : un mot partagé, un isolement brisé","sur la durée : un soutien qui allège et déstresse","à retenir : parler à celles qui comprennent change tout"],
    victoire:"tu viens de briser un peu le silence — et de te rappeler que tu n'es pas seule.",
-   outil:{emoji:"💬",label:"Le coach mindset de Kamila",desc:"et la communauté des Cysters",goTab:"kamila"},
+   outil:{emoji:"💬",label:"La communauté des Cysters",desc:"rejoindre le groupe WhatsApp",lien:WHATSAPP_URL},
    accents:{
      metabolique:"partager allège le stress qui pèse aussi sur ta glycémie.",
      androgenique:"tes symptômes visibles sont isolants : en parler soulage vraiment.",
@@ -6327,7 +6345,7 @@ const MISSIONS_365 = [
    plus:"tu es peut-être celle qui, en mettant un nom sur ton SMOP, va aider toute ta lignée à comprendre. c'est un cadeau que tu peux faire à tes sœurs, et à tes filles éventuelles. n'aie pas peur d'ouvrir la conversation.",
    observes:["aujourd'hui : une conversation familiale ouverte","sur la durée : une histoire mieux comprise, moins solitaire","à retenir : ton SMOP a souvent une histoire de famille"],
    victoire:"tu viens peut-être de relier ton histoire à celle de ta famille — tu n'es pas 'la seule'.",
-   outil:{emoji:"🧭",label:"Comprendre ton SMOP",desc:"les origines de ton terrain",cible:"comprendre"},
+   outil:{emoji:"🧭",label:"Comprendre ton SMOP",desc:"les mécanismes, en clair",cible:"comprendre"},
    accents:{
      metabolique:"la prédisposition métabolique est souvent familiale : demande les antécédents de diabète aussi.",
      androgenique:"la pilosité ou l'acné chez tes proches peut signaler un terrain partagé.",
@@ -6347,7 +6365,7 @@ const MISSIONS_365 = [
    plus:"si tu es une Cyster mince, ce mythe t'a peut-être coûté des années d'errance. ton SMOP est aussi réel, et ton travail de fond aussi utile. la résistance à l'insuline ne se voit pas forcément dans le miroir.",
    observes:["aujourd'hui : un cliché déconstruit","à retenir : le poids ne fait pas le SMOP","sur la durée : un travail de fond légitime, quel que soit ton poids"],
    victoire:"tu viens de casser un mythe qui retarde tant de diagnostics — le SMOP ne se mesure pas au poids.",
-   outil:{emoji:"🎓",label:"Comprendre ton SMOP",desc:"au-delà des clichés",cible:"comprendre"},
+   outil:{emoji:"🎓",label:"Comprendre ton SMOP",desc:"les mécanismes, en clair",cible:"comprendre"},
    accents:{
      metabolique:"même mince, ta résistance à l'insuline est bien réelle : ton travail est pertinent.",
      androgenique:"le lean PCOS s'exprime souvent par l'hyperandrogénie plus que le poids.",
@@ -6367,7 +6385,7 @@ const MISSIONS_365 = [
    plus:"c'est un parfait exemple de signe caché : qui penserait à relier son SMOP à ses gencives ? et pourtant, l'inflammation que tu apaises par ton alimentation et ton hygiène de vie protège aussi ta bouche. tout est relié.",
    observes:["aujourd'hui : un soin pour tes gencives, un contrôle planifié","sur la durée : une bouche saine qui reflète un terrain apaisé","à retenir : ton SMOP s'exprime jusque dans ta bouche"],
    victoire:"tu viens de découvrir un signe vraiment caché — et de savoir que soigner ton terrain protège aussi tes gencives.",
-   outil:{emoji:"🩹",label:"Situations du quotidien",desc:"prendre soin au quotidien",cible:"situations"},
+   outil:{emoji:"🩹",label:"Mes rappels et mon carnet",desc:"note ton rendez-vous chez le dentiste",goTab:"suivi"},
    accents:{
      metabolique:"ta résistance à l'insuline fragilise aussi les tissus des gencives.",
      androgenique:"ton terrain hormonal participe à la sensibilité des gencives.",
@@ -6448,7 +6466,7 @@ const MISSIONS_365 = [
    plus:"stabiliser ta glycémie et apaiser ton inflammation aident souvent l'humeur, parce que tout est relié. mais si l'anxiété ou la tristesse prennent trop de place, en parler à un professionnel (médecin, psychologue) n'est pas un aveu de faiblesse : c'est prendre soin d'une partie réelle de ton SMOP.",
    observes:["aujourd'hui : ton humeur accueillie sans jugement","sur quelques semaines : une humeur qui se lisse avec la glycémie","à retenir : ton moral fait partie de ton SMOP, il mérite soin"],
    victoire:"tu viens de déculpabiliser ton humeur — ce n'est pas une faiblesse, c'est une vraie part de ton SMOP.",
-   outil:{emoji:"🤍",label:"Le coach mindset de Kamila",desc:"prendre soin de ton moral",goTab:"kamila"},
+   outil:{emoji:"🤍",label:"Les mots de Kamila, selon ton humeur",desc:"prendre soin de ton moral",goTab:"kamila"},
    accents:{
      metabolique:"tes montagnes russes de glycémie font tanguer ton humeur : les lisser aide.",
      androgenique:"les fluctuations hormonales pèsent sur ton moral.",
@@ -6548,7 +6566,7 @@ const MISSIONS_365 = [
    plus:"c'est un domaine intime, mais il fait partie de ta santé et de ton bien-être. le travail que tu fais sur ton énergie, ton humeur et ta confiance en toi rejaillit souvent ici. et tu n'es, là encore, pas seule.",
    observes:["aujourd'hui : un sujet sorti du tabou","sur la durée : un domaine que ton mieux-être global soutient","à retenir : ta vie intime fait partie de ta santé"],
    victoire:"tu viens d'aborder sans honte un sujet que trop de Cysters taisent — ta vie intime compte aussi.",
-   outil:{emoji:"🩹",label:"Situations du quotidien",desc:"prendre soin de toi, globalement",cible:"situations"},
+   outil:{emoji:"🩹",label:"Mon journal",desc:"poser ce que tu ressens, sans filtre",goTab:"journal"},
    accents:{
      metabolique:"ton énergie, soutenue par ta glycémie, nourrit aussi ce domaine.",
      androgenique:"malgré tes androgènes, la libido dépend du bien-être global, pas que des hormones.",
@@ -6609,7 +6627,7 @@ const MISSIONS_365 = [
    plus:"ma règle, et je te la partage : ce qui te détend et te fait du bien a de la valeur, à condition de ne pas remplacer les bases ni de te ruiner sur des promesses. le stress jouant un rôle réel, tout ce qui l'apaise sincèrement est bienvenu — avec lucidité.",
    observes:["aujourd'hui : un regard lucide sur les approches complémentaires","à retenir : un soutien possible, pas un traitement miracle","sur la durée : du complément, jamais au détriment du fond"],
    victoire:"tu viens de regarder les approches complémentaires avec lucidité — soutien possible, pas miracle.",
-   outil:{emoji:"🩹",label:"Situations du quotidien",desc:"bien-être au quotidien",cible:"situations"},
+   outil:{emoji:"🩹",label:"Mon espace Santé",desc:"noter la question pour ton médecin",goTab:"medecin"},
    accents:{
      metabolique:"aucune approche douce ne remplace ton travail sur la glycémie.",
      androgenique:"pas de méthode miracle sur tes androgènes : le fond reste la base.",
@@ -6689,7 +6707,7 @@ const MISSIONS_365 = [
    plus:"la rétention prémenstruelle est normale et cyclique : la reconnaître évite de t'inquiéter ou de te peser dans cette phase (le chiffre monte avec l'eau, pas avec la graisse). hydratation, mouvement et moins de sel sont tes meilleurs alliés.",
    observes:["aujourd'hui : des leviers simples activés","sur le cycle : une rétention prémenstruelle anticipée","à retenir : hydratation et mouvement font la différence"],
    victoire:"tu viens de reprendre la main sur un inconfort courant — la rétention d'eau a des leviers simples.",
-   outil:{emoji:"🧘‍♀️",label:"Mes routines de mouvement",desc:"activer ta circulation",goTab:"mouvement"},
+   outil:{emoji:"🧘‍♀️",label:"Bouger",desc:"activer ta circulation",goTab:"mouvement"},
    accents:{
      metabolique:"l'excès d'insuline favorise la rétention de sodium : stabiliser ta glycémie aide.",
      androgenique:"les fluctuations hormonales rythment ta rétention : anticipe-la.",
@@ -6730,7 +6748,7 @@ const MISSIONS_365 = [
    plus:"c'est peut-être le plus beau retournement : ton SMOP t'oblige à prendre soin de toi tôt et bien, ce qui te protège mieux que beaucoup. tu construis aujourd'hui la santé de la femme que tu seras dans 20 ans. c'est un acte d'amour envers ton futur.",
    observes:["aujourd'hui : une info transformée en motivation","sur les années : une santé que tu construis dès maintenant","à retenir : tu n'es pas passive, tu agis déjà"],
    victoire:"tu viens de transformer une info qui fait peur en pouvoir d'agir — tu construis ton futur.",
-   outil:{emoji:"🎓",label:"Comprendre ton SMOP",desc:"agir pour ton avenir",cible:"comprendre"},
+   outil:{emoji:"🎓",label:"Comprendre ton SMOP",desc:"les mécanismes, en clair",cible:"comprendre"},
    accents:{
      metabolique:"c'est TON enjeu : prévenir le diabète commence par ta glycémie, que tu travailles déjà.",
      androgenique:"soutenir ton terrain protège aussi ton métabolisme à long terme.",
@@ -6830,7 +6848,7 @@ const MISSIONS_365 = [
    plus:"c'est le secret de la constance : quand bouger devient un cadeau pour ton énergie, ton moral et ton futur — et non une corvée pour maigrir — tu le fais naturellement, et tu continues. le plaisir est le meilleur moteur de la durée.",
    observes:["aujourd'hui : un mouvement vu comme un investissement","sur les années : un cœur et un métabolisme protégés","à retenir : tu bouges pour ton futur, pas pour compenser"],
    victoire:"tu viens de libérer le mouvement de la silhouette — tu bouges pour ton cœur de demain.",
-   outil:{emoji:"🧘‍♀️",label:"Mes routines de mouvement",desc:"bouger pour ton futur",goTab:"mouvement"},
+   outil:{emoji:"🧘‍♀️",label:"Bouger",desc:"bouger pour ton futur",goTab:"mouvement"},
    accents:{
      metabolique:"le mouvement est un de tes outils les plus puissants sur l'insuline.",
      androgenique:"bouger améliore l'insuline, donc réduit tes androgènes à long terme.",
@@ -6850,7 +6868,7 @@ const MISSIONS_365 = [
    plus:"donner du sens à ton parcours en aidant une autre femme est l'un des plus beaux cadeaux que tu peux te faire à toi aussi. ce que tu as traversé n'était pas vain : il peut éclairer le chemin d'une autre. c'est tout l'esprit des Cysters.",
    observes:["aujourd'hui : un savoir partagé, une graine semée","sur la durée : du sens donné à ton propre parcours","à retenir : informer, c'est aider — et te relier"],
    victoire:"tu viens peut-être d'aider une femme à se reconnaître — ton savoir est devenu un cadeau.",
-   outil:{emoji:"💬",label:"Le coach mindset de Kamila",desc:"et la communauté des Cysters",goTab:"kamila"},
+   outil:{emoji:"💬",label:"La communauté des Cysters",desc:"rejoindre le groupe WhatsApp",lien:WHATSAPP_URL},
    accents:{
      metabolique:"partage ce que tu as compris sur l'insuline : ça peut éclairer une proche.",
      androgenique:"tes symptômes androgéniques expliqués peuvent aider une femme à se reconnaître.",
@@ -6892,7 +6910,7 @@ const MISSIONS_365 = [
    plus:"ce recadrage change tout : tu ne bouges pas 'pour mériter' ou 'pour compenser', tu bouges parce que c'est l'un des traitements de fond les plus efficaces de ton SMOP. et ça marche même à petites doses régulières.",
    observes:["aujourd'hui : un regard neuf sur le mouvement","ce mois : apprendre à bouger juste pour ton SMOP","à retenir : le mouvement est un médicament gratuit"],
    victoire:"tu viens de comprendre que bouger est l'un des traitements de fond les plus puissants de ton SMOP.",
-   outil:{emoji:"🎓",label:"Comprendre ton SMOP",desc:"le mouvement et ton insuline",cible:"comprendre"},
+   outil:{emoji:"🎓",label:"Comprendre ton SMOP",desc:"les mécanismes, en clair",cible:"comprendre"},
    accents:{
      metabolique:"c'est TON levier majeur : le mouvement attaque directement ta résistance à l'insuline.",
      androgenique:"moins d'insuline grâce au mouvement = moins d'androgènes à la source.",
@@ -6912,7 +6930,7 @@ const MISSIONS_365 = [
    plus:"teste et observe : si tu as un lecteur de glycémie, tu verras l'effet en direct. sinon, observe ton énergie après le repas (moins de coup de barre). c'est un geste minuscule au rendement énorme, à ancrer en habitude.",
    observes:["aujourd'hui : une marche post-repas testée","sur quelques semaines : des pics de glycémie aplatis, moins de coups de barre","à retenir : 10 min après manger, ton geste le plus rentable"],
    victoire:"tu viens d'adopter le geste mouvement le plus rentable qui soit — la marche après le repas.",
-   outil:{emoji:"🧘‍♀️",label:"Mes routines de mouvement",desc:"la marche digestive",goTab:"mouvement"},
+   outil:{emoji:"🧘‍♀️",label:"Bouger",desc:"la marche digestive",goTab:"mouvement"},
    accents:{
      metabolique:"c'est TON geste star : la marche post-repas aplatit directement ton pic.",
      androgenique:"moins de pic d'insuline après manger = moins d'androgènes stimulés.",
@@ -6929,10 +6947,10 @@ const MISSIONS_365 = [
    source:"la masse musculaire améliore la sensibilité à l'insuline en augmentant le stockage du glucose ; le renforcement est recommandé dans le SMOP (physiologie de l'exercice ; recommandations SMOP).",
    comment:["intègre du renforcement 2-3x/semaine, 10-20 min","plus de muscle = plus grand réservoir à sucre = meilleure insuline 24h/24","pas besoin de lourd : poids du corps, élastiques, pilates","faisable chez toi, sans matériel (squats, gainage, pompes au mur)","cardio doux + renforcement : complémentaires, pas concurrents"],
    pieges:["croire que seul le cardio 'compte'","penser qu'il faut soulever lourd ou aller en salle","négliger un levier qui agit même au repos"],
-   plus:"le renforcement est le levier 'long terme' du mouvement : il améliore ta gestion du sucre en permanence, pas seulement pendant l'effort. commence petit, à la maison, et augmente à ton rythme. ta fiche mouvement te donne des idées d'exercices simples.",
+   plus:"le renforcement est le levier 'long terme' du mouvement : il améliore ta gestion du sucre en permanence, pas seulement pendant l'effort. commence petit, à la maison, et augmente à ton rythme. la séance Renforcement A, dans Bouger, te guide pas à pas.",
    observes:["aujourd'hui : un peu de renforcement testé","sur quelques semaines : un corps plus tonique, une meilleure gestion du sucre","à retenir : ton muscle gère le sucre même au repos"],
    victoire:"tu viens de découvrir un allié durable : tes muscles améliorent ton insuline 24h/24.",
-   outil:{emoji:"🧘‍♀️",label:"Mes routines de mouvement",desc:"du renforcement doux",goTab:"mouvement"},
+   outil:{emoji:"🧘‍♀️",label:"Bouger",desc:"du renforcement doux",goTab:"mouvement"},
    accents:{
      metabolique:"c'est un levier clé pour toi : plus de muscle = meilleure insuline en continu.",
      androgenique:"une meilleure sensibilité à l'insuline réduit tes androgènes, même au repos.",
@@ -6952,7 +6970,7 @@ const MISSIONS_365 = [
    plus:"c'est libérateur : tu n'as pas besoin de souffrir pour que ça marche. au contraire, pour ton SMOP, le mouvement doux et régulier est souvent plus efficace que l'intensité épuisante. écoute ton corps plutôt qu'un programme générique.",
    observes:["aujourd'hui : une attention au juste dosage","sur quelques semaines : un mouvement qui revigore au lieu d'épuiser","à retenir : la régularité douce bat l'intensité épuisante"],
    victoire:"tu viens d'apprendre à doser : te faire du bien sans te vider — le secret du mouvement anti-SMOP.",
-   outil:{emoji:"🤍",label:"Le coach mindset de Kamila",desc:"écouter ton corps, pas l'ego",goTab:"kamila"},
+   outil:{emoji:"🤍",label:"Les mots de Kamila, selon ton humeur",desc:"écouter ton corps, pas l'ego",goTab:"kamila"},
    accents:{
      metabolique:"trop d'intensité élève le cortisol qui aggrave ton insuline : dose juste.",
      androgenique:"le stress de l'excès stimule tes androgènes : privilégie le doux régulier.",
@@ -7110,10 +7128,10 @@ const MISSIONS_365 = [
    source:"l'activité physique régulière réduit les symptômes anxieux et dépressifs via les endorphines et d'autres mécanismes (littérature santé mentale et exercice).",
    comment:["sache que bouger est un anti-déprime naturel documenté","les jours bas, un tout petit mouvement peut desserrer l'étau","pas de performance : 5 min de marche, étirements, une chanson dansée","le plus dur est de commencer : une fois lancée, le corps aide","sois douce : certains jours mouvement, d'autres repos — les deux sont ok"],
    pieges:["te forcer durement quand tu vas mal (contre-productif)","culpabiliser si tu n'arrives pas à bouger un jour bas","oublier que le mouvement est une ressource pour ton moral"],
-   plus:"garde ça comme un outil dans ta trousse, sans en faire une obligation : les jours gris, te rappeler que 5 minutes de mouvement peuvent aider est déjà précieux. le coach mindset de Kamila peut t'accompagner les jours difficiles.",
+   plus:"garde ça comme un outil dans ta trousse, sans en faire une obligation : les jours gris, te rappeler que 5 minutes de mouvement peuvent aider est déjà précieux. les mots de Kamila peuvent t'accompagner les jours difficiles.",
    observes:["aujourd'hui : le mouvement reconnu comme allié du moral","sur la durée : une ressource de plus les jours bas","à retenir : bouger un peu soigne le moral autant que le corps"],
    victoire:"tu viens d'ajouter un allié à ta trousse des jours gris — le mouvement, anti-déprime naturel.",
-   outil:{emoji:"🤍",label:"Le coach mindset de Kamila",desc:"t'accompagner les jours bas",goTab:"kamila"},
+   outil:{emoji:"🤍",label:"Les mots de Kamila, selon ton humeur",desc:"t'accompagner les jours bas",goTab:"kamila"},
    accents:{
      metabolique:"bouger un peu stabilise aussi ta glycémie, qui influence ton humeur.",
      androgenique:"le mouvement soutient l'humeur que tes fluctuations hormonales malmènent.",
@@ -7174,7 +7192,7 @@ const MISSIONS_365 = [
    plus:"c'est le complément parfait de la séance : le sport 'ponctuel' + le mouvement 'réparti' (ne pas rester assise longtemps) agissent ensemble. un simple rappel horaire peut transformer ta journée métaboliquement.",
    observes:["aujourd'hui : des pauses debout toutes les heures","sur quelques semaines : un métabolisme moins freiné par l'assise","à retenir : bouge souvent un peu, pas seulement une fois"],
    victoire:"tu viens de t'attaquer à un ennemi discret — la position assise prolongée se brise en micro-pauses.",
-   outil:{emoji:"🩹",label:"Situations du quotidien",desc:"bouger au fil de la journée",cible:"situations"},
+   outil:{emoji:"🩹",label:"Bouger",desc:"de petites pauses à caser dans ta journée",goTab:"mouvement"},
    accents:{
      metabolique:"c'est un point clé pour toi : l'assise prolongée freine ta gestion du sucre.",
      androgenique:"moins de sédentarité = meilleure insuline = moins d'androgènes.",
@@ -7214,7 +7232,7 @@ const MISSIONS_365 = [
    plus:"les étirements sont parfaits les jours de faible énergie : tu bouges, tu relâches, tu apaises ton système nerveux, sans te fatiguer. c'est un pont entre mouvement et détente — idéal pour ton terrain. intègre-les à ton rituel du soir si tu veux.",
    observes:["aujourd'hui : des tensions relâchées","sur quelques semaines : un corps plus souple, moins de tensions chroniques","à retenir : relâcher le corps relâche la tête"],
    victoire:"tu viens de libérer des tensions qui te volaient de l'énergie — le corps et la tête respirent.",
-   outil:{emoji:"🧘‍♀️",label:"Mes routines de mouvement",desc:"étirements doux",goTab:"mouvement"},
+   outil:{emoji:"🧘‍♀️",label:"Bouger",desc:"étirements doux",goTab:"mouvement"},
    accents:{
      metabolique:"relâcher le stress musculaire fait aussi redescendre le cortisol et aide l'insuline.",
      androgenique:"baisser le cortisol via la détente musculaire apaise tes androgènes.",
@@ -7254,7 +7272,7 @@ const MISSIONS_365 = [
    plus:"la communauté des Cysters peut aussi être un moteur : se motiver, se lancer des défis, partager ses marches. bouger à plusieurs transforme une contrainte en moment attendu — et nourrit ton besoin de lien, précieux pour ton équilibre.",
    observes:["aujourd'hui : une proposition de bouger à plusieurs","sur quelques semaines : plus de régularité et de plaisir","à retenir : le lien rend le mouvement plus facile et joyeux"],
    victoire:"tu viens d'ajouter du lien à ton mouvement — plus facile, plus régulier, plus joyeux.",
-   outil:{emoji:"💬",label:"Le coach mindset de Kamila",desc:"et la communauté des Cysters",goTab:"kamila"},
+   outil:{emoji:"💬",label:"La communauté des Cysters",desc:"rejoindre le groupe WhatsApp",lien:WHATSAPP_URL},
    accents:{
      metabolique:"la régularité du mouvement partagé sert ta glycémie dans la durée.",
      androgenique:"bouger régulièrement à plusieurs agit sur tes androgènes dans le temps.",
@@ -7312,10 +7330,10 @@ const MISSIONS_365 = [
    source:"le renforcement du tronc (gainage, plancher pelvien) améliore posture, stabilité et prévient les douleurs (physiologie du mouvement).",
    comment:["renforce ton centre : gainage doux, pilates, respiration engagée","un centre tonique = meilleure posture, moins de mal de dos","le plancher pelvien mérite une attention douce (surtout après grossesse)","pas d'abdos agressifs : le gainage doux est plus sûr et efficace","travaille ta posture au quotidien : te grandir, épaules relâchées"],
    pieges:["négliger ton centre, socle de tout mouvement","faire des abdos agressifs (crunchs) plutôt qu'un gainage doux","oublier le plancher pelvien et la posture"],
-   plus:"si tu as eu des grossesses, un bilan de périnée avec un professionnel (kiné, sage-femme) est précieux : prendre soin de ton plancher pelvien prévient bien des désagréments. ta fiche mouvement te donne des exercices de gainage doux à faire chez toi.",
+   plus:"si tu as eu des grossesses, un bilan de périnée avec un professionnel (kiné, sage-femme) est précieux : prendre soin de ton plancher pelvien prévient bien des désagréments. la séance Gainage & posture, dans Bouger, te guide en douceur.",
    observes:["aujourd'hui : un centre renforcé en douceur","sur quelques semaines : une posture plus solide, moins de tensions","à retenir : un corps bien gainé bouge mieux et fatigue moins"],
    victoire:"tu viens de renforcer ton socle — un centre tonique rend tout mouvement plus aisé.",
-   outil:{emoji:"🧘‍♀️",label:"Mes routines de mouvement",desc:"gainage doux et posture",goTab:"mouvement"},
+   outil:{emoji:"🧘‍♀️",label:"Bouger",desc:"gainage doux et posture",goTab:"mouvement"},
    accents:{
      metabolique:"un centre tonique rend ton mouvement quotidien plus efficace pour ta glycémie.",
      androgenique:"un corps gainé bouge mieux : plus de mouvement, moins d'androgènes.",
@@ -7335,7 +7353,7 @@ const MISSIONS_365 = [
    plus:"la randonnée reste l'un des mouvements les plus complets pour une Cyster : doux, en nature, à ton rythme, souvent partagé. mais même 20 minutes au parc comptent. fais de la nature une alliée régulière de ton équilibre.",
    observes:["aujourd'hui : du mouvement en nature","sur quelques semaines : un stress apaisé par le double effet","à retenir : mouvement + nature, un soin complet"],
    victoire:"tu viens de combiner mouvement et nature — un soin double pour ton corps et ton mental.",
-   outil:{emoji:"🩹",label:"Situations du quotidien",desc:"bouger dehors, en nature",cible:"situations"},
+   outil:{emoji:"🩹",label:"Bouger",desc:"une marche à ton rythme",goTab:"mouvement"},
    accents:{
      metabolique:"bouger en nature sert ta glycémie et apaise le cortisol qui l'aggrave.",
      androgenique:"mouvement + nature baissent le stress qui stimule tes androgènes.",
@@ -7352,10 +7370,10 @@ const MISSIONS_365 = [
    source:"les barrières perçues à l'exercice (temps, coût, niveau) sont souvent surmontables par l'adaptation (micro-mouvements, activité accessible) (psychologie de l'activité physique).",
    comment:["nomme TON excuse principale (temps, argent, niveau, fatigue)","'pas le temps' : 10 min comptent, pas besoin d'une heure","'pas les moyens' : marcher, danser, gainage = gratuit","'pas le niveau' : le mouvement doux est pour toutes","'trop fatiguée' : un petit mouvement redonne souvent de l'énergie"],
    pieges:["attendre des 'conditions parfaites' pour bouger","laisser une excuse te bloquer sans chercher sa parade","confondre adapter (contourner) et abandonner"],
-   plus:"derrière chaque excuse, une solution adaptée existe. tu n'as pas besoin de conditions idéales : juste de solutions qui collent à ta vraie vie. le coach mindset de Kamila peut t'aider à dépasser les blocages qui reviennent.",
+   plus:"derrière chaque excuse, une solution adaptée existe. tu n'as pas besoin de conditions idéales : juste de solutions qui collent à ta vraie vie. les mots de Kamila peuvent t'aider à dépasser les blocages qui reviennent.",
    observes:["aujourd'hui : ton excuse nommée et sa parade trouvée","sur la durée : des obstacles contournés, pas subis","à retenir : la plupart des freins ont une solution à ta portée"],
    victoire:"tu viens de démonter ton excuse principale — il existe toujours une parade adaptée à ta vie.",
-   outil:{emoji:"🤍",label:"Le coach mindset de Kamila",desc:"dépasser tes blocages",goTab:"kamila"},
+   outil:{emoji:"🤍",label:"Les mots de Kamila, selon ton humeur",desc:"dépasser tes blocages",goTab:"kamila"},
    accents:{
      metabolique:"même 10 min comptent pour ta glycémie : l'excuse 'pas le temps' tombe.",
      androgenique:"le mouvement adapté agit sur tes androgènes, même sans conditions parfaites.",
@@ -7517,7 +7535,7 @@ const MISSIONS_365 = [
    plus:"ta Cure Détox SOPK Life, elle, ne 'purge' pas : elle soutient la fonction de ton foie avec des plantes (pissenlit, chardon-marie, ortie) — une approche de soutien, pas de 'nettoyage magique'. la différence est importante, et honnête. soutenir, pas purger.",
    observes:["aujourd'hui : un regard lucide sur la 'détox'","à retenir : on soutient le corps, on ne le 'purge' pas","sur la durée : des gestes de fond, pas des cures miracle"],
    victoire:"tu viens de voir clair dans le marketing de la 'détox' — soutenir ton corps bat toute cure miracle.",
-   outil:{emoji:"📄",label:"Les fiches à télécharger",desc:"soutenir son foie, pour de vrai",cible:"telechargements"},
+   outil:{emoji:"📄",label:"L'assiette SMOP",desc:"ce qui soutient ton foie, pour de vrai",cible:"assiette"},
    accents:{
      metabolique:"les cures de jus déstabilisent ta glycémie : soutiens ton foie autrement.",
      androgenique:"pas de cure miracle sur tes androgènes : soutiens ton foie au quotidien.",
@@ -7577,7 +7595,7 @@ const MISSIONS_365 = [
    plus:"pas de moralisme : juste de l'information pour des choix éclairés. observe comment tu te sens (sommeil, énergie, peau) les lendemains de consommation : ton corps te donnera la meilleure réponse pour toi. modérer, c'est offrir du répit à ton organe clé.",
    observes:["aujourd'hui : une relation à l'alcool interrogée sans jugement","sur la durée : un foie moins sollicité si tu modères","à retenir : chaque verre demande du travail à ton foie"],
    victoire:"tu viens d'éclairer un choix important — modérer l'alcool est un cadeau pour ton foie et tes hormones.",
-   outil:{emoji:"🩹",label:"Situations du quotidien",desc:"alcool et vie sociale",cible:"situations"},
+   outil:{emoji:"🩹",label:"Manger dehors sans stress",desc:"le guide pour les sorties et les apéros",cible:"situations",guide:"dehors"},
    accents:{
      metabolique:"l'alcool perturbe ta glycémie (hypoglycémies) : le modérer l'aide.",
      androgenique:"l'alcool met ta SHBG 'en pause' : le modérer soutient tes androgènes.",
@@ -7658,7 +7676,7 @@ const MISSIONS_365 = [
    plus:"c'est un bel argument de plus pour bouger : au-delà de l'insuline et de l'énergie, le mouvement soutient ton élimination naturelle. le yoga et les mouvements doux sont particulièrement agréables pour faire circuler. ton corps draine quand tu bouges.",
    observes:["aujourd'hui : du mouvement pour faire circuler","sur quelques semaines : une circulation et un drainage soutenus","à retenir : le mouvement est l'allié n°1 de ta détox naturelle"],
    victoire:"tu viens de relier le mouvement à ton élimination — bouger, c'est drainer naturellement.",
-   outil:{emoji:"🧘‍♀️",label:"Mes routines de mouvement",desc:"bouger pour faire circuler",goTab:"mouvement"},
+   outil:{emoji:"🧘‍♀️",label:"Bouger",desc:"bouger pour faire circuler",goTab:"mouvement"},
    accents:{
      metabolique:"le mouvement soutient circulation et insuline : double bénéfice.",
      androgenique:"faire circuler aide ton foie à éliminer les androgènes en excès.",
@@ -7698,7 +7716,7 @@ const MISSIONS_365 = [
    plus:"foie et reins sont les deux grands filtres de ta vraie détox. en soutenant le foie (alimentation) et les reins (hydratation), tu soutiens l'élimination de tout ton corps — bien plus efficacement que n'importe quelle cure miracle. simple et puissant.",
    observes:["aujourd'hui : tes reins soutenus par l'hydratation","sur la durée : une élimination naturelle bien soutenue","à retenir : foie + reins = tes vrais filtres, soutiens-les"],
    victoire:"tu viens de prendre soin de ton autre grand filtre — tes reins, soutenus simplement par l'eau.",
-   outil:{emoji:"🩹",label:"Situations du quotidien",desc:"hydrater et soutenir tes reins",cible:"situations"},
+   outil:{emoji:"🩹",label:"Mon suivi",desc:"note tes verres d'eau",goTab:"suivi"},
    accents:{
      metabolique:"une bonne hydratation soutient l'ensemble de ton métabolisme.",
      androgenique:"foie et reins éliminent ensemble les hormones en excès.",
@@ -7739,7 +7757,7 @@ const MISSIONS_365 = [
    plus:"la règle d'or : le café nature et modéré est ok ; c'est l'excès, le mauvais timing et le sucre ajouté qui posent problème. observe comment tu te sens (sommeil, anxiété) et ajuste. si tu es très sensible au stress, surveille ta quantité. pas de dogme.",
    observes:["aujourd'hui : une relation au café interrogée sans dogme","sur quelques jours : l'effet du timing observé sur ton sommeil","à retenir : café modéré ok, attention au sucre et au timing"],
    victoire:"tu viens de dédramatiser le café — modéré et nature, il peut même être un ami de ton foie.",
-   outil:{emoji:"🩹",label:"Situations du quotidien",desc:"café, timing et quantité",cible:"situations"},
+   outil:{emoji:"🩹",label:"Mon sommeil",desc:"observe tes nuits quand tu déplaces ton café",goTab:"sommeil"},
    accents:{
      metabolique:"évite le café à jeun et sucré : protège ta glycémie du matin.",
      androgenique:"un café modéré est ok ; surveille le sucre ajouté qui nourrit tes androgènes.",
@@ -7776,10 +7794,10 @@ const MISSIONS_365 = [
    source:"le stress chronique (cortisol) augmente la production hépatique de glucose et l'inflammation, participant à la charge du foie et à la résistance à l'insuline (Pasquali et al., 2006 ; physiologie du stress).",
    comment:["offre-toi un vrai moment de calme aujourd'hui","le cortisol pousse ton foie à libérer plus de sucre (charge accrue)","le stress entretient l'inflammation qui affecte le foie","apaiser ton stress soulage aussi ton foie, en coulisses","respiration, nature, sommeil, limites : des soins pour ton foie aussi"],
    pieges:["négliger le lien entre stress et santé du foie","oublier que tes outils anti-stress soulagent aussi ton foie","laisser le stress chronique charger ton foie en continu"],
-   plus:"c'est l'interconnexion de ton corps en action : ton mental, ton foie, tes hormones se parlent. prendre soin de ton stress profite à tout l'édifice. ton coach mindset et tes rituels d'ancrage sont donc aussi, indirectement, des alliés de ton foie.",
+   plus:"c'est l'interconnexion de ton corps en action : ton mental, ton foie, tes hormones se parlent. prendre soin de ton stress profite à tout l'édifice. les mots de Kamila et tes rituels d'ancrage sont donc aussi, indirectement, des alliés de ton foie.",
    observes:["aujourd'hui : un moment de calme offert à ton mental et ton foie","sur la durée : un foie moins chargé par le cortisol","à retenir : apaiser ton stress soulage ton foie"],
    victoire:"tu viens de relier ton calme intérieur à ton foie — apaiser ton stress soulage tout ton terrain.",
-   outil:{emoji:"🤍",label:"Le coach mindset de Kamila",desc:"apaiser le stress qui pèse",goTab:"kamila"},
+   outil:{emoji:"🤍",label:"Les mots de Kamila, selon ton humeur",desc:"apaiser le stress qui pèse",goTab:"kamila"},
    accents:{
      metabolique:"le cortisol pousse ton foie à libérer du sucre : l'apaiser aide ta glycémie.",
      androgenique:"moins de stress = foie soulagé = meilleure SHBG contre tes androgènes.",
@@ -7799,7 +7817,7 @@ const MISSIONS_365 = [
    plus:"pas besoin de sauna pour en profiter : le mouvement te fait transpirer sainement et soutient cette voie. si tu aimes le hammam ou le sauna, savoure-les avec prudence et bien hydratée. ta peau est un allié de plus dans ta détox naturelle.",
    observes:["aujourd'hui : un peu de transpiration saine","sur la durée : une voie d'élimination de plus soutenue","à retenir : ta peau participe à ton équilibre, bouger la soutient"],
    victoire:"tu viens de découvrir ta 3ᵉ voie d'élimination — ta peau, soutenue simplement par le mouvement.",
-   outil:{emoji:"📄",label:"Les fiches à télécharger",desc:"les émonctoires et ta détox",cible:"telechargements"},
+   outil:{emoji:"📄",label:"Mon suivi",desc:"note tes verres d'eau et ce que ta peau raconte",goTab:"suivi"},
    accents:{
      metabolique:"le mouvement qui fait transpirer soutient aussi ton insuline.",
      androgenique:"bouger (et transpirer) soutient ton élimination globale.",
@@ -7880,7 +7898,7 @@ const MISSIONS_365 = [
    plus:"message clé : ce n'est JAMAIS une invitation à toucher à un traitement dont tu as besoin — ceux-là se respectent. il s'agit seulement des charges inutiles. si tu fumes et veux arrêter, parles-en à ton médecin : c'est le plus beau cadeau pour ton foie et toute ta santé, et tu peux être aidée.",
    observes:["aujourd'hui : un toxique inutile repéré et réduit","sur la durée : un foie moins chargé par l'évitable","à retenir : allège l'évitable, garde le nécessaire"],
    victoire:"tu viens d'alléger une charge évitable pour ton foie — sans jamais toucher au nécessaire.",
-   outil:{emoji:"🩹",label:"Situations du quotidien",desc:"réduire les charges évitables",cible:"situations"},
+   outil:{emoji:"🩹",label:"Audit maison",desc:"les perturbateurs, pièce par pièce",cible:"perturbateurs"},
    accents:{
      metabolique:"moins de charges inutiles = un foie plus libre pour gérer ta glycémie.",
      androgenique:"un foie allégé fabrique mieux ta SHBG contre tes androgènes.",
@@ -8265,7 +8283,7 @@ const MISSIONS_365 = [
    plus:"tu peux demander au médecin d'écrire le nom d'un traitement ou d'un examen. c'est ton droit, et ça évite les erreurs.",
    observes:["aujourd'hui : 3 réflexes appris pour ton prochain RDV","à retenir : noter, reformuler, demander le plan B","sur la durée : des consignes claires et retenues"],
    victoire:"tu viens de t'équiper pour ne plus repartir d'un rendez-vous dans le flou.",
-   outil:{emoji:"🩹",label:"Situations du quotidien",desc:"oser faire répéter",cible:"situations"},
+   outil:{emoji:"🩹",label:"Tes scripts médecin",desc:"les phrases pour faire répéter",goTab:"medecin"},
    accents:{
      metabolique:"si on te propose un traitement pour l'insuline, demande en combien de temps on refait le bilan.",
      androgenique:"les traitements de la peau et des poils agissent lentement : demande au bout de combien de mois juger l'effet.",
@@ -8386,7 +8404,7 @@ const MISSIONS_365 = [
    plus:"si tu vis hors de France, les règles varient, mais le droit d'accès à ses données de santé existe dans la plupart des pays.",
    observes:["aujourd'hui : un document médical demandé","à retenir : ton dossier t'appartient","sur la durée : une histoire médicale complète, chez toi"],
    victoire:"tu viens de récupérer un morceau de ton histoire. c'est la tienne.",
-   outil:{emoji:"📥",label:"Mes téléchargements",desc:"tes documents à garder",cible:"telechargements"},
+   outil:{emoji:"📥",label:"Mon dossier médecin",desc:"rassembler ce qui t'appartient",goTab:"medecin"},
    accents:{
      metabolique:"récupère tes anciens bilans glycémiques : tu verras l'effet de tes efforts.",
      androgenique:"récupère tes dosages d'avant la pilule, s'ils existent : ce sont les plus parlants pour toi.",
@@ -8406,7 +8424,7 @@ const MISSIONS_365 = [
    plus:"si un traitement te donne des effets désagréables, parles-en : il existe souvent des ajustements (dose, moment de prise, autre option).",
    observes:["aujourd'hui : ton traitement compris","à retenir : traitement et mode de vie se complètent","sur la durée : des décisions prises en connaissance de cause"],
    victoire:"tu viens de comprendre ce que tu prends, ou ce qu'on te propose. c'est ça, décider pour toi.",
-   outil:{emoji:"📘",label:"Comprendre mon SMOP",desc:"les options, sans jugement",cible:"comprendre"},
+   outil:{emoji:"📘",label:"Comprendre mon SMOP",desc:"les bases, sans jugement",cible:"comprendre"},
    accents:{
      metabolique:"si on te parle de metformine, demande comment on suivra ton insuline et ta B12.",
      androgenique:"les traitements de la pilosité et de l'acné prennent plusieurs mois : demande quand juger l'effet.",
@@ -8729,7 +8747,7 @@ const MISSIONS_365 = [
    plus:"une prise de sang de progestérone environ 7 jours avant les règles attendues est un moyen simple de confirmer une ovulation. c'est une question à poser à ton médecin.",
    observes:["aujourd'hui : les limites des tests comprises","à retenir : LH haute = faux positifs possibles","sur la durée : moins de stress, plus de fiabilité"],
    victoire:"tu viens de t'éviter des semaines de bandelettes et d'angoisse inutiles.",
-   outil:{emoji:"📘",label:"Comprendre mon SMOP",desc:"LH, FSH et ovulation",cible:"comprendre"},
+   outil:{emoji:"📘",label:"Comprendre mon SMOP",desc:"ton cycle avec un SMOP, en clair",cible:"comprendre"},
    accents:{
      metabolique:"l'insuline entretient la LH élevée : chez toi, les tests peuvent être particulièrement trompeurs.",
      androgenique:"LH haute et androgènes vont souvent ensemble : lis tes tests avec beaucoup de prudence.",
@@ -8790,7 +8808,7 @@ const MISSIONS_365 = [
    plus:"la marche après les repas reste une star : 10 à 15 minutes suffisent à lisser ta glycémie, et donc à soutenir ton cycle.",
    observes:["aujourd'hui : 3 moments de mouvement prévus","à retenir : régulier et modéré > intense et épuisant","sur la durée : un cycle soutenu par le mouvement"],
    victoire:"tu viens de trouver le dosage de mouvement qui soutient ton cycle au lieu de le fatiguer.",
-   outil:{emoji:"🚶‍♀️",label:"Mouvement",desc:"bouger à ton rythme",goTab:"mouvement"},
+   outil:{emoji:"🚶‍♀️",label:"Bouger",desc:"à ton rythme",goTab:"mouvement"},
    accents:{
      metabolique:"le muscle capte le sucre : chaque séance modérée améliore ta sensibilité à l'insuline et soutient ton ovulation.",
      androgenique:"le mouvement modéré aide à faire baisser l'insuline, et donc les androgènes qui freinent ton cycle.",
@@ -8870,7 +8888,7 @@ const MISSIONS_365 = [
    plus:"la sage-femme peut assurer ton suivi gynécologique et ta contraception. c'est souvent plus simple pour obtenir un rendez-vous, et l'échange est souvent plus long.",
    observes:["aujourd'hui : ta contraception passée au crible","à retenir : cycle irrégulier ne veut pas dire protégée","sur la durée : un choix qui te ressemble"],
    victoire:"tu viens de prendre une décision éclairée sur ta contraception. c'est ton corps, c'est ton choix.",
-   outil:{emoji:"📘",label:"Comprendre mon SMOP",desc:"les options, sans jugement",cible:"comprendre"},
+   outil:{emoji:"📘",label:"Comprendre mon SMOP",desc:"les bases, sans jugement",cible:"comprendre"},
    accents:{
      metabolique:"certaines contraceptions jouent sur la glycémie ou les lipides : c'est une question à poser.",
      androgenique:"certaines pilules atténuent l'acné et la pilosité : un critère à prendre en compte.",
@@ -8971,7 +8989,7 @@ const MISSIONS_365 = [
    plus:"un parcours de fertilité est éprouvant, même quand tout se passe bien. entoure-toi : ton ou ta partenaire, des proches, la communauté, et si besoin un·e psychologue.",
    observes:["aujourd'hui : les aides à l'ovulation comprises","à retenir : il y a un chemin, par étapes","sur la durée : des décisions prises en étant informée"],
    victoire:"tu viens de remplacer des mots qui font peur par des options que tu comprends.",
-   outil:{emoji:"📘",label:"Comprendre mon SMOP",desc:"les options, sans jugement",cible:"comprendre"},
+   outil:{emoji:"📘",label:"Comprendre mon SMOP",desc:"les bases, sans jugement",cible:"comprendre"},
    accents:{
      metabolique:"la metformine peut parfois être associée chez toi : c'est une question à poser au spécialiste.",
      androgenique:"tes androgènes peuvent diminuer la réponse aux traitements : l'hygiène de vie compte d'autant plus.",
@@ -9011,7 +9029,7 @@ const MISSIONS_365 = [
    plus:"si ton projet est solo, ou en couple de femmes, la démarche passe souvent par un centre de PMA : les mêmes principes s'appliquent, avec un accompagnement adapté.",
    observes:["aujourd'hui : la charge partagée en discussion","à retenir : la fertilité se vérifie à deux","sur la durée : un projet porté ensemble"],
    victoire:"tu viens de rappeler que ce chemin ne repose pas que sur tes épaules.",
-   outil:{emoji:"🩹",label:"Situations du quotidien",desc:"en parler à deux",cible:"situations"},
+   outil:{emoji:"🩹",label:"Mon journal",desc:"écrire ce que tu aimerais lui dire",goTab:"journal"},
    accents:{
      metabolique:"le mode de vie que tu as construit peut aussi profiter à ton ou ta partenaire : faites-le ensemble.",
      androgenique:"tes symptômes visibles ne sont pas un sujet de couple obligé : partage seulement ce que tu veux.",
@@ -9092,7 +9110,7 @@ const MISSIONS_365 = [
    plus:"ton travail sur la glycémie aide aussi ton équilibre intime : moins de pics de sucre, moins de terrain favorable aux mycoses.",
    observes:["cette semaine : des gestes doux pour ta zone intime","dans quelques semaines : moins d'inconfort","sur la durée : un équilibre intime respecté"],
    victoire:"tu viens de prendre soin d'une partie de toi dont on parle trop peu.",
-   outil:{emoji:"🩹",label:"Situations du quotidien",desc:"ton confort au quotidien",cible:"situations"},
+   outil:{emoji:"🩹",label:"Mon espace Santé",desc:"préparer la question, sans gêne",goTab:"medecin"},
    accents:{
      metabolique:"moins de pics de sucre, moins de mycoses : ton travail glycémie aide ici aussi.",
      androgenique:"une peau qui réagit aux androgènes a aussi besoin de douceur dans les zones intimes.",
@@ -9152,7 +9170,7 @@ const MISSIONS_365 = [
    plus:"au travail, certaines entreprises ont des aménagements pour les règles douloureuses. et en cas de douleurs invalidantes, ton médecin peut t'aider à faire reconnaître ta situation.",
    observes:["aujourd'hui : une personne et une phrase choisies","à retenir : ce que tu vis n'est pas honteux","sur la durée : moins de silence, plus de soutien"],
    victoire:"tu viens de faire un pas pour briser le silence autour de ton cycle.",
-   outil:{emoji:"🩹",label:"Situations du quotidien",desc:"trouver les mots",cible:"situations"},
+   outil:{emoji:"🩹",label:"Mon journal",desc:"poser tes mots avant d'en parler",goTab:"journal"},
    accents:{
      metabolique:"expliquer tes besoins de régularité des repas peut aussi aider ton entourage à te soutenir.",
      androgenique:"parler de ton cycle n'oblige pas à parler de ta peau ou de tes poils : tu choisis ce que tu partages.",
@@ -9233,7 +9251,7 @@ const MISSIONS_365 = [
    plus:"si tu n'as pas de projet et qu'on te pose quand même la question, tu as aussi le droit de ne pas te justifier. « ce n'est pas d'actualité » suffit.",
    observes:["aujourd'hui : une phrase qui te protège, prête","à retenir : tu peux être heureuse pour l'autre et avoir besoin de distance","sur la durée : des émotions accueillies, pas jugées"],
    victoire:"tu viens de te donner le droit de te protéger. c'est un acte d'amour envers toi.",
-   outil:{emoji:"🩹",label:"Situations du quotidien",desc:"répondre aux questions intrusives",cible:"situations"},
+   outil:{emoji:"🩹",label:"Je me sens seule",desc:"la fiche SOS pour les jours où ça pèse",sos:"solitude"},
    accents:{
      metabolique:"les repas de famille peuvent cumuler questions et tentations : prépare-toi aux deux, avec douceur.",
      androgenique:"les commentaires sur le corps et la maternité peuvent s'additionner : ta phrase protège les deux.",
@@ -9253,7 +9271,7 @@ const MISSIONS_365 = [
    plus:"si tu approches de la quarantaine ou de la périménopause, garde ton suivi glycémique et tensionnel : c'est là que la prévention compte le plus.",
    observes:["aujourd'hui : l'évolution du SMOP comprise","à retenir : il change de visage, le suivi métabolique reste","sur la durée : une vision plus apaisée de l'avenir"],
    victoire:"tu viens de voir ton SMOP comme un chemin qui évolue, pas comme une condamnation figée.",
-   outil:{emoji:"📘",label:"Comprendre mon SMOP",desc:"le SMOP au fil de la vie",cible:"comprendre"},
+   outil:{emoji:"📘",label:"Comprendre mon SMOP",desc:"les mécanismes, en clair",cible:"comprendre"},
    accents:{
      metabolique:"chez toi, l'enjeu métabolique est central toute la vie : ton travail d'aujourd'hui est ta meilleure prévention.",
      androgenique:"tes signes androgéniques ont souvent tendance à s'atténuer avec les années : garde espoir.",
@@ -9270,10 +9288,10 @@ const MISSIONS_365 = [
    source:"l'auto-compassion est associée à une meilleure santé psychologique et à une meilleure adhésion aux comportements de santé (revues sur la self-compassion, Neff).",
    comment:["écris une phrase de gratitude envers ton corps","pense à ce qu'il fait sans que tu le demandes","relis-la à voix haute","remplace « mon corps ne fonctionne pas » par « mon corps fonctionne différemment »","garde cette phrase pour les jours difficiles"],
    pieges:["attendre d'aller « bien » pour être douce avec toi","croire que la douceur = laisser tomber","comparer ton corps à celui des autres"],
-   plus:"le mot de Kamila de ton accueil peut aussi t'accompagner les jours où ce regard doux est difficile à trouver.",
+   plus:"les mots de Kamila, sur ton accueil, peuvent aussi t'accompagner les jours où ce regard doux est difficile à trouver.",
    observes:["aujourd'hui : une phrase de gratitude envers ton corps","à retenir : ton corps fonctionne différemment, il n'est pas en panne","sur la durée : un regard plus doux sur toi"],
    victoire:"tu viens de faire la paix avec ton corps, ne serait-ce qu'un instant. c'est un vrai début.",
-   outil:{emoji:"🏡",label:"Mon accueil",desc:"le mot de Kamila",goTab:"kamila"},
+   outil:{emoji:"🏡",label:"Les mots de Kamila, selon ton humeur",desc:"pour les jours où le regard doux est loin",goTab:"kamila"},
    accents:{
      metabolique:"ton corps travaille chaque jour à réguler ta glycémie : il mérite ta reconnaissance.",
      androgenique:"ta peau et tes poils ne définissent pas ta valeur : ton corps est bien plus que ça.",
@@ -9375,7 +9393,7 @@ const MISSIONS_365 = [
    plus:"si tu passes beaucoup de temps à scruter ou cacher certains signes, et que ça pèse sur ta vie, parles-en : un accompagnement peut t'aider à apaiser ce regard.",
    observes:["aujourd'hui : un autre regard dans le miroir","à retenir : la neutralité bienveillante, c'est déjà beaucoup","sur la durée : un reflet moins redouté"],
    victoire:"tu viens de regarder ton reflet sans le juger. tu t'es vue en entier.",
-   outil:{emoji:"🏡",label:"Mon accueil",desc:"le mot de Kamila",goTab:"kamila"},
+   outil:{emoji:"🏡",label:"Les mots de Kamila, selon ton humeur",desc:"pour les jours où le regard doux est loin",goTab:"kamila"},
    accents:{
      metabolique:"ton corps régule ta glycémie chaque jour : c'est une chose qu'il fait pour toi.",
      androgenique:"ta peau et tes poils ne sont qu'une petite partie de toi : ton reflet est bien plus large.",
@@ -9395,7 +9413,7 @@ const MISSIONS_365 = [
    plus:"tu as aussi le droit de partir, de changer de sujet, ou de ne rien répondre. poser une limite peut prendre plusieurs formes.",
    observes:["aujourd'hui : une phrase-limite prête","à retenir : ton corps n'est pas un sujet public","sur la durée : moins de remarques encaissées en silence"],
    victoire:"tu viens de te donner les mots pour te protéger. c'est de la force tranquille.",
-   outil:{emoji:"🩹",label:"Situations du quotidien",desc:"répondre aux remarques",cible:"situations"},
+   outil:{emoji:"🩹",label:"Je ne me reconnais plus",desc:"la fiche SOS quand une remarque blesse",sos:"miroir"},
    accents:{
      metabolique:"si on commente ton assiette, tu n'as pas à te justifier : tu sais ce que tu fais pour ta glycémie.",
      androgenique:"les remarques sur la peau ou les poils sont particulièrement blessantes : ta phrase te protège.",
@@ -9657,7 +9675,7 @@ const MISSIONS_365 = [
    plus:"bouger avec quelqu'un (une amie, un groupe, ton chien) multiplie les chances de continuer. le lien est un moteur puissant.",
    observes:["aujourd'hui : ton mouvement préféré gardé","à retenir : le meilleur sport est celui qui dure","sur la durée : un mouvement qui fait partie de ta vie"],
    victoire:"tu viens de faire du mouvement un plaisir, plus une obligation.",
-   outil:{emoji:"🚶‍♀️",label:"Mouvement",desc:"ton mouvement durable",goTab:"mouvement"},
+   outil:{emoji:"🚶‍♀️",label:"Bouger",desc:"ton mouvement durable",goTab:"mouvement"},
    accents:{
      metabolique:"ajoute un peu de renforcement à ton activité préférée : le muscle est ton allié glycémie.",
      androgenique:"la régularité apaise l'insuline et donc les androgènes : choisis ce qui dure.",
@@ -9737,7 +9755,7 @@ const MISSIONS_365 = [
    plus:"tu peux prendre ta page en photo et la mettre en fond d'écran, ou l'imprimer. l'important, c'est de la voir.",
    observes:["aujourd'hui : ton protocole tient sur une page","à retenir : simple, à toi, évolutif","sur la durée : un plan qui te porte"],
    victoire:"tu viens d'écrire ton propre protocole. tu n'as plus besoin qu'on te dise quoi faire.",
-   outil:{emoji:"📥",label:"Mes téléchargements",desc:"garder ton protocole",cible:"telechargements"},
+   outil:{emoji:"📥",label:"Mon journal",desc:"garder ton protocole sur une page",goTab:"journal"},
    accents:{
      metabolique:"ton protocole glycémie est maintenant à toi : tu sais exactement quoi faire.",
      androgenique:"ton protocole agit sur l'insuline, le foie et le stress : tes androgènes en profitent en profondeur.",
@@ -9758,7 +9776,7 @@ const MISSIONS_365 = [
    plus:"si tu traverses des fuseaux horaires, la lumière du matin à destination aide ton horloge (et tes hormones) à se recaler plus vite.",
    observes:["aujourd'hui : ton kit voyage prêt","à retenir : 3 repères suffisent, le reste c'est du plaisir","sur la durée : des vacances qui ressourcent vraiment"],
    victoire:"tu viens d'apprendre à voyager avec ton SMOP sans qu'il voyage à ta place.",
-   outil:{emoji:"🩹",label:"Situations du quotidien",desc:"vacances et déplacements",cible:"situations"},
+   outil:{emoji:"🩹",label:"Voyage / déplacement",desc:"la fiche SOS pour partir tranquille",sos:"voyage"},
    accents:{
      metabolique:"la collation protéinée et la marche après le repas protègent ta glycémie même en voyage.",
      androgenique:"un sommeil à peu près stable en vacances aide ta peau à ne pas réagir au retour.",
@@ -9778,7 +9796,7 @@ const MISSIONS_365 = [
    plus:"si tu bois de l'alcool, alterne avec de l'eau et mange en même temps : ta glycémie et ton sommeil s'en porteront mieux.",
    observes:["aujourd'hui : une stratégie de fête choisie","à retenir : un repas de fête ne change pas ton terrain","sur la durée : des fêtes vécues avec plaisir, pas avec peur"],
    victoire:"tu viens de reprendre ta place à table, avec plaisir et sans peur.",
-   outil:{emoji:"🩹",label:"Situations du quotidien",desc:"repas de fête et famille",cible:"situations"},
+   outil:{emoji:"🩹",label:"Buffet / fête",desc:"la fiche SOS des repas de fête",sos:"buffet"},
    accents:{
      metabolique:"l'ordre des aliments et la marche après le repas sont tes deux meilleures stratégies de fête.",
      androgenique:"un repas de fête n'abîme pas ta peau : c'est la régularité des autres jours qui compte.",
@@ -10352,10 +10370,9 @@ export default function App() {
   const [toast, setToast] = useState(null);
   const [mindsetOpen, setMindsetOpen] = useState(null);
   const [missionOpen, setMissionOpen] = useState(false); // détail de la mission replié par défaut
-  const [adaptOpen, setAdaptOpen] = useState(false); // fenêtre « Adapter ma journée »
-  const [adaptTemps, setAdaptTemps] = useState(10);
-  const [adaptBesoin, setAdaptBesoin] = useState(null);
-  const [accompOpen, setAccompOpen] = useState(null); // « Mon espace d'échange » : bloc déplié
+  const [replis, setReplis] = useState({}); // parties de l'accueil dépliées
+  const replier = (k)=>setReplis(r=>({...r,[k]:!r[k]}));
+
   const [bilans, setBilans] = useState(() => load("bilans",[])); // « Faire le point sur mon parcours »
   useEffect(()=>{ save("bilans",bilans); },[bilans]);
   const [bilanOpen, setBilanOpen] = useState(false);
@@ -10654,6 +10671,7 @@ export default function App() {
   const [mouvOpen, setMouvOpen] = useState(null);
   const [bougerDepart, setBougerDepart] = useState(null); // séance à ouvrir directement dans Bouger
   useEffect(()=>{ if(tab==="mouvement") setTab("bouger"); },[tab]); // l'ancienne rubrique « Mes mouvements » est remplacée par Bouger
+  useEffect(()=>{ if(tab==="ancrage"){ setJournalMoment("ancrage"); setTab("journal"); } if(tab==="tendances"){ setTab("apercu"); setScrollAnchor("mes-tendances"); } },[tab]); // rangées dans le journal et la vue d'ensemble
   const [tisaneOpen, setTisaneOpen] = useState(null);
   const [mecaOpen, setMecaOpen] = useState(null);
   const [savoirOpen, setSavoirOpen] = useState(null);
@@ -10783,14 +10801,18 @@ export default function App() {
   useEffect(()=>{ save("medPrioCustom",medPrioCustom); },[medPrioCustom]);
   useEffect(()=>{
     if(!scrollAnchor) return;
-    const t=setTimeout(()=>{ try{ document.getElementById(scrollAnchor)?.scrollIntoView(scrollAnchor==="action-du-jour"?{block:"start"}:{behavior:"smooth",block:"center"}); }catch(e){} setScrollAnchor(null); },scrollAnchor==="action-du-jour"?120:650);
+    const t=setTimeout(()=>{ try{ const e=document.getElementById(scrollAnchor); if(e){ e.scrollIntoView({block:"start"}); if(scrollAnchor!=="action-du-jour") window.scrollBy(0,-14); } }catch(e){} setScrollAnchor(null); },scrollAnchor==="action-du-jour"?120:650);
     return ()=>clearTimeout(t);
   },[scrollAnchor,outilOpen,tab]);
   useEffect(()=>{ save("perturbCheck",perturbCheck); },[perturbCheck]);
   useEffect(()=>{ save("lettre",lettre); },[lettre]);
   useEffect(()=>{ save("vidage",vidage); },[vidage]);
   useEffect(()=>{ try{ window.scrollTo(0,0); }catch(e){} },[tab,outilOpen,outilCat]);
-  useEffect(()=>{ if(tab==="mouvement") return; if(navCur.current!==tab){ setNavPrevTab(navReset.current ? null : navCur.current); navCur.current=tab; } navReset.current=false; },[tab]);
+  // écrans pleine page (fiche SOS, profil, priorités) : on arrive en haut, et on revient où on était en fermant
+  const pleinePage = !!sosOpen||!!criseMode||!!modePrio||screen!=="app"; const pleineRef = useRef(false); const hauteurRef = useRef(0); pleineRef.current = pleinePage;
+  useEffect(()=>{ const f=()=>{ if(!pleineRef.current) hauteurRef.current=window.scrollY||0; }; window.addEventListener("scroll",f,{passive:true}); return ()=>window.removeEventListener("scroll",f); },[]);
+  useEffect(()=>{ try{ window.scrollTo(0,pleinePage?0:hauteurRef.current); }catch(e){} },[sosOpen,criseMode,modePrio,screen]);
+  useEffect(()=>{ if(["mouvement","ancrage","tendances"].includes(tab)) return; if(navCur.current!==tab){ setNavPrevTab(navReset.current ? null : navCur.current); navCur.current=tab; } navReset.current=false; },[tab]);
   useEffect(()=>{ save("mesures",mesures); },[mesures]);
   useEffect(()=>{ save("perso",perso); },[perso]);
   useEffect(()=>{ save("persoEtat",persoEtat); },[persoEtat]);
@@ -10904,8 +10926,22 @@ export default function App() {
   // ressenti : 1 = bonne journée de ce côté-là, 0 = journée difficile
   const ressentiQ = (metric,v)=>{ if(v==null) return null; if(metric==="sommeil") return (v>=7&&v<=9)?1:((v>=6&&v<=10)?0.6:0.2); if(metric==="stress"||metric==="symptomes") return Math.max(0,Math.min(1,(5-v)/4)); return Math.max(0,Math.min(1,(v-1)/4)); };
   const goodColor = (q)=> q==null?"#EFE7DC": q>=0.85?"#A9C48C": q>=0.65?"#CFDDB8": q>=0.45?"#E9D9C0": q>=0.25?"#E0B98A":"#C67A45";
+  // minutes de mouvement d'un jour : ce qu'elle a noté, sinon ses séances de Bouger
+  const mouvJour = (k)=>{ const n=journal[k]&&journal[k].mouvement; if(typeof n==="number") return n; const f=load("bougerFait",{})[k]; return f&&f.length?f.reduce((a,x)=>a+(x.min||0),0):null; };
+  const joursNotes = ()=>[...new Set([...Object.keys(journal),...Object.keys(load("bougerFait",{}))])].map(k=>({...(journal[k]||{}),_k:k,mouvement:mouvJour(k)}));
+  // ce qu'il manque encore pour chaque tendance (3 jours de chaque côté), sans rien inventer
+  const tendancesEnCours = ()=>{
+    const J=joursNotes(); const sl=(d)=>{ const v=Object.values(d.symptomes||{}).filter(x=>typeof x==="number"); return v.length?1:null; }; const nb=(f)=>J.filter(f).length;
+    const num=(x)=>typeof x==="number"; const vu=computeTrends().map(t=>t.text).join(" ");
+    const L=[
+      ["Sommeil et symptômes",/nuits où tu dors/,nb(d=>sl(d)&&num(d.sommeil)&&d.sommeil<7),"nuits de moins de 7 h",nb(d=>sl(d)&&num(d.sommeil)&&d.sommeil>=7),"nuits plus longues","note ton sommeil et tes symptômes"],
+      ["Stress et symptômes",/jours les plus stressés/,nb(d=>sl(d)&&d.stress>=4),"jours stressés",nb(d=>sl(d)&&num(d.stress)&&d.stress<=2),"jours calmes","note ton stress et tes symptômes"],
+      ["Mouvement et énergie",/Ton énergie est en moyenne/,nb(d=>num(d.energie)&&num(d.mouvement)&&d.mouvement>=20),"jours où tu bouges",nb(d=>num(d.energie)&&num(d.mouvement)&&d.mouvement<20),"jours sans","note ton énergie et ton mouvement"],
+      ["Stress et fringales",/Tes fringales sont en moyenne/,nb(d=>num((d.symptomes||{}).fringale)&&d.stress>=4),"jours stressés",nb(d=>num((d.symptomes||{}).fringale)&&num(d.stress)&&d.stress<=2),"jours calmes","note tes fringales et ton stress"],
+    ];
+    return L.filter(x=>!x[1].test(vu)).map(([l,,a,la,b,lb,quoi])=>({l,pret:a>=3&&b>=3,fait:Math.min(3,a)+Math.min(3,b),manque:quoi+". il manque "+[a<3?(3-a)+" "+la:"",b<3?(3-b)+" "+lb:""].filter(Boolean).join(" et ")+"."})); };
   const computeTrends = ()=>{
-    const days=Object.keys(journal).map(k=>journal[k]);
+    const days=joursNotes();
     const out=[];
     const sympLoad=(d)=>{ const sy=(d&&d.symptomes)||{}; const v=Object.values(sy).filter(x=>typeof x==="number"); return v.length?v.reduce((a,b)=>a+b,0)/v.length:null; };
     const avg=(arr)=>arr.length?arr.reduce((a,b)=>a+b,0)/arr.length:0;
@@ -11110,6 +11146,7 @@ export default function App() {
   if(screen==="quiz") return (
     <div style={{fontFamily:"'DM Sans',sans-serif",background:C.cream,minHeight:"100vh",maxWidth:560,margin:"0 auto",paddingBottom:92}}>
       <div style={{background:"linear-gradient(135deg,#7A5C45,#5E4636)",padding:"1.4rem 1.5rem",color:"white"}}>
+        {load("onboardingDone","no")==="yes"&&<button onClick={()=>setScreen("app")} style={{background:"rgba(255,255,255,.18)",border:"none",borderRadius:99,padding:"7px 13px",cursor:"pointer",fontFamily:"inherit",fontSize:11.5,fontWeight:600,color:"#fff",marginBottom:10}}>← revenir à mon espace</button>}
         <div style={{fontSize:9,letterSpacing:2,textTransform:"uppercase",opacity:.6}}>Ton type de SMOP (SOPK)</div>
         <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.5rem",marginTop:3}}>Trouvons ton profil</div>
         <div style={{fontSize:11.5,opacity:.85,marginTop:6,lineHeight:1.55}}>réponds honnêtement — pas comme tu voudrais être. ce n'est pas un diagnostic médical, c'est un raccourci pour décider par où commencer.</div>
@@ -11204,6 +11241,7 @@ export default function App() {
 
   if(screen==="profil-select") return (
     <div style={{fontFamily:"'DM Sans',sans-serif",background:C.cream,minHeight:"100vh",maxWidth:430,margin:"0 auto",padding:"2.4rem 1.5rem"}}>
+      {load("onboardingDone","no")==="yes"&&<button onClick={()=>setScreen("app")} style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:99,padding:"8px 14px",cursor:"pointer",fontFamily:"inherit",fontSize:12,fontWeight:600,color:C.brown}}>← revenir à mon espace</button>}
       <div style={{textAlign:"center",marginBottom:28,marginTop:12}}>
         <div style={{fontSize:42,marginBottom:14}}>✨</div>
         <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.7rem",color:C.brown,marginBottom:10,lineHeight:1.25}}>
@@ -11370,7 +11408,7 @@ export default function App() {
 
         <button onClick={()=>{setScreen("app");setModePrio(false);}}
           style={{width:"100%",background:pc.p,border:"none",padding:"15px",borderRadius:14,color:"white",fontFamily:"inherit",fontSize:15,fontWeight:600,cursor:"pointer"}}>
-          Commencer le Jour 1 →
+          {load("onboardingDone","no")==="yes"?"Revenir à mon espace →":"Commencer le Jour 1 →"}
         </button>
       </div>
     </div>
@@ -11460,19 +11498,19 @@ export default function App() {
                 if(low.includes("communauté")) return <a key={i} href={WHATSAPP_URL} target="_blank" rel="noopener" style={act}>→ {l}</a>;
                 if(low.includes("fiche sos")){ const t=low.includes("fatigue après")?SOS_DATA.find(s=>s.id==="fatigue-repas"):SOS_DATA.find(s=>s.id!==sos.id&&low.includes(s.titre.toLowerCase())); return t?B(()=>setSosOpen(t.id)):<div key={i} style={plain}>→ {l}</div>; }
                 if(low.includes("journal")) return B(goTab("journal"));
-                if(low.includes("mindset")) return B(()=>{goTab("kamila")();setScrollAnchor("coach-mindset");});
+                if(low.includes("mots de kamila")) return B(()=>{goTab("kamila")();setScrollAnchor("coach-mindset");});
                 if(low.includes("ta tisane")) return B(goOutil("complements","complements"));
-                if(low.includes("mission du jour")) return B(goTab("kamila"));
+                if(low.includes("mission du jour")) return B(()=>{goTab("kamila")();setScrollAnchor("action-du-jour");});
                 if(low.includes("victoires")) return B(goTab("journal"));
                 if(low.includes("analyses")) return B(goTab("analyses"));
                 if(low.includes("scripts")) return B(goTab("medecin"));
                 if(low.includes("mon cycle")) return B(goTab("cycle"));
-                if(low.includes("dans comprendre")) return B(goOutil("comprendre","comprendre"));
+                if(low.includes("dans comprendre")) return B(()=>{goOutil("comprendre","comprendre")(); const sv=SAVOIRS.find(x=>low.includes(x.t.toLowerCase())); if(sv){ setSavoirOpen(sv.t); setScrollAnchor("savoir-ouvert"); }});
                 if(low.includes("assiette")) return B(goOutil("alimentation","assiette"));
                 if(low.includes("planificateur")||low.includes("planifier")) return B(goOutil("alimentation","planif"));
                 if(low.includes("chercher un aliment")) return B(goOutil("alimentation","aliments"));
                 if(low.includes("recettes")) return B(goOutil("alimentation","recettes"));
-                if(low.includes("sur l'accueil")||low.includes("parcours, fait pour toi")) return B(goTab("kamila"));
+                if(low.includes("sur l'accueil")) return B(()=>{goTab("kamila")();setScrollAnchor("mon-parcours");});
                 return <div key={i} style={plain}>→ {l}</div>;
               })}
             </div>
@@ -11519,7 +11557,7 @@ export default function App() {
               ]},
               {t:"Le réflexe",lignes:[
                 "exige le CHIFFRE exact, pas un « c'est bon »",
-                "utilise tes scripts médecin et l'onglet Analyses pour les comprendre",
+                "utilise tes scripts médecin et Mes analyses, dans Santé, pour les comprendre",
               ]},
             ],
             kamila:"ces deux chiffres ont changé ma vie. pendant des années on m'a dit que tout était normal. ma ferritine était au sol. demande-les.",
@@ -11655,9 +11693,9 @@ export default function App() {
         </div>
         {[
           {g:"Où j'en suis",items:[{id:"kamila",ic:"home",l:"Mon accueil"},{id:"carte",ic:"map",l:"Ma carte SMOP"}]},
-          {g:"Mon suivi",items:[{id:"suivi",ic:"chart",l:"Ta journée"},{id:"cycle",ic:"moon",l:"Mon cycle"},{id:"apercu",ic:"calendar",l:"Vue d'ensemble"},{id:"tendances",ic:"pulse",l:"Mes tendances"},{id:"journal",ic:"calendar",l:"Mon journal"},{id:"bouger",ic:"steps",l:"Bouger"},{id:"ancrage",ic:"heart",l:"Mon ancrage"}]},
+          {g:"Mon suivi",items:[{id:"suivi",ic:"chart",l:"Ta journée"},{id:"cycle",ic:"moon",l:"Mon cycle"},{id:"apercu",ic:"calendar",l:"Vue d'ensemble"},{id:"journal",ic:"calendar",l:"Mon journal"},{id:"bouger",ic:"steps",l:"Bouger"}]},
           {g:"Mes ressources",items:[{id:"outils",ic:"book",l:"Outils & aliments"}]},
-          {g:"Mon dossier santé",items:[{id:"medecin",ic:"health",l:"Résumé médecin"},{id:"analyses",ic:"flask",l:"Analyses de sang"}]},
+          {g:"Mon dossier santé",items:[{id:"medecin",ic:"health",l:"Résumé médecin"},{id:"analyses",ic:"flask",l:"Analyses de sang"},{id:"mesures",ic:"drop",l:"Mes mesures"}]},
         ].map((grp,gi)=>(
           <div key={gi} style={{marginBottom:14}}>
             <div style={{fontSize:8.5,letterSpacing:1.5,textTransform:"uppercase",opacity:.38,padding:"0 18px",marginBottom:6}}>{grp.g}</div>
@@ -11715,8 +11753,8 @@ export default function App() {
 
         {/* Retour à l'écran d'où l'on vient (quand on y est arrivée par un lien, une mission…) */}
         {(()=>{
-          const NAV_LABELS={kamila:"Accueil",carte:"Ma carte",suivi:"Suivi",outils:"Ressources",medecin:"Santé",apercu:"Vue d'ensemble",tendances:"Mes tendances",mesures:"Mes mesures",cycle:"Mon cycle",journal:"Mon journal",mouvement:"Mes mouvements",bouger:"Bouger",ancrage:"Mon ancrage",analyses:"Mes analyses",sommeil:"Mon sommeil",soin:"Prendre soin",sos:"Mode crise"};
-          const SUBP={cycle:"suivi",apercu:"suivi",tendances:"suivi",mesures:"suivi",journal:"suivi",mouvement:"suivi",sos:"outils"};
+          const NAV_LABELS={kamila:"Accueil",carte:"Ma carte",suivi:"Suivi",outils:"Ressources",medecin:"Santé",apercu:"Vue d'ensemble",tendances:"Mes tendances",mesures:"Mes mesures",cycle:"Mon cycle",journal:"Mon journal",mouvement:"Bouger",bouger:"Bouger",ancrage:"Mon ancrage",analyses:"Mes analyses",sommeil:"Mon sommeil",soin:"Prendre soin",sos:"Fiches SOS"};
+          const SUBP={cycle:"suivi",apercu:"suivi",tendances:"suivi",mesures:"medecin",journal:"suivi",mouvement:"suivi",sos:"outils"};
           const p=navPrevTab;
           if(!p||p===tab||p===SUBP[tab]||!NAV_LABELS[p]) return null;
           return(
@@ -11729,9 +11767,9 @@ export default function App() {
 
         {/* Bouton retour sur les sous-écrans */}
         {(()=>{
-          const SUB={cycle:"suivi",apercu:"suivi",tendances:"suivi",mesures:"suivi",journal:"suivi",mouvement:"suivi",sos:"outils"};
+          const SUB={cycle:"suivi",apercu:"suivi",tendances:"suivi",mesures:"medecin",journal:"suivi",mouvement:"suivi",sos:"outils"};
           const parent=SUB[tab]; if(!parent) return null;
-          const labels={suivi:"Suivi",outils:"Ressources"};
+          const labels={suivi:"Suivi",outils:"Ressources",medecin:"Santé"};
           return(
             <button onClick={()=>setTab(parent)}
               style={{display:"flex",alignItems:"center",gap:6,background:"none",border:"none",cursor:"pointer",fontFamily:"inherit",color:C.mid,fontSize:12,fontWeight:600,padding:"2px 0",marginBottom:12}}>
@@ -11813,6 +11851,7 @@ export default function App() {
             <button onClick={()=>{setTab("medecin");}} style={{width:"100%",display:"flex",alignItems:"center",justifyContent:"center",gap:7,background:C.bubble,border:`1px solid ${C.border}`,borderRadius:13,padding:13,marginTop:6,cursor:"pointer",fontFamily:"inherit",fontSize:11.5,fontWeight:600,color:C.mid}}>
               <Icon name="flask" size={15} color={C.mid}/>ce qu'il faut faire mesurer
             </button>
+            <button onClick={()=>setScreen("profil-select")} style={{display:"block",margin:"12px auto 0",background:"none",border:"none",padding:0,fontFamily:"inherit",fontSize:11,color:C.light,textDecoration:"underline",cursor:"pointer"}}>revoir mon profil</button>
           </div>
           );
         })()}
@@ -11850,12 +11889,12 @@ export default function App() {
                 <div style={{fontSize:12,color:C.mid,marginBottom:8}}>Comment te sens-tu aujourd'hui ?</div>
                 <div style={{display:"flex",gap:7,flexWrap:"wrap"}}>
                   {OPTS.map(o=>{ const on=energie===o.k; return(
-                    <button key={o.k} onClick={()=>setEnergie(on?null:o.k)} aria-pressed={on}
+                    <button key={o.k} onClick={()=>{ setEnergie(on?null:o.k); if(!on&&(typeof jToday.energie!=="number"||jToday.energieAccueil)) setJournal(p=>({...p,[todayKey]:{...(p[todayKey]||{}),energie:{haute:4,moyenne:3,basse:2}[o.k],energieAccueil:true}})); }} aria-pressed={on}
                       style={{padding:"8px 14px",borderRadius:99,border:`1.5px solid ${on?C.terra:C.border}`,background:on?C.terra:C.white,color:on?"#fff":C.brown,fontFamily:"inherit",fontSize:12,fontWeight:600,cursor:"pointer"}}>{o.l}</button>); })}
-                  <button onClick={()=>{ setAccompOpen("coach"); setScrollAnchor("coach-mindset"); }}
+                  <button onClick={()=>setScrollAnchor("coach-mindset")}
                     style={{padding:"8px 14px",borderRadius:99,border:`1.5px solid ${C.border}`,background:C.white,color:C.brown,fontFamily:"inherit",fontSize:12,fontWeight:600,cursor:"pointer"}}>+ autre</button>
                 </div>
-                {sel&&<div style={{fontSize:11,color:C.mid,lineHeight:1.5,marginTop:8}}>{sel.tip}</div>}
+                {sel&&<div style={{fontSize:11,color:C.mid,lineHeight:1.5,marginTop:8}}>{sel.tip}{energie==="basse"&&<> <button onClick={()=>{ setFatigueOpen(true); setFatigueStep(0); }} style={{background:"none",border:"none",padding:0,color:C.terra,fontFamily:"inherit",fontSize:11,fontWeight:700,cursor:"pointer",textDecoration:"underline"}}>comprendre ma fatigue</button></>}</div>}
                 <button onClick={()=>setTab("suivi")} style={{marginTop:6,background:"none",border:"none",padding:0,color:C.light,fontFamily:"inherit",fontSize:10.5,cursor:"pointer",textDecoration:"underline"}}>noter ma journée en détail</button>
               </div>
               );
@@ -11863,7 +11902,7 @@ export default function App() {
 
             {/* ── Aujourd'hui, pour toi : « bon, je fais quoi aujourd'hui ? » ── */}
             {perso&&day<=365&&vueJour==null&&(()=>{ const t=getCureActive(profil,day).find(x=>!(tisanesPrises[dateLocale()]||{})[x.nom]&&({matin:true,midi:new Date().getHours()>=11,soir:new Date().getHours()>=17})[tisaneMoment(x.timing)]);
-              return <AujourdhuiPourToi C={C} pc={pc} Icon={Icon} perso={perso} etat={persoEtat} setEtat={setPersoEtat} energie={energie} niveau={niveau} mission={todayData} fait={!!checked[day]} tisane={t?t.nom:""} prendreTisane={()=>togglePrise(t.nom)} journeeNotee={["humeur","energie","stress","sommeil"].some(k=>jToday[k]!=null)} aller={allerVers} dateJour={dateLocale()} ouvrirMission={()=>{ setMissionOpen(true); setScrollAnchor("action-du-jour"); }}/>; })()}
+              return <AujourdhuiPourToi C={C} pc={pc} Icon={Icon} perso={perso} etat={persoEtat} setEtat={setPersoEtat} energie={energie} niveau={niveau} mission={todayData} fait={!!checked[day]} tisane={t?t.nom:""} prendreTisane={()=>togglePrise(t.nom)} journeeNotee={["humeur","stress","sommeil"].some(k=>jToday[k]!=null)||(jToday.energie!=null&&!jToday.energieAccueil)} aller={allerVers} dateJour={dateLocale()} ouvrirMission={()=>{ setMissionOpen(true); setScrollAnchor("action-du-jour"); }}/>; })()}
 
             {/* ══ TOUT EN HAUT — Je viens d'être diagnostiquée ══ */}
             {!load("diagSeen",false)&&(
@@ -11879,8 +11918,8 @@ export default function App() {
               </div>
             )}
 
-            {/* ── Ta priorité du moment (plus d'identité « Profil… » affichée) ── */}
-            {(()=>{
+            {/* ── Ta priorité du moment : quand elle a répondu aux six questions, elle est dans « Mon parcours » ── */}
+            {!perso&&(()=>{
               const prios=PRIORITES_PROFIL[profil]||PRIORITES_PROFIL.metabolique;
               const prio1=prios[0];
               return(
@@ -11890,13 +11929,12 @@ export default function App() {
                     <Icon name="bolt" size={15} color={pc.p}/>
                     <span style={{fontSize:12,fontWeight:700,color:C.brown}}>Ta priorité du moment</span>
                   </div>
-                  <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.4rem",fontWeight:600,color:C.brown,lineHeight:1.2,marginBottom:6}}>{perso&&(perso.priorites||[])[0]?majuscule((PRIOS.find(x=>x[0]===perso.priorites[0])||[])[1]):prio1.t}</div>
-                  <div style={{fontSize:11.5,color:C.mid,lineHeight:1.6,marginBottom:12,maxWidth:"85%"}}>{perso&&(perso.priorites||[])[0]?"c'est toi qui l'as choisie, et ton programme commence par là. "+(moisDe(Math.min(day,365),mois).c===1?"pour l'instant, tu poses ta Fondation.":"en ce moment : "+moisDe(Math.min(day,365),mois).label+"."):"d'après tes réponses, c'est l'axe à explorer en premier. on avance ensemble, un geste à la fois : "+prio1.geste.toLowerCase()+"."}</div>
+                  <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.4rem",fontWeight:600,color:C.brown,lineHeight:1.2,marginBottom:6}}>{prio1.t}</div>
+                  <div style={{fontSize:11.5,color:C.mid,lineHeight:1.6,marginBottom:12,maxWidth:"85%"}}>d'après tes réponses, c'est l'axe à explorer en premier. on avance ensemble, un geste à la fois : {prio1.geste.toLowerCase()}.</div>
                   <button onClick={()=>setModePrio(true)}
                     style={{background:pc.p,border:"none",borderRadius:12,padding:"10px 16px",cursor:"pointer",fontFamily:"inherit",fontSize:12,fontWeight:700,color:"#fff"}}>
                     Voir mes 3 priorités →
                   </button>
-                  {perso&&<button onClick={()=>setTab("carte")} style={{marginLeft:8,background:"none",border:`1.5px solid ${pc.p}`,borderRadius:12,padding:"9px 14px",cursor:"pointer",fontFamily:"inherit",fontSize:12,fontWeight:700,color:pc.p}}>Ma carte</button>}
                   <button onClick={()=>setScreen("profil-select")}
                     style={{display:"block",marginTop:8,background:"none",border:"none",padding:0,cursor:"pointer",fontFamily:"inherit",fontSize:10,color:C.light,textDecoration:"underline"}}>
                     ajuster ma priorité
@@ -11982,17 +12020,23 @@ export default function App() {
                 {checked[jourAff]?"✓ Mission validée — bravo !":"Valider ma mission du jour"}
               </button>
 
+              {/* LE MOT DE KAMILA : il va avec la mission */}
+              {todayData.msg&&<div id="mot-kamila" style={{marginTop:12,borderLeft:`3px solid ${C.terra}`,padding:"2px 0 2px 12px"}}>
+                <div style={{fontSize:9,letterSpacing:1,textTransform:"uppercase",color:C.terra,fontWeight:700,marginBottom:4}}>le mot de Kamila</div>
+                <div style={{fontFamily:"'Playfair Display',serif",fontSize:"0.95rem",color:C.mid,lineHeight:1.55,whiteSpace:"pre-line",fontStyle:"italic"}}>{String(todayData.msg).replace(/\n{2,}/g,"\n")}</div>
+              </div>}
+
               {/* POURQUOI */}
-              <div style={{marginTop:10}}>
+              {niveau!=="express"&&<div style={{marginTop:10}}>
                 <div style={{fontSize:9,letterSpacing:1,textTransform:"uppercase",color:pc.p,fontWeight:600,marginBottom:4}}>💡 pourquoi — ce qui se passe dans ton corps</div>
                 <div style={{fontSize:11,color:C.mid,lineHeight:1.7,background:C.cream,borderRadius:10,padding:"10px 12px",whiteSpace:"pre-line"}}>{todayData.pourquoi||todayData.biologie}</div>
                 {todayData.source&&niveau==="approfondi"&&(
                   <div style={{fontSize:9,color:C.light,fontStyle:"italic",lineHeight:1.5,marginTop:5,paddingLeft:4}}>📚 {todayData.source}</div>
                 )}
-              </div>
+              </div>}
 
               {/* ACCENT PROFIL */}
-              {todayData._accent&&(
+              {todayData._accent&&niveau!=="express"&&(
                 <div style={{marginTop:10,background:`${pc.p}0E`,border:`1px solid ${pc.p}`,borderRadius:10,padding:"10px 12px"}}>
                   <div style={{fontSize:9,letterSpacing:1,textTransform:"uppercase",color:pc.p,fontWeight:700,marginBottom:3}}>pour ton profil · {pc.label}</div>
                   <div style={{fontSize:11,color:C.brown,lineHeight:1.6}}>{todayData._accent}</div>
@@ -12004,7 +12048,7 @@ export default function App() {
                 <div style={{marginTop:12}}>
                   <div style={{fontSize:9,letterSpacing:1,textTransform:"uppercase",color:pc.p,fontWeight:600,marginBottom:5}}>👣 comment faire concrètement</div>
                   <div style={{background:C.cream,borderRadius:10,padding:"10px 12px"}}>
-                    {todayData.comment.map((c,i)=>(
+                    {todayData.comment.slice(0,niveau==="express"?2:99).map((c,i)=>(
                       <div key={i} style={{display:"flex",gap:8,marginBottom:i<todayData.comment.length-1?6:0,alignItems:"flex-start"}}>
                         <div style={{width:16,height:16,borderRadius:"50%",background:`${pc.p}20`,color:pc.p,fontSize:9,fontWeight:700,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,marginTop:1}}>{i+1}</div>
                         <div style={{fontSize:11,color:C.mid,lineHeight:1.5}}>{c}</div>
@@ -12057,15 +12101,15 @@ export default function App() {
               {todayData.outil&&(
                 <button onClick={()=>{ const ou=todayData.outil; const onglet=ou.goTab||(ou.cible==="analyses"?"analyses":null);
                   if(ou.lien){ try{ window.open(ou.lien,"_blank","noopener"); }catch(e){} } else if(ou.sos){setSosOpen(ou.sos);}
-                  else if(onglet){ setTab(onglet==="mouvement"?"bouger":onglet);
-                    const ancre=ou.ancre||(onglet!=="kamila"?null:/coach/i.test(ou.label)?"coach-mindset":/mot de Kamila/i.test(ou.desc||"")?"mot-kamila":"mon-parcours");
-                    if(ancre==="mot-kamila") setAccompOpen("mot"); if(ancre) setScrollAnchor(ancre); }
-                  else {setTab("outils");setOutilOpen(todayData.outil.cible);if(todayData.outil.recherche!==undefined)setFoodSearch(todayData.outil.recherche);if(todayData.outil.cible==="repas"&&todayData.outil.moment)setRepasMoment(todayData.outil.moment);} }}
+                  else if(onglet){ if(onglet==="mouvement"&&SEANCE_DE[todayData.theme]) setBougerDepart(SEANCE_DE[todayData.theme]); setTab(onglet==="mouvement"?"bouger":onglet);
+                    const ancre=ou.ancre||(onglet!=="kamila"?null:/mots de Kamila/i.test(ou.label)?"coach-mindset":/mot de Kamila/i.test(ou.desc||"")?"mot-kamila":"mon-parcours");
+                    if(ancre) setScrollAnchor(ancre); }
+                  else {setTab("outils");setOutilOpen(todayData.outil.cible); if(ou.guide) setSituationOpen(ou.guide); const sv=SAVOIR_DE(ou); if(sv) setSavoirOpen(sv); const fi=ou.fiche||FICHE_DE(ou); if(fi) setScrollAnchor(fi); else if(sv) setScrollAnchor("savoir-ouvert"); if(todayData.outil.recherche!==undefined)setFoodSearch(todayData.outil.recherche);if(todayData.outil.cible==="repas"&&todayData.outil.moment)setRepasMoment(todayData.outil.moment);} }}
                   style={{width:"100%",background:"linear-gradient(135deg, #D4A56A, #C49355)",border:"none",borderRadius:14,padding:"15px 16px",marginTop:16,marginBottom:10,cursor:"pointer",fontFamily:"inherit",display:"flex",alignItems:"center",gap:12,textAlign:"left",boxShadow:"0 4px 14px rgba(212,165,106,0.4)"}}>
                   <div style={{fontSize:26,flexShrink:0,background:"rgba(255,255,255,0.25)",borderRadius:12,width:46,height:46,display:"flex",alignItems:"center",justifyContent:"center"}}>{todayData.outil.emoji}</div>
                   <div style={{flex:1}}>
                     <div style={{fontSize:9,letterSpacing:1,textTransform:"uppercase",color:"rgba(255,255,255,0.9)",marginBottom:2,fontWeight:700}}>👆 appuie pour ouvrir l'outil</div>
-                    <div style={{fontSize:13,fontWeight:700,color:"white",lineHeight:1.2}}>{todayData.outil.label}</div>
+                    <div style={{fontSize:13,fontWeight:700,color:"white",lineHeight:1.2}}>{todayData.outil.label}{todayData.outil.goTab==="mouvement"&&SEANCE_DE[todayData.theme]?" · "+SEANCE_NOM[SEANCE_DE[todayData.theme]]:""}</div>
                     <div style={{fontSize:10,color:"rgba(255,255,255,0.9)",marginTop:1}}>{todayData.outil.desc}</div>
                   </div>
                   <div style={{fontSize:22,color:"white",flexShrink:0,fontWeight:700}}>→</div>
@@ -12087,7 +12131,7 @@ export default function App() {
               <div style={{display:"flex",alignItems:"center",gap:7,marginBottom:8}}>
                 <Icon name="chart" size={15} color={pc.p}/>
                 <span style={{fontFamily:"'Playfair Display',serif",fontSize:"1rem",fontWeight:600,color:C.brown}}>Mon parcours</span>
-                <span style={{marginLeft:"auto",fontSize:10.5,color:C.mid}}>{day>365?"parcours bouclé":"Jour "+day+" sur 365"+(day<=30?" · Fondation":"")}</span>
+                <span style={{marginLeft:"auto",fontSize:10.5,color:C.mid}}>{day>365?"parcours bouclé":"Jour "+day+" sur 365"}</span>
               </div>
               <div style={{height:6,background:C.bubble,borderRadius:99,marginBottom:8,overflow:"hidden"}}>
                 <div style={{height:"100%",width:`${pct}%`,background:`linear-gradient(90deg,${pc.p},${pc.p}CC)`,borderRadius:99,transition:"width 0.4s"}}/>
@@ -12096,8 +12140,14 @@ export default function App() {
                 <span>{completedCount} mission{completedCount>1?"s":""} réalisée{completedCount>1?"s":""} ✓</span>
                 <span>tu avances à ton rythme</span>
               </div>
+              {!postParcours&&(()=>{ const mn=moisDe(Math.min(day,365),mois), ms=mois[mois.indexOf(mn)+1]; const b={flex:1,background:C.mauveSoft,border:"none",borderRadius:11,padding:"10px 6px",fontFamily:"inherit",fontSize:11.5,fontWeight:700,color:C.brown,cursor:"pointer"}; return (<>
+                <div style={{fontSize:11.5,color:C.brown,lineHeight:1.5,marginTop:9}}>{perso&&(perso.priorites||[]).length>0&&<>ta priorité : <strong>{(PRIOS.find(x=>x[0]===perso.priorites[0])||[])[1]}</strong><br/></>}en ce moment : <strong>{mn.label}</strong>{ms&&<> · ensuite : {ms.label}</>}</div>
+                <div style={{display:"flex",gap:8,marginTop:10}}>
+                  {perso&&<button onClick={()=>setPersoOpen(true)} style={b}>ce que j'ai choisi</button>}
+                  <button onClick={()=>setTab("carte")} style={b}>ma carte</button>
+                </div></>); })()}
               {postParcours&&<div style={{marginTop:10,fontSize:11,color:C.mid,lineHeight:1.55,background:`${pc.p}10`,borderRadius:10,padding:"8px 10px"}}><strong style={{color:C.brown}}>Bonus : ton année 2 arrive.</strong> elle est incluse dans ton espace, et tu seras prévenue dès qu'elle arrive. en attendant, un petit geste d'entretien t'attend chaque jour.</div>}
-              {!postParcours&&(
+              {!postParcours&&jourPicker&&(
               <div style={{display:"flex",alignItems:"center",justifyContent:"center",gap:6,marginTop:10}}>
                 <button onClick={()=>voirJour(jourAff-1)} disabled={jourAff<=1} aria-label="jour précédent"
                   style={{flexShrink:0,width:28,height:28,borderRadius:"50%",border:`1.5px solid ${C.border}`,background:C.cream,color:jourAff<=1?C.border:pc.p,fontSize:14,cursor:jourAff<=1?"default":"pointer",fontFamily:"inherit",display:"flex",alignItems:"center",justifyContent:"center"}}>{"‹"}</button>
@@ -12114,7 +12164,7 @@ export default function App() {
               </div>
               )}
               <button onClick={()=>{ setJourPickerMois(100+moisDe(Math.min(jourAff,365),mois).n); setJourPicker(o=>!o); }} aria-expanded={jourPicker}
-                style={{marginTop:8,background:"none",border:"none",padding:0,color:pc.p,fontFamily:"inherit",fontSize:10.5,fontWeight:700,cursor:"pointer"}}>{jourPicker?"fermer":"choisir un jour dans mes 365 jours →"}</button>
+                style={{marginTop:8,background:"none",border:"none",padding:0,color:pc.p,fontFamily:"inherit",fontSize:10.5,fontWeight:700,cursor:"pointer"}}>{jourPicker?"fermer":"revoir un autre jour →"}</button>
               {jourPicker&&(()=>{
                 const sel=jourPickerMois||101; const an=1; const mn=sel%100;
                 const anMax=1;
@@ -12151,18 +12201,8 @@ export default function App() {
               })()}
             </div>); })()}
 
-            {/* ── Adapter ma journée ── */}
-            <button onClick={()=>setAdaptOpen(true)}
-              style={{width:"100%",display:"flex",alignItems:"center",gap:12,background:`linear-gradient(135deg,#D4A56A,${C.terra})`,border:"none",borderRadius:18,padding:"14px",marginBottom:12,cursor:"pointer",fontFamily:"inherit",textAlign:"left",boxShadow:"0 6px 18px rgba(203,154,121,0.35)"}}>
-              <div style={{width:46,height:46,borderRadius:13,background:"rgba(255,255,255,0.85)",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><Icon name="calendar" size={20} color={C.terra}/></div>
-              <div style={{flex:1}}>
-                <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.08rem",fontWeight:600,color:"#fff"}}>Adapter ma journée</div>
-                <div style={{fontSize:10.5,color:"rgba(255,255,255,0.92)",lineHeight:1.4,marginTop:2}}>une idée selon ton énergie, ton temps et ton besoin du moment</div>
-              </div>
-              <div style={{width:34,height:34,borderRadius:"50%",background:"rgba(255,255,255,0.85)",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,color:C.terra,fontSize:16,fontWeight:700}}>→</div>
-            </button>
-
-            {/* ── Les piliers ── */}
+            {/* ── Les piliers : accès direct selon l'envie du moment ── */}
+            <div style={{fontSize:12,fontWeight:700,color:C.brown,margin:"4px 2px 8px"}}>Plutôt envie de…</div>
             <div style={{display:"grid",gridTemplateColumns:"repeat(4,minmax(0,1fr))",gap:8,marginBottom:14}}>
               {[
                 {l:"Nourrir",ic:"leaf",bg:"#FBEDE3",col:"#B97F5C",go:()=>{ setTab("outils"); setOutilCat("alimentation"); setOutilOpen(null); }},
@@ -12177,12 +12217,42 @@ export default function App() {
               ))}
             </div>
 
+            {/* ── LES MOTS DE KAMILA, SELON L'HUMEUR ── */}
+            <div id="coach-mindset" style={{background:`linear-gradient(135deg,${pc.l},${C.cream})`,borderRadius:16,padding:"1rem",marginBottom:10,border:`1px solid ${C.border}`}}>
+              <div style={{fontSize:12,fontWeight:700,color:C.brown,marginBottom:3}}>Comment tu te sens, là ?</div>
+              <div style={{fontSize:10.5,color:C.mid,marginBottom:11,lineHeight:1.5}}>dis-moi ton humeur du moment, et je te réponds.</div>
+              <div style={{display:"flex",flexWrap:"wrap",gap:6}}>
+                {MINDSET.map(m=>{
+                  const sel=mindsetOpen===m.id;
+                  return(
+                    <button key={m.id} onClick={()=>setMindsetOpen(sel?null:m.id)}
+                      style={{padding:"8px 12px",borderRadius:99,border:`1.5px solid ${sel?pc.p:C.border}`,background:sel?pc.p:C.white,color:sel?"white":C.brown,fontSize:11,fontWeight:500,cursor:"pointer",fontFamily:"inherit"}}>
+                      {m.emoji} {m.label}
+                    </button>
+                  );
+                })}
+              </div>
+              {mindsetOpen&&(()=>{
+                const m=MINDSET.find(x=>x.id===mindsetOpen);
+                return(
+                  <div style={{marginTop:12,background:C.white,borderRadius:12,padding:"13px",border:`1px solid ${pc.p}`,animation:"fadeUp 0.3s ease"}}>
+                    <div style={{fontSize:12,color:C.brown,lineHeight:1.7,whiteSpace:"pre-line",marginBottom:10}}>{m.message}</div>
+                    <div style={{background:`${pc.p}10`,borderRadius:10,padding:"9px 11px",display:"flex",gap:8,alignItems:"flex-start"}}>
+                      <div style={{fontSize:13,flexShrink:0}}></div>
+                      <div style={{fontSize:11,color:C.mid,lineHeight:1.5,fontWeight:500}}>{m.geste}</div>
+                    </div>
+                    <div style={{fontSize:9.5,color:C.light,textAlign:"right",marginTop:7,fontStyle:"italic"}}>— Kamila</div>
+                  </div>
+                );
+              })()}
+            </div>
+
             {/* Tes rappels aujourd'hui — ce que ton téléphone va te rappeler, et le bouton pour les activer */}
             {(()=>{
               const notifsOk = notifPerm==="granted";
               const ajd=dateLocale(); const dem=(()=>{ const d=new Date(); d.setDate(d.getDate()+1); try{ return d.toLocaleDateString("en-CA"); }catch(e){ return d.toISOString().slice(0,10); } })();
               const items=[];
-              if(notifsOk) items.push({h:8,t:day>365?"ton geste d'entretien du jour":"ton message du matin"});
+              if(notifsOk&&load("notif","no")==="yes") items.push({h:8,t:day>365?"ton geste d'entretien du jour":"ton message du matin"});
               if(notifsOk&&rappelsTisanes.actif){ const byM={}; getCureActive(profil,day).forEach(t=>{ const m=tisaneMoment(t.timing); (byM[m]=byM[m]||[]).push(t.nom); });
                 Object.entries(byM).forEach(([m,noms])=>items.push({h:rappelsTisanes[m],t:"tisane : "+[...new Set(noms)].join(", "),fait:[...new Set(noms)].every(n=>(tisanesPrises[ajd]||{})[n])})); }
               (rdvs||[]).forEach(r=>{ if(!r||!r.titre||!r.date) return;
@@ -12193,9 +12263,9 @@ export default function App() {
               let regleTxt=null;
               if(rg.length&&gaps.length>=2&&Math.max(...gaps)-Math.min(...gaps)<=10){ const moy=Math.round(gaps.reduce((p,q)=>p+q,0)/gaps.length); const prev=new Date(rg[rg.length-1]+"T12:00:00"); prev.setDate(prev.getDate()+moy); const dj=Math.round((prev-new Date(ajd+"T12:00:00"))/86400000);
                 if(dj>=0&&dj<=3) regleTxt=(dj===0?"tes règles pourraient arriver aujourd'hui":"tes règles pourraient arriver d'ici "+dj+" jour"+(dj>1?"s":""))+". bouillotte et douceur à portée de main."; }
-              const aActiver = !notifsOk || !rappelsTisanes.actif;
-              if(!items.length&&!regleTxt&&!aActiver) return null;
+              if(!items.length&&!regleTxt) return null;
               return(
+              <Repli C={C} titre="Mes rappels du jour" sous={items.length?items.length+" aujourd'hui":"un repère pour ton cycle"} ouvert={!!replis.rappels} onToggle={()=>replier("rappels")}>
               <div style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:14,padding:"12px 14px",marginBottom:10}}>
                 <div style={{display:"flex",alignItems:"center",gap:7,marginBottom:items.length||regleTxt?8:4}}>
                   <Icon name="calendar" size={14} color={pc.p}/>
@@ -12214,13 +12284,7 @@ export default function App() {
                     <div style={{flex:1,fontSize:11,color:C.brown,lineHeight:1.45}}>{regleTxt}</div>
                   </div>
                 )}
-                {aActiver&&(
-                  <div style={{marginTop:items.length||regleTxt?8:2}}>
-                    <div style={{fontSize:10.5,color:C.mid,lineHeight:1.5,marginBottom:8}}>{!notifsOk?"active tes rappels pour recevoir ton message du matin et tes moments tisane sur ton téléphone.":"active aussi tes rappels tisanes, à l'heure qui te convient."}</div>
-                    <button onClick={()=>setShowAccount(true)} style={{width:"100%",background:pc.p,border:"none",borderRadius:10,padding:"9px",color:"white",fontFamily:"inherit",fontSize:11,fontWeight:700,cursor:"pointer"}}>activer mes rappels</button>
-                  </div>
-                )}
-              </div>
+              </div></Repli>
               );
             })()}
 
@@ -12229,6 +12293,7 @@ export default function App() {
               const cure=getCureActive(profil,day);
               if(cure.length===0) return null;
               return(
+              <Repli C={C} titre="Ma cure du moment" sous={cure.map(t=>t.nom).join(" · ")} ouvert={!!replis.cure} onToggle={()=>replier("cure")}>
               <div style={{background:`linear-gradient(135deg,${C.bubble},#ECD8C4)`,borderRadius:14,padding:"1rem",marginBottom:10,border:`1.5px solid ${pc.p}`}}>
                 <div style={{fontSize:9,letterSpacing:1.5,textTransform:"uppercase",color:pc.p,marginBottom:8,fontWeight:700}}>🍵 Ta cure du moment</div>
                 {todayData.tisane&&(
@@ -12257,11 +12322,12 @@ export default function App() {
                 {!rappelsTisanes.actif&&(
                   <button onClick={()=>setShowAccount(true)} style={{marginTop:8,background:"none",border:"none",padding:0,fontFamily:"inherit",fontSize:10,fontWeight:600,color:pc.p,cursor:"pointer",textDecoration:"underline"}}>me rappeler mes tisanes au bon moment →</button>
                 )}
-              </div>
+              </div></Repli>
               );
             })()}
 
             {/* ── Mon espace d'échange : Kamila, faire le point, demander de l'aide, écrire à l'équipe ── */}
+            <Repli C={C} titre="Échanger et souffler" sous="les messages de Kamila, l'équipe, la communauté" ouvert={!!replis.echange} onToggle={()=>replier("echange")}>
             <div style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:18,padding:"14px",marginBottom:10}}>
               <div style={{display:"flex",alignItems:"center",gap:12,paddingBottom:12,marginBottom:4,borderBottom:`1px solid ${C.border}`}}>
                 <div style={{width:46,height:46,borderRadius:"50%",background:C.terra,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><Icon name="heart" size={20} color="#fff"/></div>
@@ -12285,25 +12351,7 @@ export default function App() {
                 </button>
               ))}
             </div>
-            <div style={{fontSize:9,letterSpacing:1.5,textTransform:"uppercase",color:C.light,fontWeight:700,margin:"4px 0 8px"}}>les messages de Kamila</div>
-            {todayData.msg&&(
-              <div id="mot-kamila" style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:16,marginBottom:10,overflow:"hidden"}}>
-                <button onClick={()=>setAccompOpen(o=>o==="mot"?null:"mot")} aria-expanded={accompOpen==="mot"}
-                  style={{width:"100%",display:"flex",alignItems:"center",gap:12,background:"none",border:"none",padding:"12px 14px",cursor:"pointer",fontFamily:"inherit",textAlign:"left"}}>
-                  <div style={{width:40,height:40,borderRadius:12,background:C.terra,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><Icon name="leaf" size={18} color="#fff"/></div>
-                  <div style={{flex:1,minWidth:0}}>
-                    <div style={{fontSize:13,fontWeight:700,color:C.brown}}>Le mot de Kamila</div>
-                    <div style={{fontSize:10.5,color:C.mid,whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{String(todayData.msg).split("\n")[0]}</div>
-                  </div>
-                  <div style={{fontSize:14,color:C.light,transform:accompOpen==="mot"?"rotate(90deg)":"none",transition:"transform .2s"}}>›</div>
-                </button>
-                {accompOpen==="mot"&&(
-                  <div style={{padding:"0 14px 14px",fontFamily:"'Playfair Display',serif",fontSize:"0.95rem",color:C.mid,lineHeight:1.55,whiteSpace:"pre-line",fontStyle:"italic"}}>
-                    {String(todayData.msg).replace(/\n{2,}/g,"\n")}
-                  </div>
-                )}
-              </div>
-            )}
+            <div style={{fontSize:9,letterSpacing:1.5,textTransform:"uppercase",color:C.light,fontWeight:700,margin:"4px 0 8px"}}>les audios de Kamila</div>
             {/* Vocaux Kamila — repliable */}
             {(()=>{ const dispo=VOCAUX.filter(v=>day>=v.unlockDay).length; return (
             <div style={{background:C.white,borderRadius:14,padding:"1rem",marginBottom:10,border:`1px solid ${C.border}`}}>
@@ -12347,36 +12395,6 @@ export default function App() {
             </div>
             ); })()}
 
-            {/* ── COACH MINDSET ── */}
-            <div id="coach-mindset" style={{background:`linear-gradient(135deg,${pc.l},${C.cream})`,borderRadius:16,padding:"1rem",marginBottom:10,border:`1px solid ${C.border}`}}>
-              <div style={{fontSize:12,fontWeight:700,color:C.brown,marginBottom:3}}>Comment tu te sens, là ?</div>
-              <div style={{fontSize:10.5,color:C.mid,marginBottom:11,lineHeight:1.5}}>dis-moi ton humeur du moment, et je te réponds.</div>
-              <div style={{display:"flex",flexWrap:"wrap",gap:6}}>
-                {MINDSET.map(m=>{
-                  const sel=mindsetOpen===m.id;
-                  return(
-                    <button key={m.id} onClick={()=>setMindsetOpen(sel?null:m.id)}
-                      style={{padding:"8px 12px",borderRadius:99,border:`1.5px solid ${sel?pc.p:C.border}`,background:sel?pc.p:C.white,color:sel?"white":C.brown,fontSize:11,fontWeight:500,cursor:"pointer",fontFamily:"inherit"}}>
-                      {m.emoji} {m.label}
-                    </button>
-                  );
-                })}
-              </div>
-              {mindsetOpen&&(()=>{
-                const m=MINDSET.find(x=>x.id===mindsetOpen);
-                return(
-                  <div style={{marginTop:12,background:C.white,borderRadius:12,padding:"13px",border:`1px solid ${pc.p}`,animation:"fadeUp 0.3s ease"}}>
-                    <div style={{fontSize:12,color:C.brown,lineHeight:1.7,whiteSpace:"pre-line",marginBottom:10}}>{m.message}</div>
-                    <div style={{background:`${pc.p}10`,borderRadius:10,padding:"9px 11px",display:"flex",gap:8,alignItems:"flex-start"}}>
-                      <div style={{fontSize:13,flexShrink:0}}></div>
-                      <div style={{fontSize:11,color:C.mid,lineHeight:1.5,fontWeight:500}}>{m.geste}</div>
-                    </div>
-                    <div style={{fontSize:9.5,color:C.light,textAlign:"right",marginTop:7,fontStyle:"italic"}}>— Kamila</div>
-                  </div>
-                );
-              })()}
-            </div>
-
             <a href={WHATSAPP_URL} target="_blank" rel="noopener"
               style={{display:"flex",alignItems:"center",gap:12,background:C.white,border:`1px solid ${C.border}`,borderRadius:14,padding:"12px 14px",marginBottom:10,textDecoration:"none"}}>
               <span style={{width:36,height:36,borderRadius:"50%",background:"#E7F3EA",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><Icon name="heart" size={17} color="#3E8E5A"/></span>
@@ -12386,60 +12404,7 @@ export default function App() {
               </span>
               <span style={{fontSize:14,color:pc.p}}>→</span>
             </a>
-
-
-            {/* ── Fenêtre « Adapter ma journée » ── */}
-            {adaptOpen&&(()=>{
-              const heure=new Date().getHours(); const moment=heure<11?"matin":heure<16?"midi":"soir";
-              const temps=adaptTemps||10;
-              const mins=(t)=>{ const m=String(t||"").match(/(\d+)/); return m?parseInt(m[1],10):99; };
-              let idee=null;
-              if(adaptBesoin==="bouger"){ const sid=(temps<=10||energie==="basse")?"mobilite":(temps>=20?"A":"cardio");
-                const S={mobilite:["Mobilité & récupération","un enchaînement doux pour délier le corps, adapté à ton énergie."],cardio:["Cardio doux","du cardio sans impact, à un rythme où tu peux parler."],A:["Renforcement A","6 mouvements pour tout le corps, avec ta séance guidée."]}[sid];
-                idee={t:S[0],d:S[1],go:()=>{ setAdaptOpen(false); setBougerDepart(sid); setTab("bouger"); }}; }
-              if(adaptBesoin==="manger"){ const noms=Object.keys(RECETTES).filter(n=>RECETTES[n].moment===moment&&repasRapide(n)); const n=noms[new Date().getDate()%Math.max(1,noms.length)]||Object.keys(RECETTES)[0];
-                idee={t:n,d:"une idée rapide pour ce "+(moment==="matin"?"matin":moment==="midi"?"midi":"soir")+" : "+(RECETTES[n].temps||""),go:()=>{ setAdaptOpen(false); setRecettePop(n); }}; }
-              if(adaptBesoin==="poser") idee={t:"Souffler quelques minutes",d:"une respiration lente pour faire redescendre la pression, sans rien avoir à réussir.",go:()=>{ setAdaptOpen(false); setSosOpen("stress"); }};
-              if(adaptBesoin==="dormir") idee={t:"Préparer une nuit plus calme",d:"quelques gestes simples pour ce soir.",go:()=>{ setAdaptOpen(false); setSosOpen("insomnie"); }};
-              const chip=(on)=>({padding:"8px 13px",borderRadius:99,border:`1.5px solid ${on?C.terra:C.border}`,background:on?C.terra:C.white,color:on?"#fff":C.brown,fontFamily:"inherit",fontSize:12,fontWeight:600,cursor:"pointer"});
-              const msgE={haute:"belle énergie : on peut viser un peu plus, si tu en as envie.",moyenne:"on garde un rythme doux et réaliste.",basse:"aujourd'hui, le minimum suffit. et si tu ne fais rien, c'est ok aussi."}[energie]||"dis-moi comment tu te sens, je m'adapte.";
-              return(
-              <Portail><div onClick={()=>setAdaptOpen(false)} style={{position:"fixed",inset:0,zIndex:320,background:"rgba(58,42,32,.45)",display:"flex",alignItems:"center",justifyContent:"center",padding:"calc(env(safe-area-inset-top,0px) + 28px) 16px calc(env(safe-area-inset-bottom,0px) + 28px)"}}>
-                <div onClick={e=>e.stopPropagation()} style={{background:C.cream,width:"100%",maxWidth:430,borderRadius:22,padding:"1.2rem",boxShadow:"0 12px 40px rgba(58,42,32,.25)",maxHeight:"100%",overflowY:"auto"}}>
-                  <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:6}}>
-                    <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.2rem",fontWeight:600,color:C.brown}}>Adapter ma journée</div>
-                    <button onClick={()=>setAdaptOpen(false)} aria-label="fermer" style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:"50%",width:30,height:30,cursor:"pointer",color:C.mid,fontFamily:"inherit"}}>✕</button>
-                  </div>
-                  <div style={{fontSize:11.5,color:C.mid,lineHeight:1.5,marginBottom:14}}>{msgE}</div>
-                  <div style={{fontSize:11,fontWeight:700,color:C.brown,marginBottom:7}}>mon énergie</div>
-                  <div style={{display:"flex",gap:7,flexWrap:"wrap",marginBottom:14}}>
-                    {[["haute","plutôt bien"],["moyenne","moyenne"],["basse","fatiguée"]].map(([k,l])=>(<button key={k} onClick={()=>setEnergie(k)} aria-pressed={energie===k} style={chip(energie===k)}>{l}</button>))}
-                  </div>
-                  <div style={{fontSize:11,fontWeight:700,color:C.brown,marginBottom:7}}>le temps que j'ai</div>
-                  <div style={{display:"flex",gap:7,flexWrap:"wrap",marginBottom:14}}>
-                    {[5,10,20].map(m=>(<button key={m} onClick={()=>setAdaptTemps(m)} aria-pressed={temps===m} style={chip(temps===m)}>{m} min</button>))}
-                  </div>
-                  <div style={{fontSize:11,fontWeight:700,color:C.brown,marginBottom:7}}>ce dont j'ai besoin</div>
-                  <div style={{display:"flex",gap:7,flexWrap:"wrap",marginBottom:16}}>
-                    {[["bouger","bouger doucement"],["manger","bien manger"],["poser","me poser"],["dormir","mieux dormir"]].map(([k,l])=>(<button key={k} onClick={()=>setAdaptBesoin(k)} aria-pressed={adaptBesoin===k} style={chip(adaptBesoin===k)}>{l}</button>))}
-                  </div>
-                  {idee?(
-                    <div style={{background:C.white,border:`1.5px solid ${C.terra}`,borderRadius:16,padding:"14px"}}>
-                      <div style={{fontSize:9.5,letterSpacing:1.5,textTransform:"uppercase",color:C.terra,fontWeight:700,marginBottom:4}}>une idée pour toi, facultative</div>
-                      <div style={{fontSize:13.5,fontWeight:700,color:C.brown,marginBottom:4}}>{idee.t}</div>
-                      <div style={{fontSize:11.5,color:C.mid,lineHeight:1.5,marginBottom:12}}>{idee.d}</div>
-                      <button onClick={idee.go} style={{width:"100%",background:C.terra,border:"none",borderRadius:12,padding:"11px",color:"#fff",fontFamily:"inherit",fontSize:12.5,fontWeight:700,cursor:"pointer"}}>j'y vais →</button>
-                    </div>
-                  ):(
-                    <div style={{fontSize:11,color:C.light,textAlign:"center",padding:"6px 0 4px"}}>choisis ce dont tu as besoin, je te propose une idée.</div>
-                  )}
-                  {energie==="basse"&&(
-                    <button onClick={()=>{ setAdaptOpen(false); setFatigueOpen(true); setFatigueStep(0); }} style={{display:"block",margin:"14px auto 0",background:"none",border:"none",color:C.terra,fontFamily:"inherit",fontSize:11.5,fontWeight:700,cursor:"pointer",textDecoration:"underline"}}>comprendre ma fatigue</button>
-                  )}
-                </div>
-              </div></Portail>
-              );
-            })()}
+            </Repli>
 
             {/* ── Fenêtre « Faire le point sur mon parcours » ── */}
             {bilanOpen&&(()=>{
@@ -12452,7 +12417,7 @@ export default function App() {
               ];
               const rep=bilanRep; const setR=(k,v)=>setBilanRep(p=>({...p,[k]:v}));
               const chip=(on)=>({padding:"8px 12px",borderRadius:99,border:`1.5px solid ${on?C.terra:C.border}`,background:on?C.terra:C.white,color:on?"#fff":C.brown,fontFamily:"inherit",fontSize:11.5,fontWeight:600,cursor:"pointer"});
-              const conseil={ "plus de simplicité":"garde une seule action par jour, et utilise « Adapter ma journée » les jours chargés.","plus d'idées repas":"essaie « compose ma semaine pour moi » dans Planifier ma semaine.","bouger davantage":"commence par 10 minutes : ouvre Bouger depuis l'accueil.","mieux dormir":"ouvre ton espace Sommeil et note tes nuits quelques jours.","plus de soutien":"tu peux écrire à l'équipe depuis Mon espace d'échange, et rejoindre la communauté des Cysters." }[rep.besoin];
+              const conseil={ "plus de simplicité":"garde une seule action par jour, et choisis la version express de ta mission les jours chargés.","plus d'idées repas":"essaie « compose ma semaine pour moi » dans Planifier ma semaine.","bouger davantage":"commence par 10 minutes : ouvre Bouger depuis l'accueil.","mieux dormir":"ouvre ton espace Sommeil et note tes nuits quelques jours.","plus de soutien":"tu peux écrire à l'équipe depuis Mon espace d'échange, et rejoindre la communauté des Cysters." }[rep.besoin];
               const resume=()=>["Mon point du "+new Date().toLocaleDateString("fr-FR"),"Ressenti : "+(rep.ressenti||"-"),"Le plus facile : "+(rep.facile||"-"),"Le plus difficile : "+(rep.difficile||"-"),"Ce que je veux changer : "+(rep.changer||"-"),"Mon besoin : "+(rep.besoin||"-"),"Jour "+day+" de mon parcours"].join("\n");
               return(
               <Portail><div onClick={()=>setBilanOpen(false)} style={{position:"fixed",inset:0,zIndex:320,background:"rgba(58,42,32,.45)",display:"flex",alignItems:"center",justifyContent:"center",padding:"calc(env(safe-area-inset-top,0px) + 28px) 16px calc(env(safe-area-inset-bottom,0px) + 28px)"}}>
@@ -12655,20 +12620,19 @@ export default function App() {
             <div style={carte}>
               <div style={{fontSize:12.5,fontWeight:700,color:C.brown,marginBottom:4}}>suivre mon corps</div>
               {ligne("moon","Mon cycle","tes règles, ta courbe de température, tes signes",()=>setTab("cycle"))}
-              {ligne("chart","Mes tendances","ce qui t'aide vraiment, semaine après semaine",()=>setTab("tendances"))}
-              {ligne("pulse","Mes mesures","tension, glycémie, température",()=>setTab("mesures"))}
+              {ligne("chart","Ma vue d'ensemble","tes courbes et tes tendances",()=>setTab("apercu"))}
               {ligne("bed","Mon sommeil","tes nuits et ton rituel du soir",()=>setTab("sommeil"))}
             </div>
             <div style={carte}>
               <div style={{fontSize:12.5,fontWeight:700,color:C.brown,marginBottom:4}}>prendre soin de ma tête</div>
-              {ligne("book","Mon journal","ce que tu ressens, ce que tu as testé",()=>setTab("journal"))}
-              {ligne("leaf","Mon ancrage","ton affirmation, ta lettre, vider ton cerveau",()=>setTab("ancrage"))}
+              {ligne("book","Mon journal","le matin, le soir, et un coin pour t'ancrer",()=>setTab("journal"))}
               {ligne("alert","Mes fiches SOS","fringale, angoisse, réveil à 3h… quand ça ne va pas",()=>setTab("sos"))}
             </div>
             <div style={carte}>
               <div style={{fontSize:12.5,fontWeight:700,color:C.brown,marginBottom:4}}>ma santé</div>
               {ligne("flask","Mes analyses","comprendre tes résultats de prise de sang",()=>setTab("analyses"))}
               {ligne("doctor","Mon dossier médecin","préparer ton prochain rendez-vous",()=>setTab("medecin"))}
+              {ligne("drop","Mes mesures","tension, glycémie, poids : facultatif",()=>setTab("mesures"))}
             </div>
             {missionsSoin.length>0&&(
             <div style={carte}>
@@ -13575,7 +13539,7 @@ export default function App() {
                     f.cat?(
                       <div key={i} style={{fontSize:11,fontWeight:700,color:C.gold,textTransform:"uppercase",letterSpacing:0.8,margin:"16px 0 7px 2px"}}>{f.cat}</div>
                     ):(
-                    <div key={i} id={f.anchor||undefined} style={{background:C.white,borderRadius:13,padding:"13px 14px",marginBottom:9,border:`1px solid ${f.anchor?pc.p:C.border}`,display:"flex",alignItems:"center",gap:12}}>
+                    <div key={i} id={f.anchor||(f.url?"dl-"+f.url.split("/").pop().replace(".pdf",""):undefined)} style={{background:C.white,borderRadius:13,padding:"13px 14px",marginBottom:9,border:`1px solid ${f.anchor?pc.p:C.border}`,display:"flex",alignItems:"center",gap:12}}>
                       <span style={{fontSize:26,flexShrink:0}}>{f.emoji}</span>
                       <div style={{flex:1}}>
                         <div style={{fontSize:13,fontWeight:600,color:C.brown}}>{f.titre}</div>
@@ -13813,7 +13777,7 @@ export default function App() {
                 {SAVOIRS.map((s,i)=>{
                   const open=savoirOpen===s.t;
                   return(
-                    <div key={i} style={{background:C.white,border:`1.5px solid ${open?s.couleur:C.border}`,borderRadius:14,marginBottom:9,overflow:"hidden"}}>
+                    <div key={i} id={open?"savoir-ouvert":undefined} style={{background:C.white,border:`1.5px solid ${open?s.couleur:C.border}`,borderRadius:14,marginBottom:9,overflow:"hidden"}}>
                       <button onClick={()=>setSavoirOpen(open?null:s.t)}
                         style={{width:"100%",display:"flex",alignItems:"center",gap:11,padding:"12px 13px",background:"none",border:"none",cursor:"pointer",fontFamily:"inherit",textAlign:"left"}}>
                         <div style={{width:36,height:36,borderRadius:10,background:`${s.couleur}22`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:16,flexShrink:0}}>{s.em}</div>
@@ -13967,7 +13931,7 @@ export default function App() {
             )}
 
             {/* conseil de la phase + Fertilitea */}
-            {cycleDay && PHASE_TIPS[phase] && (
+            {cycleDay>0 && PHASE_TIPS[phase] && (
               <div style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:14,padding:"12px 14px",marginBottom:14}}>
                 <div style={{fontSize:9,letterSpacing:1,textTransform:"uppercase",color:pc.p,fontWeight:700,marginBottom:4}}>pour cette phase</div>
                 <div style={{fontSize:11.5,color:C.mid,lineHeight:1.55}}>{PHASE_TIPS[phase]}</div>
@@ -14117,12 +14081,9 @@ export default function App() {
             <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8,marginBottom:14}}>
               {[
                 {id:"apercu",ic:"chart",l:"Vue d'ensemble"},
-                {id:"tendances",ic:"pulse",l:"Mes tendances"},
-                {id:"mesures",ic:"drop",l:"Mes mesures"},
                 {id:"cycle",ic:"moon",l:"Mon cycle"},
                 {id:"journal",ic:"calendar",l:"Mon journal"},
                 {id:"bouger",ic:"steps",l:"Bouger"},
-                {id:"ancrage",ic:"heart",l:"Mon ancrage"},
                 {id:"planif",ic:"book",l:"Planifier ma semaine",outil:true},
               ].map(x=>(
                 <button key={x.id} onClick={()=>{ if(x.outil){setTab("outils");setOutilCat("alimentation");setOutilOpen(x.id);} else setTab(x.id); }} style={{display:"flex",alignItems:"center",gap:8,background:C.bubble,border:`1px solid ${C.border}`,borderRadius:12,padding:"11px 12px",cursor:"pointer",fontFamily:"inherit",textAlign:"left"}}>
@@ -14241,7 +14202,7 @@ export default function App() {
                     {sc.opts.map((opt,i)=>{
                       const val=i+1; const sel=jView[key]===val;
                       return (
-                        <button key={i} onClick={()=>setJV(key, sel?null:val)}
+                        <button key={i} onClick={()=>{ setJV(key, sel?null:val); if(key==="energie") setJV("energieAccueil",false); }}
                           style={{flex:1,padding:"8px 2px",borderRadius:9,border:`1.5px solid ${sel?sc.col:C.border}`,background:sel?sc.col:C.white,color:sel?"white":C.mid,cursor:"pointer",fontFamily:"inherit",display:"flex",flexDirection:"column",alignItems:"center",gap:1}}>
                           <span style={{fontSize:12,fontWeight:sel?700:500}}>{val}</span>
                           <span style={{fontSize:7.5,opacity:.85}}>{opt}</span>
@@ -14318,10 +14279,22 @@ export default function App() {
               ))}
             </div>
 
-            <button onClick={()=>setTab("tendances")} style={{width:"100%",background:`${pc.p}10`,border:`1px solid ${pc.p}40`,borderRadius:12,padding:"11px 14px",marginBottom:14,display:"flex",alignItems:"center",justifyContent:"space-between",cursor:"pointer",fontFamily:"inherit"}}>
-              <span style={{fontSize:12.5,fontWeight:600,color:C.brown}}>Mes tendances, expliquées par Kamila</span>
-              <span style={{fontSize:13,color:pc.p}}>→</span>
-            </button>
+            {(()=>{ const trends=computeTrends(), suivis=tendancesEnCours(); return (
+            <div id="mes-tendances" style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:16,padding:"15px 16px",marginBottom:14}}>
+              <div style={{fontSize:13,fontWeight:600,color:C.brown,marginBottom:2}}>Mes tendances</div>
+              <div style={{fontSize:11,color:C.mid,lineHeight:1.5,marginBottom:10}}>ce qui semble jouer sur toi, d'après ce que tu notes. ce sont des repères, pas des preuves.</div>
+              {trends.map((t,i)=>(
+                <div key={i} style={{background:C.cream,borderRadius:12,padding:"12px 13px",marginBottom:9}}>
+                  <div style={{fontSize:12.5,color:C.brown,lineHeight:1.5,marginBottom:5}}>{t.text}</div>
+                  <div style={{fontSize:12,fontStyle:"italic",fontFamily:"'Playfair Display',serif",color:C.mid,lineHeight:1.55}}>« {t.kamila} »</div>
+                </div>))}
+              {suivis.map((x,i)=>(
+                <div key={i} style={{display:"flex",gap:10,alignItems:"center",padding:"8px 0",borderTop:`1px solid ${C.border}`}}>
+                  <span style={{flex:1,minWidth:0}}><span style={{display:"block",fontSize:12,fontWeight:600,color:C.brown}}>{x.l}</span><span style={{display:"block",fontSize:10.5,color:C.mid,lineHeight:1.45}}>{x.pret?"pas d'écart net pour l'instant : c'est aussi une info.":x.manque}</span></span>
+                  <span style={{fontSize:10,fontWeight:700,color:x.pret?"#4A7A52":C.light,flexShrink:0}}>{x.pret?"suivi":x.fait+"/6"}</span>
+                </div>))}
+              <button onClick={()=>setTab("suivi")} style={{marginTop:10,background:"none",border:"none",padding:0,color:pc.p,fontFamily:"inherit",fontSize:11.5,fontWeight:700,cursor:"pointer"}}>noter ma journée →</button>
+            </div>); })()}
 
             {!hasData ? (
               <div style={{background:C.white,border:`1px dashed ${C.border}`,borderRadius:16,padding:"28px 18px",textAlign:"center",color:C.light,fontSize:12.5,lineHeight:1.65}}>
@@ -14428,31 +14401,6 @@ export default function App() {
           );
         })()}
 
-        {tab==="tendances"&&(()=>{
-          const trends=computeTrends();
-          return (
-          <div className="fu">
-            <button onClick={()=>setTab("apercu")} style={{background:"none",border:"none",color:C.light,fontSize:12,cursor:"pointer",fontFamily:"inherit",padding:0,marginBottom:12,display:"flex",alignItems:"center",gap:5}}>← vue d'ensemble</button>
-            <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.3rem",color:C.brown,marginBottom:2}}>Tes tendances</div>
-            <div style={{fontSize:12,color:C.light,marginBottom:16,lineHeight:1.5}}>ce que tes données racontent — et ce que ça veut dire pour toi.</div>
-            {trends.length===0 ? (
-              <div style={{background:C.white,border:`1px dashed ${C.border}`,borderRadius:16,padding:"28px 18px",textAlign:"center",color:C.light,fontSize:12.5,lineHeight:1.65}}>
-                ✨ continue ton <b style={{color:C.mid}}>Suivi</b> quelques jours.<br/>dès qu'une tendance se dessine dans tes données, je te l'explique ici — jamais avant, pour ne rien inventer.
-              </div>
-            ) : trends.map((t,i)=>(
-              <div key={i} style={{background:C.white,borderRadius:16,padding:"16px",marginBottom:14,border:`1px solid ${C.border}`}}>
-                <span style={{display:"inline-block",fontSize:9,letterSpacing:.5,background:`${pc.p}18`,color:pc.p,borderRadius:99,padding:"3px 10px",marginBottom:8}}>tendance · {t.tag}</span>
-                <div style={{fontSize:14,color:C.brown,lineHeight:1.45,marginBottom:10}}>{t.text}</div>
-                <div style={{background:"#F7EFE6",borderLeft:`3px solid ${pc.p}`,borderRadius:"0 10px 10px 0",padding:"11px 13px"}}>
-                  <div style={{fontSize:9,fontWeight:700,color:pc.p,marginBottom:3}}>le mot de Kamila</div>
-                  <div style={{fontSize:12.5,fontStyle:"italic",fontFamily:"'Playfair Display',serif",color:C.mid,lineHeight:1.6}}>« {t.kamila} »</div>
-                </div>
-              </div>
-            ))}
-          </div>
-          );
-        })()}
-
         {tab==="mesures"&&(()=>{
           const poids=(mesures.poids||[]).slice().sort((a,b)=> a.d<b.d?-1:1);
           const vals=poids.map(p=>p.v);
@@ -14464,9 +14412,8 @@ export default function App() {
           const pts=poids.map((p,i)=>`${px(i).toFixed(1)},${py(p.v).toFixed(1)}`).join(" ");
           return (
           <div className="fu">
-            <button onClick={()=>setTab("suivi")} style={{background:"none",border:"none",color:C.light,fontSize:12,cursor:"pointer",fontFamily:"inherit",padding:0,marginBottom:12,display:"flex",alignItems:"center",gap:5}}>← retour au suivi</button>
             <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.3rem",color:C.brown,marginBottom:2}}>Mes mesures</div>
-            <div style={{fontSize:12,color:C.light,marginBottom:14}}>optionnel — seulement si ça t'aide.</div>
+            <div style={{fontSize:12,color:C.light,marginBottom:14}}>optionnel, seulement si ça t'aide. ta température, elle, est dans <button onClick={()=>setTab("cycle")} style={{background:"none",border:"none",padding:0,color:pc.p,fontFamily:"inherit",fontSize:12,fontWeight:700,cursor:"pointer",textDecoration:"underline"}}>Mon cycle</button>.</div>
 
             <div style={{background:"#F1EEF6",borderLeft:"3px solid #A89AB8",borderRadius:"0 12px 12px 0",padding:"12px 14px",marginBottom:14}}>
               <div style={{fontSize:9,fontWeight:700,color:"#8B7BA0",marginBottom:4}}>le mot de Kamila</div>
@@ -14475,7 +14422,6 @@ export default function App() {
 
             {(()=>{
               const DEFS=[
-                {k:"temp",l:"Température au réveil",u:"°C",ph:"36.5",help:"au réveil, avant de te lever. elle aide à repérer la légère montée qui suit l'ovulation."},
                 {k:"tension",l:"Tension artérielle",u:"",ph:"12/8",help:"en pharmacie ou avec un tensiomètre. une à quelques fois par an suffit."},
                 {k:"glycemie",l:"Glycémie",u:"g/L",ph:"0.95",help:"seulement si tu as un lecteur et que ton médecin te l'a conseillé."},
               ];
@@ -14587,7 +14533,7 @@ export default function App() {
             <div style={{background:C.white,borderRadius:16,padding:"1rem",marginBottom:12,border:`1px solid ${C.border}`}}>
               <div style={{fontSize:11,fontWeight:600,color:C.brown,marginBottom:4}}>🔬 Traducteur d'analyses</div>
               <div style={{fontSize:10,color:C.mid,marginBottom:10,lineHeight:1.5,background:C.cream,borderRadius:9,padding:"7px 10px"}}>
-                entre tes valeurs. Kamila t'explique ce qu'elles signifient vraiment.
+                entre tes valeurs : tu verras ce qu'elles veulent dire, en mots simples.
               </div>
               <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:7,marginBottom:10}}>
                 {MARKERS.map(m=>(
@@ -14718,6 +14664,15 @@ export default function App() {
                 <div style={{fontSize:10,color:C.mid,marginTop:1}}>noter et suivre tes bilans dans le temps</div>
               </div>
               <div style={{fontSize:16,color:pc.p}}>›</div>
+            </button>
+
+            <button onClick={()=>setTab("mesures")} style={{width:"100%",display:"flex",alignItems:"center",gap:12,background:C.white,border:`1.5px solid ${C.border}`,borderRadius:14,padding:"14px 15px",marginBottom:14,cursor:"pointer",fontFamily:"inherit",textAlign:"left"}}>
+              <div style={{width:38,height:38,borderRadius:11,background:`${pc.p}15`,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><Icon name="drop" size={18} color={pc.p}/></div>
+              <div style={{flex:1}}>
+                <div style={{fontSize:13,fontWeight:700,color:C.brown}}>Mes mesures</div>
+                <div style={{fontSize:10,color:C.mid,marginTop:1}}>tension, glycémie, poids : facultatif, et repris dans ton dossier</div>
+              </div>
+              <div style={{fontSize:16,color:C.light}}>›</div>
             </button>
 
             {/* ── TROUVER UN SOIGNANT DE CONFIANCE ── */}
@@ -15000,13 +14955,28 @@ profil · tes priorités · les analyses & questions que tu as cochées · ton s
         )}
 
         {/* ── MON ANCRAGE (affirmation + lettre + vidage de cerveau) ── */}
-        {tab==="ancrage"&&(()=>{
+        {/* ── JOURNAL ── */}
+        {tab==="journal"&&(
+          <div className="fu">
+            <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.2rem",color:C.brown,marginBottom:3}}>Mon journal</div>
+            <div style={{fontSize:10,color:C.light,marginBottom:14}}>{todayLabel} · ton rituel du jour</div>
+
+            {/* ── RITUEL GUIDÉ (matin / soir) ── */}
+            <div style={{marginBottom:18}}>
+              <div style={{display:"flex",gap:6,background:C.bubble,borderRadius:12,padding:4,marginBottom:14}}>
+                {[{id:"matin",l:"Le matin"},{id:"soir",l:"Le soir"},{id:"ancrage",l:"M'ancrer"}].map(m=>{
+                  const on=journalMoment===m.id;
+                  return <button key={m.id} onClick={()=>setJournalMoment(m.id)}
+                    style={{flex:1,padding:"9px",borderRadius:9,border:"none",cursor:"pointer",fontFamily:"inherit",fontSize:12,fontWeight:on?700:500,color:on?C.brown:C.mid,background:on?C.white:"transparent",boxShadow:on?"0 2px 6px rgba(0,0,0,.05)":"none"}}>{m.l}</button>;
+                })}
+              </div>
+
+              {journalMoment==="ancrage"?(()=>{
           const now=new Date(); const doy=Math.floor((now-new Date(now.getFullYear(),0,0))/86400000);
           const affi=AFFIRMATIONS[doy%AFFIRMATIONS.length];
           return(
           <div className="fu">
-            <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.3rem",color:C.brown,marginBottom:2}}>Mon ancrage</div>
-            <div style={{fontSize:12,color:C.light,marginBottom:16}}>pourquoi tu fais ça — à relire dans les jours durs.</div>
+            <div style={{fontSize:12,color:C.light,marginBottom:12}}>pourquoi tu fais ça, à relire dans les jours durs.</div>
 
             {/* Affirmation du jour */}
             <div style={{background:`linear-gradient(135deg,${C.mauve},#8B7BA0)`,borderRadius:18,padding:"22px 20px",color:"#fff",textAlign:"center",marginBottom:16}}>
@@ -15036,25 +15006,7 @@ profil · tes priorités · les analyses & questions que tu as cochées · ton s
             </div>
           </div>
           );
-        })()}
-
-        {/* ── JOURNAL ── */}
-        {tab==="journal"&&(
-          <div className="fu">
-            <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.2rem",color:C.brown,marginBottom:3}}>Mon journal</div>
-            <div style={{fontSize:10,color:C.light,marginBottom:14}}>{todayLabel} · ton rituel du jour</div>
-
-            {/* ── RITUEL GUIDÉ (matin / soir) ── */}
-            <div style={{marginBottom:18}}>
-              <div style={{display:"flex",gap:6,background:C.bubble,borderRadius:12,padding:4,marginBottom:14}}>
-                {[{id:"matin",l:"Le matin"},{id:"soir",l:"Le soir"}].map(m=>{
-                  const on=journalMoment===m.id;
-                  return <button key={m.id} onClick={()=>setJournalMoment(m.id)}
-                    style={{flex:1,padding:"9px",borderRadius:9,border:"none",cursor:"pointer",fontFamily:"inherit",fontSize:12,fontWeight:on?700:500,color:on?C.brown:C.mid,background:on?C.white:"transparent",boxShadow:on?"0 2px 6px rgba(0,0,0,.05)":"none"}}>{m.l}</button>;
-                })}
-              </div>
-
-              {journalMoment==="matin"?(
+        })():journalMoment==="matin"?(
                 <div>
                   <div style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:16,padding:"1rem",marginBottom:11}}>
                     <div style={{fontSize:9,letterSpacing:1.5,textTransform:"uppercase",color:C.terra,fontWeight:700,marginBottom:9}}>Comment je me sens ce matin</div>
