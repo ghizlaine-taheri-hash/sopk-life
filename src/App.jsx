@@ -7,6 +7,16 @@ import { ORDRE_BASE, ordreValide, estBase, moisSelon, moisDe, idDuJour, texteLib
 // Les fenêtres s'affichent directement sur l'écran, quel que soit l'endroit où on a fait défiler la page
 const Portail = ({children}) => createPortal(<div style={{fontFamily:"'DM Sans',sans-serif"}}>{children}</div>, document.body);
 
+// une partie de l'accueil qui se replie : titre, une ligne, et le contenu seulement si on l'ouvre
+const Repli = ({C,id,titre,sous,ouvert,onToggle,children}) => (
+  <div id={id} style={{marginBottom:10}}>
+    <button onClick={onToggle} aria-expanded={ouvert} style={{width:"100%",display:"flex",alignItems:"center",gap:10,background:C.white,border:`1px solid ${C.border}`,borderRadius:14,padding:"12px 14px",cursor:"pointer",fontFamily:"inherit",textAlign:"left"}}>
+      <span style={{flex:1,minWidth:0}}><span style={{display:"block",fontSize:12.5,fontWeight:700,color:C.brown}}>{titre}</span>{sous&&<span style={{display:"block",fontSize:10.5,color:C.mid,lineHeight:1.4}}>{sous}</span>}</span>
+      <span style={{fontSize:13,color:C.light,transform:ouvert?"rotate(180deg)":"none",transition:"transform .2s"}}>▾</span>
+    </button>
+    {ouvert&&<div style={{marginTop:8}}>{children}</div>}
+  </div>);
+
 // ─── COULEURS ────────────────────────────────────────────────────────────────
 const C = {
   cream:"#FBF8F3",terra:"#CB9A79",mauve:"#A89AB8",gold:"#D4A56A",
@@ -1345,11 +1355,11 @@ observes:["les premiers jours : une digestion qui s'habitue","dans 2 semaines : 
 victoire:"dix jours. ton foie commence à travailler différemment.",
 outil:{emoji:"🍽️",label:"Explore les légumes crucifères",desc:"cherche brocoli, chou-fleur, roquette",cible:"aliments",recherche:"chou"}},
   {day:11,emoji:"🏋️‍♀️",theme:"le renforcement musculaire",
-mission:"fais 20 minutes de renforcement aujourd'hui — Squats 3×15, Fentes 3×12, Pompes 3×10, Gainage 3×30s.",
+mission:"fais ta séance Renforcement A dans Bouger : 6 mouvements guidés, à ton rythme.",
 msg:"tu ne fais pas du sport pour brûler des calories.\n\ntu construis un muscle qui travaille pour toi 24h/24.\n\naujourd'hui on pose la première brique.",
 pourquoi:"voici un fait que peu de gens connaissent : tes muscles captent 70 à 80% du glucose de ton corps. plus tu as de masse musculaire, plus tu as de 'réservoirs' pour absorber le sucre de ton sang — et le mieux, c'est qu'à l'effort, tes muscles le font sans avoir besoin d'insuline.\n\nconcrètement : construire du muscle, c'est agrandir ta capacité à gérer la glycémie en permanence, même au repos. un corps plus musclé est un corps plus sensible à l'insuline.\n\nle renforcement n'est pas réservé aux sportives. pour le SMOP métabolique, c'est un des leviers les plus puissants sur le long terme.",
 source:"l'activité physique, en particulier le renforcement musculaire, améliore la sensibilité à l'insuline dans le SMOP (Diamanti-Kandarakis & Dunaif, 2012, Endocrine Reviews).",
-comment:["échauffe-toi 2-3 minutes (montées de genoux, rotations)","Squats : 3 séries de 15 — assise imaginaire sur une chaise","Fentes : 3 séries de 12 par jambe","Pompes : 3×10 (sur les genoux ou contre un mur si besoin)","Gainage : 3×30 secondes — dos droit, ventre serré"],
+comment:["ouvre la séance : l'échauffement est compris","squat vers une chaise, pompes contre un mur, pont fessier","abduction de hanche, Bird-Dog, élévations des mollets","choisis ton nombre de tours selon ton énergie","termine par le retour au calme"],
 pieges:["aller trop vite — la lenteur fait travailler le muscle davantage","sauter l'échauffement — risque de blessure","viser la perfection dès la première fois — la régularité prime"],
 plus:"si certains exercices sont trop durs, adapte sans culpabiliser : pompes contre un mur, demi-squats, gainage plus court. ce qui compte c'est de solliciter le muscle, pas de faire un exploit.",
 observes:["après la séance : une fatigue saine, pas un épuisement","2-3 jours après : de légères courbatures (signe que ça marche)","dans 3 semaines : plus de force, des gestes du quotidien plus faciles"],
@@ -1418,14 +1428,14 @@ observes:["aujourd'hui : tu es rassasiée plus longtemps","dans quelques jours :
 victoire:"tu viens de désactiver une croyance nutritionnelle qui t'a freinée pendant des années.",
 outil:{emoji:"🍽️",label:"Explore les bons gras",desc:"cherche avocat, amandes, noix, chocolat",cible:"aliments",recherche:"avocat"}},
   {day:18,emoji:"🔥",theme:"deuxième séance de renforcement",
-mission:"fais ta 2e séance : Rowing avec bouteilles 3×15, Élévations 3×15, Squat+press 3×12, Superman 3×15.",
+mission:"fais ta 2e séance : Renforcement B dans Bouger, pour le dos, l'arrière des jambes et la sangle abdominale.",
 msg:"deux séances. tu atteins le seuil qui fait la différence.\n\nce n'est plus un essai, c'est un rythme.",
-pourquoi:"une séance par semaine, c'est bien. deux séances, c'est là que la magie opère. à ce rythme, les fenêtres d'amélioration de la sensibilité à l'insuline commencent à se chevaucher : ton corps reste 'amélioré' plus longtemps entre les séances.\n\naujourd'hui on travaille le haut du corps, qu'on néglige souvent. or le muscle, où qu'il soit, agrandit ta capacité à capter le glucose. plus tu construis de muscle réparti sur tout le corps, plus tu as de réservoirs pour gérer ta glycémie au repos.\n\ndeux séances hebdo de renforcement, c'est un des piliers les plus solides du SMOP métabolique sur le long terme.",
+pourquoi:"une séance par semaine, c'est bien. deux séances, c'est là que la magie opère. à ce rythme, les fenêtres d'amélioration de la sensibilité à l'insuline commencent à se chevaucher : ton corps reste 'amélioré' plus longtemps entre les séances.\n\naujourd'hui on travaille le dos et l'arrière du corps, qu'on néglige souvent. or le muscle, où qu'il soit, agrandit ta capacité à capter le glucose. plus tu construis de muscle réparti sur tout le corps, plus tu as de réservoirs pour gérer ta glycémie au repos.\n\ndeux séances hebdo de renforcement, c'est un des piliers les plus solides du SMOP métabolique sur le long terme.",
 source:"l'entraînement en résistance améliore la sensibilité à l'insuline dans le SMOP (Diamanti-Kandarakis & Dunaif, 2012, Endocrine Reviews).",
-comment:["échauffe-toi 2-3 minutes","Rowing : penchée en avant, tire 2 bouteilles d'eau vers toi, 3×15","Élévations latérales : bras sur les côtés avec bouteilles, 3×15","Squat + press : squat puis pousse les bouteilles au-dessus de la tête, 3×12","Superman : allongée sur le ventre, soulève bras et jambes, 3×15"],
-pieges:["négliger le haut du corps — il compte autant que les jambes","forcer sur une charge trop lourde — la technique d'abord","sauter cette 2e séance — c'est elle qui fait passer un cap"],
-plus:"pas de bouteilles ? des packs de lait, des boîtes de conserve, ou même ton propre poids font l'affaire. l'important c'est de créer une résistance pour le muscle, pas d'avoir du matériel.",
-observes:["après la séance : une fatigue saine du haut du corps","dans 2 semaines : une posture qui se redresse, plus de force","sur la durée : un métabolisme qui gère mieux le sucre en continu"],
+comment:["ouvre la séance : l'échauffement est compris","charnière de hanche, tirage avec élastique, fente avec appui","assis-debout, Dead Bug simplifié, marche avec charge légère","garde une charge avec laquelle tu peux bien bouger","termine par le retour au calme"],
+pieges:["négliger le dos — il compte autant que les jambes","forcer sur une charge trop lourde — la technique d'abord","sauter cette 2e séance — c'est elle qui fait passer un cap"],
+plus:"pas d'élastique ? Bouger te propose un autre mouvement à la place. et pour la charge, une bouteille d'eau suffit.",
+observes:["après la séance : une fatigue saine du dos et des jambes","dans 2 semaines : une posture qui se redresse, plus de force","sur la durée : un métabolisme qui gère mieux le sucre en continu"],
 victoire:"ce n'est plus un essai. c'est un rythme."},
   {day:19,emoji:"⚡",theme:"le zinc",
 mission:"commence le zinc — 15 à 25mg avec un repas, jamais à jeun.",
@@ -1481,11 +1491,11 @@ observes:["les premières semaines : rien de visible (la D travaille en fond)","
 victoire:"tu construis des fondations que tu porteras longtemps après ces 30 jours.",
 outil:{emoji:"💊",label:"Voir tes compléments adaptés",desc:"dosage, timing et délai pour ton profil",cible:"complements"}},
   {day:24,emoji:"💥",theme:"troisième séance",
-mission:"refais ta séance de renforcement (comme au Jour 18) — tu en es à 3 séances cette semaine.",
+mission:"fais la séance Force & glycémie dans Bouger. si c'est ta 3e de la semaine, bravo. sinon, celle-ci suffit.",
 msg:"trois séances. tu atteins la fréquence optimale.\n\naujourd'hui tu passes un cap réservé à peu de monde.",
 pourquoi:"à trois séances de renforcement par semaine, quelque chose de spécial se produit : l'amélioration de ta sensibilité à l'insuline devient quasi continue. les effets de chaque séance se chevauchent, ton corps reste 'optimisé' en permanence.\n\net il y a un bonus que peu de gens connaissent : pendant l'exercice, tes muscles sécrètent des myokines — des molécules anti-inflammatoires. comme l'inflammation de fond fait partie du tableau du SMOP, c'est un effet doublement utile.\n\ntrois séances hebdo, ce n'est pas réservé aux athlètes. c'est la fréquence où le renforcement devient un vrai traitement de fond pour ton métabolisme.",
 source:"l'entraînement en résistance régulier améliore durablement la sensibilité à l'insuline et réduit l'inflammation dans le SMOP (Diamanti-Kandarakis & Dunaif, 2012, Endocrine Reviews).",
-comment:["reprends le programme du Jour 18","échauffe-toi avant de commencer","respecte les temps de repos entre les séries","reste à l'écoute de ton corps (la fatigue normale ≠ douleur)","note ta séance dans le Journal pour suivre ta régularité"],
+comment:["ouvre la séance Force & glycémie : tout est guidé","échauffe-toi avant de commencer","respecte les temps de repos entre les séries","reste à l'écoute de ton corps (la fatigue normale ≠ douleur)","note ta séance dans le Journal pour suivre ta régularité"],
 pieges:["enchaîner sans aucun jour de repos — le muscle se construit au repos","vouloir progresser trop vite en charge — la régularité prime","culpabiliser si tu n'as fait que 2 séances — 2 c'est déjà excellent"],
 plus:"si 3 séances te paraît trop, garde 2 séances : c'est déjà très efficace. l'objectif n'est pas la performance, c'est la régularité sur les mois et les années à venir.",
 observes:["cette semaine : une force qui progresse nettement","dans un mois : des gestes du quotidien plus faciles","sur la durée : un métabolisme transformé en profondeur"],
@@ -3258,6 +3268,11 @@ const OUTILS_PAR_THEME = {
 };
 
 // ─── PILIER D'UNE MISSION (pour l'accueil V2) ───
+// la séance de Bouger qui correspond à la mission (sinon, l'accueil de Bouger)
+const SEANCE_NOM = {A:"Renforcement A",B:"Renforcement B",force:"Force & glycémie",marche:"Marche active",mobilite:"Mobilité & récupération",apaiser:"Apaiser & relâcher",cardio:"Cardio doux",gainage:"Gainage & posture",velo:"Vélo d'appartement"};
+const SEANCE_DE = {"le renforcement musculaire":"A","deuxième séance de renforcement":"B","troisième séance":"force","le mouvement qui change la glycémie":"marche","marche double":"marche","le mouvement qui apaise":"marche","le mouvement qui calme les androgènes":"marche","bouger pour désenflammer":"mobilite","ancrer le mouvement":"mobilite","bouger sans relancer tes androgènes":"mobilite","bouger sans te vider":"mobilite",
+  "la marche qui efface le pic":"marche","ton muscle, ton réservoir à sucre":"A","bouger même quand tu es fatiguée":"mobilite","bouger pour calmer le feu":"mobilite","relâcher les tensions du corps":"apaiser","le repos fait partie de l'entraînement":"apaiser","marcher dans la nature":"marche","bouger pour décharger le stress":"cardio","le yoga doux du soir":"apaiser","marcher en pleine conscience":"marche","bouger (ou pas) pendant tes règles":"mobilite","la force douce pour tes hormones":"A","bouger pour ta peau et tes cheveux":"marche","ta rétention d'eau & tes jambes lourdes":"marche","bouger pour ton cœur de demain":"cardio","ta marche après le repas":"marche","ton muscle, ton allié anti-insuline":"A","ta séance de renforcement de 15 minutes":"A","vélo, natation : bouger sans impact":"velo","étire-toi, relâche tes tensions":"mobilite","la marche nordique, ta marche boostée":"marche","ton socle, le gainage profond":"gainage","bouger avec un dos ou des genoux qui grincent":"mobilite","bouge pour faire circuler":"marche"};
+
 // chaque mission a son étiquette, choisie une par une (plus de devinette par mots-clés)
 const PILIERS = {
   N:{label:"Nutrition",ic:"leaf",bg:"#FBEDE3",col:"#B97F5C"}, M:{label:"Mouvement",ic:"steps",bg:"#EEE9F4",col:"#8E80A3"},
@@ -3322,7 +3337,7 @@ const MISSIONS_365 = [
    plus:"pas possible de marcher ? rester debout à faire la vaisselle ou quelques montées sur la pointe des pieds aident déjà. le pire, c'est le canapé juste après manger.",
    observes:["ce soir : une digestion plus légère","dans quelques jours : moins de somnolence après les repas","dans 2 semaines : l'envie de bouger après manger devient naturelle"],
    victoire:"tu as fait passer ta marche au niveau supérieur : plus longue, plus vive, avec tes muscles en renfort.",
-   outil:{emoji:"🧘‍♀️",label:"Mes routines de mouvement",desc:"des formats doux, adaptés à ton terrain",goTab:"mouvement"},
+   outil:{emoji:"🧘‍♀️",label:"Bouger",desc:"des formats doux, adaptés à ton terrain",goTab:"mouvement"},
    accents:{
      metabolique:"c'est un multiplicateur direct de ton levier glycémie : marche + ordre des aliments, le combo gagnant.",
      androgenique:"le mouvement aide à faire baisser l'insuline, donc le signal androgénique — un vrai geste de fond pour ta peau.",
@@ -3463,7 +3478,7 @@ const MISSIONS_365 = [
    plus:"pas besoin de matériel : ton poids de corps suffit largement au début. l'important, c'est de commencer et de revenir, pas d'en faire beaucoup d'un coup.",
    observes:["dès aujourd'hui : un corps qui se sent un peu plus fort","dans quelques semaines : une énergie plus stable","sur la durée : une meilleure gestion naturelle de ta glycémie"],
    victoire:"tu viens d'agrandir ton réservoir à sucre — un investissement qui travaille pour toi en continu.",
-   outil:{emoji:"🧘‍♀️",label:"Mes routines de mouvement",desc:"du renforcement doux, illustré",goTab:"mouvement"},
+   outil:{emoji:"🧘‍♀️",label:"Bouger",desc:"du renforcement doux, illustré",goTab:"mouvement"},
    accents:{
      metabolique:"c'est un de tes meilleurs investissements : le muscle améliore ta sensibilité à l'insuline en continu.",
      androgenique:"meilleure sensibilité à l'insuline = moins d'insuline = moins de signal androgénique, sur le long terme.",
@@ -3604,7 +3619,7 @@ const MISSIONS_365 = [
    plus:"mon truc : un minuteur discret qui me rappelle de me lever toutes les heures. 2 minutes debout, et je repars. invisible, mais ça change ma journée métabolique.",
    observes:["aujourd'hui : une journée moins statique","dans quelques jours : plus d'énergie en fin de journée","dans 2 semaines : le mouvement invisible devient un réflexe"],
    victoire:"tu as compris que bouger pour ton SMOP ne passe pas forcément par le sport.",
-   outil:{emoji:"🧘‍♀️",label:"Mes routines de mouvement",desc:"quand tu veux un format un peu plus structuré",goTab:"mouvement"},
+   outil:{emoji:"🧘‍♀️",label:"Bouger",desc:"quand tu veux un format un peu plus structuré",goTab:"mouvement"},
    accents:{
      metabolique:"le NEAT est un levier glycémie continu, sans la contrainte d'une séance : fait pour ton quotidien.",
      androgenique:"bouger souvent = insuline plus basse = moins de signal androgénique, sans t'épuiser.",
@@ -3745,7 +3760,7 @@ const MISSIONS_365 = [
    plus:"le mode 'adapter ma journée' est là pour les jours bas : il te propose des gestes à la hauteur de ton énergie. parce que tenir dans la durée, c'est aussi savoir lever le pied.",
    observes:["aujourd'hui : du mouvement malgré la fatigue, sans te forcer","dans quelques jours : moins de ruptures dans ta régularité","sur la durée : un rapport apaisé à l'effort"],
    victoire:"tu as compris que la régularité se gagne en adaptant, pas en forçant.",
-   outil:{emoji:"🧘‍♀️",label:"Mes routines de mouvement",desc:"des formats doux pour les jours bas",goTab:"mouvement"},
+   outil:{emoji:"🧘‍♀️",label:"Bouger",desc:"des formats doux pour les jours bas",goTab:"mouvement"},
    accents:{
      metabolique:"même doux, le mouvement soutient ta sensibilité à l'insuline : ne romps pas le fil les jours bas.",
      androgenique:"la régularité douce agit sur ton insuline sur la durée, bien plus que des séances intenses espacées.",
@@ -3927,7 +3942,7 @@ const MISSIONS_365 = [
    plus:"la marche en forêt ou dans un parc a un double effet : le mouvement doux ET le contact avec la nature, qui fait baisser le cortisol. mon anti-inflammatoire préféré est gratuit.",
    observes:["aujourd'hui : un corps détendu, pas épuisé","dans quelques jours : une récupération plus facile","sur la durée : un terrain plus calme"],
    victoire:"tu as compris que pour ton inflammation, la douceur est plus puissante que l'intensité.",
-   outil:{emoji:"🧘‍♀️",label:"Mes routines de mouvement",desc:"des formats doux et apaisants",goTab:"mouvement"},
+   outil:{emoji:"🧘‍♀️",label:"Bouger",desc:"des formats doux et apaisants",goTab:"mouvement"},
    accents:{
      metabolique:"le mouvement doux soutient ta sensibilité à l'insuline sans le stress d'un effort violent.",
      androgenique:"éviter l'excès limite le cortisol et le stress oxydatif qui amplifient tes androgènes.",
@@ -4068,7 +4083,7 @@ const MISSIONS_365 = [
    plus:"la mâchoire est un indicateur précieux : si tu la surprends serrée dans la journée, c'est souvent que le stress monte. la relâcher est un premier geste anti-feu instantané.",
    observes:["aujourd'hui : un corps plus détendu","dans quelques jours : tu repères tes tensions plus vite","sur la durée : moins de crispation chronique"],
    victoire:"tu viens d'ouvrir une porte corporelle pour apaiser ton terrain.",
-   outil:{emoji:"🧘‍♀️",label:"Mes routines de mouvement",desc:"étirements doux et relâchement",goTab:"mouvement"},
+   outil:{emoji:"🧘‍♀️",label:"Bouger",desc:"étirements doux et relâchement",goTab:"mouvement"},
    accents:{
      metabolique:"moins de tension nerveuse = cortisol plus bas = glycémie plus stable.",
      androgenique:"relâcher le stress limite les androgènes surrénaliens liés à la crispation chronique.",
@@ -4209,7 +4224,7 @@ const MISSIONS_365 = [
    plus:"la fatigue du SMOP est réelle (inflammation, sommeil haché). la respecter n'est pas un échec : c'est de l'intelligence. tu tiendras bien plus longtemps en alternant effort doux et vraie récupération.",
    observes:["aujourd'hui : un repos pris sans culpabilité","dans quelques jours : une énergie qui remonte","sur la durée : un équilibre effort/repos qui soutient ton terrain"],
    victoire:"tu viens de faire du repos un soin, pas une faiblesse.",
-   outil:{emoji:"🧘‍♀️",label:"Mes routines de mouvement",desc:"inclut le repos actif et le doux",goTab:"mouvement"},
+   outil:{emoji:"🧘‍♀️",label:"Bouger",desc:"inclut le repos actif et le doux",goTab:"mouvement"},
    accents:{
      metabolique:"le repos et le sommeil soutiennent ta sensibilité à l'insuline : récupérer, c'est métabolique.",
      androgenique:"moins de surmenage = moins de cortisol = moins d'androgènes surrénaliens.",
@@ -4350,7 +4365,7 @@ const MISSIONS_365 = [
    plus:"si tu peux, essaie une activité plaisir régulière dans la nature — une petite randonnée, du vélo tranquille. le plaisir fait baisser le cortisol encore plus que l'effort seul.",
    observes:["aujourd'hui : un corps et un esprit apaisés","dans quelques jours : l'envie d'y revenir","sur la durée : un cortisol et un terrain plus calmes"],
    victoire:"tu viens de réunir deux soins anti-inflammatoires en une seule marche.",
-   outil:{emoji:"🧘‍♀️",label:"Mes routines de mouvement",desc:"le doux, à combiner avec la nature",goTab:"mouvement"},
+   outil:{emoji:"🧘‍♀️",label:"Bouger",desc:"le doux, à combiner avec la nature",goTab:"mouvement"},
    accents:{
      metabolique:"marche + lumière = sensibilité à l'insuline soutenue et cortisol apaisé.",
      androgenique:"mouvement doux et baisse du cortisol réduisent la pression androgénique.",
@@ -4512,7 +4527,7 @@ const MISSIONS_365 = [
    plus:"la danse, même 5 minutes seule dans ton salon, est une des façons les plus joyeuses de décharger le stress. ça fait monter les hormones du bien-être et redescendre le cortisol.",
    observes:["aujourd'hui : une tension évacuée","dans quelques jours : un réflexe pour les moments tendus","sur la durée : un système nerveux qui se régule mieux"],
    victoire:"tu viens de transformer le mouvement en soupape pour ton stress.",
-   outil:{emoji:"🧘‍♀️",label:"Mes routines de mouvement",desc:"doux ou défoulant, selon ton énergie",goTab:"mouvement"},
+   outil:{emoji:"🧘‍♀️",label:"Bouger",desc:"doux ou défoulant, selon ton énergie",goTab:"mouvement"},
    accents:{
      metabolique:"bouger évacue le stress ET consomme le glucose : double bénéfice pour toi.",
      androgenique:"décharger le cortisol réduit les androgènes surrénaliens liés au stress.",
@@ -4653,7 +4668,7 @@ const MISSIONS_365 = [
    plus:"associe ce moment à ta Serenitea le soir, si elle est dans ta cure : étirements doux + tisane apaisante + lumière tamisée = un vrai sas de décompression qui prépare ta nuit.",
    observes:["ce soir : un corps plus détendu avant de dormir","dans quelques jours : un endormissement plus facile","sur la durée : un sommeil plus réparateur"],
    victoire:"tu viens de créer un pont physique entre ta journée et ton repos.",
-   outil:{emoji:"🧘‍♀️",label:"Mes routines de mouvement",desc:"des étirements doux du soir",goTab:"mouvement"},
+   outil:{emoji:"🧘‍♀️",label:"Bouger",desc:"des étirements doux du soir",goTab:"mouvement"},
    accents:{
      metabolique:"un meilleur sommeil soutient ta sensibilité à l'insuline du lendemain.",
      androgenique:"calmer le cortisol du soir réduit la stimulation des androgènes surrénaliens.",
@@ -4794,7 +4809,7 @@ const MISSIONS_365 = [
    plus:"si la méditation assise te rebute, la marche consciente est ta porte d'entrée. tu bouges, tu t'apaises, et tu entraînes ton attention — trois bénéfices en une seule marche quotidienne.",
    observes:["aujourd'hui : un esprit plus présent et apaisé","dans quelques jours : un réflexe pour couper les ruminations","sur la durée : une attention plus stable, moins happée par le stress"],
    victoire:"tu viens de transformer une simple marche en méditation anti-stress.",
-   outil:{emoji:"🧘‍♀️",label:"Mes routines de mouvement",desc:"le mouvement doux et conscient",goTab:"mouvement"},
+   outil:{emoji:"🧘‍♀️",label:"Bouger",desc:"le mouvement doux et conscient",goTab:"mouvement"},
    accents:{
      metabolique:"marche + calme = glucose consommé et cortisol apaisé.",
      androgenique:"réduire les ruminations baisse le cortisol et les androgènes surrénaliens.",
@@ -4935,7 +4950,7 @@ const MISSIONS_365 = [
    plus:"la randonnée est un combo parfait : nature, mouvement doux, immersion. mais le meilleur choix, c'est celui que TU aimes — c'est le plaisir qui fait baisser le cortisol, pas l'activité en soi.",
    observes:["cette semaine : une activité plaisir vécue","dans quelques jours : un esprit plus léger","sur la durée : le plaisir comme régulateur de stress"],
    victoire:"tu viens de faire du plaisir un outil anti-stress à part entière.",
-   outil:{emoji:"🧘‍♀️",label:"Mes routines de mouvement",desc:"et toute activité plaisir qui te fait du bien",goTab:"mouvement"},
+   outil:{emoji:"🧘‍♀️",label:"Bouger",desc:"et toute activité plaisir qui te fait du bien",goTab:"mouvement"},
    accents:{
      metabolique:"le plaisir en mouvement baisse le cortisol et soutient ta glycémie.",
      androgenique:"moins de cortisol via le plaisir = moins d'androgènes surrénaliens.",
@@ -5117,7 +5132,7 @@ const MISSIONS_365 = [
    plus:"le 'cycle syncing' n'est pas une règle rigide : c'est une écoute. certains jours, ton corps dira oui à l'intensité, d'autres non. apprendre à suivre ça, c'est la fin de la lutte contre toi-même.",
    observes:["cette semaine : un mouvement plus aligné sur ton énergie","sur quelques cycles : moins d'épuisement et de blessures","sur la durée : un cycle mieux respecté"],
    victoire:"tu viens d'apprendre à bouger avec ton cycle, pas contre lui.",
-   outil:{emoji:"🧘‍♀️",label:"Mes routines de mouvement",desc:"doux ou tonique, selon ta phase",goTab:"mouvement"},
+   outil:{emoji:"🧘‍♀️",label:"Bouger",desc:"doux ou tonique, selon ta phase",goTab:"mouvement"},
    accents:{
      metabolique:"adapter l'effort à ta phase optimise ton levier glycémie sans t'épuiser.",
      androgenique:"éviter le surmenage limite le stress qui amplifie tes androgènes.",
@@ -5258,7 +5273,7 @@ const MISSIONS_365 = [
    plus:"ton corps est ton meilleur guide ici. certaines se sentent mieux en marchant un peu, d'autres en se posant avec une bouillotte. les deux sont des façons justes de respecter ton cycle.",
    observes:["pendant tes règles : une écoute plus juste de ton corps","sur quelques cycles : tu sais ce qui te soulage","sur la durée : un cycle respecté dans toutes ses phases"],
    victoire:"tu viens d'apprendre à honorer ta phase de règles, sans dogme ni culpabilité.",
-   outil:{emoji:"🧘‍♀️",label:"Mes routines de mouvement",desc:"du très doux, pour les jours de règles",goTab:"mouvement"},
+   outil:{emoji:"🧘‍♀️",label:"Bouger",desc:"du très doux, pour les jours de règles",goTab:"mouvement"},
    accents:{
      metabolique:"respecter ta phase de repos évite le stress qui perturbe ta glycémie.",
      androgenique:"ne pas forcer limite le stress qui amplifie tes androgènes.",
@@ -5399,7 +5414,7 @@ const MISSIONS_365 = [
    plus:"la santé osseuse est un enjeu silencieux du SMOP : des cycles longtemps irréguliers (donc des œstrogènes souvent bas) peuvent fragiliser les os. le renforcement musculaire est une de tes meilleures protections, en douceur.",
    observes:["cette semaine : un corps un peu plus fort","sur quelques semaines : une énergie plus stable","sur la durée : un soutien de ton équilibre et de tes os"],
    victoire:"tu viens d'investir dans un allié de fond pour tes hormones et tes os.",
-   outil:{emoji:"🧘‍♀️",label:"Mes routines de mouvement",desc:"du renforcement doux",goTab:"mouvement"},
+   outil:{emoji:"🧘‍♀️",label:"Bouger",desc:"du renforcement doux",goTab:"mouvement"},
    accents:{
      metabolique:"le muscle améliore ta sensibilité à l'insuline en continu : pur levier.",
      androgenique:"meilleure sensibilité à l'insuline = moins d'androgènes, sur la durée.",
@@ -5540,7 +5555,7 @@ const MISSIONS_365 = [
    plus:"tu ne pourras pas tout caler sur ton cycle (la vie a ses contraintes), et ce n'est pas grave. mais chaque fois que tu PEUX honorer ta phase — dire oui à l'élan, t'accorder le repos — tu travailles avec ton corps. c'est un apprentissage de toute une vie.",
    observes:["aujourd'hui : un regard plus doux sur tes variations","sur quelques cycles : une organisation plus alignée","sur la durée : moins de lutte contre ton propre rythme"],
    victoire:"tu viens d'accepter ton énergie cyclique au lieu de la combattre.",
-   outil:{emoji:"🧘‍♀️",label:"Mes routines de mouvement",desc:"adapte selon ta phase",goTab:"mouvement"},
+   outil:{emoji:"🧘‍♀️",label:"Bouger",desc:"adapte selon ta phase",goTab:"mouvement"},
    accents:{
      metabolique:"respecter ton énergie évite le surmenage qui déstabilise ta glycémie.",
      androgenique:"ne pas forcer en phase basse limite le stress qui amplifie tes androgènes.",
@@ -5722,7 +5737,7 @@ const MISSIONS_365 = [
    plus:"un massage doux du cuir chevelu (quelques minutes, du bout des doigts) stimule la microcirculation locale et accompagne le mouvement — un petit geste agréable pour tes cheveux.",
    observes:["cette semaine : une circulation activée","sur quelques semaines : un cuir chevelu mieux nourri","sur la durée : peau et cheveux soutenus par le mouvement"],
    victoire:"tu viens de relier ton mouvement à la santé de ta peau et de tes cheveux.",
-   outil:{emoji:"🧘‍♀️",label:"Mes routines de mouvement",desc:"du doux pour la circulation",goTab:"mouvement"},
+   outil:{emoji:"🧘‍♀️",label:"Bouger",desc:"du doux pour la circulation",goTab:"mouvement"},
    accents:{
      metabolique:"le mouvement améliore l'insuline, levier de ton acné.",
      androgenique:"bouger réduit insuline et stress, deux moteurs de tes symptômes visibles.",
@@ -6145,7 +6160,7 @@ const MISSIONS_365 = [
    plus:"si tu as de l'acné du dos (bacne), c'est souvent de l'acné mécanique/transpiration : les gestes d'après-sport changent beaucoup. le mouvement reste un allié majeur de ta peau, via l'insuline et le stress.",
    observes:["aujourd'hui : un mouvement peau-friendly","sur quelques semaines : moins de boutons d'après-sport","à retenir : bouge librement, nettoie en douceur ensuite"],
    victoire:"tu viens de garder tous les bienfaits du sport pour ta peau, sans ses petits inconvénients.",
-   outil:{emoji:"🧘‍♀️",label:"Mes routines de mouvement",desc:"bouger pour ta peau",goTab:"mouvement"},
+   outil:{emoji:"🧘‍♀️",label:"Bouger",desc:"bouger pour ta peau",goTab:"mouvement"},
    accents:{
      metabolique:"le mouvement améliore ton insuline, levier direct de ta peau.",
      androgenique:"bouger réduit insuline et stress, deux moteurs de ton acné.",
@@ -6689,7 +6704,7 @@ const MISSIONS_365 = [
    plus:"la rétention prémenstruelle est normale et cyclique : la reconnaître évite de t'inquiéter ou de te peser dans cette phase (le chiffre monte avec l'eau, pas avec la graisse). hydratation, mouvement et moins de sel sont tes meilleurs alliés.",
    observes:["aujourd'hui : des leviers simples activés","sur le cycle : une rétention prémenstruelle anticipée","à retenir : hydratation et mouvement font la différence"],
    victoire:"tu viens de reprendre la main sur un inconfort courant — la rétention d'eau a des leviers simples.",
-   outil:{emoji:"🧘‍♀️",label:"Mes routines de mouvement",desc:"activer ta circulation",goTab:"mouvement"},
+   outil:{emoji:"🧘‍♀️",label:"Bouger",desc:"activer ta circulation",goTab:"mouvement"},
    accents:{
      metabolique:"l'excès d'insuline favorise la rétention de sodium : stabiliser ta glycémie aide.",
      androgenique:"les fluctuations hormonales rythment ta rétention : anticipe-la.",
@@ -6830,7 +6845,7 @@ const MISSIONS_365 = [
    plus:"c'est le secret de la constance : quand bouger devient un cadeau pour ton énergie, ton moral et ton futur — et non une corvée pour maigrir — tu le fais naturellement, et tu continues. le plaisir est le meilleur moteur de la durée.",
    observes:["aujourd'hui : un mouvement vu comme un investissement","sur les années : un cœur et un métabolisme protégés","à retenir : tu bouges pour ton futur, pas pour compenser"],
    victoire:"tu viens de libérer le mouvement de la silhouette — tu bouges pour ton cœur de demain.",
-   outil:{emoji:"🧘‍♀️",label:"Mes routines de mouvement",desc:"bouger pour ton futur",goTab:"mouvement"},
+   outil:{emoji:"🧘‍♀️",label:"Bouger",desc:"bouger pour ton futur",goTab:"mouvement"},
    accents:{
      metabolique:"le mouvement est un de tes outils les plus puissants sur l'insuline.",
      androgenique:"bouger améliore l'insuline, donc réduit tes androgènes à long terme.",
@@ -6912,7 +6927,7 @@ const MISSIONS_365 = [
    plus:"teste et observe : si tu as un lecteur de glycémie, tu verras l'effet en direct. sinon, observe ton énergie après le repas (moins de coup de barre). c'est un geste minuscule au rendement énorme, à ancrer en habitude.",
    observes:["aujourd'hui : une marche post-repas testée","sur quelques semaines : des pics de glycémie aplatis, moins de coups de barre","à retenir : 10 min après manger, ton geste le plus rentable"],
    victoire:"tu viens d'adopter le geste mouvement le plus rentable qui soit — la marche après le repas.",
-   outil:{emoji:"🧘‍♀️",label:"Mes routines de mouvement",desc:"la marche digestive",goTab:"mouvement"},
+   outil:{emoji:"🧘‍♀️",label:"Bouger",desc:"la marche digestive",goTab:"mouvement"},
    accents:{
      metabolique:"c'est TON geste star : la marche post-repas aplatit directement ton pic.",
      androgenique:"moins de pic d'insuline après manger = moins d'androgènes stimulés.",
@@ -6929,10 +6944,10 @@ const MISSIONS_365 = [
    source:"la masse musculaire améliore la sensibilité à l'insuline en augmentant le stockage du glucose ; le renforcement est recommandé dans le SMOP (physiologie de l'exercice ; recommandations SMOP).",
    comment:["intègre du renforcement 2-3x/semaine, 10-20 min","plus de muscle = plus grand réservoir à sucre = meilleure insuline 24h/24","pas besoin de lourd : poids du corps, élastiques, pilates","faisable chez toi, sans matériel (squats, gainage, pompes au mur)","cardio doux + renforcement : complémentaires, pas concurrents"],
    pieges:["croire que seul le cardio 'compte'","penser qu'il faut soulever lourd ou aller en salle","négliger un levier qui agit même au repos"],
-   plus:"le renforcement est le levier 'long terme' du mouvement : il améliore ta gestion du sucre en permanence, pas seulement pendant l'effort. commence petit, à la maison, et augmente à ton rythme. ta fiche mouvement te donne des idées d'exercices simples.",
+   plus:"le renforcement est le levier 'long terme' du mouvement : il améliore ta gestion du sucre en permanence, pas seulement pendant l'effort. commence petit, à la maison, et augmente à ton rythme. la séance Renforcement A, dans Bouger, te guide pas à pas.",
    observes:["aujourd'hui : un peu de renforcement testé","sur quelques semaines : un corps plus tonique, une meilleure gestion du sucre","à retenir : ton muscle gère le sucre même au repos"],
    victoire:"tu viens de découvrir un allié durable : tes muscles améliorent ton insuline 24h/24.",
-   outil:{emoji:"🧘‍♀️",label:"Mes routines de mouvement",desc:"du renforcement doux",goTab:"mouvement"},
+   outil:{emoji:"🧘‍♀️",label:"Bouger",desc:"du renforcement doux",goTab:"mouvement"},
    accents:{
      metabolique:"c'est un levier clé pour toi : plus de muscle = meilleure insuline en continu.",
      androgenique:"une meilleure sensibilité à l'insuline réduit tes androgènes, même au repos.",
@@ -7214,7 +7229,7 @@ const MISSIONS_365 = [
    plus:"les étirements sont parfaits les jours de faible énergie : tu bouges, tu relâches, tu apaises ton système nerveux, sans te fatiguer. c'est un pont entre mouvement et détente — idéal pour ton terrain. intègre-les à ton rituel du soir si tu veux.",
    observes:["aujourd'hui : des tensions relâchées","sur quelques semaines : un corps plus souple, moins de tensions chroniques","à retenir : relâcher le corps relâche la tête"],
    victoire:"tu viens de libérer des tensions qui te volaient de l'énergie — le corps et la tête respirent.",
-   outil:{emoji:"🧘‍♀️",label:"Mes routines de mouvement",desc:"étirements doux",goTab:"mouvement"},
+   outil:{emoji:"🧘‍♀️",label:"Bouger",desc:"étirements doux",goTab:"mouvement"},
    accents:{
      metabolique:"relâcher le stress musculaire fait aussi redescendre le cortisol et aide l'insuline.",
      androgenique:"baisser le cortisol via la détente musculaire apaise tes androgènes.",
@@ -7312,10 +7327,10 @@ const MISSIONS_365 = [
    source:"le renforcement du tronc (gainage, plancher pelvien) améliore posture, stabilité et prévient les douleurs (physiologie du mouvement).",
    comment:["renforce ton centre : gainage doux, pilates, respiration engagée","un centre tonique = meilleure posture, moins de mal de dos","le plancher pelvien mérite une attention douce (surtout après grossesse)","pas d'abdos agressifs : le gainage doux est plus sûr et efficace","travaille ta posture au quotidien : te grandir, épaules relâchées"],
    pieges:["négliger ton centre, socle de tout mouvement","faire des abdos agressifs (crunchs) plutôt qu'un gainage doux","oublier le plancher pelvien et la posture"],
-   plus:"si tu as eu des grossesses, un bilan de périnée avec un professionnel (kiné, sage-femme) est précieux : prendre soin de ton plancher pelvien prévient bien des désagréments. ta fiche mouvement te donne des exercices de gainage doux à faire chez toi.",
+   plus:"si tu as eu des grossesses, un bilan de périnée avec un professionnel (kiné, sage-femme) est précieux : prendre soin de ton plancher pelvien prévient bien des désagréments. la séance Gainage & posture, dans Bouger, te guide en douceur.",
    observes:["aujourd'hui : un centre renforcé en douceur","sur quelques semaines : une posture plus solide, moins de tensions","à retenir : un corps bien gainé bouge mieux et fatigue moins"],
    victoire:"tu viens de renforcer ton socle — un centre tonique rend tout mouvement plus aisé.",
-   outil:{emoji:"🧘‍♀️",label:"Mes routines de mouvement",desc:"gainage doux et posture",goTab:"mouvement"},
+   outil:{emoji:"🧘‍♀️",label:"Bouger",desc:"gainage doux et posture",goTab:"mouvement"},
    accents:{
      metabolique:"un centre tonique rend ton mouvement quotidien plus efficace pour ta glycémie.",
      androgenique:"un corps gainé bouge mieux : plus de mouvement, moins d'androgènes.",
@@ -7658,7 +7673,7 @@ const MISSIONS_365 = [
    plus:"c'est un bel argument de plus pour bouger : au-delà de l'insuline et de l'énergie, le mouvement soutient ton élimination naturelle. le yoga et les mouvements doux sont particulièrement agréables pour faire circuler. ton corps draine quand tu bouges.",
    observes:["aujourd'hui : du mouvement pour faire circuler","sur quelques semaines : une circulation et un drainage soutenus","à retenir : le mouvement est l'allié n°1 de ta détox naturelle"],
    victoire:"tu viens de relier le mouvement à ton élimination — bouger, c'est drainer naturellement.",
-   outil:{emoji:"🧘‍♀️",label:"Mes routines de mouvement",desc:"bouger pour faire circuler",goTab:"mouvement"},
+   outil:{emoji:"🧘‍♀️",label:"Bouger",desc:"bouger pour faire circuler",goTab:"mouvement"},
    accents:{
      metabolique:"le mouvement soutient circulation et insuline : double bénéfice.",
      androgenique:"faire circuler aide ton foie à éliminer les androgènes en excès.",
@@ -8790,7 +8805,7 @@ const MISSIONS_365 = [
    plus:"la marche après les repas reste une star : 10 à 15 minutes suffisent à lisser ta glycémie, et donc à soutenir ton cycle.",
    observes:["aujourd'hui : 3 moments de mouvement prévus","à retenir : régulier et modéré > intense et épuisant","sur la durée : un cycle soutenu par le mouvement"],
    victoire:"tu viens de trouver le dosage de mouvement qui soutient ton cycle au lieu de le fatiguer.",
-   outil:{emoji:"🚶‍♀️",label:"Mouvement",desc:"bouger à ton rythme",goTab:"mouvement"},
+   outil:{emoji:"🚶‍♀️",label:"Bouger",desc:"à ton rythme",goTab:"mouvement"},
    accents:{
      metabolique:"le muscle capte le sucre : chaque séance modérée améliore ta sensibilité à l'insuline et soutient ton ovulation.",
      androgenique:"le mouvement modéré aide à faire baisser l'insuline, et donc les androgènes qui freinent ton cycle.",
@@ -9657,7 +9672,7 @@ const MISSIONS_365 = [
    plus:"bouger avec quelqu'un (une amie, un groupe, ton chien) multiplie les chances de continuer. le lien est un moteur puissant.",
    observes:["aujourd'hui : ton mouvement préféré gardé","à retenir : le meilleur sport est celui qui dure","sur la durée : un mouvement qui fait partie de ta vie"],
    victoire:"tu viens de faire du mouvement un plaisir, plus une obligation.",
-   outil:{emoji:"🚶‍♀️",label:"Mouvement",desc:"ton mouvement durable",goTab:"mouvement"},
+   outil:{emoji:"🚶‍♀️",label:"Bouger",desc:"ton mouvement durable",goTab:"mouvement"},
    accents:{
      metabolique:"ajoute un peu de renforcement à ton activité préférée : le muscle est ton allié glycémie.",
      androgenique:"la régularité apaise l'insuline et donc les androgènes : choisis ce qui dure.",
@@ -10352,9 +10367,9 @@ export default function App() {
   const [toast, setToast] = useState(null);
   const [mindsetOpen, setMindsetOpen] = useState(null);
   const [missionOpen, setMissionOpen] = useState(false); // détail de la mission replié par défaut
-  const [adaptOpen, setAdaptOpen] = useState(false); // fenêtre « Adapter ma journée »
-  const [adaptTemps, setAdaptTemps] = useState(10);
-  const [adaptBesoin, setAdaptBesoin] = useState(null);
+  const [replis, setReplis] = useState({}); // parties de l'accueil dépliées
+  const replier = (k)=>setReplis(r=>({...r,[k]:!r[k]}));
+
   const [accompOpen, setAccompOpen] = useState(null); // « Mon espace d'échange » : bloc déplié
   const [bilans, setBilans] = useState(() => load("bilans",[])); // « Faire le point sur mon parcours »
   useEffect(()=>{ save("bilans",bilans); },[bilans]);
@@ -10781,6 +10796,7 @@ export default function App() {
   useEffect(()=>{ save("medQOff",medQOff); },[medQOff]);
   useEffect(()=>{ save("medQCustom",medQCustom); },[medQCustom]);
   useEffect(()=>{ save("medPrioCustom",medPrioCustom); },[medPrioCustom]);
+  useEffect(()=>{ if(scrollAnchor==="coach-mindset"||scrollAnchor==="mot-kamila") setReplis(r=>({...r,echange:true})); },[scrollAnchor]);
   useEffect(()=>{
     if(!scrollAnchor) return;
     const t=setTimeout(()=>{ try{ document.getElementById(scrollAnchor)?.scrollIntoView(scrollAnchor==="action-du-jour"?{block:"start"}:{behavior:"smooth",block:"center"}); }catch(e){} setScrollAnchor(null); },scrollAnchor==="action-du-jour"?120:650);
@@ -11813,6 +11829,7 @@ export default function App() {
             <button onClick={()=>{setTab("medecin");}} style={{width:"100%",display:"flex",alignItems:"center",justifyContent:"center",gap:7,background:C.bubble,border:`1px solid ${C.border}`,borderRadius:13,padding:13,marginTop:6,cursor:"pointer",fontFamily:"inherit",fontSize:11.5,fontWeight:600,color:C.mid}}>
               <Icon name="flask" size={15} color={C.mid}/>ce qu'il faut faire mesurer
             </button>
+            <button onClick={()=>setScreen("profil-select")} style={{display:"block",margin:"12px auto 0",background:"none",border:"none",padding:0,fontFamily:"inherit",fontSize:11,color:C.light,textDecoration:"underline",cursor:"pointer"}}>revoir mon profil</button>
           </div>
           );
         })()}
@@ -11855,7 +11872,7 @@ export default function App() {
                   <button onClick={()=>{ setAccompOpen("coach"); setScrollAnchor("coach-mindset"); }}
                     style={{padding:"8px 14px",borderRadius:99,border:`1.5px solid ${C.border}`,background:C.white,color:C.brown,fontFamily:"inherit",fontSize:12,fontWeight:600,cursor:"pointer"}}>+ autre</button>
                 </div>
-                {sel&&<div style={{fontSize:11,color:C.mid,lineHeight:1.5,marginTop:8}}>{sel.tip}</div>}
+                {sel&&<div style={{fontSize:11,color:C.mid,lineHeight:1.5,marginTop:8}}>{sel.tip}{energie==="basse"&&<> <button onClick={()=>{ setFatigueOpen(true); setFatigueStep(0); }} style={{background:"none",border:"none",padding:0,color:C.terra,fontFamily:"inherit",fontSize:11,fontWeight:700,cursor:"pointer",textDecoration:"underline"}}>comprendre ma fatigue</button></>}</div>}
                 <button onClick={()=>setTab("suivi")} style={{marginTop:6,background:"none",border:"none",padding:0,color:C.light,fontFamily:"inherit",fontSize:10.5,cursor:"pointer",textDecoration:"underline"}}>noter ma journée en détail</button>
               </div>
               );
@@ -11879,8 +11896,8 @@ export default function App() {
               </div>
             )}
 
-            {/* ── Ta priorité du moment (plus d'identité « Profil… » affichée) ── */}
-            {(()=>{
+            {/* ── Ta priorité du moment : quand elle a répondu aux six questions, elle est dans « Mon parcours » ── */}
+            {!perso&&(()=>{
               const prios=PRIORITES_PROFIL[profil]||PRIORITES_PROFIL.metabolique;
               const prio1=prios[0];
               return(
@@ -11890,13 +11907,12 @@ export default function App() {
                     <Icon name="bolt" size={15} color={pc.p}/>
                     <span style={{fontSize:12,fontWeight:700,color:C.brown}}>Ta priorité du moment</span>
                   </div>
-                  <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.4rem",fontWeight:600,color:C.brown,lineHeight:1.2,marginBottom:6}}>{perso&&(perso.priorites||[])[0]?majuscule((PRIOS.find(x=>x[0]===perso.priorites[0])||[])[1]):prio1.t}</div>
-                  <div style={{fontSize:11.5,color:C.mid,lineHeight:1.6,marginBottom:12,maxWidth:"85%"}}>{perso&&(perso.priorites||[])[0]?"c'est toi qui l'as choisie, et ton programme commence par là. "+(moisDe(Math.min(day,365),mois).c===1?"pour l'instant, tu poses ta Fondation.":"en ce moment : "+moisDe(Math.min(day,365),mois).label+"."):"d'après tes réponses, c'est l'axe à explorer en premier. on avance ensemble, un geste à la fois : "+prio1.geste.toLowerCase()+"."}</div>
+                  <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.4rem",fontWeight:600,color:C.brown,lineHeight:1.2,marginBottom:6}}>{prio1.t}</div>
+                  <div style={{fontSize:11.5,color:C.mid,lineHeight:1.6,marginBottom:12,maxWidth:"85%"}}>d'après tes réponses, c'est l'axe à explorer en premier. on avance ensemble, un geste à la fois : {prio1.geste.toLowerCase()}.</div>
                   <button onClick={()=>setModePrio(true)}
                     style={{background:pc.p,border:"none",borderRadius:12,padding:"10px 16px",cursor:"pointer",fontFamily:"inherit",fontSize:12,fontWeight:700,color:"#fff"}}>
                     Voir mes 3 priorités →
                   </button>
-                  {perso&&<button onClick={()=>setTab("carte")} style={{marginLeft:8,background:"none",border:`1.5px solid ${pc.p}`,borderRadius:12,padding:"9px 14px",cursor:"pointer",fontFamily:"inherit",fontSize:12,fontWeight:700,color:pc.p}}>Ma carte</button>}
                   <button onClick={()=>setScreen("profil-select")}
                     style={{display:"block",marginTop:8,background:"none",border:"none",padding:0,cursor:"pointer",fontFamily:"inherit",fontSize:10,color:C.light,textDecoration:"underline"}}>
                     ajuster ma priorité
@@ -11983,16 +11999,16 @@ export default function App() {
               </button>
 
               {/* POURQUOI */}
-              <div style={{marginTop:10}}>
+              {niveau!=="express"&&<div style={{marginTop:10}}>
                 <div style={{fontSize:9,letterSpacing:1,textTransform:"uppercase",color:pc.p,fontWeight:600,marginBottom:4}}>💡 pourquoi — ce qui se passe dans ton corps</div>
                 <div style={{fontSize:11,color:C.mid,lineHeight:1.7,background:C.cream,borderRadius:10,padding:"10px 12px",whiteSpace:"pre-line"}}>{todayData.pourquoi||todayData.biologie}</div>
                 {todayData.source&&niveau==="approfondi"&&(
                   <div style={{fontSize:9,color:C.light,fontStyle:"italic",lineHeight:1.5,marginTop:5,paddingLeft:4}}>📚 {todayData.source}</div>
                 )}
-              </div>
+              </div>}
 
               {/* ACCENT PROFIL */}
-              {todayData._accent&&(
+              {todayData._accent&&niveau!=="express"&&(
                 <div style={{marginTop:10,background:`${pc.p}0E`,border:`1px solid ${pc.p}`,borderRadius:10,padding:"10px 12px"}}>
                   <div style={{fontSize:9,letterSpacing:1,textTransform:"uppercase",color:pc.p,fontWeight:700,marginBottom:3}}>pour ton profil · {pc.label}</div>
                   <div style={{fontSize:11,color:C.brown,lineHeight:1.6}}>{todayData._accent}</div>
@@ -12004,7 +12020,7 @@ export default function App() {
                 <div style={{marginTop:12}}>
                   <div style={{fontSize:9,letterSpacing:1,textTransform:"uppercase",color:pc.p,fontWeight:600,marginBottom:5}}>👣 comment faire concrètement</div>
                   <div style={{background:C.cream,borderRadius:10,padding:"10px 12px"}}>
-                    {todayData.comment.map((c,i)=>(
+                    {todayData.comment.slice(0,niveau==="express"?2:99).map((c,i)=>(
                       <div key={i} style={{display:"flex",gap:8,marginBottom:i<todayData.comment.length-1?6:0,alignItems:"flex-start"}}>
                         <div style={{width:16,height:16,borderRadius:"50%",background:`${pc.p}20`,color:pc.p,fontSize:9,fontWeight:700,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,marginTop:1}}>{i+1}</div>
                         <div style={{fontSize:11,color:C.mid,lineHeight:1.5}}>{c}</div>
@@ -12057,7 +12073,7 @@ export default function App() {
               {todayData.outil&&(
                 <button onClick={()=>{ const ou=todayData.outil; const onglet=ou.goTab||(ou.cible==="analyses"?"analyses":null);
                   if(ou.lien){ try{ window.open(ou.lien,"_blank","noopener"); }catch(e){} } else if(ou.sos){setSosOpen(ou.sos);}
-                  else if(onglet){ setTab(onglet==="mouvement"?"bouger":onglet);
+                  else if(onglet){ if(onglet==="mouvement"&&SEANCE_DE[todayData.theme]) setBougerDepart(SEANCE_DE[todayData.theme]); setTab(onglet==="mouvement"?"bouger":onglet);
                     const ancre=ou.ancre||(onglet!=="kamila"?null:/coach/i.test(ou.label)?"coach-mindset":/mot de Kamila/i.test(ou.desc||"")?"mot-kamila":"mon-parcours");
                     if(ancre==="mot-kamila") setAccompOpen("mot"); if(ancre) setScrollAnchor(ancre); }
                   else {setTab("outils");setOutilOpen(todayData.outil.cible);if(todayData.outil.recherche!==undefined)setFoodSearch(todayData.outil.recherche);if(todayData.outil.cible==="repas"&&todayData.outil.moment)setRepasMoment(todayData.outil.moment);} }}
@@ -12065,7 +12081,7 @@ export default function App() {
                   <div style={{fontSize:26,flexShrink:0,background:"rgba(255,255,255,0.25)",borderRadius:12,width:46,height:46,display:"flex",alignItems:"center",justifyContent:"center"}}>{todayData.outil.emoji}</div>
                   <div style={{flex:1}}>
                     <div style={{fontSize:9,letterSpacing:1,textTransform:"uppercase",color:"rgba(255,255,255,0.9)",marginBottom:2,fontWeight:700}}>👆 appuie pour ouvrir l'outil</div>
-                    <div style={{fontSize:13,fontWeight:700,color:"white",lineHeight:1.2}}>{todayData.outil.label}</div>
+                    <div style={{fontSize:13,fontWeight:700,color:"white",lineHeight:1.2}}>{todayData.outil.label}{todayData.outil.goTab==="mouvement"&&SEANCE_DE[todayData.theme]?" · "+SEANCE_NOM[SEANCE_DE[todayData.theme]]:""}</div>
                     <div style={{fontSize:10,color:"rgba(255,255,255,0.9)",marginTop:1}}>{todayData.outil.desc}</div>
                   </div>
                   <div style={{fontSize:22,color:"white",flexShrink:0,fontWeight:700}}>→</div>
@@ -12087,7 +12103,7 @@ export default function App() {
               <div style={{display:"flex",alignItems:"center",gap:7,marginBottom:8}}>
                 <Icon name="chart" size={15} color={pc.p}/>
                 <span style={{fontFamily:"'Playfair Display',serif",fontSize:"1rem",fontWeight:600,color:C.brown}}>Mon parcours</span>
-                <span style={{marginLeft:"auto",fontSize:10.5,color:C.mid}}>{day>365?"parcours bouclé":"Jour "+day+" sur 365"+(day<=30?" · Fondation":"")}</span>
+                <span style={{marginLeft:"auto",fontSize:10.5,color:C.mid}}>{day>365?"parcours bouclé":"Jour "+day+" sur 365"}</span>
               </div>
               <div style={{height:6,background:C.bubble,borderRadius:99,marginBottom:8,overflow:"hidden"}}>
                 <div style={{height:"100%",width:`${pct}%`,background:`linear-gradient(90deg,${pc.p},${pc.p}CC)`,borderRadius:99,transition:"width 0.4s"}}/>
@@ -12096,8 +12112,14 @@ export default function App() {
                 <span>{completedCount} mission{completedCount>1?"s":""} réalisée{completedCount>1?"s":""} ✓</span>
                 <span>tu avances à ton rythme</span>
               </div>
+              {!postParcours&&(()=>{ const mn=moisDe(Math.min(day,365),mois), ms=mois[mois.indexOf(mn)+1]; const b={flex:1,background:C.mauveSoft,border:"none",borderRadius:11,padding:"10px 6px",fontFamily:"inherit",fontSize:11.5,fontWeight:700,color:C.brown,cursor:"pointer"}; return (<>
+                <div style={{fontSize:11.5,color:C.brown,lineHeight:1.5,marginTop:9}}>{perso&&(perso.priorites||[]).length>0&&<>ta priorité : <strong>{(PRIOS.find(x=>x[0]===perso.priorites[0])||[])[1]}</strong><br/></>}en ce moment : <strong>{mn.label}</strong>{ms&&<> · ensuite : {ms.label}</>}</div>
+                <div style={{display:"flex",gap:8,marginTop:10}}>
+                  {perso&&<button onClick={()=>setPersoOpen(true)} style={b}>ce que j'ai choisi</button>}
+                  <button onClick={()=>setTab("carte")} style={b}>ma carte</button>
+                </div></>); })()}
               {postParcours&&<div style={{marginTop:10,fontSize:11,color:C.mid,lineHeight:1.55,background:`${pc.p}10`,borderRadius:10,padding:"8px 10px"}}><strong style={{color:C.brown}}>Bonus : ton année 2 arrive.</strong> elle est incluse dans ton espace, et tu seras prévenue dès qu'elle arrive. en attendant, un petit geste d'entretien t'attend chaque jour.</div>}
-              {!postParcours&&(
+              {!postParcours&&jourPicker&&(
               <div style={{display:"flex",alignItems:"center",justifyContent:"center",gap:6,marginTop:10}}>
                 <button onClick={()=>voirJour(jourAff-1)} disabled={jourAff<=1} aria-label="jour précédent"
                   style={{flexShrink:0,width:28,height:28,borderRadius:"50%",border:`1.5px solid ${C.border}`,background:C.cream,color:jourAff<=1?C.border:pc.p,fontSize:14,cursor:jourAff<=1?"default":"pointer",fontFamily:"inherit",display:"flex",alignItems:"center",justifyContent:"center"}}>{"‹"}</button>
@@ -12114,7 +12136,7 @@ export default function App() {
               </div>
               )}
               <button onClick={()=>{ setJourPickerMois(100+moisDe(Math.min(jourAff,365),mois).n); setJourPicker(o=>!o); }} aria-expanded={jourPicker}
-                style={{marginTop:8,background:"none",border:"none",padding:0,color:pc.p,fontFamily:"inherit",fontSize:10.5,fontWeight:700,cursor:"pointer"}}>{jourPicker?"fermer":"choisir un jour dans mes 365 jours →"}</button>
+                style={{marginTop:8,background:"none",border:"none",padding:0,color:pc.p,fontFamily:"inherit",fontSize:10.5,fontWeight:700,cursor:"pointer"}}>{jourPicker?"fermer":"revoir un autre jour →"}</button>
               {jourPicker&&(()=>{
                 const sel=jourPickerMois||101; const an=1; const mn=sel%100;
                 const anMax=1;
@@ -12151,18 +12173,8 @@ export default function App() {
               })()}
             </div>); })()}
 
-            {/* ── Adapter ma journée ── */}
-            <button onClick={()=>setAdaptOpen(true)}
-              style={{width:"100%",display:"flex",alignItems:"center",gap:12,background:`linear-gradient(135deg,#D4A56A,${C.terra})`,border:"none",borderRadius:18,padding:"14px",marginBottom:12,cursor:"pointer",fontFamily:"inherit",textAlign:"left",boxShadow:"0 6px 18px rgba(203,154,121,0.35)"}}>
-              <div style={{width:46,height:46,borderRadius:13,background:"rgba(255,255,255,0.85)",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><Icon name="calendar" size={20} color={C.terra}/></div>
-              <div style={{flex:1}}>
-                <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.08rem",fontWeight:600,color:"#fff"}}>Adapter ma journée</div>
-                <div style={{fontSize:10.5,color:"rgba(255,255,255,0.92)",lineHeight:1.4,marginTop:2}}>une idée selon ton énergie, ton temps et ton besoin du moment</div>
-              </div>
-              <div style={{width:34,height:34,borderRadius:"50%",background:"rgba(255,255,255,0.85)",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,color:C.terra,fontSize:16,fontWeight:700}}>→</div>
-            </button>
-
-            {/* ── Les piliers ── */}
+            {/* ── Les piliers : accès direct selon l'envie du moment ── */}
+            <div style={{fontSize:12,fontWeight:700,color:C.brown,margin:"4px 2px 8px"}}>Plutôt envie de…</div>
             <div style={{display:"grid",gridTemplateColumns:"repeat(4,minmax(0,1fr))",gap:8,marginBottom:14}}>
               {[
                 {l:"Nourrir",ic:"leaf",bg:"#FBEDE3",col:"#B97F5C",go:()=>{ setTab("outils"); setOutilCat("alimentation"); setOutilOpen(null); }},
@@ -12182,7 +12194,7 @@ export default function App() {
               const notifsOk = notifPerm==="granted";
               const ajd=dateLocale(); const dem=(()=>{ const d=new Date(); d.setDate(d.getDate()+1); try{ return d.toLocaleDateString("en-CA"); }catch(e){ return d.toISOString().slice(0,10); } })();
               const items=[];
-              if(notifsOk) items.push({h:8,t:day>365?"ton geste d'entretien du jour":"ton message du matin"});
+              if(notifsOk&&load("notif","no")==="yes") items.push({h:8,t:day>365?"ton geste d'entretien du jour":"ton message du matin"});
               if(notifsOk&&rappelsTisanes.actif){ const byM={}; getCureActive(profil,day).forEach(t=>{ const m=tisaneMoment(t.timing); (byM[m]=byM[m]||[]).push(t.nom); });
                 Object.entries(byM).forEach(([m,noms])=>items.push({h:rappelsTisanes[m],t:"tisane : "+[...new Set(noms)].join(", "),fait:[...new Set(noms)].every(n=>(tisanesPrises[ajd]||{})[n])})); }
               (rdvs||[]).forEach(r=>{ if(!r||!r.titre||!r.date) return;
@@ -12193,9 +12205,9 @@ export default function App() {
               let regleTxt=null;
               if(rg.length&&gaps.length>=2&&Math.max(...gaps)-Math.min(...gaps)<=10){ const moy=Math.round(gaps.reduce((p,q)=>p+q,0)/gaps.length); const prev=new Date(rg[rg.length-1]+"T12:00:00"); prev.setDate(prev.getDate()+moy); const dj=Math.round((prev-new Date(ajd+"T12:00:00"))/86400000);
                 if(dj>=0&&dj<=3) regleTxt=(dj===0?"tes règles pourraient arriver aujourd'hui":"tes règles pourraient arriver d'ici "+dj+" jour"+(dj>1?"s":""))+". bouillotte et douceur à portée de main."; }
-              const aActiver = !notifsOk || !rappelsTisanes.actif;
-              if(!items.length&&!regleTxt&&!aActiver) return null;
+              if(!items.length&&!regleTxt) return null;
               return(
+              <Repli C={C} titre="Mes rappels du jour" sous={items.length?items.length+" aujourd'hui":"un repère pour ton cycle"} ouvert={!!replis.rappels} onToggle={()=>replier("rappels")}>
               <div style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:14,padding:"12px 14px",marginBottom:10}}>
                 <div style={{display:"flex",alignItems:"center",gap:7,marginBottom:items.length||regleTxt?8:4}}>
                   <Icon name="calendar" size={14} color={pc.p}/>
@@ -12214,13 +12226,7 @@ export default function App() {
                     <div style={{flex:1,fontSize:11,color:C.brown,lineHeight:1.45}}>{regleTxt}</div>
                   </div>
                 )}
-                {aActiver&&(
-                  <div style={{marginTop:items.length||regleTxt?8:2}}>
-                    <div style={{fontSize:10.5,color:C.mid,lineHeight:1.5,marginBottom:8}}>{!notifsOk?"active tes rappels pour recevoir ton message du matin et tes moments tisane sur ton téléphone.":"active aussi tes rappels tisanes, à l'heure qui te convient."}</div>
-                    <button onClick={()=>setShowAccount(true)} style={{width:"100%",background:pc.p,border:"none",borderRadius:10,padding:"9px",color:"white",fontFamily:"inherit",fontSize:11,fontWeight:700,cursor:"pointer"}}>activer mes rappels</button>
-                  </div>
-                )}
-              </div>
+              </div></Repli>
               );
             })()}
 
@@ -12229,6 +12235,7 @@ export default function App() {
               const cure=getCureActive(profil,day);
               if(cure.length===0) return null;
               return(
+              <Repli C={C} titre="Ma cure du moment" sous={cure.map(t=>t.nom).join(" · ")} ouvert={!!replis.cure} onToggle={()=>replier("cure")}>
               <div style={{background:`linear-gradient(135deg,${C.bubble},#ECD8C4)`,borderRadius:14,padding:"1rem",marginBottom:10,border:`1.5px solid ${pc.p}`}}>
                 <div style={{fontSize:9,letterSpacing:1.5,textTransform:"uppercase",color:pc.p,marginBottom:8,fontWeight:700}}>🍵 Ta cure du moment</div>
                 {todayData.tisane&&(
@@ -12257,11 +12264,12 @@ export default function App() {
                 {!rappelsTisanes.actif&&(
                   <button onClick={()=>setShowAccount(true)} style={{marginTop:8,background:"none",border:"none",padding:0,fontFamily:"inherit",fontSize:10,fontWeight:600,color:pc.p,cursor:"pointer",textDecoration:"underline"}}>me rappeler mes tisanes au bon moment →</button>
                 )}
-              </div>
+              </div></Repli>
               );
             })()}
 
             {/* ── Mon espace d'échange : Kamila, faire le point, demander de l'aide, écrire à l'équipe ── */}
+            <Repli C={C} titre="Échanger et souffler" sous="Kamila, l'équipe, ton humeur, la communauté" ouvert={!!replis.echange} onToggle={()=>replier("echange")}>
             <div style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:18,padding:"14px",marginBottom:10}}>
               <div style={{display:"flex",alignItems:"center",gap:12,paddingBottom:12,marginBottom:4,borderBottom:`1px solid ${C.border}`}}>
                 <div style={{width:46,height:46,borderRadius:"50%",background:C.terra,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><Icon name="heart" size={20} color="#fff"/></div>
@@ -12386,60 +12394,7 @@ export default function App() {
               </span>
               <span style={{fontSize:14,color:pc.p}}>→</span>
             </a>
-
-
-            {/* ── Fenêtre « Adapter ma journée » ── */}
-            {adaptOpen&&(()=>{
-              const heure=new Date().getHours(); const moment=heure<11?"matin":heure<16?"midi":"soir";
-              const temps=adaptTemps||10;
-              const mins=(t)=>{ const m=String(t||"").match(/(\d+)/); return m?parseInt(m[1],10):99; };
-              let idee=null;
-              if(adaptBesoin==="bouger"){ const sid=(temps<=10||energie==="basse")?"mobilite":(temps>=20?"A":"cardio");
-                const S={mobilite:["Mobilité & récupération","un enchaînement doux pour délier le corps, adapté à ton énergie."],cardio:["Cardio doux","du cardio sans impact, à un rythme où tu peux parler."],A:["Renforcement A","6 mouvements pour tout le corps, avec ta séance guidée."]}[sid];
-                idee={t:S[0],d:S[1],go:()=>{ setAdaptOpen(false); setBougerDepart(sid); setTab("bouger"); }}; }
-              if(adaptBesoin==="manger"){ const noms=Object.keys(RECETTES).filter(n=>RECETTES[n].moment===moment&&repasRapide(n)); const n=noms[new Date().getDate()%Math.max(1,noms.length)]||Object.keys(RECETTES)[0];
-                idee={t:n,d:"une idée rapide pour ce "+(moment==="matin"?"matin":moment==="midi"?"midi":"soir")+" : "+(RECETTES[n].temps||""),go:()=>{ setAdaptOpen(false); setRecettePop(n); }}; }
-              if(adaptBesoin==="poser") idee={t:"Souffler quelques minutes",d:"une respiration lente pour faire redescendre la pression, sans rien avoir à réussir.",go:()=>{ setAdaptOpen(false); setSosOpen("stress"); }};
-              if(adaptBesoin==="dormir") idee={t:"Préparer une nuit plus calme",d:"quelques gestes simples pour ce soir.",go:()=>{ setAdaptOpen(false); setSosOpen("insomnie"); }};
-              const chip=(on)=>({padding:"8px 13px",borderRadius:99,border:`1.5px solid ${on?C.terra:C.border}`,background:on?C.terra:C.white,color:on?"#fff":C.brown,fontFamily:"inherit",fontSize:12,fontWeight:600,cursor:"pointer"});
-              const msgE={haute:"belle énergie : on peut viser un peu plus, si tu en as envie.",moyenne:"on garde un rythme doux et réaliste.",basse:"aujourd'hui, le minimum suffit. et si tu ne fais rien, c'est ok aussi."}[energie]||"dis-moi comment tu te sens, je m'adapte.";
-              return(
-              <Portail><div onClick={()=>setAdaptOpen(false)} style={{position:"fixed",inset:0,zIndex:320,background:"rgba(58,42,32,.45)",display:"flex",alignItems:"center",justifyContent:"center",padding:"calc(env(safe-area-inset-top,0px) + 28px) 16px calc(env(safe-area-inset-bottom,0px) + 28px)"}}>
-                <div onClick={e=>e.stopPropagation()} style={{background:C.cream,width:"100%",maxWidth:430,borderRadius:22,padding:"1.2rem",boxShadow:"0 12px 40px rgba(58,42,32,.25)",maxHeight:"100%",overflowY:"auto"}}>
-                  <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:6}}>
-                    <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.2rem",fontWeight:600,color:C.brown}}>Adapter ma journée</div>
-                    <button onClick={()=>setAdaptOpen(false)} aria-label="fermer" style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:"50%",width:30,height:30,cursor:"pointer",color:C.mid,fontFamily:"inherit"}}>✕</button>
-                  </div>
-                  <div style={{fontSize:11.5,color:C.mid,lineHeight:1.5,marginBottom:14}}>{msgE}</div>
-                  <div style={{fontSize:11,fontWeight:700,color:C.brown,marginBottom:7}}>mon énergie</div>
-                  <div style={{display:"flex",gap:7,flexWrap:"wrap",marginBottom:14}}>
-                    {[["haute","plutôt bien"],["moyenne","moyenne"],["basse","fatiguée"]].map(([k,l])=>(<button key={k} onClick={()=>setEnergie(k)} aria-pressed={energie===k} style={chip(energie===k)}>{l}</button>))}
-                  </div>
-                  <div style={{fontSize:11,fontWeight:700,color:C.brown,marginBottom:7}}>le temps que j'ai</div>
-                  <div style={{display:"flex",gap:7,flexWrap:"wrap",marginBottom:14}}>
-                    {[5,10,20].map(m=>(<button key={m} onClick={()=>setAdaptTemps(m)} aria-pressed={temps===m} style={chip(temps===m)}>{m} min</button>))}
-                  </div>
-                  <div style={{fontSize:11,fontWeight:700,color:C.brown,marginBottom:7}}>ce dont j'ai besoin</div>
-                  <div style={{display:"flex",gap:7,flexWrap:"wrap",marginBottom:16}}>
-                    {[["bouger","bouger doucement"],["manger","bien manger"],["poser","me poser"],["dormir","mieux dormir"]].map(([k,l])=>(<button key={k} onClick={()=>setAdaptBesoin(k)} aria-pressed={adaptBesoin===k} style={chip(adaptBesoin===k)}>{l}</button>))}
-                  </div>
-                  {idee?(
-                    <div style={{background:C.white,border:`1.5px solid ${C.terra}`,borderRadius:16,padding:"14px"}}>
-                      <div style={{fontSize:9.5,letterSpacing:1.5,textTransform:"uppercase",color:C.terra,fontWeight:700,marginBottom:4}}>une idée pour toi, facultative</div>
-                      <div style={{fontSize:13.5,fontWeight:700,color:C.brown,marginBottom:4}}>{idee.t}</div>
-                      <div style={{fontSize:11.5,color:C.mid,lineHeight:1.5,marginBottom:12}}>{idee.d}</div>
-                      <button onClick={idee.go} style={{width:"100%",background:C.terra,border:"none",borderRadius:12,padding:"11px",color:"#fff",fontFamily:"inherit",fontSize:12.5,fontWeight:700,cursor:"pointer"}}>j'y vais →</button>
-                    </div>
-                  ):(
-                    <div style={{fontSize:11,color:C.light,textAlign:"center",padding:"6px 0 4px"}}>choisis ce dont tu as besoin, je te propose une idée.</div>
-                  )}
-                  {energie==="basse"&&(
-                    <button onClick={()=>{ setAdaptOpen(false); setFatigueOpen(true); setFatigueStep(0); }} style={{display:"block",margin:"14px auto 0",background:"none",border:"none",color:C.terra,fontFamily:"inherit",fontSize:11.5,fontWeight:700,cursor:"pointer",textDecoration:"underline"}}>comprendre ma fatigue</button>
-                  )}
-                </div>
-              </div></Portail>
-              );
-            })()}
+            </Repli>
 
             {/* ── Fenêtre « Faire le point sur mon parcours » ── */}
             {bilanOpen&&(()=>{
@@ -12452,7 +12407,7 @@ export default function App() {
               ];
               const rep=bilanRep; const setR=(k,v)=>setBilanRep(p=>({...p,[k]:v}));
               const chip=(on)=>({padding:"8px 12px",borderRadius:99,border:`1.5px solid ${on?C.terra:C.border}`,background:on?C.terra:C.white,color:on?"#fff":C.brown,fontFamily:"inherit",fontSize:11.5,fontWeight:600,cursor:"pointer"});
-              const conseil={ "plus de simplicité":"garde une seule action par jour, et utilise « Adapter ma journée » les jours chargés.","plus d'idées repas":"essaie « compose ma semaine pour moi » dans Planifier ma semaine.","bouger davantage":"commence par 10 minutes : ouvre Bouger depuis l'accueil.","mieux dormir":"ouvre ton espace Sommeil et note tes nuits quelques jours.","plus de soutien":"tu peux écrire à l'équipe depuis Mon espace d'échange, et rejoindre la communauté des Cysters." }[rep.besoin];
+              const conseil={ "plus de simplicité":"garde une seule action par jour, et choisis « pas le temps » les jours chargés.","plus d'idées repas":"essaie « compose ma semaine pour moi » dans Planifier ma semaine.","bouger davantage":"commence par 10 minutes : ouvre Bouger depuis l'accueil.","mieux dormir":"ouvre ton espace Sommeil et note tes nuits quelques jours.","plus de soutien":"tu peux écrire à l'équipe depuis Mon espace d'échange, et rejoindre la communauté des Cysters." }[rep.besoin];
               const resume=()=>["Mon point du "+new Date().toLocaleDateString("fr-FR"),"Ressenti : "+(rep.ressenti||"-"),"Le plus facile : "+(rep.facile||"-"),"Le plus difficile : "+(rep.difficile||"-"),"Ce que je veux changer : "+(rep.changer||"-"),"Mon besoin : "+(rep.besoin||"-"),"Jour "+day+" de mon parcours"].join("\n");
               return(
               <Portail><div onClick={()=>setBilanOpen(false)} style={{position:"fixed",inset:0,zIndex:320,background:"rgba(58,42,32,.45)",display:"flex",alignItems:"center",justifyContent:"center",padding:"calc(env(safe-area-inset-top,0px) + 28px) 16px calc(env(safe-area-inset-bottom,0px) + 28px)"}}>
