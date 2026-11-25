@@ -860,7 +860,7 @@ const authErrFr = (msg="") => {
 // Lien de la communauté WhatsApp des Cysters
 const WHATSAPP_URL = "https://chat.whatsapp.com/D3nMeUIpW2N9A2D0cj31u2";
 
-// ─── COACH MINDSET KAMILA ───
+// ─── LES MOTS DE KAMILA, SELON L'HUMEUR ───
 // états émotionnels → message de Kamila (à retoucher par Ghiz, voix authentique)
 const MINDSET = [
   {id:"decouragee", emoji:"😔", label:"découragée",
@@ -1066,7 +1066,7 @@ const SOS_DATA = [
     kamila:"t'es pas en train d'échouer Cyster. t'es en train de traverser quelque chose de difficile. c'est pas la même chose.",
     secret:"le découragement arrive presque toujours au même moment : autour de la 2e-3e semaine, quand l'effort est là mais que les résultats visibles ne sont pas encore arrivés. ce n'est pas que ça ne marche pas — c'est que ton corps change à l'intérieur avant que ça se voie dehors. ce creux est NORMAL et il annonce souvent que le tournant est proche.",
     monMot:"longtemps, j'ai cru que j'étais juste nulle en discipline. je recommençais chaque lundi, puis j'abandonnais — et chaque abandon devenait la preuve que je n'y arriverais jamais. ce que je ne comprenais pas, c'est que je me battais contre quelque chose que personne ne m'avait expliqué. le jour où j'ai découvert le SMOP, j'ai arrêté de me voir comme un échec, et j'ai commencé à me voir comme une femme qui avait enfin une explication. le découragement n'a pas disparu d'un coup. mais j'ai arrêté de confondre une journée difficile avec une vie ratée. aujourd'hui si t'as plus de force, ne pense pas aux 30 prochains jours. pense juste au prochain petit pas.",
-    liens:["ton onglet Journal pour voir ton évolution noir sur blanc","le coach mindset de Kamila quand le moral est bas","tes victoires déjà accomplies cette semaine"]
+    liens:["ton onglet Journal pour voir ton évolution noir sur blanc","les mots de Kamila quand le moral est bas","tes victoires déjà accomplies cette semaine"]
   },
   {
     id:"craquage", emoji:"🍪", titre:"Craquage alimentaire", couleur:"#CB9A79",
@@ -1096,7 +1096,7 @@ const SOS_DATA = [
     kamila:"ce que tu ressens là est réel. et biologique. la cohérence cardiaque n'est pas du yoga — c'est de la neurobiologie appliquée.",
     secret:"le SMOP et le stress s'aggravent mutuellement — c'est une relation bidirectionnelle bien documentée. un cortisol élevé en continu perturbe la glycémie et les hormones. ce n'est pas « juste dans la tête » : agir sur le stress (respiration, sommeil) agit aussi, concrètement, sur ton terrain hormonal.",
     monMot:"longtemps, j'ai cru que j'étais simplement quelqu'un de stressée. avec le recul, je vois surtout un corps qui tirait sur la corde depuis des années : les douleurs, les symptômes, les rendez-vous, les analyses, les inquiétudes. à force, le système d'alarme finit par rester allumé en permanence. le moindre imprévu me vidait, et je culpabilisais de ne pas gérer comme les autres. aujourd'hui je sais que quand un corps lutte depuis longtemps, il devient plus sensible aux signaux de danger. ça ne veut pas dire que tu es faible. ça veut souvent dire que tu es épuisée depuis trop longtemps.",
-    liens:["le coach mindset de Kamila","la fiche SOS \"crise d'angoisse\" si ça monte fort","ton Journal pour relâcher la pression par écrit"]
+    liens:["les mots de Kamila, selon ton humeur","la fiche SOS \"crise d'angoisse\" si ça monte fort","ton Journal pour relâcher la pression par écrit"]
   },
   {
     id:"restaurant", emoji:"🍽️", titre:"Restaurant / sortie", couleur:"#B8C5A0",
@@ -1141,7 +1141,7 @@ const SOS_DATA = [
     kamila:"ton corps n'est pas ton ennemi. il essaie de te dire quelque chose. maintenant tu comprends la langue.",
     secret:"ne plus se reconnaître, ce n'est pas de la coquetterie — c'est l'effet d'une accumulation de symptômes visibles (peau, poils, poids) qui ont tous une même racine hormonale. travailler la cause commune, plutôt que chaque symptôme isolément, est ce qui te fait peu à peu te retrouver. tu n'as pas disparu : tu es enfouie sous des symptômes explicables.",
     monMot:"« je ne me reconnais plus. » cette phrase résume une grande partie de mon histoire. les poils, l'acné, le ventre, le visage gonflé, les sautes d'humeur, les douleurs. à force d'accumuler les symptômes, j'avais l'impression que mon corps devenait quelqu'un d'autre. je regardais les autres filles et je me demandais pourquoi ça semblait tellement plus simple pour elles. ce que je ne savais pas, c'est que je n'avais pas disparu : j'étais simplement enfouie sous des symptômes que personne ne m'avait appris à comprendre. et le jour où j'ai commencé à comprendre mon corps, j'ai commencé à me retrouver. pas parfaitement, pas tout de suite, mais assez pour savoir que je n'étais pas perdue.",
-    liens:["l'encart \"ton parcours, fait pour toi\" sur l'accueil","le coach mindset de Kamila","ton Journal pour mesurer ton évolution réelle"]
+    liens:["l'encart \"ton parcours, fait pour toi\" sur l'accueil","les mots de Kamila, selon ton humeur","ton Journal pour mesurer ton évolution réelle"]
   },
   {
     id:"voyage", emoji:"✈️", titre:"Voyage / déplacement", couleur:"#D4A56A",
@@ -1225,7 +1225,7 @@ const SOS_DATA = [
     kamila:"ce que tu ressens est réel et tu n'exagères pas. mais ça va passer, comme à chaque fois. tu es plus solide que cette vague.",
     secret:"une crise d'angoisse est une fausse alarme du système nerveux — terrifiante sur le coup, mais sans danger réel. le SMOP, via les variations hormonales et un cortisol souvent élevé, rend ce système plus réactif. l'expiration longue (plus longue que l'inspiration) envoie au cerveau le signal physiologique que la menace est passée.",
     monMot:"je me souviens surtout de cette sensation de perdre le contrôle. le cœur qui s'emballe, la poitrine serrée, l'impression qu'il se passe quelque chose de grave — et plus tu essaies de te calmer, plus ton corps semble paniquer. quand ça m'arrivait, je croyais parfois avoir un vrai problème physique grave. puis j'ai compris qu'une crise d'angoisse est souvent un système d'alarme qui se déclenche au mauvais moment. sur le coup c'est terrifiant, mais ça ne définit pas qui tu es, et ça ne veut pas dire que tu deviens folle. aujourd'hui encore, quand mon corps me lance ce signal, j'essaie de me rappeler une chose : ce que je ressens est réel, mais le danger que mon cerveau imagine ne l'est pas forcément.",
-    liens:["le coach mindset de Kamila","la fiche SOS \"stress aigu\"","ton Journal pour poser ce que tu ressens"]
+    liens:["les mots de Kamila, selon ton humeur","la fiche SOS \"stress aigu\"","ton Journal pour poser ce que tu ressens"]
   },
   {
     id:"solitude", emoji:"🤍", titre:"Je me sens seule", couleur:"#C2AEBA",
@@ -1240,7 +1240,7 @@ const SOS_DATA = [
     kamila:"tu te sens seule, mais tu ne l'es pas. il existe toute une communauté de femmes qui vivent exactement ce que tu traverses — tu peux t'y appuyer, dès maintenant.",
     secret:"le sentiment de solitude vient du fait que le SMOP est invisible et incompris — ce n'est pas « dans ta tête », c'est une charge réelle. et 70% des femmes concernées ignorent même qu'elles l'ont. tu fais partie d'une immense communauté silencieuse. mettre des mots et partager, c'est ce qui allège le plus vite ce poids.",
     monMot:"le pire avec le SMOP, ce ne sont pas toujours les symptômes. c'est parfois le sentiment que personne ne comprend vraiment. les autres voient les boutons, les poils, le poids — mais pas les heures passées à chercher des réponses, les analyses, les rendez-vous, les inquiétudes, les larmes. longtemps je me suis sentie seule. puis j'ai découvert d'autres femmes qui vivaient exactement la même chose, et ça a changé quelque chose d'immense. parce qu'à partir du moment où quelqu'un met des mots sur ce que tu vis, tu te sens un peu moins seule à le porter.",
-    liens:["la communauté Cysters","le coach mindset de Kamila","ton Journal pour déposer ce que tu portes"]
+    liens:["la communauté Cysters","les mots de Kamila, selon ton humeur","ton Journal pour déposer ce que tu portes"]
   },
 ];
 
@@ -1877,7 +1877,7 @@ pieges:["croire que « gérer son stress » est secondaire : c'est une racine, p
 plus:"les moments où j'en ai le moins envie sont souvent ceux où j'en ai le plus besoin. 5 minutes de respiration avant un rendez-vous stressant, ou le soir quand ma tête tourne, et je sens physiquement la pression redescendre. c'est gratuit, ça marche, et personne ne le prescrit.",
 observes:["dès aujourd'hui : un apaisement immédiat après la séance","dans quelques jours : une réactivité au stress un peu moindre","au long cours : un cortisol mieux régulé, un terrain plus calme"],
 victoire:"tu viens d'agir sur une des vraies racines de ton inflammation : le stress.",
-outil:{emoji:"🤍",label:"Le coach mindset de Kamila",desc:"quand le moral ou le stress montent",goTab:"kamila",ancre:"coach-mindset"},
+outil:{emoji:"🤍",label:"Les mots de Kamila, selon ton humeur",desc:"quand le moral ou le stress montent",goTab:"kamila",ancre:"coach-mindset"},
 tisane:{nom:"Serenitea",timing:"le soir au coucher",lien:"https://sopklife.com/products/serenitea-detente-absolue",texte:"la Serenitea est ta tisane anti-stress : l'ashwagandha aide à réguler le cortisol, en complément direct de ta respiration du jour. le soir, en rituel."}},
 
   {day:25,emoji:"🌅",theme:"ancrer l'habitude",
@@ -2089,7 +2089,7 @@ pieges:["croire que « gérer son stress » est secondaire : c'est une source d'
 plus:"si ton stress est vraiment dominant (réveils à 3h, tension permanente, épuisement surrénalien), la Serenitea est la tisane pensée pour ce mécanisme précis — l'ashwagandha aide à réguler le cortisol. c'est une option à envisager en plus de ton protocole, selon ton ressenti.",
 observes:["dès aujourd'hui : un apaisement immédiat après la séance","dans quelques jours : une réactivité au stress un peu moindre","au fil des semaines : un cortisol mieux régulé = moins d'androgènes surrénaliens"],
 victoire:"tu viens d'agir sur une source de tes androgènes que personne ne t'avait expliquée.",
-outil:{emoji:"🤍",label:"Le coach mindset de Kamila",desc:"quand le stress monte",goTab:"kamila",ancre:"coach-mindset"},
+outil:{emoji:"🤍",label:"Les mots de Kamila, selon ton humeur",desc:"quand le stress monte",goTab:"kamila",ancre:"coach-mindset"},
 tisane:{nom:"Équilibre Féminin",timing:"milieu de journée",lien:"https://sopklife.com/products/cure-sopk-equilibre-feminin",texte:"l'Équilibre Féminin contient de la mélisse, un adaptogène doux qui aide à réguler l'axe du stress (HPA) — un soutien direct sur ton versant surrénalien."}},
 
   {day:11,emoji:"🧘‍♀️",theme:"bouger sans relancer tes androgènes",
@@ -2271,7 +2271,7 @@ pieges:["croire que c'est « réglé » après quelques séances : c'est une pra
 plus:"les habitudes anti-stress sont les plus faciles à laisser tomber, parce qu'on ne « voit » pas leur effet immédiatement. mais sur ton profil, elles agissent sur une vraie source d'androgènes. traite-les comme un levier hormonal, pas comme un bonus détente.",
 observes:["aujourd'hui : une pratique plus naturelle qu'il y a 2 semaines","au fil des semaines : une réactivité au stress réduite","au long cours : un cortisol et des androgènes surrénaliens mieux régulés"],
 victoire:"tu viens d'ancrer une habitude qui agit directement sur tes androgènes surrénaliens.",
-outil:{emoji:"🤍",label:"Le coach mindset de Kamila",desc:"quand le stress monte",goTab:"kamila",ancre:"coach-mindset"},
+outil:{emoji:"🤍",label:"Les mots de Kamila, selon ton humeur",desc:"quand le stress monte",goTab:"kamila",ancre:"coach-mindset"},
 tisane:{nom:"Équilibre Féminin",timing:"milieu de journée",lien:"https://sopklife.com/products/cure-sopk-equilibre-feminin",texte:"la mélisse de l'Équilibre Féminin soutient ton axe du stress au quotidien — et si le stress domine vraiment, la Serenitea est l'option à envisager en plus."}},
 
   {day:25,emoji:"🌅",theme:"ancrer l'habitude",
@@ -2444,7 +2444,7 @@ const MISSIONS_MIXTE_MI = [
    plus:"sur un profil mixte, le stress est souvent le fil qui relie tes deux versants. en l'apaisant, tu agis sur l'insuline et sur l'inflammation en même temps. c'est un des leviers les plus rentables pour toi.",
    observes:["dès aujourd'hui : un apaisement immédiat après la séance","dans quelques jours : une réactivité au stress moindre","au fil des semaines : insuline et inflammation mieux régulées"],
    victoire:"tu viens d'agir sur un carburant commun à tes deux moteurs : le stress.",
-   outil:{emoji:"🤍",label:"Le coach mindset de Kamila",desc:"quand le stress monte",goTab:"kamila",ancre:"coach-mindset"},
+   outil:{emoji:"🤍",label:"Les mots de Kamila, selon ton humeur",desc:"quand le stress monte",goTab:"kamila",ancre:"coach-mindset"},
    tisane:_tSer("aujourd'hui on ajoute la Serenitea le soir : l'ashwagandha aide à réguler le cortisol, le point commun de tes deux versants. en rituel du soir.")},
   {...MISSIONS_INFLA[9], tisane:null},
   {...MISSIONS_INFLA[11], tisane:null},
@@ -2511,7 +2511,7 @@ const MISSIONS_MIXTE_AI = [
    plus:"sur un profil mixte androgénique + inflammatoire, le stress est le fil qui relie tes deux problèmes. en l'apaisant, tu agis sur tes androgènes surrénaliens et sur ton inflammation en même temps.",
    observes:["dès aujourd'hui : un apaisement immédiat","dans quelques jours : une réactivité au stress moindre","au fil des semaines : androgènes surrénaliens et inflammation mieux régulés"],
    victoire:"tu viens d'agir sur une racine commune à tes deux versants : le stress.",
-   outil:{emoji:"🤍",label:"Le coach mindset de Kamila",desc:"quand le stress monte",goTab:"kamila",ancre:"coach-mindset"},
+   outil:{emoji:"🤍",label:"Les mots de Kamila, selon ton humeur",desc:"quand le stress monte",goTab:"kamila",ancre:"coach-mindset"},
    tisane:_tSer("aujourd'hui on ajoute la Serenitea le soir : l'ashwagandha régule le cortisol, le point commun de tes deux versants. en rituel du soir.")},
   {...MISSIONS_INFLA[9], tisane:null},
   {..._adapte(MISSIONS_ANDRO[11],_andro21), tisane:null},
@@ -3211,7 +3211,7 @@ const _sante=(desc)=>({emoji:"👩‍⚕️",label:"Ton espace Santé",desc,goTa
 const _sos=(id,label,desc)=>({emoji:"🆘",label,desc,sos:id});
 const _tis=(desc)=>({emoji:"🌿",label:"Compléments & tisanes",desc,cible:"complements"});
 const _ancre=(desc)=>({emoji:"🤍",label:"Mon ancrage",desc,goTab:"ancrage"});
-const _coach=(desc)=>({emoji:"🤍",label:"Le coach mindset de Kamila",desc,goTab:"kamila",ancre:"coach-mindset"});
+const _coach=(desc)=>({emoji:"🤍",label:"Les mots de Kamila, selon ton humeur",desc,goTab:"kamila",ancre:"coach-mindset"});
 const _journee=(desc)=>({emoji:"✅",label:"Ta journée",desc,goTab:"suivi"});
 const OUTILS_PAR_THEME = {
   "lire ses fringales comme des données":_sos("fringale","Ta fiche SOS fringale","quoi faire quand l'envie monte"),
@@ -3377,7 +3377,7 @@ const MISSIONS_365 = [
    plus:"mon réflexe anti-fringale de stress : l'expiration longue (inspire 4s, expire 6s) pendant 2 minutes. ça fait redescendre le cortisol, et souvent l'envie de sucre avec.",
    observes:["aujourd'hui : tu identifies une fringale « de stress »","dans quelques jours : tu la vois venir et tu la désamorces","dans 2 semaines : moins de craquages dans les moments durs"],
    victoire:"tu viens de relier ton stress et ta glycémie — un angle mort que personne ne t'explique.",
-   outil:{emoji:"🤍",label:"Le coach mindset de Kamila",desc:"quand le stress monte",goTab:"kamila"},
+   outil:{emoji:"🤍",label:"Les mots de Kamila, selon ton humeur",desc:"quand le stress monte",goTab:"kamila"},
    accents:{
      metabolique:"même avec une assiette parfaite, ton stress peut saboter ta glycémie : ce jour-là complète ton levier.",
      androgenique:"le cortisol pousse aussi tes surrénales à produire des androgènes — gérer ton stress agit sur deux fronts.",
@@ -3659,7 +3659,7 @@ const MISSIONS_365 = [
    plus:"si tu es très sensible au stress, teste une matinée sans café, ou un café plus léger. parfois, l'énergie 'stable' qu'on cherche vient justement d'un cortisol moins fouetté.",
    observes:["ce matin : une énergie peut-être plus posée","dans quelques jours : moins de nervosité matinale","dans 2 semaines : un rapport au café plus conscient"],
    victoire:"tu viens d'ajuster un geste quotidien que personne ne relie jamais à ton SMOP.",
-   outil:{emoji:"🤍",label:"Le coach mindset de Kamila",desc:"apaiser ton système nerveux",goTab:"kamila"},
+   outil:{emoji:"🤍",label:"Les mots de Kamila, selon ton humeur",desc:"apaiser ton système nerveux",goTab:"kamila"},
    accents:{
      metabolique:"le café à jeun pique ta glycémie via le cortisol : le décaler protège ton levier.",
      androgenique:"moins de cortisol = moins de stimulation des androgènes surrénaliens.",
@@ -3800,7 +3800,7 @@ const MISSIONS_365 = [
    plus:"mon moment préféré : le matin au réveil ou avant de dormir. c'est un rendez-vous avec moi-même qui change toute la tonalité de ma journée.",
    observes:["aujourd'hui : un apaisement en quelques minutes","dans quelques jours : un outil que tu dégaines dans les moments tendus","dans 2 semaines : un système nerveux plus posé"],
    victoire:"tu as maintenant un outil anti-stress gratuit, toujours sur toi.",
-   outil:{emoji:"🤍",label:"Le coach mindset de Kamila",desc:"pour les moments où ça monte",goTab:"kamila"},
+   outil:{emoji:"🤍",label:"Les mots de Kamila, selon ton humeur",desc:"pour les moments où ça monte",goTab:"kamila"},
    accents:{
      metabolique:"moins de cortisol = glycémie plus stable : la respiration est un vrai geste métabolique.",
      androgenique:"apaiser ton stress réduit les androgènes d'origine surrénalienne.",
@@ -3860,7 +3860,7 @@ const MISSIONS_365 = [
    plus:"une question qui recentre : 'est-ce que cette comparaison m'inspire, ou est-ce qu'elle me vole mon énergie ?' si c'est la deuxième, tu as le droit de détourner le regard.",
    observes:["aujourd'hui : une comparaison désamorcée","dans quelques jours : un regard plus tourné vers ton chemin","sur la durée : une motivation qui ne dépend plus des autres"],
    victoire:"tu viens de reprendre à la comparaison l'énergie qu'elle te volait.",
-   outil:{emoji:"🤍",label:"Le coach mindset de Kamila",desc:"revenir à toi quand ça vacille",goTab:"kamila"},
+   outil:{emoji:"🤍",label:"Les mots de Kamila, selon ton humeur",desc:"revenir à toi quand ça vacille",goTab:"kamila"},
    accents:{
      metabolique:"ton terrain a son rythme : le comparer à un autre n'a aucun sens métaboliquement.",
      androgenique:"les symptômes visibles (peau, pilosité) nourrissent la comparaison : reviens à TON évolution.",
@@ -3982,7 +3982,7 @@ const MISSIONS_365 = [
    plus:"la Serenitea, dans ta cure, est justement pensée pour ce cercle stress-inflammation (ashwagandha, passiflore). le soir, elle accompagne ce moment de retour au calme.",
    observes:["aujourd'hui : un moment de vraie pause","dans quelques jours : un système nerveux plus posé","sur la durée : un cercle stress-inflammation qui se desserre"],
    victoire:"tu viens de transformer 10 minutes de calme en geste anti-inflammatoire.",
-   outil:{emoji:"🤍",label:"Le coach mindset de Kamila",desc:"revenir au calme quand ça monte",goTab:"kamila"},
+   outil:{emoji:"🤍",label:"Les mots de Kamila, selon ton humeur",desc:"revenir au calme quand ça monte",goTab:"kamila"},
    accents:{
      metabolique:"moins de cortisol = inflammation et glycémie plus calmes : le repos sert ton levier aussi.",
      androgenique:"apaiser le stress réduit l'inflammation ET les androgènes surrénaliens : double bénéfice.",
@@ -4123,7 +4123,7 @@ const MISSIONS_365 = [
    plus:"combine deux anti-inflammatoires d'un coup : une marche douce DANS la nature. mouvement + vert + lumière = un cocktail apaisant que rien ne remplace.",
    observes:["aujourd'hui : un apaisement après être sortie","dans quelques jours : l'envie de recommencer","sur la durée : un cortisol et un terrain plus calmes"],
    victoire:"tu viens de t'offrir le soin anti-inflammatoire le plus simple et le plus oublié.",
-   outil:{emoji:"🤍",label:"Le coach mindset de Kamila",desc:"revenir à soi, en douceur",goTab:"kamila"},
+   outil:{emoji:"🤍",label:"Les mots de Kamila, selon ton humeur",desc:"revenir à soi, en douceur",goTab:"kamila"},
    accents:{
      metabolique:"moins de cortisol et un meilleur sommeil soutiennent ta glycémie, en plus du calme.",
      androgenique:"baisser le cortisol réduit les androgènes surrénaliens : la nature y contribue.",
@@ -4445,7 +4445,7 @@ const MISSIONS_365 = [
    plus:"la communauté des Cysters est là pour ça : un espace où tu es comprise sans jugement. depuis une fiche SOS, le lien t'y emmène directement. un message, même court, peut alléger ta journée.",
    observes:["aujourd'hui : un lien tendu vers l'extérieur","dans quelques jours : moins de poids porté seule","sur la durée : un soutien qui apaise ton terrain"],
    victoire:"tu viens de transformer 'tout porter seule' en 'je m'entoure' — une vraie force.",
-   outil:{emoji:"🤍",label:"Le coach mindset de Kamila",desc:"et la communauté, quand c'est lourd",goTab:"kamila"},
+   outil:{emoji:"🤍",label:"Les mots de Kamila, selon ton humeur",desc:"et la communauté, quand c'est lourd",goTab:"kamila"},
    accents:{
      metabolique:"moins d'isolement = moins de stress = soutien indirect de ta glycémie.",
      androgenique:"réduire le stress social diminue les androgènes surrénaliens liés à la charge mentale.",
@@ -4567,7 +4567,7 @@ const MISSIONS_365 = [
    plus:"l'expiration longue est ton outil d'urgence, toujours disponible. 6 respirations lentes (expiration allongée) suffisent souvent à faire basculer ton corps du mode stress au mode calme. gratuit, invisible, puissant.",
    observes:["aujourd'hui : un apaisement en quelques respirations","dans quelques jours : un interrupteur que tu actionnes plus vite","sur la durée : un système nerveux plus souple"],
    victoire:"tu viens de découvrir l'interrupteur du calme que tu as toujours eu sur toi.",
-   outil:{emoji:"🤍",label:"Le coach mindset de Kamila",desc:"des outils pour revenir au calme",goTab:"kamila"},
+   outil:{emoji:"🤍",label:"Les mots de Kamila, selon ton humeur",desc:"des outils pour revenir au calme",goTab:"kamila"},
    accents:{
      metabolique:"activer le calme fait baisser le cortisol et soutient ta glycémie.",
      androgenique:"moins de cortisol = moins d'androgènes surrénaliens : le nerf vague y aide.",
@@ -4708,7 +4708,7 @@ const MISSIONS_365 = [
    plus:"ta Serenitea le soir est pensée pour ce moment : crée un vrai rituel autour d'elle — t'asseoir, poser le téléphone, sentir la vapeur. 'revenir à soi' avant de dormir.",
    observes:["ce soir : un endormissement peut-être plus doux","dans quelques jours : moins de ruminations au coucher","sur la durée : un sommeil de meilleure qualité"],
    victoire:"tu viens de créer la transition qui manquait entre ta journée et ta nuit.",
-   outil:{emoji:"🤍",label:"Le coach mindset de Kamila",desc:"des rituels pour décompresser",goTab:"kamila"},
+   outil:{emoji:"🤍",label:"Les mots de Kamila, selon ton humeur",desc:"des rituels pour décompresser",goTab:"kamila"},
    accents:{
      metabolique:"un meilleur sommeil soutient ta glycémie du lendemain.",
      androgenique:"baisser le cortisol du soir réduit les androgènes surrénaliens.",
@@ -4990,7 +4990,7 @@ const MISSIONS_365 = [
    plus:"si tu ne peux pas siester, la 'sieste flash' — 5 minutes assise, les yeux fermés, à respirer — apaise déjà ton système nerveux. le repos n'a pas besoin d'être long pour compter.",
    observes:["aujourd'hui : un reset en milieu de journée","dans quelques jours : une énergie d'après-midi plus stable","sur la durée : un système nerveux qui récupère mieux"],
    victoire:"tu viens de t'autoriser un reset sans culpabilité.",
-   outil:{emoji:"🤍",label:"Le coach mindset de Kamila",desc:"s'autoriser la pause",goTab:"kamila"},
+   outil:{emoji:"🤍",label:"Les mots de Kamila, selon ton humeur",desc:"s'autoriser la pause",goTab:"kamila"},
    accents:{
      metabolique:"le repos soutient ta sensibilité à l'insuline et calme le cortisol.",
      androgenique:"récupérer baisse le cortisol et les androgènes surrénaliens.",
@@ -5655,7 +5655,7 @@ const MISSIONS_365 = [
    plus:"si ce sujet réveille des émotions fortes, c'est normal, et tu n'as pas à les porter seule : en parler (à la communauté, à une personne de confiance, parfois à un professionnel) fait partie du soin. ta relation à ton corps se répare aussi, doucement.",
    observes:["aujourd'hui : un pas vers la paix avec ton cycle","dans quelques semaines : moins de charge émotionnelle","sur la durée : une relation apaisée à ton corps de femme"],
    victoire:"tu viens de faire un pas pour réconcilier ton cycle et ton identité de femme.",
-   outil:{emoji:"🤍",label:"Le coach mindset de Kamila",desc:"faire la paix avec ton corps",goTab:"kamila"},
+   outil:{emoji:"🤍",label:"Les mots de Kamila, selon ton humeur",desc:"faire la paix avec ton corps",goTab:"kamila"},
    accents:{
      metabolique:"apaiser ta relation au corps réduit le stress qui déstabilise ta glycémie.",
      androgenique:"faire la paix avec ton corps allège le poids des symptômes visibles.",
@@ -5777,7 +5777,7 @@ const MISSIONS_365 = [
    plus:"le cercle 'ma peau me stresse / le stress abîme ma peau' est réel. le casser passe autant par le soin de ta peau que par l'apaisement de ton mental. ta Serenitea ou tes gestes anti-stress soignent ta peau de l'intérieur.",
    observes:["aujourd'hui : un geste anti-stress au service de ta peau","sur quelques semaines : moins de poussées liées au stress","sur la durée : un cercle stress-peau qui se desserre"],
    victoire:"tu viens de relier ton stress à ta peau — et d'agir sur les deux.",
-   outil:{emoji:"🤍",label:"Le coach mindset de Kamila",desc:"apaiser le stress qui marque ta peau",goTab:"kamila"},
+   outil:{emoji:"🤍",label:"Les mots de Kamila, selon ton humeur",desc:"apaiser le stress qui marque ta peau",goTab:"kamila"},
    accents:{
      metabolique:"le cortisol aggrave insuline et acné : l'apaiser sert ta peau et ta glycémie.",
      androgenique:"le stress stimule les androgènes qui marquent ta peau : clé pour ton profil.",
@@ -6280,7 +6280,7 @@ const MISSIONS_365 = [
    plus:"la communauté WhatsApp des Cysters est là pour ça : un espace où tu peux parler sans honte de ce que tu ne dis à personne. une astuce partagée, un 'moi aussi' reçu, et la charge s'allège. tu y as ta place.",
    observes:["aujourd'hui : un mot partagé, un isolement brisé","sur la durée : un soutien qui allège et déstresse","à retenir : parler à celles qui comprennent change tout"],
    victoire:"tu viens de briser un peu le silence — et de te rappeler que tu n'es pas seule.",
-   outil:{emoji:"💬",label:"Le coach mindset de Kamila",desc:"et la communauté des Cysters",goTab:"kamila"},
+   outil:{emoji:"💬",label:"Les mots de Kamila, selon ton humeur",desc:"et la communauté des Cysters",goTab:"kamila"},
    accents:{
      metabolique:"partager allège le stress qui pèse aussi sur ta glycémie.",
      androgenique:"tes symptômes visibles sont isolants : en parler soulage vraiment.",
@@ -6463,7 +6463,7 @@ const MISSIONS_365 = [
    plus:"stabiliser ta glycémie et apaiser ton inflammation aident souvent l'humeur, parce que tout est relié. mais si l'anxiété ou la tristesse prennent trop de place, en parler à un professionnel (médecin, psychologue) n'est pas un aveu de faiblesse : c'est prendre soin d'une partie réelle de ton SMOP.",
    observes:["aujourd'hui : ton humeur accueillie sans jugement","sur quelques semaines : une humeur qui se lisse avec la glycémie","à retenir : ton moral fait partie de ton SMOP, il mérite soin"],
    victoire:"tu viens de déculpabiliser ton humeur — ce n'est pas une faiblesse, c'est une vraie part de ton SMOP.",
-   outil:{emoji:"🤍",label:"Le coach mindset de Kamila",desc:"prendre soin de ton moral",goTab:"kamila"},
+   outil:{emoji:"🤍",label:"Les mots de Kamila, selon ton humeur",desc:"prendre soin de ton moral",goTab:"kamila"},
    accents:{
      metabolique:"tes montagnes russes de glycémie font tanguer ton humeur : les lisser aide.",
      androgenique:"les fluctuations hormonales pèsent sur ton moral.",
@@ -6865,7 +6865,7 @@ const MISSIONS_365 = [
    plus:"donner du sens à ton parcours en aidant une autre femme est l'un des plus beaux cadeaux que tu peux te faire à toi aussi. ce que tu as traversé n'était pas vain : il peut éclairer le chemin d'une autre. c'est tout l'esprit des Cysters.",
    observes:["aujourd'hui : un savoir partagé, une graine semée","sur la durée : du sens donné à ton propre parcours","à retenir : informer, c'est aider — et te relier"],
    victoire:"tu viens peut-être d'aider une femme à se reconnaître — ton savoir est devenu un cadeau.",
-   outil:{emoji:"💬",label:"Le coach mindset de Kamila",desc:"et la communauté des Cysters",goTab:"kamila"},
+   outil:{emoji:"💬",label:"Les mots de Kamila, selon ton humeur",desc:"et la communauté des Cysters",goTab:"kamila"},
    accents:{
      metabolique:"partage ce que tu as compris sur l'insuline : ça peut éclairer une proche.",
      androgenique:"tes symptômes androgéniques expliqués peuvent aider une femme à se reconnaître.",
@@ -6967,7 +6967,7 @@ const MISSIONS_365 = [
    plus:"c'est libérateur : tu n'as pas besoin de souffrir pour que ça marche. au contraire, pour ton SMOP, le mouvement doux et régulier est souvent plus efficace que l'intensité épuisante. écoute ton corps plutôt qu'un programme générique.",
    observes:["aujourd'hui : une attention au juste dosage","sur quelques semaines : un mouvement qui revigore au lieu d'épuiser","à retenir : la régularité douce bat l'intensité épuisante"],
    victoire:"tu viens d'apprendre à doser : te faire du bien sans te vider — le secret du mouvement anti-SMOP.",
-   outil:{emoji:"🤍",label:"Le coach mindset de Kamila",desc:"écouter ton corps, pas l'ego",goTab:"kamila"},
+   outil:{emoji:"🤍",label:"Les mots de Kamila, selon ton humeur",desc:"écouter ton corps, pas l'ego",goTab:"kamila"},
    accents:{
      metabolique:"trop d'intensité élève le cortisol qui aggrave ton insuline : dose juste.",
      androgenique:"le stress de l'excès stimule tes androgènes : privilégie le doux régulier.",
@@ -7125,10 +7125,10 @@ const MISSIONS_365 = [
    source:"l'activité physique régulière réduit les symptômes anxieux et dépressifs via les endorphines et d'autres mécanismes (littérature santé mentale et exercice).",
    comment:["sache que bouger est un anti-déprime naturel documenté","les jours bas, un tout petit mouvement peut desserrer l'étau","pas de performance : 5 min de marche, étirements, une chanson dansée","le plus dur est de commencer : une fois lancée, le corps aide","sois douce : certains jours mouvement, d'autres repos — les deux sont ok"],
    pieges:["te forcer durement quand tu vas mal (contre-productif)","culpabiliser si tu n'arrives pas à bouger un jour bas","oublier que le mouvement est une ressource pour ton moral"],
-   plus:"garde ça comme un outil dans ta trousse, sans en faire une obligation : les jours gris, te rappeler que 5 minutes de mouvement peuvent aider est déjà précieux. le coach mindset de Kamila peut t'accompagner les jours difficiles.",
+   plus:"garde ça comme un outil dans ta trousse, sans en faire une obligation : les jours gris, te rappeler que 5 minutes de mouvement peuvent aider est déjà précieux. les mots de Kamila peuvent t'accompagner les jours difficiles.",
    observes:["aujourd'hui : le mouvement reconnu comme allié du moral","sur la durée : une ressource de plus les jours bas","à retenir : bouger un peu soigne le moral autant que le corps"],
    victoire:"tu viens d'ajouter un allié à ta trousse des jours gris — le mouvement, anti-déprime naturel.",
-   outil:{emoji:"🤍",label:"Le coach mindset de Kamila",desc:"t'accompagner les jours bas",goTab:"kamila"},
+   outil:{emoji:"🤍",label:"Les mots de Kamila, selon ton humeur",desc:"t'accompagner les jours bas",goTab:"kamila"},
    accents:{
      metabolique:"bouger un peu stabilise aussi ta glycémie, qui influence ton humeur.",
      androgenique:"le mouvement soutient l'humeur que tes fluctuations hormonales malmènent.",
@@ -7269,7 +7269,7 @@ const MISSIONS_365 = [
    plus:"la communauté des Cysters peut aussi être un moteur : se motiver, se lancer des défis, partager ses marches. bouger à plusieurs transforme une contrainte en moment attendu — et nourrit ton besoin de lien, précieux pour ton équilibre.",
    observes:["aujourd'hui : une proposition de bouger à plusieurs","sur quelques semaines : plus de régularité et de plaisir","à retenir : le lien rend le mouvement plus facile et joyeux"],
    victoire:"tu viens d'ajouter du lien à ton mouvement — plus facile, plus régulier, plus joyeux.",
-   outil:{emoji:"💬",label:"Le coach mindset de Kamila",desc:"et la communauté des Cysters",goTab:"kamila"},
+   outil:{emoji:"💬",label:"Les mots de Kamila, selon ton humeur",desc:"et la communauté des Cysters",goTab:"kamila"},
    accents:{
      metabolique:"la régularité du mouvement partagé sert ta glycémie dans la durée.",
      androgenique:"bouger régulièrement à plusieurs agit sur tes androgènes dans le temps.",
@@ -7367,10 +7367,10 @@ const MISSIONS_365 = [
    source:"les barrières perçues à l'exercice (temps, coût, niveau) sont souvent surmontables par l'adaptation (micro-mouvements, activité accessible) (psychologie de l'activité physique).",
    comment:["nomme TON excuse principale (temps, argent, niveau, fatigue)","'pas le temps' : 10 min comptent, pas besoin d'une heure","'pas les moyens' : marcher, danser, gainage = gratuit","'pas le niveau' : le mouvement doux est pour toutes","'trop fatiguée' : un petit mouvement redonne souvent de l'énergie"],
    pieges:["attendre des 'conditions parfaites' pour bouger","laisser une excuse te bloquer sans chercher sa parade","confondre adapter (contourner) et abandonner"],
-   plus:"derrière chaque excuse, une solution adaptée existe. tu n'as pas besoin de conditions idéales : juste de solutions qui collent à ta vraie vie. le coach mindset de Kamila peut t'aider à dépasser les blocages qui reviennent.",
+   plus:"derrière chaque excuse, une solution adaptée existe. tu n'as pas besoin de conditions idéales : juste de solutions qui collent à ta vraie vie. les mots de Kamila peuvent t'aider à dépasser les blocages qui reviennent.",
    observes:["aujourd'hui : ton excuse nommée et sa parade trouvée","sur la durée : des obstacles contournés, pas subis","à retenir : la plupart des freins ont une solution à ta portée"],
    victoire:"tu viens de démonter ton excuse principale — il existe toujours une parade adaptée à ta vie.",
-   outil:{emoji:"🤍",label:"Le coach mindset de Kamila",desc:"dépasser tes blocages",goTab:"kamila"},
+   outil:{emoji:"🤍",label:"Les mots de Kamila, selon ton humeur",desc:"dépasser tes blocages",goTab:"kamila"},
    accents:{
      metabolique:"même 10 min comptent pour ta glycémie : l'excuse 'pas le temps' tombe.",
      androgenique:"le mouvement adapté agit sur tes androgènes, même sans conditions parfaites.",
@@ -7791,10 +7791,10 @@ const MISSIONS_365 = [
    source:"le stress chronique (cortisol) augmente la production hépatique de glucose et l'inflammation, participant à la charge du foie et à la résistance à l'insuline (Pasquali et al., 2006 ; physiologie du stress).",
    comment:["offre-toi un vrai moment de calme aujourd'hui","le cortisol pousse ton foie à libérer plus de sucre (charge accrue)","le stress entretient l'inflammation qui affecte le foie","apaiser ton stress soulage aussi ton foie, en coulisses","respiration, nature, sommeil, limites : des soins pour ton foie aussi"],
    pieges:["négliger le lien entre stress et santé du foie","oublier que tes outils anti-stress soulagent aussi ton foie","laisser le stress chronique charger ton foie en continu"],
-   plus:"c'est l'interconnexion de ton corps en action : ton mental, ton foie, tes hormones se parlent. prendre soin de ton stress profite à tout l'édifice. ton coach mindset et tes rituels d'ancrage sont donc aussi, indirectement, des alliés de ton foie.",
+   plus:"c'est l'interconnexion de ton corps en action : ton mental, ton foie, tes hormones se parlent. prendre soin de ton stress profite à tout l'édifice. les mots de Kamila et tes rituels d'ancrage sont donc aussi, indirectement, des alliés de ton foie.",
    observes:["aujourd'hui : un moment de calme offert à ton mental et ton foie","sur la durée : un foie moins chargé par le cortisol","à retenir : apaiser ton stress soulage ton foie"],
    victoire:"tu viens de relier ton calme intérieur à ton foie — apaiser ton stress soulage tout ton terrain.",
-   outil:{emoji:"🤍",label:"Le coach mindset de Kamila",desc:"apaiser le stress qui pèse",goTab:"kamila"},
+   outil:{emoji:"🤍",label:"Les mots de Kamila, selon ton humeur",desc:"apaiser le stress qui pèse",goTab:"kamila"},
    accents:{
      metabolique:"le cortisol pousse ton foie à libérer du sucre : l'apaiser aide ta glycémie.",
      androgenique:"moins de stress = foie soulagé = meilleure SHBG contre tes androgènes.",
@@ -10370,7 +10370,6 @@ export default function App() {
   const [replis, setReplis] = useState({}); // parties de l'accueil dépliées
   const replier = (k)=>setReplis(r=>({...r,[k]:!r[k]}));
 
-  const [accompOpen, setAccompOpen] = useState(null); // « Mon espace d'échange » : bloc déplié
   const [bilans, setBilans] = useState(() => load("bilans",[])); // « Faire le point sur mon parcours »
   useEffect(()=>{ save("bilans",bilans); },[bilans]);
   const [bilanOpen, setBilanOpen] = useState(false);
@@ -10797,7 +10796,6 @@ export default function App() {
   useEffect(()=>{ save("medQOff",medQOff); },[medQOff]);
   useEffect(()=>{ save("medQCustom",medQCustom); },[medQCustom]);
   useEffect(()=>{ save("medPrioCustom",medPrioCustom); },[medPrioCustom]);
-  useEffect(()=>{ if(scrollAnchor==="coach-mindset"||scrollAnchor==="mot-kamila") setReplis(r=>({...r,echange:true})); },[scrollAnchor]);
   useEffect(()=>{
     if(!scrollAnchor) return;
     const t=setTimeout(()=>{ try{ document.getElementById(scrollAnchor)?.scrollIntoView(scrollAnchor==="action-du-jour"?{block:"start"}:{behavior:"smooth",block:"center"}); }catch(e){} setScrollAnchor(null); },scrollAnchor==="action-du-jour"?120:650);
@@ -10807,6 +10805,10 @@ export default function App() {
   useEffect(()=>{ save("lettre",lettre); },[lettre]);
   useEffect(()=>{ save("vidage",vidage); },[vidage]);
   useEffect(()=>{ try{ window.scrollTo(0,0); }catch(e){} },[tab,outilOpen,outilCat]);
+  // écrans pleine page (fiche SOS, profil, priorités) : on arrive en haut, et on revient où on était en fermant
+  const pleinePage = !!sosOpen||!!criseMode||!!modePrio||screen!=="app"; const pleineRef = useRef(false); const hauteurRef = useRef(0); pleineRef.current = pleinePage;
+  useEffect(()=>{ const f=()=>{ if(!pleineRef.current) hauteurRef.current=window.scrollY||0; }; window.addEventListener("scroll",f,{passive:true}); return ()=>window.removeEventListener("scroll",f); },[]);
+  useEffect(()=>{ try{ window.scrollTo(0,pleinePage?0:hauteurRef.current); }catch(e){} },[sosOpen,criseMode,modePrio,screen]);
   useEffect(()=>{ if(["mouvement","ancrage","tendances"].includes(tab)) return; if(navCur.current!==tab){ setNavPrevTab(navReset.current ? null : navCur.current); navCur.current=tab; } navReset.current=false; },[tab]);
   useEffect(()=>{ save("mesures",mesures); },[mesures]);
   useEffect(()=>{ save("perso",perso); },[perso]);
@@ -11141,6 +11143,7 @@ export default function App() {
   if(screen==="quiz") return (
     <div style={{fontFamily:"'DM Sans',sans-serif",background:C.cream,minHeight:"100vh",maxWidth:560,margin:"0 auto",paddingBottom:92}}>
       <div style={{background:"linear-gradient(135deg,#7A5C45,#5E4636)",padding:"1.4rem 1.5rem",color:"white"}}>
+        {load("onboardingDone","no")==="yes"&&<button onClick={()=>setScreen("app")} style={{background:"rgba(255,255,255,.18)",border:"none",borderRadius:99,padding:"7px 13px",cursor:"pointer",fontFamily:"inherit",fontSize:11.5,fontWeight:600,color:"#fff",marginBottom:10}}>← revenir à mon espace</button>}
         <div style={{fontSize:9,letterSpacing:2,textTransform:"uppercase",opacity:.6}}>Ton type de SMOP (SOPK)</div>
         <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.5rem",marginTop:3}}>Trouvons ton profil</div>
         <div style={{fontSize:11.5,opacity:.85,marginTop:6,lineHeight:1.55}}>réponds honnêtement — pas comme tu voudrais être. ce n'est pas un diagnostic médical, c'est un raccourci pour décider par où commencer.</div>
@@ -11235,6 +11238,7 @@ export default function App() {
 
   if(screen==="profil-select") return (
     <div style={{fontFamily:"'DM Sans',sans-serif",background:C.cream,minHeight:"100vh",maxWidth:430,margin:"0 auto",padding:"2.4rem 1.5rem"}}>
+      {load("onboardingDone","no")==="yes"&&<button onClick={()=>setScreen("app")} style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:99,padding:"8px 14px",cursor:"pointer",fontFamily:"inherit",fontSize:12,fontWeight:600,color:C.brown}}>← revenir à mon espace</button>}
       <div style={{textAlign:"center",marginBottom:28,marginTop:12}}>
         <div style={{fontSize:42,marginBottom:14}}>✨</div>
         <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.7rem",color:C.brown,marginBottom:10,lineHeight:1.25}}>
@@ -11401,7 +11405,7 @@ export default function App() {
 
         <button onClick={()=>{setScreen("app");setModePrio(false);}}
           style={{width:"100%",background:pc.p,border:"none",padding:"15px",borderRadius:14,color:"white",fontFamily:"inherit",fontSize:15,fontWeight:600,cursor:"pointer"}}>
-          Commencer le Jour 1 →
+          {load("onboardingDone","no")==="yes"?"Revenir à mon espace →":"Commencer le Jour 1 →"}
         </button>
       </div>
     </div>
@@ -11491,7 +11495,7 @@ export default function App() {
                 if(low.includes("communauté")) return <a key={i} href={WHATSAPP_URL} target="_blank" rel="noopener" style={act}>→ {l}</a>;
                 if(low.includes("fiche sos")){ const t=low.includes("fatigue après")?SOS_DATA.find(s=>s.id==="fatigue-repas"):SOS_DATA.find(s=>s.id!==sos.id&&low.includes(s.titre.toLowerCase())); return t?B(()=>setSosOpen(t.id)):<div key={i} style={plain}>→ {l}</div>; }
                 if(low.includes("journal")) return B(goTab("journal"));
-                if(low.includes("mindset")) return B(()=>{goTab("kamila")();setScrollAnchor("coach-mindset");});
+                if(low.includes("mots de kamila")) return B(()=>{goTab("kamila")();setScrollAnchor("coach-mindset");});
                 if(low.includes("ta tisane")) return B(goOutil("complements","complements"));
                 if(low.includes("mission du jour")) return B(goTab("kamila"));
                 if(low.includes("victoires")) return B(goTab("journal"));
@@ -11884,7 +11888,7 @@ export default function App() {
                   {OPTS.map(o=>{ const on=energie===o.k; return(
                     <button key={o.k} onClick={()=>{ setEnergie(on?null:o.k); if(!on&&(typeof jToday.energie!=="number"||jToday.energieAccueil)) setJournal(p=>({...p,[todayKey]:{...(p[todayKey]||{}),energie:{haute:4,moyenne:3,basse:2}[o.k],energieAccueil:true}})); }} aria-pressed={on}
                       style={{padding:"8px 14px",borderRadius:99,border:`1.5px solid ${on?C.terra:C.border}`,background:on?C.terra:C.white,color:on?"#fff":C.brown,fontFamily:"inherit",fontSize:12,fontWeight:600,cursor:"pointer"}}>{o.l}</button>); })}
-                  <button onClick={()=>{ setAccompOpen("coach"); setScrollAnchor("coach-mindset"); }}
+                  <button onClick={()=>setScrollAnchor("coach-mindset")}
                     style={{padding:"8px 14px",borderRadius:99,border:`1.5px solid ${C.border}`,background:C.white,color:C.brown,fontFamily:"inherit",fontSize:12,fontWeight:600,cursor:"pointer"}}>+ autre</button>
                 </div>
                 {sel&&<div style={{fontSize:11,color:C.mid,lineHeight:1.5,marginTop:8}}>{sel.tip}{energie==="basse"&&<> <button onClick={()=>{ setFatigueOpen(true); setFatigueStep(0); }} style={{background:"none",border:"none",padding:0,color:C.terra,fontFamily:"inherit",fontSize:11,fontWeight:700,cursor:"pointer",textDecoration:"underline"}}>comprendre ma fatigue</button></>}</div>}
@@ -12013,6 +12017,12 @@ export default function App() {
                 {checked[jourAff]?"✓ Mission validée — bravo !":"Valider ma mission du jour"}
               </button>
 
+              {/* LE MOT DE KAMILA : il va avec la mission */}
+              {todayData.msg&&<div id="mot-kamila" style={{marginTop:12,borderLeft:`3px solid ${C.terra}`,padding:"2px 0 2px 12px"}}>
+                <div style={{fontSize:9,letterSpacing:1,textTransform:"uppercase",color:C.terra,fontWeight:700,marginBottom:4}}>le mot de Kamila</div>
+                <div style={{fontFamily:"'Playfair Display',serif",fontSize:"0.95rem",color:C.mid,lineHeight:1.55,whiteSpace:"pre-line",fontStyle:"italic"}}>{String(todayData.msg).replace(/\n{2,}/g,"\n")}</div>
+              </div>}
+
               {/* POURQUOI */}
               {niveau!=="express"&&<div style={{marginTop:10}}>
                 <div style={{fontSize:9,letterSpacing:1,textTransform:"uppercase",color:pc.p,fontWeight:600,marginBottom:4}}>💡 pourquoi — ce qui se passe dans ton corps</div>
@@ -12089,8 +12099,8 @@ export default function App() {
                 <button onClick={()=>{ const ou=todayData.outil; const onglet=ou.goTab||(ou.cible==="analyses"?"analyses":null);
                   if(ou.lien){ try{ window.open(ou.lien,"_blank","noopener"); }catch(e){} } else if(ou.sos){setSosOpen(ou.sos);}
                   else if(onglet){ if(onglet==="mouvement"&&SEANCE_DE[todayData.theme]) setBougerDepart(SEANCE_DE[todayData.theme]); setTab(onglet==="mouvement"?"bouger":onglet);
-                    const ancre=ou.ancre||(onglet!=="kamila"?null:/coach/i.test(ou.label)?"coach-mindset":/mot de Kamila/i.test(ou.desc||"")?"mot-kamila":"mon-parcours");
-                    if(ancre==="mot-kamila") setAccompOpen("mot"); if(ancre) setScrollAnchor(ancre); }
+                    const ancre=ou.ancre||(onglet!=="kamila"?null:/mots de Kamila/i.test(ou.label)?"coach-mindset":/mot de Kamila/i.test(ou.desc||"")?"mot-kamila":"mon-parcours");
+                    if(ancre) setScrollAnchor(ancre); }
                   else {setTab("outils");setOutilOpen(todayData.outil.cible);if(todayData.outil.recherche!==undefined)setFoodSearch(todayData.outil.recherche);if(todayData.outil.cible==="repas"&&todayData.outil.moment)setRepasMoment(todayData.outil.moment);} }}
                   style={{width:"100%",background:"linear-gradient(135deg, #D4A56A, #C49355)",border:"none",borderRadius:14,padding:"15px 16px",marginTop:16,marginBottom:10,cursor:"pointer",fontFamily:"inherit",display:"flex",alignItems:"center",gap:12,textAlign:"left",boxShadow:"0 4px 14px rgba(212,165,106,0.4)"}}>
                   <div style={{fontSize:26,flexShrink:0,background:"rgba(255,255,255,0.25)",borderRadius:12,width:46,height:46,display:"flex",alignItems:"center",justifyContent:"center"}}>{todayData.outil.emoji}</div>
@@ -12204,6 +12214,36 @@ export default function App() {
               ))}
             </div>
 
+            {/* ── LES MOTS DE KAMILA, SELON L'HUMEUR ── */}
+            <div id="coach-mindset" style={{background:`linear-gradient(135deg,${pc.l},${C.cream})`,borderRadius:16,padding:"1rem",marginBottom:10,border:`1px solid ${C.border}`}}>
+              <div style={{fontSize:12,fontWeight:700,color:C.brown,marginBottom:3}}>Comment tu te sens, là ?</div>
+              <div style={{fontSize:10.5,color:C.mid,marginBottom:11,lineHeight:1.5}}>dis-moi ton humeur du moment, et je te réponds.</div>
+              <div style={{display:"flex",flexWrap:"wrap",gap:6}}>
+                {MINDSET.map(m=>{
+                  const sel=mindsetOpen===m.id;
+                  return(
+                    <button key={m.id} onClick={()=>setMindsetOpen(sel?null:m.id)}
+                      style={{padding:"8px 12px",borderRadius:99,border:`1.5px solid ${sel?pc.p:C.border}`,background:sel?pc.p:C.white,color:sel?"white":C.brown,fontSize:11,fontWeight:500,cursor:"pointer",fontFamily:"inherit"}}>
+                      {m.emoji} {m.label}
+                    </button>
+                  );
+                })}
+              </div>
+              {mindsetOpen&&(()=>{
+                const m=MINDSET.find(x=>x.id===mindsetOpen);
+                return(
+                  <div style={{marginTop:12,background:C.white,borderRadius:12,padding:"13px",border:`1px solid ${pc.p}`,animation:"fadeUp 0.3s ease"}}>
+                    <div style={{fontSize:12,color:C.brown,lineHeight:1.7,whiteSpace:"pre-line",marginBottom:10}}>{m.message}</div>
+                    <div style={{background:`${pc.p}10`,borderRadius:10,padding:"9px 11px",display:"flex",gap:8,alignItems:"flex-start"}}>
+                      <div style={{fontSize:13,flexShrink:0}}></div>
+                      <div style={{fontSize:11,color:C.mid,lineHeight:1.5,fontWeight:500}}>{m.geste}</div>
+                    </div>
+                    <div style={{fontSize:9.5,color:C.light,textAlign:"right",marginTop:7,fontStyle:"italic"}}>— Kamila</div>
+                  </div>
+                );
+              })()}
+            </div>
+
             {/* Tes rappels aujourd'hui — ce que ton téléphone va te rappeler, et le bouton pour les activer */}
             {(()=>{
               const notifsOk = notifPerm==="granted";
@@ -12284,7 +12324,7 @@ export default function App() {
             })()}
 
             {/* ── Mon espace d'échange : Kamila, faire le point, demander de l'aide, écrire à l'équipe ── */}
-            <Repli C={C} titre="Échanger et souffler" sous="Kamila, l'équipe, ton humeur, la communauté" ouvert={!!replis.echange} onToggle={()=>replier("echange")}>
+            <Repli C={C} titre="Échanger et souffler" sous="les messages de Kamila, l'équipe, la communauté" ouvert={!!replis.echange} onToggle={()=>replier("echange")}>
             <div style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:18,padding:"14px",marginBottom:10}}>
               <div style={{display:"flex",alignItems:"center",gap:12,paddingBottom:12,marginBottom:4,borderBottom:`1px solid ${C.border}`}}>
                 <div style={{width:46,height:46,borderRadius:"50%",background:C.terra,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><Icon name="heart" size={20} color="#fff"/></div>
@@ -12308,25 +12348,7 @@ export default function App() {
                 </button>
               ))}
             </div>
-            <div style={{fontSize:9,letterSpacing:1.5,textTransform:"uppercase",color:C.light,fontWeight:700,margin:"4px 0 8px"}}>les messages de Kamila</div>
-            {todayData.msg&&(
-              <div id="mot-kamila" style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:16,marginBottom:10,overflow:"hidden"}}>
-                <button onClick={()=>setAccompOpen(o=>o==="mot"?null:"mot")} aria-expanded={accompOpen==="mot"}
-                  style={{width:"100%",display:"flex",alignItems:"center",gap:12,background:"none",border:"none",padding:"12px 14px",cursor:"pointer",fontFamily:"inherit",textAlign:"left"}}>
-                  <div style={{width:40,height:40,borderRadius:12,background:C.terra,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><Icon name="leaf" size={18} color="#fff"/></div>
-                  <div style={{flex:1,minWidth:0}}>
-                    <div style={{fontSize:13,fontWeight:700,color:C.brown}}>Le mot de Kamila</div>
-                    <div style={{fontSize:10.5,color:C.mid,whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{String(todayData.msg).split("\n")[0]}</div>
-                  </div>
-                  <div style={{fontSize:14,color:C.light,transform:accompOpen==="mot"?"rotate(90deg)":"none",transition:"transform .2s"}}>›</div>
-                </button>
-                {accompOpen==="mot"&&(
-                  <div style={{padding:"0 14px 14px",fontFamily:"'Playfair Display',serif",fontSize:"0.95rem",color:C.mid,lineHeight:1.55,whiteSpace:"pre-line",fontStyle:"italic"}}>
-                    {String(todayData.msg).replace(/\n{2,}/g,"\n")}
-                  </div>
-                )}
-              </div>
-            )}
+            <div style={{fontSize:9,letterSpacing:1.5,textTransform:"uppercase",color:C.light,fontWeight:700,margin:"4px 0 8px"}}>les audios de Kamila</div>
             {/* Vocaux Kamila — repliable */}
             {(()=>{ const dispo=VOCAUX.filter(v=>day>=v.unlockDay).length; return (
             <div style={{background:C.white,borderRadius:14,padding:"1rem",marginBottom:10,border:`1px solid ${C.border}`}}>
@@ -12369,36 +12391,6 @@ export default function App() {
               </div>)}
             </div>
             ); })()}
-
-            {/* ── COACH MINDSET ── */}
-            <div id="coach-mindset" style={{background:`linear-gradient(135deg,${pc.l},${C.cream})`,borderRadius:16,padding:"1rem",marginBottom:10,border:`1px solid ${C.border}`}}>
-              <div style={{fontSize:12,fontWeight:700,color:C.brown,marginBottom:3}}>Comment tu te sens, là ?</div>
-              <div style={{fontSize:10.5,color:C.mid,marginBottom:11,lineHeight:1.5}}>dis-moi ton humeur du moment, et je te réponds.</div>
-              <div style={{display:"flex",flexWrap:"wrap",gap:6}}>
-                {MINDSET.map(m=>{
-                  const sel=mindsetOpen===m.id;
-                  return(
-                    <button key={m.id} onClick={()=>setMindsetOpen(sel?null:m.id)}
-                      style={{padding:"8px 12px",borderRadius:99,border:`1.5px solid ${sel?pc.p:C.border}`,background:sel?pc.p:C.white,color:sel?"white":C.brown,fontSize:11,fontWeight:500,cursor:"pointer",fontFamily:"inherit"}}>
-                      {m.emoji} {m.label}
-                    </button>
-                  );
-                })}
-              </div>
-              {mindsetOpen&&(()=>{
-                const m=MINDSET.find(x=>x.id===mindsetOpen);
-                return(
-                  <div style={{marginTop:12,background:C.white,borderRadius:12,padding:"13px",border:`1px solid ${pc.p}`,animation:"fadeUp 0.3s ease"}}>
-                    <div style={{fontSize:12,color:C.brown,lineHeight:1.7,whiteSpace:"pre-line",marginBottom:10}}>{m.message}</div>
-                    <div style={{background:`${pc.p}10`,borderRadius:10,padding:"9px 11px",display:"flex",gap:8,alignItems:"flex-start"}}>
-                      <div style={{fontSize:13,flexShrink:0}}></div>
-                      <div style={{fontSize:11,color:C.mid,lineHeight:1.5,fontWeight:500}}>{m.geste}</div>
-                    </div>
-                    <div style={{fontSize:9.5,color:C.light,textAlign:"right",marginTop:7,fontStyle:"italic"}}>— Kamila</div>
-                  </div>
-                );
-              })()}
-            </div>
 
             <a href={WHATSAPP_URL} target="_blank" rel="noopener"
               style={{display:"flex",alignItems:"center",gap:12,background:C.white,border:`1px solid ${C.border}`,borderRadius:14,padding:"12px 14px",marginBottom:10,textDecoration:"none"}}>
