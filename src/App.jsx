@@ -1370,7 +1370,7 @@ pieges:["scroller au lit 'juste 5 minutes' — ça repousse l'endormissement","f
 plus:"le magnésium que tu prends depuis le Jour 9 agit aussi sur la qualité du sommeil. les deux gestes se renforcent. si tu rumines au coucher, pose un carnet à côté du lit pour vider ta tête sur papier.",
 observes:["dès demain matin : moins de coup de barre, esprit plus clair","dans une semaine : un endormissement plus facile","dans 2 semaines : une énergie plus stable, moins de fringales (le manque de sommeil donne faim)"],
 victoire:"tu viens de prescrire à ton corps une dose de rééquilibrage hormonal."},
-  {day:14,emoji:"🏆",theme:"mi-parcours",
+  {day:14,emoji:"🏆",theme:"la moitié de ta Fondation",
 mission:"ouvre ta vue d'ensemble et compare ta première semaine à celle-ci : énergie, fringales, symptômes. note la différence, quelle qu'elle soit.",
 msg:"à J14 la plupart des Cysters ne voient pas encore.\n\nc'est normal. la biologie précède toujours le visible.\n\naujourd'hui on marque une étape.",
 pourquoi:"deux semaines. ça paraît peu, mais en biologie c'est déjà beaucoup. ton pancréas produit moins d'insuline à chaque repas. tes ovaires reçoivent un signal androgénique plus faible. ton foie est mieux soutenu. ton sommeil et ton magnésium travaillent en coulisses.\n\nvoici la vérité que personne ne te dit assez fort : à mi-parcours, les changements sont là, mais ils sont surtout internes. l'énergie, le sommeil, les fringales bougent avant la peau, les poils ou le poids. ceux-là demandent souvent 2 à 3 mois.\n\ncomparer tes deux semaines dans ta vue d'ensemble, c'est mesurer ce qui change vraiment en premier : ta clarté, ton énergie, ton ressenti.",
@@ -1452,7 +1452,7 @@ source:"l'amélioration des marqueurs métaboliques dans le SMOP est progressive
 comment:["relis tes bilans des Jours 7 et 14","note tout ce qui a bougé depuis 3 semaines","énergie, sommeil, fringales, digestion, humeur, peau","même un mieux léger compte — écris-le","garde tout dans l'onglet Journal"],
 pieges:["attendre un changement spectaculaire — la vraie progression est discrète","oublier les changements non physiques (humeur, clarté mentale)","comparer ta vitesse à celle des autres — chaque corps a son rythme"],
 plus:"prends une photo ou note tes mensurations si tu veux un repère objectif. mais souviens-toi : à 3 semaines, le plus grand changement est souvent dans ta tête et ton énergie, pas dans le miroir.",
-observes:["aujourd'hui : tu vois noir sur blanc ce qui a changé","dans une semaine (J30) : le bilan final, encore plus parlant","sur les mois suivants : les changements physiques s'installent"],
+observes:["aujourd'hui : tu vois noir sur blanc ce qui a changé","dans 9 jours (J30) : le bilan final, encore plus parlant","sur les mois suivants : les changements physiques s'installent"],
 victoire:"la progression se mesure en compréhension autant qu'en symptômes."},
   {day:22,emoji:"🔬",theme:"relire tes analyses",
 mission:"si tu as des analyses récentes, ouvre le Traducteur dans ton espace et relis-les avec un œil neuf.",
@@ -1692,7 +1692,7 @@ pieges:["croire qu'une séance « doit faire mal pour marcher » — faux sur to
 plus:"les vidéos de yoga doux ou de pilates de 15 min sur YouTube sont parfaites : gratuit, chez toi, à ton rythme. je garde une playlist de mes préférées pour les jours où je ne sais pas par où commencer.",
 observes:["dès aujourd'hui : l'esprit plus clair, le corps détendu","dans quelques jours : moins de raideurs au réveil","dans 2 semaines : plus de tonus, un sommeil plus profond"],
 victoire:"tu viens de bouger d'une façon qui apaise ton inflammation au lieu de l'attiser.",
-outil:{emoji:"🧘‍♀️",label:"Mes mouvements",desc:"des séances douces, adaptées à ton énergie",goTab:"mouvement"},
+outil:{emoji:"🧘‍♀️",label:"Bouger",desc:"des séances douces, adaptées à ton énergie",goTab:"mouvement"},
 tisane:{nom:"Serenitea",timing:"le soir au coucher",lien:"https://sopklife.com/products/serenitea-detente-absolue",texte:"après une journée où tu as bougé, la Serenitea le soir accompagne la récupération et le retour au calme."}},
 
   {day:12,emoji:"🌿",theme:"curcuma & gingembre",
@@ -1721,7 +1721,7 @@ victoire:"tu viens de protéger le moment où ton corps répare le plus — ton 
 outil:{emoji:"⚡",label:"Le parcours fatigue complet",desc:"comprendre et retrouver ton énergie",sos:"fatigue"},
 tisane:{nom:"Serenitea",timing:"le soir au coucher",lien:"https://sopklife.com/products/serenitea-detente-absolue",texte:"la Serenitea est faite pour ça : passiflore et coquelicot apaisent le système nerveux et aident à l'endormissement, sans effet « lendemain difficile ». ton rituel sommeil."}},
 
-  {day:14,emoji:"🏆",theme:"mi-parcours",
+  {day:14,emoji:"🏆",theme:"la moitié de ta Fondation",
 mission:"relis ton bilan du Jour 7 et note tout ce qui a changé depuis — même les plus petits signaux.",
 msg:"deux semaines.\n\ntu as tenu deux semaines à apaiser ton terrain.\n\naujourd'hui on s'arrête un instant pour mesurer le chemin.",
 pourquoi:"à mi-parcours, ton corps a changé plus que tu ne le crois. tu as réduit les pics de sucre et les pro-inflammatoires, rééquilibré tes gras, soutenu ton foie, mieux dormi et bougé en douceur. ton inflammation de bas grade a eu deux semaines pour commencer à desserrer.\n\nmais les changements sont encore surtout intérieurs : digestion, énergie, sommeil, humeur, ballonnements. le miroir vient plus tard. c'est normal, c'est biologique.\n\nfaire le point à mi-parcours, c'est voir noir sur blanc que ton corps répond — et c'est ça qui te donne la force de continuer les deux semaines qui restent.",
@@ -1784,7 +1784,7 @@ pieges:["vouloir soudain « passer au niveau supérieur » en intensité : reste
 plus:"le vrai signe que ça marche, ce n'est pas de soulever plus lourd. c'est de te rendre compte qu'un geste du quotidien — monter les escaliers, porter tes courses — te coûte un peu moins qu'avant. ça, c'est ton corps qui se renforce en silence.",
 observes:["aujourd'hui : un mouvement un peu plus fluide qu'au début","dans 2 semaines : une habitude vraiment installée","au long cours : un corps plus tonique et moins enflammé"],
 victoire:"tu viens de transformer un effort en habitude — c'est ça qui dure.",
-outil:{emoji:"💪",label:"Mes mouvements",desc:"ta séance de renforcement, pas à pas",goTab:"mouvement"},
+outil:{emoji:"💪",label:"Bouger",desc:"ta séance de renforcement, pas à pas",goTab:"mouvement"},
 tisane:null},
 
   {day:19,emoji:"⚡",theme:"le zinc",
@@ -1821,7 +1821,7 @@ source:"suivre ses progrès de façon concrète soutient la motivation et l'adh�
 comment:["relis tes bilans des Jours 7 et 14","note tout ce qui a bougé depuis 3 semaines","énergie, sommeil, digestion, ballonnements, humeur, peau, douleurs","compare : où en étais-tu il y a 3 semaines ?","garde tout dans l'onglet Journal"],
 pieges:["ne pas voir ses progrès faute de les avoir notés","chercher LA grande transformation visible : ce sont les petits signaux cumulés qui comptent","se dévaloriser : 3 semaines de constance, c'est une vraie réussite"],
 plus:"relis-toi vraiment, en détail. presque à chaque fois, en comparant avec le Jour 7, on découvre des changements qu'on avait déjà intégrés sans s'en rendre compte. c'est la preuve concrète que ton corps répond — garde-la précieusement pour les jours de doute.",
-observes:["aujourd'hui : tu vois 3 semaines de travail rassemblées","dans une semaine (J30) : le bilan final, encore plus net","dans 2-3 mois : les changements visibles s'installent"],
+observes:["aujourd'hui : tu vois 3 semaines de travail rassemblées","dans 9 jours (J30) : le bilan final, encore plus net","dans 2-3 mois : les changements visibles s'installent"],
 victoire:"tu viens de rendre visible tout le chemin parcouru — et il est réel.",
 outil:{emoji:"📒",label:"Ma vue d'ensemble",desc:"regarde le chemin parcouru",goTab:"apercu"},
 tisane:null},
@@ -2011,7 +2011,7 @@ pieges:["croire que « plus c'est dur, mieux c'est » — le surentraînement pe
 plus:"la marche digestive de 10-15 min après le déjeuner est mon réflexe préféré : ça lisse le pic, ça aide ton insuline, et c'est le genre de micro-habitude qui, répétée, fait une vraie différence sur ton terrain hormonal.",
 observes:["dès aujourd'hui : l'esprit plus clair, moins de coup de barre","dans quelques jours : une énergie plus stable","au fil des semaines : un terrain androgénique plus calme"],
 victoire:"tu viens de bouger d'une façon qui calme tes androgènes au lieu de les relancer.",
-outil:{emoji:"🚶‍♀️",label:"Mes mouvements",desc:"marche et mouvements doux pour tes hormones",goTab:"mouvement"},
+outil:{emoji:"🚶‍♀️",label:"Bouger",desc:"marche et mouvements doux pour tes hormones",goTab:"mouvement"},
 tisane:null},
 
   {day:6,emoji:"🔍",theme:"traquer le sucre caché",
@@ -2088,7 +2088,7 @@ pieges:["croire que « plus c'est dur, mieux c'est » : contre-productif sur ton
 plus:"si tu aimes l'intensité, ce n'est pas interdit — mais dose. l'idée n'est pas de ne jamais forcer, c'est de ne pas vivre en épuisement permanent. ton corps a besoin d'être soutenu, pas cassé, pour calmer tes androgènes.",
 observes:["dès aujourd'hui : l'esprit plus clair, le corps détendu","dans quelques jours : un sommeil un peu plus profond","au fil des semaines : les deux voies (insuline et surrénales) apaisées"],
 victoire:"tu viens de bouger d'une façon qui calme tes androgènes au lieu de les relancer.",
-outil:{emoji:"🧘‍♀️",label:"Mes mouvements",desc:"des séances douces, adaptées à ton énergie",goTab:"mouvement"},
+outil:{emoji:"🧘‍♀️",label:"Bouger",desc:"des séances douces, adaptées à ton énergie",goTab:"mouvement"},
 tisane:null},
 
   {day:12,emoji:"🌿",theme:"la menthe verte, alliée anti-androgènes",
@@ -2117,7 +2117,7 @@ victoire:"tu viens de protéger un de tes leviers anti-androgènes les plus puis
 outil:{emoji:"⚡",label:"Le parcours fatigue complet",desc:"comprendre et retrouver ton énergie",sos:"fatigue"},
 tisane:null},
 
-  {day:14,emoji:"🏆",theme:"mi-parcours",
+  {day:14,emoji:"🏆",theme:"la moitié de ta Fondation",
 mission:"relis ton bilan du Jour 7 et ta cartographie du Jour 3 — note tout ce qui a bougé.",
 msg:"deux semaines.\n\ntu agis sur la cause de tes symptômes, par plusieurs voies à la fois.\n\naujourd'hui on mesure, et on ajoute ta tisane de profil.",
 pourquoi:"à mi-parcours, tu as travaillé tes androgènes par plusieurs leviers : l'insuline (ordre des aliments, protéines, sucre), le foie (élimination, SHBG), le zinc (DHT), le stress (voie surrénalienne), le sommeil. c'est une approche complète, pas un seul angle.\n\naujourd'hui on ajoute l'Andro Tea, ta tisane de profil. elle réunit des plantes anti-androgéniques — dont la menthe verte (vue au Jour 12) — qui agissent sur deux fronts : réduire la production d'androgènes ET aider à les neutraliser. associée à l'Équilibre Féminin, elle complète ton protocole.\n\nmais sois patiente avec le miroir : la peau répond en 4 à 8 semaines, la pilosité et les cheveux en 3 à 6 mois. ce que tu mesures aujourd'hui, ce sont surtout les signaux intérieurs — et ils annoncent la suite.",
@@ -2179,7 +2179,7 @@ pieges:["vouloir soudain passer à l'intensité : garde le doux pour ton profil"
 plus:"le vrai signe que ça marche, ce n'est pas de soulever plus lourd. c'est qu'un geste du quotidien te coûte un peu moins qu'avant. ton corps se renforce en silence, et ton insuline te remercie.",
 observes:["aujourd'hui : un mouvement un peu plus fluide qu'au début","dans 2 semaines : une habitude vraiment installée","au long cours : tes deux voies androgéniques apaisées"],
 victoire:"tu viens de transformer un effort en habitude — c'est ça qui dure.",
-outil:{emoji:"💪",label:"Mes mouvements",desc:"ta séance de renforcement, pas à pas",goTab:"mouvement"},
+outil:{emoji:"💪",label:"Bouger",desc:"ta séance de renforcement, pas à pas",goTab:"mouvement"},
 tisane:null},
 
   {day:19,emoji:"🍵",theme:"le thé vert, antioxydant anti-androgènes",
@@ -2346,6 +2346,9 @@ const _tD=(txt)=>({nom:"Cure Détox",timing:"matin à jeun",lien:"https://sopkli
 const _tE=(txt)=>({nom:"Équilibre Féminin",timing:"milieu de journée",lien:"https://sopklife.com/products/cure-sopk-equilibre-feminin",texte:txt});
 const _tS=(txt)=>({nom:"Stabilitea",timing:"après les repas",lien:"https://sopklife.com/products/stabili-tea",texte:txt});
 const _tAT=(txt)=>({nom:"Andro Tea",timing:"le soir, 1h après le dîner",lien:"https://sopklife.com/products/andro-tea",texte:txt});
+// profils mixtes : missions reprises d'un autre profil, avec des renvois vers le bon jour
+const _adapte = (m,paires) => JSON.parse(paires.reduce((s,[x,y])=>s.split(x).join(y),JSON.stringify(m)));
+const _andro21 = [["qu'on introduit au Jour 14","qu'on introduit au Jour 21"],["cette action dès le Jour 14","cette action dès le Jour 21"],["des piliers de ton Andro Tea.","des piliers de l'Andro Tea, qui arrive au Jour 21."],["l'action de ta tisane de profil","l'action de ta future tisane"],["renforcent ce que fait ton Andro Tea","préparent l'arrivée de ton Andro Tea"],["la menthe verte et ton Andro Tea","la menthe verte au quotidien"]];
 const MISSIONS_MIXTE_MA = [
   {...MISSIONS_ANDRO[0], tisane:_tD("on prépare d'abord ton foie — il élimine l'excès d'androgènes et aide à réguler ton métabolisme. la Cure Détox seule cette première semaine, à jeun.")},
   {...MISSIONS_ANDRO[1], tisane:null},
@@ -2358,9 +2361,9 @@ const MISSIONS_MIXTE_MA = [
   {...MISSIONS_ANDRO[8], tisane:null},
   {...MISSIONS_META[8], tisane:null},
   {...MISSIONS_ANDRO[9], tisane:null},
-  {...MISSIONS_ANDRO[11], tisane:_tE("ton Équilibre Féminin réunit cannelle (insuline) et menthe poivrée (androgènes) : tes deux moteurs dans une seule tisane.")},
+  {..._adapte(MISSIONS_ANDRO[11],_andro21), tisane:_tE("ton Équilibre Féminin réunit cannelle (insuline) et menthe poivrée (androgènes) : tes deux moteurs dans une seule tisane.")},
   {...MISSIONS_ANDRO[12], tisane:null},
-  {day:14,emoji:"🏆",theme:"mi-parcours",
+  {day:14,emoji:"🏆",theme:"la moitié de ta Fondation",
    mission:"relis ta cartographie du Jour 3 et ton bilan du Jour 7 — note tout ce qui a bougé.",
    msg:"deux semaines.\n\ntu travailles tes DEUX moteurs à la fois : l'insuline et les androgènes.\n\naujourd'hui on mesure, et on ajoute ta première tisane de profil.",
    pourquoi:"ton profil mixte métabolique + androgénique veut dire deux leviers qui s'entretiennent : ta résistance à l'insuline pousse tes ovaires à produire plus d'androgènes. travailler les deux en même temps, c'est casser le cercle des deux côtés.\n\nen deux semaines, tu as agi sur l'insuline (ordre des aliments, protéines, sucre) ET sur les androgènes (zinc, foie, SHBG, stress). aujourd'hui on ajoute la Stabilitea, ta tisane métabolique, qui soutient la sensibilité à l'insuline après les repas. l'Andro Tea, elle, viendra au Jour 21 pour le versant androgénique.\n\nsois patiente avec le miroir : la peau répond en 4 à 8 semaines, la pilosité et les cheveux en 3 à 6 mois. ce que tu mesures aujourd'hui, ce sont surtout les signaux intérieurs.",
@@ -2376,7 +2379,7 @@ const MISSIONS_MIXTE_MA = [
   {...MISSIONS_META[15], tisane:_tS("la Stabilitea après tes repas continue de soutenir ta glycémie, le versant métabolique de ton profil.")},
   {...MISSIONS_ANDRO[16], tisane:null},
   {...MISSIONS_META[10], tisane:null},
-  {...MISSIONS_ANDRO[18], tisane:null},
+  {..._adapte(MISSIONS_ANDRO[18],_andro21), tisane:null},
   {...MISSIONS_ANDRO[19], tisane:null},
   {day:21,emoji:"📈",theme:"rendre visible ce qui a changé",
    mission:"fais le point sur 3 semaines : énergie, corps, peau — et aujourd'hui, on complète ton protocole tisane.",
@@ -2392,7 +2395,7 @@ const MISSIONS_MIXTE_MA = [
    tisane:_tAT("aujourd'hui on ajoute l'Andro Tea le soir — le versant androgénique de ton protocole. avec la Stabilitea et l'Équilibre Féminin, tu as maintenant une tisane par levier.")},
   {...MISSIONS_ANDRO[21], tisane:null},
   {...MISSIONS_ANDRO[22], tisane:null},
-  {...MISSIONS_ANDRO[23], tisane:null},
+  {..._adapte(MISSIONS_ANDRO[23],[["Jour 10","Jour 11"]]), tisane:null},
   {...MISSIONS_ANDRO[24], tisane:null},
   {...MISSIONS_ANDRO[25], tisane:null},
   {...MISSIONS_ANDRO[26], tisane:null},
@@ -2432,7 +2435,7 @@ const MISSIONS_MIXTE_MI = [
   {...MISSIONS_INFLA[9], tisane:null},
   {...MISSIONS_INFLA[11], tisane:null},
   {...MISSIONS_INFLA[12], tisane:null},
-  {day:14,emoji:"🏆",theme:"mi-parcours",
+  {day:14,emoji:"🏆",theme:"la moitié de ta Fondation",
    mission:"relis ton bilan du Jour 7 et note tout ce qui a bougé depuis.",
    msg:"deux semaines.\n\ntu travailles l'insuline ET l'inflammation.\n\naujourd'hui on mesure, et on ajoute ta tisane métabolique.",
    pourquoi:"ton profil mixte métabolique + inflammatoire, c'est deux feux qui s'alimentent : la résistance à l'insuline entretient l'inflammation, et l'inflammation aggrave la résistance à l'insuline. les travailler ensemble, c'est casser le cercle des deux côtés.\n\nen deux semaines, tu as agi sur l'inflammation (oméga-3, assiette colorée, foie) ET sur l'insuline (ordre des aliments, sucre, magnésium), plus le stress (Serenitea) qui relie les deux. aujourd'hui on ajoute la Stabilitea, ta tisane métabolique, qui soutient la sensibilité à l'insuline après les repas. l'Inflamma Tea viendra au Jour 21 pour le versant inflammatoire.",
@@ -2497,9 +2500,9 @@ const MISSIONS_MIXTE_AI = [
    outil:{emoji:"🤍",label:"Le coach mindset de Kamila",desc:"quand le stress monte",goTab:"kamila",ancre:"coach-mindset"},
    tisane:_tSer("aujourd'hui on ajoute la Serenitea le soir : l'ashwagandha régule le cortisol, le point commun de tes deux versants. en rituel du soir.")},
   {...MISSIONS_INFLA[9], tisane:null},
-  {...MISSIONS_ANDRO[11], tisane:null},
+  {..._adapte(MISSIONS_ANDRO[11],_andro21), tisane:null},
   {...MISSIONS_INFLA[12], tisane:null},
-  {day:14,emoji:"🏆",theme:"mi-parcours",
+  {day:14,emoji:"🏆",theme:"la moitié de ta Fondation",
    mission:"relis ta cartographie du Jour 3 et ton bilan du Jour 7 — note tout ce qui a bougé.",
    msg:"deux semaines.\n\ntu travailles les androgènes ET l'inflammation.\n\naujourd'hui on mesure, et on ajoute ta tisane anti-inflammatoire.",
    pourquoi:"ton profil mixte androgénique + inflammatoire, c'est deux versants liés : l'inflammation amplifie souvent l'hyperandrogénie, et le stress nourrit les deux. les travailler ensemble, c'est agir sur tout le terrain.\n\nen deux semaines, tu as agi sur les androgènes (zinc, menthe verte, foie, SHBG) ET sur l'inflammation (via l'assiette et le mode de vie), plus le stress (Serenitea) qui relie les deux. aujourd'hui on ajoute l'Inflamma Tea, ta tisane anti-inflammatoire. l'Andro Tea viendra au Jour 21 pour le versant androgénique.\n\nsois patiente avec le miroir : la peau répond en 4 à 8 semaines, la pilosité et les cheveux en 3 à 6 mois.",
@@ -2514,8 +2517,8 @@ const MISSIONS_MIXTE_AI = [
   {...MISSIONS_ANDRO[14], tisane:null},
   {...MISSIONS_INFLA[15], tisane:null},
   {...MISSIONS_ANDRO[16], tisane:null},
-  {...MISSIONS_INFLA[16], tisane:null},
-  {...MISSIONS_ANDRO[18], tisane:null},
+  {..._adapte(MISSIONS_INFLA[16],[["observe (comme au Jour 3)","observe"]]), tisane:null},
+  {..._adapte(MISSIONS_ANDRO[18],_andro21), tisane:null},
   {...MISSIONS_INFLA[19], tisane:null},
   {day:21,emoji:"📈",theme:"rendre visible ce qui a changé",
    mission:"fais le point sur 3 semaines — et aujourd'hui, on complète ton protocole tisane.",
@@ -2887,6 +2890,7 @@ const PROTOCOLE_TISANES = {
 // moment de rappel d'une tisane (même logique côté serveur, fonction send-reminders)
 const tisaneMoment=(timing)=>{ const t=(timing||"").toLowerCase(); if(t.includes("matin")) return "matin"; if(t.includes("soir")) return "soir"; return "midi"; };
 const RAPPELS_TISANES_DEFAUT={actif:false,matin:8,midi:13,soir:21};
+const cleJour=(d)=>{ const z=(n)=>String(n).padStart(2,"0"); return d.getFullYear()+"-"+z(d.getMonth()+1)+"-"+z(d.getDate()); }; // jour local (toISOString donne l'heure de Londres : après minuit, c'était encore la veille)
 const dateLocale=()=>{ try{ return new Date().toLocaleDateString("en-CA"); }catch(e){ return new Date().toISOString().slice(0,10); } };
 function getCureActive(profil, day){
   const list=[...(PROTOCOLE_TISANES.base||[]), ...(PROTOCOLE_TISANES[profil]||[])];
@@ -3186,7 +3190,7 @@ const PERTURBATEURS = [
 const DOSSIER_PRINT_CSS = "@page{size:A4;margin:14mm 12mm;}*{box-sizing:border-box;margin:0;padding:0;}html,body{background:#fff;}body{color:#3D2B1F;line-height:1.5;font-family:Arial,sans-serif;font-size:13px;}.sopk-doc h1{font-size:20px;color:#3D2B1F;margin-bottom:8px;}.sopk-doc h2{font-size:15px;color:#B07D4F;margin-top:20px;border-bottom:2px solid #E8DDD3;padding-bottom:4px;break-after:avoid;}.sopk-doc p{margin-top:6px;}.sopk-doc table{border-collapse:collapse;width:100%;font-size:12px;margin-top:6px;}.sopk-doc th,.sopk-doc td{text-align:left;vertical-align:top;}.sopk-doc tr,.sopk-doc li{break-inside:avoid;}.sopk-doc ul{font-size:13px;margin:6px 0 0 18px;}.sopk-doc li{margin-bottom:4px;}.sopk-doc .note{font-size:11px;color:#9A8578;font-style:italic;margin-top:24px;display:block;}";
 
 // ─── OUTILS DES JOURS 1-30 QUI N'EN AVAIENT PAS (par thème de mission) ───
-const _mov=(desc)=>({emoji:"🧘‍♀️",label:"Mes mouvements",desc,goTab:"mouvement"});
+const _mov=(desc)=>({emoji:"🧘‍♀️",label:"Bouger",desc,goTab:"mouvement"});
 const _jour=(desc)=>({emoji:"📓",label:"Mon journal",desc,goTab:"journal"});
 const _vue=(desc)=>({emoji:"📊",label:"Ma vue d'ensemble",desc,goTab:"apercu"});
 const _sante=(desc)=>({emoji:"👩‍⚕️",label:"Ton espace Santé",desc,goTab:"medecin"});
@@ -3203,7 +3207,7 @@ const OUTILS_PAR_THEME = {
   "le renforcement musculaire":_mov("ta séance de renforcement, pas à pas"),
   "la cannelle de Ceylan":_tis("la cannelle de Ceylan dans tes tisanes"),
   "le sommeil est médecine":_sos("insomnie","Ta fiche SOS réveil nocturne","pour des nuits plus calmes"),
-  "mi-parcours":_vue("compare ta première semaine à celle-ci"),
+  "la moitié de ta Fondation":_vue("compare ta première semaine à celle-ci"),
   "préparer ton rendez-vous":_sante("ton dossier et tes questions"),
   "deuxième séance de renforcement":_mov("ta 2e séance, pas à pas"),
   "troisième séance":_mov("ta séance de renforcement"),
@@ -3250,13 +3254,22 @@ const OUTILS_PAR_THEME = {
 };
 
 // ─── PILIER D'UNE MISSION (pour l'accueil V2) ───
+// chaque mission a son étiquette, choisie une par une (plus de devinette par mots-clés)
+const PILIERS = {
+  N:{label:"Nutrition",ic:"leaf",bg:"#FBEDE3",col:"#B97F5C"}, M:{label:"Mouvement",ic:"steps",bg:"#EEE9F4",col:"#8E80A3"},
+  S:{label:"Sommeil",ic:"bed",bg:"#F1EBF4",col:"#8E80A3"}, A:{label:"Apaiser le stress",ic:"smile",bg:"#EEE9F4",col:"#8E80A3"},
+  C:{label:"Mon cycle",ic:"moon",bg:"#F6E9E7",col:"#B5726C"}, P:{label:"Peau & cheveux",ic:"sparkle",bg:"#FBEDE3",col:"#B97F5C"},
+  D:{label:"Suivi médical",ic:"doctor",bg:"#EEF2E8",col:"#6E8A55"}, K:{label:"Comprendre",ic:"book",bg:"#F6ECE2",col:"#A8764F"},
+  T:{label:"Tisanes & compléments",ic:"coffee",bg:"#EEF2E8",col:"#6E8A55"}, B:{label:"Faire le point",ic:"chart",bg:"#F6ECE2",col:"#A8764F"},
+  R:{label:"Prendre soin",ic:"heart",bg:"#EEF2E8",col:"#6E8A55"},
+};
+// jours 31 à 365, une lettre par jour (10 jours par groupe)
+const PILIERS_365 = "NMNAKPBNMN SCNBNMKNKP BNMKACTRNB NMKACNRNMK ACRRNMNSDP BNMDTCRNBN MKACAANMSA KPANMKSCNR NMKSCAAABN MCCCCCNMCS CCCNMKACCC NMKDDCRCBN MKAPPRPPPP PNBNPPSPPR NMDPPPTRBD DKRRPRRSNN DRBRRRDTRR KCDDNMRBMM MMMMMMDMMM MBMNMMMRBM MMMMMRBKNK NTNNNNMNNN NKAPKTNRBD DDDDDBDDDD DDBDDDDDDB DDDDTDBDRS DDDBCCCCCC BNMSATCBCC DDCCBCCRDC CBRRRKRCBR NRRRRBBRRB RDBRNMSTDB RNRNRRBBRR RRRBB".replace(/ /g,"");
+const PILIERS_THEME = {"l'ordre dans l'assiette":"N","le petit-déjeuner qui change tout":"N","lire ses fringales comme des données":"N","trouver le sucre caché":"N","les protéines et tes hormones":"N","la cannelle de Ceylan":"N","les graisses contre les sucres":"N","l'assiette qui apaise":"N","le petit-déjeuner qui n'enflamme pas":"N","écouter ce qui t'enflamme":"N","traquer les pro-inflammatoires cachés":"N","le gras qui calme le feu":"N","curcuma & gingembre":"N","les antioxydants":"N","ton ventre, clé de l'inflammation":"N","couper le signal androgénique":"N","le petit-déjeuner qui n'excite pas tes androgènes":"N","traquer le sucre caché":"N","les protéines et tes androgènes":"N","les bons gras et tes hormones":"N","la caféine qui te trahit":"N","ne jamais partir le ventre vide":"N","le sucre qui calme, puis qui lâche":"N","l'ordre de l'assiette":"N","l'eau avant le repas":"N","le petit-déj qui tient":"N","tes oméga-3":"N","l'astuce de secours":"N","une pincée de cannelle":"N","le geste le plus sous-estimé":"N","soutenir l'élimination":"N","soutenir l'élimination des androgènes":"N","le mouvement qui change la glycémie":"M","le renforcement musculaire":"M","deuxième séance de renforcement":"M","marche double":"M","troisième séance":"M","le mouvement qui apaise":"M","bouger pour désenflammer":"M","ancrer le mouvement":"M","le mouvement qui calme les androgènes":"M","bouger sans relancer tes androgènes":"M","bouger sans te vider":"M","marcher après le repas":"M","bouger doux":"M","le sommeil est médecine":"S","le sommeil répare l'inflammation":"S","le sommeil régule tes hormones":"S","le réveil de 3h":"S","ancrer le rituel du soir":"S","la frontière digitale":"S","ta nuit, priorité n°1":"S","protéger ta nuit":"S","ton rituel du soir":"S","l'heure de coucher":"S","le téléphone hors de la chambre":"S","la lumière du matin":"S","le stress, ce grand déclencheur":"A","stress & androgènes surrénaliens":"A","ancrer la gestion du stress":"A","ton moteur, c'est le stress":"A","ton rythme de stress":"A","la charge mentale":"A","la cohérence cardiaque":"A","la nature baisse le cortisol":"A","les micro-pauses":"A","ta boîte à outils anti-cortisol":"A","le stress, carburant des deux feux":"A","le stress, source commune":"A","ton souffle":"A","dire non":"A","la micro-pause":"A","un temps dans le vert":"A","la nature & la lumière":"A","cartographier tes signes androgéniques":"P","prendre soin de ta peau & tes cheveux":"P","ta peau, tes cheveux sous cortisol":"P","préparer ton rendez-vous":"D","relire tes analyses":"D","prendre rendez-vous":"D","passer à l'action médicale":"D","tes analyses surrénaliennes":"D","le magnésium":"T","l'inositol":"T","le zinc":"T","vitamine D":"T","la vitamine D":"T","le zinc, ton minéral anti-androgènes":"T","la menthe verte, alliée anti-androgènes":"T","le thé vert, antioxydant anti-androgènes":"T","la fondation":"T","le magnésium, ton minéral anti-stress":"T","ta tisane du soir arrive":"T","ton magnésium":"T","le foie dans le SMOP":"K","bilan de semaine 1":"B","la moitié de ta Fondation":"B","rendre visible ce qui a changé":"B","bilan honnête":"B","mesurer le chemin parcouru":"B","ce que tu emmènes":"B","bilan de ta semaine 2":"B","ce qui a déjà changé":"B","mesurer le chemin":"B","ce que tu emportes":"B","une victoire notée":"B","ancrer l'habitude":"R","tout ensemble":"R","tu n'es pas faible":"R","le perfectionnisme qui t'épuise":"R","soutenir sans fouetter":"R","la douceur envers toi":"R"};
 const pilierDeMission = (m) => {
-  const o=(m&&m.outil)||{}; const t=((m&&m.theme)||"")+" "+((m&&m.mission)||"");
-  const tl=t.toLowerCase();
-  if(o.goTab==="mouvement"||/\b(marche|bouger|séance|renforcement|squat|yoga|étirement|mouvement)/.test(tl)) return {label:"Mouvement",ic:"steps",bg:"#EEE9F4",col:"#8E80A3"};
-  if(["insomnie","reveil3h"].includes(o.sos)||/\b(sommeil|coucher|nuit|dormir|endormissement)/.test(tl)) return {label:"Sommeil",ic:"bed",bg:"#F1EBF4",col:"#8E80A3"};
-  if(["assiette","repas","recettes","aliments","sucres","planif","courses","echanges"].includes(o.cible)||/\b(repas|assiette|petit-déj|glucide|protéine|manger|recette|aliment|fibres)/.test(tl)) return {label:"Nutrition",ic:"leaf",bg:"#FBEDE3",col:"#B97F5C"};
-  return {label:"Prendre soin",ic:"heart",bg:"#EEF2E8",col:"#6E8A55"};
+  const j=m&&m.day; const th=String((m&&m.theme)||"").replace(/^geste d'entretien · /,"");
+  const c=(j>30&&j<=365)?PILIERS_365[j-31]:PILIERS_THEME[th];
+  return PILIERS[c]||PILIERS.R;
 };
 
 // ─── LES MOIS DU PARCOURS (pour se repérer et revenir à n'importe quel jour) ───
@@ -6308,7 +6321,7 @@ const MISSIONS_365 = [
    plus:"tu es peut-être celle qui, en mettant un nom sur ton SMOP, va aider toute ta lignée à comprendre. c'est un cadeau que tu peux faire à tes sœurs, et à tes filles éventuelles. n'aie pas peur d'ouvrir la conversation.",
    observes:["aujourd'hui : une conversation familiale ouverte","sur la durée : une histoire mieux comprise, moins solitaire","à retenir : ton SMOP a souvent une histoire de famille"],
    victoire:"tu viens peut-être de relier ton histoire à celle de ta famille — tu n'es pas 'la seule'.",
-   outil:{emoji:"🧭",label:"Comprendre ton SMOP",desc:"les origines de ton terrain",cible:"diag"},
+   outil:{emoji:"🧭",label:"Comprendre ton SMOP",desc:"les origines de ton terrain",cible:"comprendre"},
    accents:{
      metabolique:"la prédisposition métabolique est souvent familiale : demande les antécédents de diabète aussi.",
      androgenique:"la pilosité ou l'acné chez tes proches peut signaler un terrain partagé.",
@@ -6973,7 +6986,7 @@ const MISSIONS_365 = [
    plus:"après un repas, 10 minutes de danse ont le même effet qu'une marche sur ta glycémie. et c'est souvent plus facile à caser.",
    observes:["aujourd'hui : 10 minutes de joie en mouvement","dès ce soir : une humeur plus légère","sur la durée : une activité que tu as envie de refaire"],
    victoire:"tu viens de bouger pour le plaisir. c'est le mouvement le plus durable qui soit.",
-   outil:{emoji:"🚶‍♀️",label:"Mes mouvements",desc:"bouger avec plaisir",goTab:"mouvement"},
+   outil:{emoji:"🚶‍♀️",label:"Bouger",desc:"bouger avec plaisir",goTab:"mouvement"},
    accents:{
      metabolique:"10 minutes de danse après un repas lissent ta glycémie comme une marche.",
      androgenique:"bouger avec plaisir aide l'insuline à redescendre, et donc tes androgènes.",
@@ -7054,7 +7067,7 @@ const MISSIONS_365 = [
    plus:"programme-la 2 fois par semaine, toujours les mêmes jours. dans un mois, ajoute un 4e tour ou quelques répétitions.",
    observes:["aujourd'hui : ta première séance de renfo","dans 2 semaines : des mouvements plus faciles","dans 2 à 3 mois : une meilleure sensibilité à l'insuline"],
    victoire:"tu viens de construire ton muscle, ton meilleur allié contre l'insuline.",
-   outil:{emoji:"🚶‍♀️",label:"Mes mouvements",desc:"tes routines de renfo",goTab:"mouvement"},
+   outil:{emoji:"🚶‍♀️",label:"Bouger",desc:"tes routines de renfo",goTab:"mouvement"},
    accents:{
      metabolique:"le muscle est ton réservoir à sucre : c'est la séance la plus utile pour ton profil.",
      androgenique:"plus de muscle, moins d'insuline, moins d'androgènes : un cercle vertueux.",
@@ -7074,7 +7087,7 @@ const MISSIONS_365 = [
    plus:"si la piscine te met mal à l'aise à cause du regard des autres, l'aquagym en petit groupe ou les créneaux calmes sont souvent plus doux. et le vélo d'appartement devant une série, ça compte tout autant.",
    observes:["cette semaine : une nouvelle façon de bouger testée","après la séance : des articulations ménagées","sur la durée : un mouvement doux pour ton corps"],
    victoire:"tu viens de découvrir une façon de bouger qui prend soin de ton corps.",
-   outil:{emoji:"🚶‍♀️",label:"Mes mouvements",desc:"bouger en douceur",goTab:"mouvement"},
+   outil:{emoji:"🚶‍♀️",label:"Bouger",desc:"bouger en douceur",goTab:"mouvement"},
    accents:{
      metabolique:"le vélo fait travailler tes grosses masses musculaires : excellent pour ta glycémie.",
      androgenique:"une activité régulière et sans impact soutient ton insuline, donc tes androgènes.",
@@ -7215,7 +7228,7 @@ const MISSIONS_365 = [
    plus:"beaucoup de villes ont des clubs de marche nordique avec des séances d'initiation et des bâtons prêtés. c'est aussi une jolie façon de rencontrer du monde.",
    observes:["aujourd'hui : une marche plus complète","dans quelques séances : plus d'énergie, moins d'essoufflement","sur la durée : un mouvement doux mais complet"],
    victoire:"tu viens de donner un coup de boost à ta marche, avec tout ton corps.",
-   outil:{emoji:"🚶‍♀️",label:"Mes mouvements",desc:"booster ta marche",goTab:"mouvement"},
+   outil:{emoji:"🚶‍♀️",label:"Bouger",desc:"booster ta marche",goTab:"mouvement"},
    accents:{
      metabolique:"plus de muscles en action, plus de sucre capté : la marche nordique est faite pour toi.",
      androgenique:"un effort complet mais doux soutient ton insuline, donc tes androgènes.",
@@ -7396,7 +7409,7 @@ const MISSIONS_365 = [
    plus:"le gainage doux et le renforcement des fessiers sont souvent les meilleurs amis du dos. ta séance de renforcement de 15 minutes est un bon point de départ, en adaptant les mouvements.",
    observes:["aujourd'hui : un mouvement adapté, sans renoncer","dans quelques semaines : des articulations mieux soutenues","sur la durée : moins de douleur, plus de liberté"],
    victoire:"tu viens de trouver comment bouger avec ton corps tel qu'il est aujourd'hui.",
-   outil:{emoji:"🚶‍♀️",label:"Mes mouvements",desc:"des formats doux",goTab:"mouvement"},
+   outil:{emoji:"🚶‍♀️",label:"Bouger",desc:"des formats doux",goTab:"mouvement"},
    accents:{
      metabolique:"même adapté, le mouvement reste ton levier glycémie : ne le lâche pas à cause d'une douleur.",
      androgenique:"bouger régulièrement, même doucement, continue de soutenir ton insuline.",
@@ -10741,7 +10754,7 @@ export default function App() {
   useEffect(()=>{ save("lettre",lettre); },[lettre]);
   useEffect(()=>{ save("vidage",vidage); },[vidage]);
   useEffect(()=>{ try{ window.scrollTo(0,0); }catch(e){} },[tab,outilOpen,outilCat]);
-  useEffect(()=>{ if(navCur.current!==tab){ setNavPrevTab(navReset.current ? null : navCur.current); navCur.current=tab; } navReset.current=false; },[tab]);
+  useEffect(()=>{ if(tab==="mouvement") return; if(navCur.current!==tab){ setNavPrevTab(navReset.current ? null : navCur.current); navCur.current=tab; } navReset.current=false; },[tab]);
   useEffect(()=>{ save("mesures",mesures); },[mesures]);
   useEffect(()=>{ save("quizAns",quizAns); },[quizAns]);
   useEffect(()=>{ save("quizResult",quizResult); },[quizResult]);
@@ -10776,9 +10789,12 @@ export default function App() {
       msg:"tu as bouclé ton parcours de 365 jours.\n\nton année 2 se prépare et arrivera en mise à jour dans ton espace : tu ne seras jamais lâchée.\n\nen attendant, un petit geste par jour pour entretenir ce que tu as construit.",
       day:d, entretien:true};
   };
+  // les missions d'un pilier les plus proches de ton jour : les 3 dernières et les 5 prochaines
+  const missionsProches = (codes)=>{ const noms=codes.map(c=>PILIERS[c].label); const tous=Array.from({length:365},(_,i)=>i+1).filter(d=>noms.includes(pilierDeMission({...missionPour(d),day:d}).label));
+    const avant=tous.filter(d=>d<=day), apres=tous.filter(d=>d>day); return [...avant.slice(-Math.max(3,8-apres.length)),...apres.slice(0,Math.max(5,8-avant.length))].slice(0,8); };
   const jourAff = vueJour!=null ? vueJour : day; // le jour affiché (consulté) ; « day » reste ta progression
   const todayData = missionPour(jourAff);
-  const todayKey = new Date().toISOString().slice(0,10);
+  const todayKey = cleJour(new Date());
   const jToday = journal[todayKey] || {};
   const todayLabel = new Date().toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long"});
   const setJ = (field,value)=> setJournal(p=>({...p,[todayKey]:{...(p[todayKey]||{}),[field]:value}}));
@@ -10787,7 +10803,7 @@ export default function App() {
   const toggleAction = (idx)=>{ const a=[...((journal[todayKey]||{}).actionsDone||[false,false,false])]; a[idx]=!a[idx]; setJ("actionsDone",a); };
   // « Ta journée » : navigation jour par jour (0 = aujourd'hui, négatif = jours passés)
   const viewDate = new Date(); viewDate.setDate(viewDate.getDate()+dayOffset);
-  const viewKey = viewDate.toISOString().slice(0,10);
+  const viewKey = cleJour(viewDate);
   const viewLabel = viewDate.toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long"});
   const jView = journal[viewKey] || {};
   const setJV = (field,value)=> setJournal(p=>({...p,[viewKey]:{...(p[viewKey]||{}),[field]:value}}));
@@ -10798,7 +10814,7 @@ export default function App() {
       for(let i=11;i>=0;i--){ const d=new Date(now.getFullYear(), now.getMonth()-i, 1); out.push({key:`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}`, label:d.toLocaleDateString("fr-FR",{month:"short"}).replace(".",""), type:"month"}); }
     } else {
       const n = period==="semaine"?7:30;
-      for(let i=n-1;i>=0;i--){ const d=new Date(now); d.setDate(now.getDate()-i); out.push({key:d.toISOString().slice(0,10), label:String(d.getDate()), type:"day"}); }
+      for(let i=n-1;i>=0;i--){ const d=new Date(now); d.setDate(now.getDate()-i); out.push({key:cleJour(d), label:String(d.getDate()), type:"day"}); }
     }
     return out;
   };
@@ -10821,7 +10837,7 @@ export default function App() {
   };
   const heatColor = (v)=> v==null?"#EFE7DC": v===0?"#E4EBD8": v<1.5?"#E9D9C0": v<2.5?"#E0B98A": v<3.5?"#D49A5F": v<4.5?"#C67A45":"#B4542E";
   // fenêtres de jours (offset = nombre de jours avant aujourd'hui où se termine la fenêtre)
-  const daysWindow = (n,offset)=>{ const out=[]; const now=new Date(); for(let i=offset+n-1;i>=offset;i--){ const d=new Date(now); d.setDate(now.getDate()-i); out.push(d.toISOString().slice(0,10)); } return out; };
+  const daysWindow = (n,offset)=>{ const out=[]; const now=new Date(); for(let i=offset+n-1;i>=offset;i--){ const d=new Date(now); d.setDate(now.getDate()-i); out.push(cleJour(d)); } return out; };
   const avgWindow = (metric,n,offset)=>{ const v=daysWindow(n,offset).map(k=>metricForDay(journal[k],metric)).filter(x=>x!=null); return v.length?{v:v.reduce((a,b)=>a+b,0)/v.length,n:v.length}:null; };
   // ressenti : 1 = bonne journée de ce côté-là, 0 = journée difficile
   const ressentiQ = (metric,v)=>{ if(v==null) return null; if(metric==="sommeil") return (v>=7&&v<=9)?1:((v>=6&&v<=10)?0.6:0.2); if(metric==="stress"||metric==="symptomes") return Math.max(0,Math.min(1,(5-v)/4)); return Math.max(0,Math.min(1,(v-1)/4)); };
@@ -11380,9 +11396,12 @@ export default function App() {
                 const goOutil=(cat,id)=>()=>{setSosOpen(null);setTab("outils");setOutilCat(cat);setOutilOpen(id);};
                 const B=(fn)=><button key={i} onClick={fn} style={act}>→ {l}</button>;
                 if(low.includes("communauté")) return <a key={i} href={WHATSAPP_URL} target="_blank" rel="noopener" style={act}>→ {l}</a>;
-                if(low.includes("fiche sos")){ const t=SOS_DATA.find(s=>s.id!==sos.id&&low.includes(s.titre.toLowerCase())); return t?B(()=>setSosOpen(t.id)):<div key={i} style={plain}>→ {l}</div>; }
+                if(low.includes("fiche sos")){ const t=low.includes("fatigue après")?SOS_DATA.find(s=>s.id==="fatigue-repas"):SOS_DATA.find(s=>s.id!==sos.id&&low.includes(s.titre.toLowerCase())); return t?B(()=>setSosOpen(t.id)):<div key={i} style={plain}>→ {l}</div>; }
                 if(low.includes("journal")) return B(goTab("journal"));
-                if(low.includes("mindset")) return B(goTab("kamila"));
+                if(low.includes("mindset")) return B(()=>{goTab("kamila")();setScrollAnchor("coach-mindset");});
+                if(low.includes("ta tisane")) return B(goOutil("complements","complements"));
+                if(low.includes("mission du jour")) return B(goTab("kamila"));
+                if(low.includes("victoires")) return B(goTab("journal"));
                 if(low.includes("analyses")) return B(goTab("analyses"));
                 if(low.includes("scripts")) return B(goTab("medecin"));
                 if(low.includes("mon cycle")) return B(goTab("cycle"));
@@ -11574,7 +11593,7 @@ export default function App() {
         </div>
         {[
           {g:"Où j'en suis",items:[{id:"kamila",ic:"home",l:"Mon accueil"},{id:"carte",ic:"map",l:"Ma carte SMOP"}]},
-          {g:"Mon suivi",items:[{id:"suivi",ic:"chart",l:"Ta journée"},{id:"cycle",ic:"moon",l:"Mon cycle"},{id:"apercu",ic:"calendar",l:"Vue d'ensemble"},{id:"tendances",ic:"pulse",l:"Mes tendances"},{id:"journal",ic:"calendar",l:"Mon journal"},{id:"mouvement",ic:"steps",l:"Mes mouvements"},{id:"ancrage",ic:"heart",l:"Mon ancrage"}]},
+          {g:"Mon suivi",items:[{id:"suivi",ic:"chart",l:"Ta journée"},{id:"cycle",ic:"moon",l:"Mon cycle"},{id:"apercu",ic:"calendar",l:"Vue d'ensemble"},{id:"tendances",ic:"pulse",l:"Mes tendances"},{id:"journal",ic:"calendar",l:"Mon journal"},{id:"bouger",ic:"steps",l:"Bouger"},{id:"ancrage",ic:"heart",l:"Mon ancrage"}]},
           {g:"Mes ressources",items:[{id:"outils",ic:"book",l:"Outils & aliments"}]},
           {g:"Mon dossier santé",items:[{id:"medecin",ic:"health",l:"Résumé médecin"},{id:"analyses",ic:"flask",l:"Analyses de sang"}]},
         ].map((grp,gi)=>(
@@ -11800,7 +11819,7 @@ export default function App() {
 
             {/* ── Ton action du jour : une seule carte, facultative ── */}
             {(()=>{
-              const P=pilierDeMission(todayData);
+              const P=pilierDeMission({...todayData,day:jourAff});
               return(
             <div style={{background:C.white,borderRadius:20,padding:"14px",marginBottom:12,border:`1.5px solid ${checked[jourAff]?pc.p:C.border}`,transition:"border-color 0.3s",boxShadow:`0 6px 20px ${pc.p}12`}}>
               <div style={{display:"flex",alignItems:"center",gap:7,marginBottom:10}}>
@@ -11830,11 +11849,11 @@ export default function App() {
                   if(!wasChecked){
                     // mission validée — calcule les jalons
                     const newCount=Object.values({...checked,[jourAff]:true}).filter(Boolean).length;
-                    if(jourAff===7) showToast("Première semaine complète","sept jours de cohérence — c'est énorme, bravo.");
-                    else if(jourAff===14) showToast("Mi-parcours atteint","la moitié du chemin. ton corps enregistre déjà les changements.");
-                    else if(jourAff===21) showToast("Trois semaines","tu tiens le rythme. la plupart abandonnent avant. pas toi.");
+                    if(jourAff===7) showToast("Une semaine de chemin","à ton rythme, et c'est déjà énorme. bravo.");
+                    else if(jourAff===14) showToast("La moitié de ta Fondation","deux semaines. ton corps enregistre déjà ce que tu fais.");
+                    else if(jourAff===21) showToast("Trois semaines","tu es toujours là, à ton rythme. c'est ça qui compte.");
                     else if(jourAff===30) showToast("30 jours, nouvelle base 🌸","ce n'est pas une fin : c'est ta base de départ. tu n'es plus la même qu'au départ, fière de toi.");
-                    else if(jourAff%7===0&&jourAff<=365) showToast(`Semaine ${Math.ceil(jourAff/7)} complète`,"une semaine de plus dans la cohérence.");
+                    else if(jourAff%7===0&&jourAff<=365) showToast(`Semaine ${Math.ceil(jourAff/7)}`,"une semaine de plus à prendre soin de toi.");
                     else showToast(jourAff>365?"Geste validé":`Jour ${jourAff} validé`, todayData.victoire);
                   }
                 }} aria-label={checked[jourAff]?"action faite":"marquer comme faite"}
@@ -11855,11 +11874,11 @@ export default function App() {
                   const wasChecked=checked[jourAff];
                   setChecked(p=>({...p,[jourAff]:!p[jourAff]}));
                   if(!wasChecked){
-                    if(jourAff===7) showToast("Première semaine complète","sept jours de cohérence — c'est énorme, bravo.");
-                    else if(jourAff===14) showToast("Mi-parcours atteint","la moitié du chemin. ton corps enregistre déjà les changements.");
-                    else if(jourAff===21) showToast("Trois semaines","tu tiens le rythme. la plupart abandonnent avant. pas toi.");
+                    if(jourAff===7) showToast("Une semaine de chemin","à ton rythme, et c'est déjà énorme. bravo.");
+                    else if(jourAff===14) showToast("La moitié de ta Fondation","deux semaines. ton corps enregistre déjà ce que tu fais.");
+                    else if(jourAff===21) showToast("Trois semaines","tu es toujours là, à ton rythme. c'est ça qui compte.");
                     else if(jourAff===30) showToast("30 jours, nouvelle base 🌸","ce n'est pas une fin : c'est ta base de départ. tu n'es plus la même qu'au départ, fière de toi.");
-                    else if(jourAff%7===0&&jourAff<=365) showToast(`Semaine ${Math.ceil(jourAff/7)} complète`,"une semaine de plus dans la cohérence.");
+                    else if(jourAff%7===0&&jourAff<=365) showToast(`Semaine ${Math.ceil(jourAff/7)}`,"une semaine de plus à prendre soin de toi.");
                     else showToast(jourAff>365?"Geste validé":`Jour ${jourAff} validé`, todayData.victoire);
                   }
                 }}
@@ -11940,7 +11959,12 @@ export default function App() {
               )}
 
               {todayData.outil&&(
-                <button onClick={()=>{ if(todayData.outil.lien){ try{ window.open(todayData.outil.lien,"_blank","noopener"); }catch(e){} } else if(todayData.outil.sos){setSosOpen(todayData.outil.sos);} else if(todayData.outil.goTab){setTab(todayData.outil.goTab); if(todayData.outil.ancre) setScrollAnchor(todayData.outil.ancre);} else {setTab("outils");setOutilOpen(todayData.outil.cible);if(todayData.outil.recherche!==undefined)setFoodSearch(todayData.outil.recherche);if(todayData.outil.cible==="repas"&&todayData.outil.moment)setRepasMoment(todayData.outil.moment);} }}
+                <button onClick={()=>{ const ou=todayData.outil; const onglet=ou.goTab||(ou.cible==="analyses"?"analyses":null);
+                  if(ou.lien){ try{ window.open(ou.lien,"_blank","noopener"); }catch(e){} } else if(ou.sos){setSosOpen(ou.sos);}
+                  else if(onglet){ setTab(onglet==="mouvement"?"bouger":onglet);
+                    const ancre=ou.ancre||(onglet!=="kamila"?null:/coach/i.test(ou.label)?"coach-mindset":/mot de Kamila/i.test(ou.desc||"")?"mot-kamila":"mon-parcours");
+                    if(ancre==="mot-kamila") setAccompOpen("mot"); if(ancre) setScrollAnchor(ancre); }
+                  else {setTab("outils");setOutilOpen(todayData.outil.cible);if(todayData.outil.recherche!==undefined)setFoodSearch(todayData.outil.recherche);if(todayData.outil.cible==="repas"&&todayData.outil.moment)setRepasMoment(todayData.outil.moment);} }}
                   style={{width:"100%",background:"linear-gradient(135deg, #D4A56A, #C49355)",border:"none",borderRadius:14,padding:"15px 16px",marginBottom:10,cursor:"pointer",fontFamily:"inherit",display:"flex",alignItems:"center",gap:12,textAlign:"left",boxShadow:"0 4px 14px rgba(212,165,106,0.4)"}}>
                   <div style={{fontSize:26,flexShrink:0,background:"rgba(255,255,255,0.25)",borderRadius:12,width:46,height:46,display:"flex",alignItems:"center",justifyContent:"center"}}>{todayData.outil.emoji}</div>
                   <div style={{flex:1}}>
@@ -11962,7 +11986,7 @@ export default function App() {
 
             {/* ── Mon parcours : progression discrète, sans pression ── */}
             {(()=>{ const postParcours = day>365 && vueJour==null; const pct=(Math.min(day,365)/365)*100; return (
-            <div style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:16,padding:"12px 14px",marginBottom:12}}>
+            <div id="mon-parcours" style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:16,padding:"12px 14px",marginBottom:12}}>
               <div style={{display:"flex",alignItems:"center",gap:7,marginBottom:8}}>
                 <Icon name="chart" size={15} color={pc.p}/>
                 <span style={{fontFamily:"'Playfair Display',serif",fontSize:"1rem",fontWeight:600,color:C.brown}}>Mon parcours</span>
@@ -12166,7 +12190,7 @@ export default function App() {
             </div>
             <div style={{fontSize:9,letterSpacing:1.5,textTransform:"uppercase",color:C.light,fontWeight:700,margin:"4px 0 8px"}}>les messages de Kamila</div>
             {todayData.msg&&(
-              <div style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:16,marginBottom:10,overflow:"hidden"}}>
+              <div id="mot-kamila" style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:16,marginBottom:10,overflow:"hidden"}}>
                 <button onClick={()=>setAccompOpen(o=>o==="mot"?null:"mot")} aria-expanded={accompOpen==="mot"}
                   style={{width:"100%",display:"flex",alignItems:"center",gap:12,background:"none",border:"none",padding:"12px 14px",cursor:"pointer",fontFamily:"inherit",textAlign:"left"}}>
                   <div style={{width:40,height:40,borderRadius:12,background:C.terra,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><Icon name="leaf" size={18} color="#fff"/></div>
@@ -12429,7 +12453,7 @@ export default function App() {
 
         {/* ── MON SOMMEIL : mes nuits, mon rituel du soir, quand ça coince ── */}
         {tab==="sommeil"&&(()=>{
-          const jr=(n)=>{ const d=new Date(); d.setDate(d.getDate()-n); return d.toISOString().slice(0,10); };
+          const jr=(n)=>{ const d=new Date(); d.setDate(d.getDate()-n); return cleJour(d); };
           const nuits=Array.from({length:7},(_,i)=>{ const k=jr(6-i); const v=journal[k]&&typeof journal[k].sommeil==="number"?journal[k].sommeil:null; return {k,v,l:new Date(k+"T12:00:00").toLocaleDateString("fr-FR",{weekday:"short"}).slice(0,2)}; });
           const vals=nuits.map(n=>n.v).filter(v=>v!=null); const moy=vals.length?vals.reduce((p,q)=>p+q,0)/vals.length:null;
           const today=journal[todayKey]||{};
@@ -12438,7 +12462,7 @@ export default function App() {
           const lien=(court.length>=3&&long.length>=3)?{c:court.reduce((p,q)=>p+q,0)/court.length,l:long.reduce((p,q)=>p+q,0)/long.length}:null;
           const rituels=[["ecrans","écrans coupés 30 min avant"],["lumiere","lumière tamisée le soir"],["tisane","ma tisane du soir"],["heure","coucher à heure fixe"]];
           const rit=today.rituelSoir||{};
-          const missionsSommeil=Array.from({length:365},(_,i)=>i+1).filter(d=>pilierDeMission(missionPour(d)).label==="Sommeil").slice(0,8);
+          const missionsSommeil=missionsProches(["S"]);
           const carte={background:C.white,border:`1px solid ${C.border}`,borderRadius:16,padding:"14px",marginBottom:12};
           return(
           <div className="fu">
@@ -12511,7 +12535,7 @@ export default function App() {
           const rg=[...new Set(regles||[])].sort(); const der=rg[rg.length-1];
           const jc=der?Math.floor((new Date(todayKey+"T12:00:00")-new Date(der+"T12:00:00"))/86400000)+1:null;
           const note=(k)=>typeof today[k]==="number"?today[k]+"/5":"–";
-          const missionsSoin=Array.from({length:365},(_,i)=>i+1).filter(d=>pilierDeMission(missionPour(d)).label==="Prendre soin").slice(0,8);
+          const missionsSoin=missionsProches(["R","A","P"]);
           const carte={background:C.white,border:`1px solid ${C.border}`,borderRadius:16,padding:"14px",marginBottom:12};
           const ligne=(ic,t,d,go)=>(
             <button key={t} onClick={go} style={{width:"100%",display:"flex",alignItems:"center",gap:12,background:"none",border:"none",borderBottom:`1px solid ${C.border}`,padding:"11px 2px",cursor:"pointer",fontFamily:"inherit",textAlign:"left"}}>
@@ -13778,7 +13802,7 @@ export default function App() {
           const typique = gaps.length? Math.round(gaps.reduce((a,b)=>a+b,0)/gaps.length) : null;
           const minG=gaps.length?Math.min(...gaps):null, maxG=gaps.length?Math.max(...gaps):null;
           const last = dates.length?dates[dates.length-1]:null;
-          const todayISO = new Date().toISOString().slice(0,10);
+          const todayISO = cleJour(new Date());
           const cycleDay = last? dayDiff(last,todayISO)+1 : null;
           let phase=null, phaseCol="#C2AEBA", phaseNote=null;
           if(cycleDay){
@@ -13795,7 +13819,7 @@ export default function App() {
             }
           }
           // ── température & signes du cycle en cours
-          const noonKey=(s,off)=>{ const d=new Date(s+"T12:00:00"); d.setDate(d.getDate()+off); return d.toISOString().slice(0,10); };
+          const noonKey=(s,off)=>{ const d=new Date(s+"T12:00:00"); d.setDate(d.getDate()+off); return cleJour(d); };
           const tempVals=((mesures.temp&&mesures.temp.vals)||[]);
           const tempMap={}; tempVals.forEach(x=>{ if(typeof x.v==="number") tempMap[x.d]=x.v; });
           const cyc = last ? Array.from({length:Math.min(cycleDay||1,90)},(_,i)=>{ const k=noonKey(last,i); return {k,day:i+1,t:(tempMap[k]!=null?tempMap[k]:null),s:cycleSignes[k]||{}}; }) : [];
@@ -13999,7 +14023,7 @@ export default function App() {
                 {id:"mesures",ic:"drop",l:"Mes mesures"},
                 {id:"cycle",ic:"moon",l:"Mon cycle"},
                 {id:"journal",ic:"calendar",l:"Mon journal"},
-                {id:"mouvement",ic:"steps",l:"Mes mouvements"},
+                {id:"bouger",ic:"steps",l:"Bouger"},
                 {id:"ancrage",ic:"heart",l:"Mon ancrage"},
                 {id:"planif",ic:"book",l:"Planifier ma semaine",outil:true},
               ].map(x=>(
