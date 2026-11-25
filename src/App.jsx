@@ -10658,6 +10658,8 @@ export default function App() {
   const [recFiltreMoment, setRecFiltreMoment] = useState("tous");
   const [recFiltreTag, setRecFiltreTag] = useState("tous");
   const [recetteFiche, setRecetteFiche] = useState(null);
+  const [recettePop, setRecettePop] = useState(null); // recette ouverte dans une fenêtre, sans quitter la page
+  const recetteDe = (n)=> RECETTES[n] || (REPAS.find(x=>x.nom===n)||{}).recette || null;
   const [situationOpen, setSituationOpen] = useState(null);
   const [ficheOpen, setFicheOpen] = useState(null);
   const [searchOpen, setSearchOpen] = useState(false);
@@ -11806,6 +11808,25 @@ export default function App() {
         })()}
 
         {persoOpen&&<FeuillePerso C={C} perso={perso} setPerso={setPerso} etat={persoEtat} setEtat={setPersoEtat} jour={day} titreDuJour={(d)=>missionBase(d).theme} ordre={ordre} mois={mois} mois0={MOIS_PARCOURS} changerOrdre={changerOrdre} effacerReponses={effacerReponses} setTab={setTab} onClose={()=>setPersoOpen(false)}/>}
+        {/* ── UNE RECETTE, dans une fenêtre : on la voit tout de suite, et on reste où on était ── */}
+        {recettePop&&(()=>{ const rec=recetteDe(recettePop); if(!rec) return null; const titre={fontSize:11,fontWeight:700,color:C.brown,textTransform:"uppercase",letterSpacing:0.5,marginBottom:7}; return(
+          <Portail><div onClick={()=>setRecettePop(null)} style={{position:"fixed",inset:0,zIndex:345,background:"rgba(58,42,32,.45)",display:"flex",alignItems:"center",justifyContent:"center",padding:14}}>
+            <div onClick={e=>e.stopPropagation()} role="dialog" aria-label={recettePop} style={{background:C.cream,borderRadius:22,width:"100%",maxWidth:430,maxHeight:"86vh",overflowY:"auto",padding:"18px 18px 20px",boxSizing:"border-box"}}>
+              <div style={{display:"flex",alignItems:"flex-start",gap:10,marginBottom:8}}>
+                <div style={{flex:1,fontFamily:"'Playfair Display',serif",fontSize:"1.25rem",fontWeight:600,color:C.brown,lineHeight:1.25}}>{recettePop}</div>
+                <button onClick={()=>setRecettePop(null)} aria-label="fermer" style={{background:"none",border:"none",fontSize:17,color:C.light,cursor:"pointer",fontFamily:"inherit",padding:4}}>✕</button>
+              </div>
+              <div style={{display:"flex",gap:6,flexWrap:"wrap",marginBottom:14}}>
+                {[rec.temps,rec.pour,...(rec.tags||[])].filter(Boolean).map((t,k)=><span key={k} style={{fontSize:10,color:C.mid,background:C.white,border:`1px solid ${C.border}`,borderRadius:99,padding:"3px 9px"}}>{t}</span>)}
+              </div>
+              <div style={titre}>Ingrédients</div>
+              <div style={{marginBottom:14}}>{rec.ingredients.map((x,k)=><div key={k} style={{display:"flex",gap:8,marginBottom:5}}><span style={{color:pc.p,fontSize:12}}>•</span><span style={{fontSize:12.5,color:C.mid,lineHeight:1.45}}>{x}</span></div>)}</div>
+              <div style={titre}>Préparation</div>
+              <div style={{marginBottom:12}}>{rec.etapes.map((x,k)=><div key={k} style={{display:"flex",gap:10,marginBottom:8,alignItems:"flex-start"}}><span style={{width:20,height:20,borderRadius:"50%",background:pc.p,color:"#fff",fontSize:10,fontWeight:700,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,marginTop:1}}>{k+1}</span><span style={{fontSize:12.5,color:C.mid,lineHeight:1.55}}>{x}</span></div>)}</div>
+              {rec.astuce&&<div style={{background:`${C.sage}22`,borderRadius:11,padding:"10px 12px",border:`1px solid ${C.sage}`,fontSize:11.5,color:"#4F6038",lineHeight:1.55,marginBottom:12}}>{rec.astuce}</div>}
+              <button onClick={()=>setRecettePop(null)} style={{width:"100%",background:pc.p,border:"none",borderRadius:12,padding:"12px",color:"#fff",fontFamily:"inherit",fontSize:13,fontWeight:700,cursor:"pointer"}}>fermer</button>
+            </div>
+          </div></Portail>); })()}
         {/* ── KAMILA ── */}
         {tab==="kamila"&&(
           <div className="fu">
@@ -12362,7 +12383,7 @@ export default function App() {
                 const S={mobilite:["Mobilité & récupération","un enchaînement doux pour délier le corps, adapté à ton énergie."],cardio:["Cardio doux","du cardio sans impact, à un rythme où tu peux parler."],A:["Renforcement A","6 mouvements pour tout le corps, avec ta séance guidée."]}[sid];
                 idee={t:S[0],d:S[1],go:()=>{ setAdaptOpen(false); setBougerDepart(sid); setTab("bouger"); }}; }
               if(adaptBesoin==="manger"){ const noms=Object.keys(RECETTES).filter(n=>RECETTES[n].moment===moment&&repasRapide(n)); const n=noms[new Date().getDate()%Math.max(1,noms.length)]||Object.keys(RECETTES)[0];
-                idee={t:n,d:"une idée rapide pour ce "+(moment==="matin"?"matin":moment==="midi"?"midi":"soir")+" : "+(RECETTES[n].temps||""),go:()=>{ setAdaptOpen(false); setTab("outils"); setOutilCat("alimentation"); setOutilOpen("recettes"); setRecetteFiche(n); }}; }
+                idee={t:n,d:"une idée rapide pour ce "+(moment==="matin"?"matin":moment==="midi"?"midi":"soir")+" : "+(RECETTES[n].temps||""),go:()=>{ setAdaptOpen(false); setRecettePop(n); }}; }
               if(adaptBesoin==="poser") idee={t:"Souffler quelques minutes",d:"une respiration lente pour faire redescendre la pression, sans rien avoir à réussir.",go:()=>{ setAdaptOpen(false); setSosOpen("stress"); }};
               if(adaptBesoin==="dormir") idee={t:"Préparer une nuit plus calme",d:"quelques gestes simples pour ce soir.",go:()=>{ setAdaptOpen(false); setSosOpen("insomnie"); }};
               const chip=(on)=>({padding:"8px 13px",borderRadius:99,border:`1.5px solid ${on?C.terra:C.border}`,background:on?C.terra:C.white,color:on?"#fff":C.brown,fontFamily:"inherit",fontSize:12,fontWeight:600,cursor:"pointer"});
@@ -12841,7 +12862,7 @@ export default function App() {
                                 {meal?(
                                   <div style={{flex:1,display:"flex",alignItems:"center",gap:6,background:C.bubble,borderRadius:9,padding:"8px 10px"}}>
                                     <span style={{flex:1,fontSize:11,color:C.brown,lineHeight:1.3}}>{meal}</span>
-                                    {RECETTES[meal]&&<button onClick={()=>{ setRecFiltreMoment("tous"); setRecFiltreTag("tous"); setRecetteFiche(meal); setOutilOpen("recettes"); }} style={{background:"none",border:`1px solid ${pc.p}`,borderRadius:99,color:pc.p,fontSize:9.5,fontWeight:700,cursor:"pointer",fontFamily:"inherit",padding:"3px 8px",flexShrink:0}}>recette</button>}
+                                    {recetteDe(meal)&&<button onClick={()=>setRecettePop(meal)} style={{background:"none",border:`1px solid ${pc.p}`,borderRadius:99,color:pc.p,fontSize:9.5,fontWeight:700,cursor:"pointer",fontFamily:"inherit",padding:"3px 8px",flexShrink:0}}>recette</button>}
                                     <button onClick={()=>setRepasPlan(p=>({...p,[jk]:{...(p[jk]||{}),[sk]:null}}))} aria-label="retirer" style={{background:"none",border:"none",color:C.light,fontSize:13,cursor:"pointer",fontFamily:"inherit",padding:"0 2px",flexShrink:0}}>✕</button>
                                   </div>
                                 ):(
@@ -12867,10 +12888,11 @@ export default function App() {
                           <div key={i} style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:12,padding:"10px 12px",marginBottom:7}}>
                             <div style={{fontSize:12,fontWeight:600,color:C.brown}}>{r.nom}</div>
                             <div style={{fontSize:10,color:C.mid,marginTop:2,lineHeight:1.5}}>{r.compo}</div>
+                            {recetteDe(r.nom)&&<button onClick={()=>setRecettePop(r.nom)} style={{marginTop:7,background:"none",border:"none",padding:0,fontFamily:"inherit",fontSize:10,color:pc.p,fontWeight:700,cursor:"pointer"}}>recette →</button>}
                           </div>
                         ))}
                         {Object.keys(RECETTES).filter(n=>RECETTES[n].moment===sk&&!REPAS.some(x=>x.nom===n)).map(n=>(
-                          <button key={n} onClick={()=>{ setRecFiltreMoment("tous"); setRecFiltreTag("tous"); setRecetteFiche(n); setOutilOpen("recettes"); }}
+                          <button key={n} onClick={()=>setRecettePop(n)}
                             style={{width:"100%",textAlign:"left",background:C.white,border:`1px solid ${C.border}`,borderRadius:12,padding:"10px 12px",marginBottom:7,cursor:"pointer",fontFamily:"inherit",display:"flex",alignItems:"center",gap:8}}>
                             <span style={{flex:1}}>
                               <span style={{display:"block",fontSize:12,fontWeight:600,color:C.brown}}>{n}</span>
@@ -15467,7 +15489,7 @@ profil · tes priorités · les analyses & questions que tu as cochées · ton s
                 <div style={{marginBottom:18}}>
                   <div style={{fontSize:10,fontWeight:700,letterSpacing:1,textTransform:"uppercase",color:pc.p,marginBottom:8}}>📖 Recettes</div>
                   {rRec.map((n,k)=>(
-                    <button key={k} onClick={()=>{setTab("outils");setOutilOpen("recettes");setRecetteFiche(n);setSearchOpen(false);setSearchQ("");}}
+                    <button key={k} onClick={()=>setRecettePop(n)}
                       style={{width:"100%",textAlign:"left",background:C.white,border:`1px solid ${C.border}`,borderRadius:12,padding:"11px 13px",marginBottom:7,cursor:"pointer",fontFamily:"inherit",display:"flex",alignItems:"center",gap:10}}>
                       <span style={{fontSize:16}}>🍲</span>
                       <span style={{flex:1}}>
