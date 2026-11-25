@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import Bouger from "./Bouger.jsx";
-import { ETAT_VIDE, niveauPour, adapterMission, trouverAutre, FeuillePerso, SousMission, CartePerso, MesDonnees } from "./Perso.jsx";
+import { ETAT_VIDE, niveauPour, adapterMission, trouverAutre, FeuillePerso, SousMission, CartePerso, MesDonnees, noterHisto, PRIOS } from "./Perso.jsx";
+import { CarteVivante, AujourdhuiPourToi } from "./Carte.jsx";
 import { ORDRE_BASE, ordreValide, estBase, moisSelon, moisDe, idDuJour, texteLibre, ordreDeBase, convertir, convertirCles } from "./Parcours.jsx";
 // Les fenêtres s'affichent directement sur l'écran, quel que soit l'endroit où on a fait défiler la page
 const Portail = ({children}) => createPortal(<div style={{fontFamily:"'DM Sans',sans-serif"}}>{children}</div>, document.body);
@@ -102,6 +103,7 @@ const PRIORITES_PROFIL = {
   ],
 };
 
+const majuscule = (t) => String(t||"").replace(/^./,c=>c.toUpperCase());
 // ─── QUIZ "TON TYPE DE SMOP (SOPK)" ───────────────────────────────────────────────────
 const QUIZ_AXES = {
   m:{label:"métabolique",emoji:"⚡",desc:"insuline · glycémie · fringales",col:"#CB9A79"},
@@ -10781,7 +10783,7 @@ export default function App() {
   useEffect(()=>{ save("medPrioCustom",medPrioCustom); },[medPrioCustom]);
   useEffect(()=>{
     if(!scrollAnchor) return;
-    const t=setTimeout(()=>{ try{ document.getElementById(scrollAnchor)?.scrollIntoView({behavior:"smooth",block:"center"}); }catch(e){} setScrollAnchor(null); },650);
+    const t=setTimeout(()=>{ try{ document.getElementById(scrollAnchor)?.scrollIntoView(scrollAnchor==="action-du-jour"?{block:"start"}:{behavior:"smooth",block:"center"}); }catch(e){} setScrollAnchor(null); },scrollAnchor==="action-du-jour"?120:650);
     return ()=>clearTimeout(t);
   },[scrollAnchor,outilOpen,tab]);
   useEffect(()=>{ save("perturbCheck",perturbCheck); },[perturbCheck]);
@@ -10805,8 +10807,8 @@ export default function App() {
   // changer l'ordre des chapitres à venir : ce qui est rangé par jour (cochées, longueurs, mises de côté) suit sa mission
   const changerOrdre = (nouveau,main)=>{ const apres=ordreValide(nouveau); const f=convertir({avant:ordre,apres,mois0:MOIS_PARCOURS});
     setChecked(c=>convertirCles(c,f));
-    setPersoEtat(e=>({...e,ordre:apres,ordreMain:!!main,niv:convertirCles(e.niv,f),msg:convertirCles(e.msg,f),deCote:e.deCote.map(x=>({...x,d:f(x.d)})),
-      remplace:Object.fromEntries(Object.entries(e.remplace).map(([p,v])=>[f(p),v.j?{...v,j:f(v.j)}:v]))}));
+    setPersoEtat(e=>noterHisto({...e,ordre:apres,ordreMain:!!main,niv:convertirCles(e.niv,f),msg:convertirCles(e.msg,f),deCote:e.deCote.map(x=>({...x,d:f(x.d)})),
+      remplace:Object.fromEntries(Object.entries(e.remplace).map(([p,v])=>[f(p),v.j?{...v,j:f(v.j)}:v]))},main?"tu as changé l'ordre de tes chapitres":"tes chapitres suivent tes priorités"));
     setVueJour(null); };
   const effacerReponses = ()=>{ const apres=ordreDeBase({ordre,jour:day,mois0:MOIS_PARCOURS}); const f=convertir({avant:ordre,apres,mois0:MOIS_PARCOURS});
     setChecked(c=>convertirCles(c,f)); setPerso(null); setPersoEtat({...ETAT_VIDE,ordre:estBase(apres)?null:apres}); };
@@ -10844,6 +10846,13 @@ export default function App() {
     const avant=tous.filter(d=>d<=day), apres=tous.filter(d=>d>day); return [...avant.slice(-Math.max(3,8-apres.length)),...apres.slice(0,Math.max(5,8-avant.length))].slice(0,8); };
   const jourAff = vueJour!=null ? vueJour : day; // le jour affiché (consulté) ; « day » reste ta progression
   const todayData = missionPour(jourAff);
+  // ouvrir un endroit de l'espace depuis la carte ou « Aujourd'hui, pour toi »
+  const allerVers = (k)=>{ const [t,v]=String(k).split(":");
+    if(t==="sos") setSosOpen(v);
+    else if(t==="outil"){ const [cat,id]=v.split("/"); setTab("outils"); setOutilCat(cat); setOutilOpen(id); }
+    else if(t==="bouger"){ setBougerDepart(v); setTab("bouger"); }
+    else if(t==="recette"){ const l=Object.keys(RECETTES).filter(n=>RECETTES[n].moment===v&&repasRapide(n)); setRecettePop(l[new Date().getDate()%Math.max(1,l.length)]||Object.keys(RECETTES)[0]); }
+    else setTab(v); };
   // longueur affichée : express · classique · approfondi (compléments et suivi médical : jamais raccourcis, pour garder les précautions)
   const codeJour = codePilier({...todayData,day:jourAff});
   const niveau = (n=>n==="express"&&(codeJour==="T"||codeJour==="D")?"classique":n)(niveauPour({d:jourAff,perso,etat:persoEtat,energie}));
@@ -11737,17 +11746,18 @@ export default function App() {
           const prios=PRIORITES_PROFIL[profil]||PRIORITES_PROFIL.metabolique;
           return (
           <div className="fu">
-            <div style={{marginBottom:14}}>
-              <div style={{fontFamily:"'Playfair Display',serif",fontSize:21,color:C.brown,fontWeight:600}}>Ma carte SMOP</div>
+            <CarteVivante C={C} pc={pc} Icon={Icon} prenom={prenom} perso={perso} etat={persoEtat} setEtat={setPersoEtat} jour={day} ordre={ordre} mois={mois} mois0={MOIS_PARCOURS} changerOrdre={changerOrdre} checked={checked} missionPour={missionPour} estBilan={(d)=>codeDe(d)==="B"} ouvrir={()=>setPersoOpen(true)} voirJour={(d)=>{ voirJour(d); setTab("kamila"); }} aller={allerVers}/>
+            <div style={{margin:"20px 0 12px"}}>
+              <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.15rem",color:C.brown,fontWeight:600}}>Mon terrain</div>
               <div style={{fontSize:10.5,color:C.light,marginTop:3}}>tes dimensions, du plus présent au moins urgent · <span style={{fontStyle:"italic"}}>appuie pour explorer</span></div>
             </div>
 
-            {h&&[
+            {(quizResult&&quizResult.pct?["m","i","a","s"].sort((x,y)=>quizResult.pct[y]-quizResult.pct[x]).map(ax=>({pct:quizResult.pct[ax],data:{...QUIZ_AXES[ax],label:majuscule(QUIZ_AXES[ax].label)},cle:{m:"metabolique",i:"inflammatoire",a:"androgenique",s:"surrenalien"}[ax]})):h?[
               {data:h.dominant},
               {data:h.secondaire},
               {data:h.trace},
-            ].map((row,i)=>{
-              const target=labelToProfil(row.data.label);
+            ]:[]).map((row,i)=>{
+              const target=row.cle||labelToProfil(row.data.label);
               const isActive=target===profil;
               return (
               <button key={i} onClick={()=>{ if(target && !isActive) setProfilSwitch({key:target,label:row.data.label}); }}
@@ -11764,9 +11774,9 @@ export default function App() {
                     ? <div style={{fontSize:8,fontWeight:700,padding:"3px 9px",borderRadius:99,background:`${row.data.col}1E`,color:row.data.col}}>actif</div>
                     : target && <div style={{fontSize:14,color:C.light}}>›</div>}
                 </div>
-                <div style={{height:6,borderRadius:99,background:C.bubble,overflow:"hidden"}}>
-                  <div style={{height:"100%",width:i===0?"72%":i===1?"48%":"26%",background:row.data.col,borderRadius:99}}/>
-                </div>
+                {row.pct!=null&&<div style={{height:6,borderRadius:99,background:C.bubble,overflow:"hidden"}}>
+                  <div style={{height:"100%",width:Math.max(4,row.pct)+"%",background:row.data.col,borderRadius:99}}/>
+                </div>}
               </button>
             );})}
 
@@ -11789,7 +11799,7 @@ export default function App() {
               ces dimensions t'aident à comprendre ton terrain. <b style={{color:C.brown}}>ce n'est pas une étiquette figée</b> — c'est une carte qui évolue avec toi.
             </div>
 
-            <div style={{fontSize:9,letterSpacing:1.5,textTransform:"uppercase",color:C.light,marginBottom:10}}>Tes 3 priorités en ce moment</div>
+            <div style={{fontSize:9,letterSpacing:1.5,textTransform:"uppercase",color:C.light,marginBottom:10}}>{perso?"Les 3 axes de ton terrain":"Tes 3 priorités en ce moment"}</div>
             {prios.map((p,i)=>(
               <button key={i} onClick={()=>setModePrio(true)} style={{width:"100%",textAlign:"left",background:C.white,border:`1px solid ${i===0?p.col:C.border}`,borderRadius:15,padding:14,marginBottom:9,cursor:"pointer",fontFamily:"inherit"}}>
                 <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:4,gap:8}}>
@@ -11851,6 +11861,10 @@ export default function App() {
               );
             })()}
 
+            {/* ── Aujourd'hui, pour toi : « bon, je fais quoi aujourd'hui ? » ── */}
+            {perso&&day<=365&&vueJour==null&&(()=>{ const t=getCureActive(profil,day).find(x=>!(tisanesPrises[dateLocale()]||{})[x.nom]&&({matin:true,midi:new Date().getHours()>=11,soir:new Date().getHours()>=17})[tisaneMoment(x.timing)]);
+              return <AujourdhuiPourToi C={C} pc={pc} Icon={Icon} perso={perso} etat={persoEtat} setEtat={setPersoEtat} energie={energie} niveau={niveau} mission={todayData} fait={!!checked[day]} tisane={t?t.nom:""} prendreTisane={()=>togglePrise(t.nom)} journeeNotee={["humeur","energie","stress","sommeil"].some(k=>jToday[k]!=null)} aller={allerVers} dateJour={dateLocale()} ouvrirMission={()=>{ setMissionOpen(true); setScrollAnchor("action-du-jour"); }}/>; })()}
+
             {/* ══ TOUT EN HAUT — Je viens d'être diagnostiquée ══ */}
             {!load("diagSeen",false)&&(
               <div style={{display:"flex",alignItems:"center",gap:12,background:`linear-gradient(135deg,${C.mauveSoft},#fff)`,border:`1.5px solid ${C.mauve}`,borderRadius:16,padding:"13px 14px",marginBottom:10}}>
@@ -11876,12 +11890,13 @@ export default function App() {
                     <Icon name="bolt" size={15} color={pc.p}/>
                     <span style={{fontSize:12,fontWeight:700,color:C.brown}}>Ta priorité du moment</span>
                   </div>
-                  <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.4rem",fontWeight:600,color:C.brown,lineHeight:1.2,marginBottom:6}}>{prio1.t}</div>
-                  <div style={{fontSize:11.5,color:C.mid,lineHeight:1.6,marginBottom:12,maxWidth:"85%"}}>d'après tes réponses, c'est l'axe à explorer en premier. on avance ensemble, un geste à la fois : {prio1.geste.toLowerCase()}.</div>
+                  <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.4rem",fontWeight:600,color:C.brown,lineHeight:1.2,marginBottom:6}}>{perso&&(perso.priorites||[])[0]?majuscule((PRIOS.find(x=>x[0]===perso.priorites[0])||[])[1]):prio1.t}</div>
+                  <div style={{fontSize:11.5,color:C.mid,lineHeight:1.6,marginBottom:12,maxWidth:"85%"}}>{perso&&(perso.priorites||[])[0]?"c'est toi qui l'as choisie, et ton programme commence par là. "+(moisDe(Math.min(day,365),mois).c===1?"pour l'instant, tu poses ta Fondation.":"en ce moment : "+moisDe(Math.min(day,365),mois).label+"."):"d'après tes réponses, c'est l'axe à explorer en premier. on avance ensemble, un geste à la fois : "+prio1.geste.toLowerCase()+"."}</div>
                   <button onClick={()=>setModePrio(true)}
                     style={{background:pc.p,border:"none",borderRadius:12,padding:"10px 16px",cursor:"pointer",fontFamily:"inherit",fontSize:12,fontWeight:700,color:"#fff"}}>
                     Voir mes 3 priorités →
                   </button>
+                  {perso&&<button onClick={()=>setTab("carte")} style={{marginLeft:8,background:"none",border:`1.5px solid ${pc.p}`,borderRadius:12,padding:"9px 14px",cursor:"pointer",fontFamily:"inherit",fontSize:12,fontWeight:700,color:pc.p}}>Ma carte</button>}
                   <button onClick={()=>setScreen("profil-select")}
                     style={{display:"block",marginTop:8,background:"none",border:"none",padding:0,cursor:"pointer",fontFamily:"inherit",fontSize:10,color:C.light,textDecoration:"underline"}}>
                     ajuster ma priorité
@@ -11898,7 +11913,7 @@ export default function App() {
               const P=pilierDeMission({...todayData,day:jourAff});
               const propsMission={C,pc,d:jourAff,jour:day,code:codeJour,perso,etat:persoEtat,setEtat:setPersoEtat,mission:todayData,niveau,fait:!!checked[jourAff],autre:(raison)=>autreMission(jourAff,raison),ouvrir:()=>setPersoOpen(true),ouvrirDetail:setMissionOpen};
               return(
-            <div style={{background:C.white,borderRadius:20,padding:"14px",marginBottom:12,border:`1.5px solid ${checked[jourAff]?pc.p:C.border}`,transition:"border-color 0.3s",boxShadow:`0 6px 20px ${pc.p}12`}}>
+            <div id="action-du-jour" style={{scrollMarginTop:14,background:C.white,borderRadius:20,padding:"14px",marginBottom:12,border:`1.5px solid ${checked[jourAff]?pc.p:C.border}`,transition:"border-color 0.3s",boxShadow:`0 6px 20px ${pc.p}12`}}>
               <div style={{display:"flex",alignItems:"center",gap:7,marginBottom:10}}>
                 <Icon name="sparkle" size={14} color={pc.p}/>
                 <span style={{fontFamily:"'Playfair Display',serif",fontSize:"1.05rem",fontWeight:600,color:C.brown}}>Ton action du jour</span>
