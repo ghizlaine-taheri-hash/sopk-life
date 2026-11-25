@@ -121,14 +121,14 @@ export function CarteVivante({C,pc,Icon,prenom,perso,etat,setEtat,jour,ordre,moi
 
 // ── AUJOURD'HUI, POUR TOI : « bon, je fais quoi aujourd'hui ? » ──
 const IDEES = {
-  fringales:{matin:["recette:matin","un petit-déj qui te cale","une idée rapide, prête à suivre"],midi:["tab:bouger","marcher un peu après ton repas","10 minutes, sans objectif"],soir:["recette:soir","une idée de dîner rapide","une seule recette, pas de choix à faire"]},
+  fringales:{matin:["recette:matin","un petit-déj qui te cale","une idée rapide, prête à suivre"],midi:["bouger:marche","marcher un peu après ton repas","10 minutes, sans objectif"],soir:["recette:soir","une idée de dîner rapide","une seule recette, pas de choix à faire"]},
   stress:{matin:["tab:ancrage","deux minutes pour toi avant de commencer","une phrase, un souffle"],midi:["sos:stress","faire redescendre la pression","une respiration guidée"],soir:["tab:sommeil","préparer une nuit plus calme","ton petit rituel du soir"]},
   peau:{matin:["recette:matin","un petit-déj simple","une idée rapide, prête à suivre"],midi:["outil:comprendre/fiches","lire une fiche courte","deux minutes pour comprendre"],soir:["tab:suivi","noter ta peau","20 secondes, pour voir ce qui change"]},
   douleurs:{matin:["bouger:mobilite","délier ton corps en douceur","une séance à ton énergie"],midi:["sos:ventre","si ton ventre te gêne","des gestes doux"],soir:["bouger:mobilite","relâcher avant la nuit","une séance douce"]},
   cycle:{matin:["tab:cycle","noter où tu en es","règles, signes, température"],midi:["tab:tendances","regarder ce que ton cycle raconte","tes dernières semaines"],soir:["tab:cycle","noter tes signes du jour","20 secondes"]},
   comprendre:{matin:["outil:comprendre/comprendre","une explication courte","un mécanisme, sans jargon"],midi:["tab:medecin","ajouter une question pour ton médecin","elle t'attendra dans ton dossier"],soir:["outil:comprendre/fiches","lire une fiche courte","deux minutes pour comprendre"]},
 };
-const DUREE = {express:"2 min",classique:"10 min",approfondi:"20 min"};
+const DUREE = {express:"version express",classique:"version classique",approfondi:"version complète"};
 export function AujourdhuiPourToi({C,pc,Icon,perso,etat,setEtat,energie,niveau,mission,fait,tisane,prendreTisane,journeeNotee,aller,ouvrirMission,dateJour}){
   const a=etat.auj&&etat.auj.le===dateJour?etat.auj:{le:dateJour,n:0,fait2:false};
   const majA=(x)=>setEtat(e=>({...e,auj:{...a,...x}}));
