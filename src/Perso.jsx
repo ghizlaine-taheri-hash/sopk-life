@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { createPortal } from "react-dom";
+import { RESUMES, nbFiges, deplacer, ordrePropose, ordreDeBase } from "./Parcours.jsx";
 
 // ═══════════════════════════════════════════════════════════════════════════
 // PERSONNALISATION — étape 1
@@ -31,7 +32,7 @@ export const MASQUES = [
 export const QUOTIDIEN = [["enfants","j'ai des enfants"],["horaires","mes horaires sont décalés"],["assise","je travaille assise"],["dehors","je mange souvent dehors"]];
 export const NIVEAUX = [["express","express"],["classique","classique"],["approfondi","complète"]];
 
-export const ETAT_VIDE = {niv:{},remplace:{},deCote:[],express:null,legerJusqu:"",msg:{},avis:{},reponses:[]};
+export const ETAT_VIDE = {niv:{},remplace:{},deCote:[],express:null,detail:null,ordre:null,ordreMain:false,points:{},legerJusqu:"",msg:{},avis:{},reponses:[]};
 
 const jourLocal = (plus=0) => { const d=new Date(); d.setDate(d.getDate()+plus); const z=(n)=>String(n).padStart(2,"0"); return d.getFullYear()+"-"+z(d.getMonth()+1)+"-"+z(d.getDate()); };
 const nomDe = (liste,k) => { const x=liste.find(y=>y[0]===k); return x?x[1]:""; };
@@ -44,6 +45,7 @@ export const niveauPour = ({d,perso,etat,energie}) => {
   if(etat.legerJusqu && jourLocal()<=etat.legerJusqu) return "express";
   if(etat.express && d>=etat.express.de && d<=etat.express.a) return "express";
   if(energie==="basse") return "express";
+  if(etat.detail && d>=etat.detail.de && d<=etat.detail.a) return "approfondi";
   return perso.temps===2?"express":perso.temps===20?"approfondi":"classique";
 };
 
@@ -61,10 +63,10 @@ export const adapterMission = ({d,base,codeDe,perso,etat,rituels}) => {
   const m0=base(d); if(d>365) return m0;
   const r=etat.remplace[d];
   if(r){
-    if(r.j) return {...base(r.j), tisane:m0.tisane||null, day:d, _pil:codeDe(r.j), _depuis:r.j};
+    if(r.j) return {...base(r.j), _k:undefined, tisane:m0.tisane||null, day:d, _pil:codeDe(r.j), _depuis:r.j};
     const g=enGeste(m0,rituels,d+(r.rit||0),r.motif); return {...g, day:d, _pil:codeDe(400,g.theme)};
   }
-  if(estMasque(d,perso)){ const g=enGeste(m0,rituels,d,"masque"); return {...g, day:d, _pil:codeDe(400,g.theme)}; }
+  if(estMasque(m0._k||d,perso)){ const g=enGeste(m0,rituels,d,"masque"); return {...g, day:d, _pil:codeDe(400,g.theme)}; }
   return m0;
 };
 
@@ -73,7 +75,7 @@ const LIEE = /\b[Jj](our)?s? ?\d|bilan|demain|hier\b|deuxième|troisième|semain
 export const trouverAutre = ({d,fin,base,codeDe,perso,etat,checked,raison}) => {
   const pris=new Set(Object.values(etat.remplace).map(x=>x.j).filter(Boolean));
   const ok=[]; for(let k=d+1;k<=fin;k++){
-    if(etat.remplace[k]||pris.has(k)||checked[k]||estMasque(k,perso)||codeDe(k)==="B") continue;
+    if(etat.remplace[k]||pris.has(k)||checked[k]||estMasque(base(k)._k||k,perso)||codeDe(k)==="B") continue;
     const m=base(k); if(LIEE.test(JSON.stringify([m.theme,m.mission,m.msg,m.pourquoi,m.comment,m.pieges,m.plus]))) continue;
     ok.push(k);
   }
@@ -133,7 +135,35 @@ function Feuille({C,titre,onClose,children}){
 }
 
 // ── LES SIX QUESTIONS, puis le récapitulatif modifiable ──
-export function FeuillePerso({C,perso,setPerso,etat,setEtat,onClose,titreDuJour,jour}){
+// ── LA FEUILLE DE ROUTE : où elle en est, ce qui vient, et l'ordre qu'elle peut changer ──
+function FeuilleRoute({C,perso,etat,jour,ordre,mois,mois0,changerOrdre,setTab,onClose}){
+  const [ouvert,setOuvert]=useState(false);
+  const deb=nbFiges(ordre,jour,mois0); const masque=(c)=>c===11&&(perso.masques||[]).includes("fertilite");
+  const propose=ordrePropose({perso,ordre,jour,mois0}); const egal=(x,y)=>x.every((n,i)=>n===y[i]); const base=ordreDeBase({ordre,jour,mois0});
+  const etatDe=(m)=>jour>m.b?"fait":jour>=m.a?"en ce moment":"à venir";
+  const vus=ouvert?mois:mois.filter(m=>jour<=m.b).slice(0,4);
+  return (
+    <div style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:14,padding:"12px 14px",marginBottom:12}}>
+      <div style={{fontSize:12.5,fontWeight:700,color:C.brown,marginBottom:3}}>ma feuille de route</div>
+      <div style={{fontSize:11,color:C.mid,lineHeight:1.55,marginBottom:8}}>tes chapitres, classés selon ce qui compte pour toi. tu peux changer l'ordre de ceux qui n'ont pas commencé.</div>
+      {vus.map(m=>{ const e=etatDe(m); const i=ordre.indexOf(m.c); const bouge=m.c>1&&m.c<12&&i>=deb; const haut=bouge&&!egal(deplacer({ordre,c:m.c,sens:-1,jour,mois0}),ordre), bas=bouge&&!egal(deplacer({ordre,c:m.c,sens:1,jour,mois0}),ordre);
+        const fl=(on,sens,l)=><button key={sens} disabled={!on} aria-label={l+" "+m.label} onClick={()=>changerOrdre(deplacer({ordre,c:m.c,sens,jour,mois0}),true)} style={{width:32,height:32,borderRadius:9,border:`1px solid ${C.border}`,background:C.cream,color:on?C.brown:C.border,fontSize:13,cursor:on?"pointer":"default",fontFamily:"inherit"}}>{sens<0?"↑":"↓"}</button>;
+        return (
+        <div key={m.c} style={{display:"flex",alignItems:"center",gap:10,padding:"8px 0",borderTop:`1px solid ${C.border}`,opacity:e==="fait"?.55:1}}>
+          <div style={{width:9,height:9,borderRadius:"50%",flexShrink:0,background:e==="à venir"?C.white:C.terra,border:`2px solid ${e==="à venir"?C.border:C.terra}`}}/>
+          <div style={{flex:1,minWidth:0}}><div style={{fontSize:12.5,fontWeight:e==="en ce moment"?700:600,color:C.brown}}>{m.label}{e==="en ce moment"&&<span style={{fontSize:9.5,color:C.terra,fontWeight:700}}> · en ce moment</span>}</div><div style={{fontSize:10.5,color:C.light,lineHeight:1.4}}>{masque(m.c)?"gardé pour la fin, les missions fertilité sont remplacées":RESUMES[m.c]}</div></div>
+          {bouge&&<div style={{display:"flex",gap:5,flexShrink:0}}>{fl(haut,-1,"monter")}{fl(bas,1,"descendre")}</div>}
+        </div>); })}
+      <div style={{display:"flex",gap:14,flexWrap:"wrap",marginTop:9}}>
+        <button onClick={()=>setOuvert(o=>!o)} style={lien(C)}>{ouvert?"réduire":"voir toute l'année"}</button>
+        {!egal(propose,ordre)&&<button onClick={()=>changerOrdre(propose,false)} style={lien(C)}>suivre mes priorités</button>}
+        {!egal(base,ordre)&&<button onClick={()=>changerOrdre(base,true)} style={lien(C)}>ordre classique</button>}
+      </div>
+      <div style={{fontSize:10.5,color:C.light,lineHeight:1.55,marginTop:9}}>ton jour avance d'un jour à la fois, quel que soit l'ordre. <button onClick={()=>{ onClose(); setTab("bouger"); }} style={lien(C)}>Bouger</button> a son propre rythme, à côté : il ne change rien à ton parcours.</div>
+    </div>);
+}
+
+export function FeuillePerso({C,perso,setPerso,etat,setEtat,onClose,titreDuJour,jour,ordre,mois,mois0,changerOrdre,effacerReponses,setTab}){
   const [brouillon,setBrouillon]=useState(()=>perso?{...perso}:{stade:"",priorites:[],temps:0,masques:[],quotidien:[],phrase:""});
   const [etape,setEtape]=useState(perso?"recap":0);
   const [accord,setAccord]=useState(false);
@@ -141,7 +171,8 @@ export function FeuillePerso({C,perso,setPerso,etat,setEtat,onClose,titreDuJour,
   const [effacer,setEffacer]=useState(false);
   const maj=(k,v)=>setBrouillon(b=>({...b,[k]:v}));
   const bascule=(k,v,max)=>setBrouillon(b=>{ const a=b[k]||[]; if(a.includes(v)) return {...b,[k]:a.filter(x=>x!==v)}; return {...b,[k]:max&&a.length>=max?[...a.slice(1),v]:[...a,v]}; });
-  const enregistrer=()=>{ setPerso({...brouillon,phrase:String(brouillon.phrase||"").trim().slice(0,200),accord:brouillon.accord||{le:jourLocal(),version:1},maj:jourLocal()}); setUnique(false); setEtape("recap"); };
+  const enregistrer=()=>{ setPerso({...brouillon,phrase:String(brouillon.phrase||"").trim().slice(0,200),accord:brouillon.accord||{le:jourLocal(),version:1},maj:jourLocal()}); setUnique(false); setEtape("recap");
+    if(!etat.ordreMain) changerOrdre(ordrePropose({perso:brouillon,ordre,jour,mois0}),false); };
   const Q=[null,
     {k:"stade",t:"Où tu en es ?",s:"choisis ce qui te ressemble le plus.",ok:!!brouillon.stade},
     {k:"priorites",t:"Qu'est-ce qui pèse le plus en ce moment ?",s:"deux choix au plus.",ok:(brouillon.priorites||[]).length>0},
@@ -196,6 +227,7 @@ export function FeuillePerso({C,perso,setPerso,etat,setEtat,onClose,titreDuJour,
             <button onClick={()=>{ setUnique(true); setEtape(i); }} style={lien(C)}>modifier</button>
           </div>); })}
       </div>
+      <FeuilleRoute C={C} perso={perso||brouillon} etat={etat} jour={jour} ordre={ordre} mois={mois} mois0={mois0} changerOrdre={changerOrdre} setTab={setTab} onClose={onClose}/>
       {(etat.legerJusqu&&jourLocal()<=etat.legerJusqu)&&(
         <div style={{background:C.mauveSoft,borderRadius:14,padding:"11px 14px",marginBottom:12,fontSize:12,color:C.brown,lineHeight:1.55}}>période légère en cours : des missions courtes pendant quelques jours. <button onClick={()=>setEtat(e=>({...e,legerJusqu:""}))} style={lien(C)}>reprendre le rythme normal</button></div>)}
       {etat.deCote.length>0&&(
@@ -211,7 +243,7 @@ export function FeuillePerso({C,perso,setPerso,etat,setEtat,onClose,titreDuJour,
       <button onClick={onClose} style={plein(C)}>fermer</button>
       <div style={{textAlign:"center",marginTop:14}}>
         {!effacer?<button onClick={()=>setEffacer(true)} style={lien(C)}>effacer mes réponses</button>
-        :<div style={{fontSize:12,color:C.brown,lineHeight:1.6}}>tes six réponses et tes missions mises de côté seront effacées. tes missions cochées et tes notes restent.<div style={{display:"flex",gap:14,justifyContent:"center",marginTop:8}}><button onClick={()=>{ setPerso(null); setEtat(()=>ETAT_VIDE); onClose(); }} style={{...lien(C),color:"#B5553F",fontWeight:700}}>oui, effacer</button><button onClick={()=>setEffacer(false)} style={lien(C)}>non, garder</button></div></div>}
+        :<div style={{fontSize:12,color:C.brown,lineHeight:1.6}}>tes six réponses et tes missions mises de côté seront effacées. tes missions cochées et tes notes restent, et les chapitres à venir reprennent l'ordre classique.<div style={{display:"flex",gap:14,justifyContent:"center",marginTop:8}}><button onClick={()=>{ effacerReponses(); onClose(); }} style={{...lien(C),color:"#B5553F",fontWeight:700}}>oui, effacer</button><button onClick={()=>setEffacer(false)} style={lien(C)}>non, garder</button></div></div>}
       </div>
     </Feuille>);
 }
@@ -277,8 +309,21 @@ export function SousMission({part,C,pc,d,jour,code,perso,etat,setEtat,mission,ni
     </div>);
 }
 
+// ── le petit point de la semaine : une réponse, un effet, jamais obligatoire ──
+const POINTS = [["bien","ça me va comme ça"],["court","plus court"],["doux","plus doux"],["detail","plus de détails"]];
+const DITPOINT = {bien:"parfait, on ne change rien.",court:"noté : des missions courtes pour les 7 prochains jours.",doux:"noté : on allège pendant 7 jours. rien n'est à rattraper.",detail:"noté : des missions complètes pour les 7 prochains jours."};
+const pointer = (e,sem,k,jour) => { const x={...e,points:{...e.points,[sem]:k}};
+  const sansApres=Object.fromEntries(Object.entries(e.niv).filter(([d])=>+d<jour));
+  if(k==="court") return {...x,niv:sansApres,express:{de:jour,a:jour+6},detail:null};
+  if(k==="doux") return {...x,niv:sansApres,legerJusqu:jourLocal(6),detail:null};
+  if(k==="detail") return {...x,niv:sansApres,detail:{de:jour,a:jour+6},express:null,legerJusqu:""};
+  return x; };
+
 // ── SUR L'ACCUEIL : l'invitation, sa phrase, et le petit avis ──
-export function CartePerso({C,Icon,perso,jour,etat,setEtat,ouvrir,setTab}){
+export function CartePerso({C,Icon,perso,jour,etat,setEtat,ouvrir,setTab,mois}){
+  const moisNow=mois&&mois.find(m=>jour>=m.a&&jour<=m.b), moisSuiv=moisNow&&mois[mois.indexOf(moisNow)+1];
+  const suite=moisNow?"en ce moment : "+moisNow.label+(moisSuiv?" · ensuite : "+moisSuiv.label:""):"";
+  const s0=jour>=7&&jour%7<=1?Math.floor(jour/7):0; const sem=s0&&!etat.points[s0]?s0:0; const fait=s0&&DITPOINT[etat.points[s0]];
   const carte={background:C.white,border:`1px solid ${C.border}`,borderRadius:16,padding:"12px 14px",marginBottom:12};
   if(!perso) return (
     <button onClick={ouvrir} style={{...carte,width:"100%",display:"flex",alignItems:"center",gap:12,background:`linear-gradient(135deg,${C.mauveSoft},#fff)`,border:`1.5px solid ${C.mauve}`,cursor:"pointer",fontFamily:"inherit",textAlign:"left"}}>
@@ -298,10 +343,17 @@ export function CartePerso({C,Icon,perso,jour,etat,setEtat,ouvrir,setTab}){
       <div style={{fontSize:12.5,color:C.brown,marginBottom:8}}>est-ce que ce parcours te ressemble ?</div>
       <div style={{display:"flex",gap:7,alignItems:"center"}}><span style={{fontSize:10,color:C.light}}>pas du tout</span>{[1,2,3,4,5].map(n=><button key={n} onClick={()=>setEtat(e=>({...e,avis:{...e.avis,[avisA]:n}}))} style={{width:34,height:34,borderRadius:"50%",border:`1.5px solid ${C.border}`,background:C.white,color:C.brown,fontFamily:"inherit",fontSize:12.5,fontWeight:600,cursor:"pointer"}}>{n}</button>)}<span style={{fontSize:10,color:C.light}}>tout à fait</span></div>
     </div>}
+    {!avisA&&sem&&<div style={carte}>
+      <div style={{fontSize:12.5,fontWeight:700,color:C.brown,marginBottom:3}}>ta semaine, en 20 secondes</div>
+      <div style={{fontSize:11.5,color:C.mid,marginBottom:8}}>on ajuste quelque chose pour la suite ? c'est facultatif.</div>
+      <div style={{display:"flex",gap:7,flexWrap:"wrap"}}>{POINTS.map(([k,l])=><button key={k} onClick={()=>setEtat(e=>pointer(e,sem,k,jour))} style={{...puce(C,false),fontSize:11.5,padding:"7px 11px"}}>{l}</button>)}</div>
+      <div style={{marginTop:9}}><button onClick={()=>setEtat(e=>({...e,points:{...e.points,[sem]:"passe"}}))} style={lien(C)}>pas cette semaine</button></div>
+    </div>}
+    {fait&&<div style={{...carte,background:C.mauveSoft,border:"none",fontSize:12,color:C.brown,lineHeight:1.5}}>{fait}</div>}
     <button onClick={ouvrir} style={{...carte,width:"100%",display:"flex",alignItems:"center",gap:10,cursor:"pointer",fontFamily:"inherit",textAlign:"left"}}>
       <Icon name="sparkle" size={16} color={C.mauve}/>
-      <span style={{flex:1,fontSize:12.5,fontWeight:700,color:C.brown}}>Mon parcours à moi</span>
-      <span style={{fontSize:11,color:C.mid}}>voir et modifier</span><span style={{fontSize:14,color:C.light}}>›</span>
+      <span style={{flex:1,minWidth:0}}><span style={{display:"block",fontSize:12.5,fontWeight:700,color:C.brown}}>Mon parcours à moi</span>{suite&&<span style={{display:"block",fontSize:10.5,color:C.mid,lineHeight:1.4}}>{suite}</span>}</span>
+      <span style={{fontSize:11,color:C.mid,flexShrink:0}}>voir et modifier</span><span style={{fontSize:14,color:C.light}}>›</span>
     </button>
   </>);
 }
