@@ -9,7 +9,7 @@ import { useState, useEffect, useRef } from "react";
 // Tant qu'une image manque, le pictogramme existant s'affiche à la place.
 // ═══════════════════════════════════════════════════════════════════════════
 
-const save = (key, val) => { try { localStorage.setItem("sopklife_"+key, JSON.stringify(val)); } catch(e) {} };
+const save = (key, val) => { if(window.__smopGel) return; try { localStorage.setItem("sopklife_"+key, JSON.stringify(val)); } catch(e) {} };
 const load = (key, def) => { try { const v = localStorage.getItem("sopklife_"+key); return v ? JSON.parse(v) : def; } catch(e) { return def; } };
 
 const L  = "#8E80A3";   // lavande foncée (boutons)
