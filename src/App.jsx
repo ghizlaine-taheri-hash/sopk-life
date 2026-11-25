@@ -10669,6 +10669,7 @@ export default function App() {
   const [mouvOpen, setMouvOpen] = useState(null);
   const [bougerDepart, setBougerDepart] = useState(null); // séance à ouvrir directement dans Bouger
   useEffect(()=>{ if(tab==="mouvement") setTab("bouger"); },[tab]); // l'ancienne rubrique « Mes mouvements » est remplacée par Bouger
+  useEffect(()=>{ if(tab==="ancrage"){ setJournalMoment("ancrage"); setTab("journal"); } if(tab==="tendances"){ setTab("apercu"); setScrollAnchor("mes-tendances"); } },[tab]); // rangées dans le journal et la vue d'ensemble
   const [tisaneOpen, setTisaneOpen] = useState(null);
   const [mecaOpen, setMecaOpen] = useState(null);
   const [savoirOpen, setSavoirOpen] = useState(null);
@@ -10806,7 +10807,7 @@ export default function App() {
   useEffect(()=>{ save("lettre",lettre); },[lettre]);
   useEffect(()=>{ save("vidage",vidage); },[vidage]);
   useEffect(()=>{ try{ window.scrollTo(0,0); }catch(e){} },[tab,outilOpen,outilCat]);
-  useEffect(()=>{ if(tab==="mouvement") return; if(navCur.current!==tab){ setNavPrevTab(navReset.current ? null : navCur.current); navCur.current=tab; } navReset.current=false; },[tab]);
+  useEffect(()=>{ if(["mouvement","ancrage","tendances"].includes(tab)) return; if(navCur.current!==tab){ setNavPrevTab(navReset.current ? null : navCur.current); navCur.current=tab; } navReset.current=false; },[tab]);
   useEffect(()=>{ save("mesures",mesures); },[mesures]);
   useEffect(()=>{ save("perso",perso); },[perso]);
   useEffect(()=>{ save("persoEtat",persoEtat); },[persoEtat]);
@@ -10920,8 +10921,22 @@ export default function App() {
   // ressenti : 1 = bonne journée de ce côté-là, 0 = journée difficile
   const ressentiQ = (metric,v)=>{ if(v==null) return null; if(metric==="sommeil") return (v>=7&&v<=9)?1:((v>=6&&v<=10)?0.6:0.2); if(metric==="stress"||metric==="symptomes") return Math.max(0,Math.min(1,(5-v)/4)); return Math.max(0,Math.min(1,(v-1)/4)); };
   const goodColor = (q)=> q==null?"#EFE7DC": q>=0.85?"#A9C48C": q>=0.65?"#CFDDB8": q>=0.45?"#E9D9C0": q>=0.25?"#E0B98A":"#C67A45";
+  // minutes de mouvement d'un jour : ce qu'elle a noté, sinon ses séances de Bouger
+  const mouvJour = (k)=>{ const n=journal[k]&&journal[k].mouvement; if(typeof n==="number") return n; const f=load("bougerFait",{})[k]; return f&&f.length?f.reduce((a,x)=>a+(x.min||0),0):null; };
+  const joursNotes = ()=>[...new Set([...Object.keys(journal),...Object.keys(load("bougerFait",{}))])].map(k=>({...(journal[k]||{}),_k:k,mouvement:mouvJour(k)}));
+  // ce qu'il manque encore pour chaque tendance (3 jours de chaque côté), sans rien inventer
+  const tendancesEnCours = ()=>{
+    const J=joursNotes(); const sl=(d)=>{ const v=Object.values(d.symptomes||{}).filter(x=>typeof x==="number"); return v.length?1:null; }; const nb=(f)=>J.filter(f).length;
+    const num=(x)=>typeof x==="number"; const vu=computeTrends().map(t=>t.text).join(" ");
+    const L=[
+      ["Sommeil et symptômes",/nuits où tu dors/,nb(d=>sl(d)&&num(d.sommeil)&&d.sommeil<7),"nuits de moins de 7 h",nb(d=>sl(d)&&num(d.sommeil)&&d.sommeil>=7),"nuits plus longues","note ton sommeil et tes symptômes"],
+      ["Stress et symptômes",/jours les plus stressés/,nb(d=>sl(d)&&d.stress>=4),"jours stressés",nb(d=>sl(d)&&num(d.stress)&&d.stress<=2),"jours calmes","note ton stress et tes symptômes"],
+      ["Mouvement et énergie",/Ton énergie est en moyenne/,nb(d=>num(d.energie)&&num(d.mouvement)&&d.mouvement>=20),"jours où tu bouges",nb(d=>num(d.energie)&&num(d.mouvement)&&d.mouvement<20),"jours sans","note ton énergie et ton mouvement"],
+      ["Stress et fringales",/Tes fringales sont en moyenne/,nb(d=>num((d.symptomes||{}).fringale)&&d.stress>=4),"jours stressés",nb(d=>num((d.symptomes||{}).fringale)&&num(d.stress)&&d.stress<=2),"jours calmes","note tes fringales et ton stress"],
+    ];
+    return L.filter(x=>!x[1].test(vu)).map(([l,,a,la,b,lb,quoi])=>({l,pret:a>=3&&b>=3,fait:Math.min(3,a)+Math.min(3,b),manque:quoi+". il manque "+[a<3?(3-a)+" "+la:"",b<3?(3-b)+" "+lb:""].filter(Boolean).join(" et ")+"."})); };
   const computeTrends = ()=>{
-    const days=Object.keys(journal).map(k=>journal[k]);
+    const days=joursNotes();
     const out=[];
     const sympLoad=(d)=>{ const sy=(d&&d.symptomes)||{}; const v=Object.values(sy).filter(x=>typeof x==="number"); return v.length?v.reduce((a,b)=>a+b,0)/v.length:null; };
     const avg=(arr)=>arr.length?arr.reduce((a,b)=>a+b,0)/arr.length:0;
@@ -11671,9 +11686,9 @@ export default function App() {
         </div>
         {[
           {g:"Où j'en suis",items:[{id:"kamila",ic:"home",l:"Mon accueil"},{id:"carte",ic:"map",l:"Ma carte SMOP"}]},
-          {g:"Mon suivi",items:[{id:"suivi",ic:"chart",l:"Ta journée"},{id:"cycle",ic:"moon",l:"Mon cycle"},{id:"apercu",ic:"calendar",l:"Vue d'ensemble"},{id:"tendances",ic:"pulse",l:"Mes tendances"},{id:"journal",ic:"calendar",l:"Mon journal"},{id:"bouger",ic:"steps",l:"Bouger"},{id:"ancrage",ic:"heart",l:"Mon ancrage"}]},
+          {g:"Mon suivi",items:[{id:"suivi",ic:"chart",l:"Ta journée"},{id:"cycle",ic:"moon",l:"Mon cycle"},{id:"apercu",ic:"calendar",l:"Vue d'ensemble"},{id:"journal",ic:"calendar",l:"Mon journal"},{id:"bouger",ic:"steps",l:"Bouger"}]},
           {g:"Mes ressources",items:[{id:"outils",ic:"book",l:"Outils & aliments"}]},
-          {g:"Mon dossier santé",items:[{id:"medecin",ic:"health",l:"Résumé médecin"},{id:"analyses",ic:"flask",l:"Analyses de sang"}]},
+          {g:"Mon dossier santé",items:[{id:"medecin",ic:"health",l:"Résumé médecin"},{id:"analyses",ic:"flask",l:"Analyses de sang"},{id:"mesures",ic:"drop",l:"Mes mesures"}]},
         ].map((grp,gi)=>(
           <div key={gi} style={{marginBottom:14}}>
             <div style={{fontSize:8.5,letterSpacing:1.5,textTransform:"uppercase",opacity:.38,padding:"0 18px",marginBottom:6}}>{grp.g}</div>
@@ -11732,7 +11747,7 @@ export default function App() {
         {/* Retour à l'écran d'où l'on vient (quand on y est arrivée par un lien, une mission…) */}
         {(()=>{
           const NAV_LABELS={kamila:"Accueil",carte:"Ma carte",suivi:"Suivi",outils:"Ressources",medecin:"Santé",apercu:"Vue d'ensemble",tendances:"Mes tendances",mesures:"Mes mesures",cycle:"Mon cycle",journal:"Mon journal",mouvement:"Mes mouvements",bouger:"Bouger",ancrage:"Mon ancrage",analyses:"Mes analyses",sommeil:"Mon sommeil",soin:"Prendre soin",sos:"Mode crise"};
-          const SUBP={cycle:"suivi",apercu:"suivi",tendances:"suivi",mesures:"suivi",journal:"suivi",mouvement:"suivi",sos:"outils"};
+          const SUBP={cycle:"suivi",apercu:"suivi",tendances:"suivi",mesures:"medecin",journal:"suivi",mouvement:"suivi",sos:"outils"};
           const p=navPrevTab;
           if(!p||p===tab||p===SUBP[tab]||!NAV_LABELS[p]) return null;
           return(
@@ -11745,9 +11760,9 @@ export default function App() {
 
         {/* Bouton retour sur les sous-écrans */}
         {(()=>{
-          const SUB={cycle:"suivi",apercu:"suivi",tendances:"suivi",mesures:"suivi",journal:"suivi",mouvement:"suivi",sos:"outils"};
+          const SUB={cycle:"suivi",apercu:"suivi",tendances:"suivi",mesures:"medecin",journal:"suivi",mouvement:"suivi",sos:"outils"};
           const parent=SUB[tab]; if(!parent) return null;
-          const labels={suivi:"Suivi",outils:"Ressources"};
+          const labels={suivi:"Suivi",outils:"Ressources",medecin:"Santé"};
           return(
             <button onClick={()=>setTab(parent)}
               style={{display:"flex",alignItems:"center",gap:6,background:"none",border:"none",cursor:"pointer",fontFamily:"inherit",color:C.mid,fontSize:12,fontWeight:600,padding:"2px 0",marginBottom:12}}>
@@ -11867,7 +11882,7 @@ export default function App() {
                 <div style={{fontSize:12,color:C.mid,marginBottom:8}}>Comment te sens-tu aujourd'hui ?</div>
                 <div style={{display:"flex",gap:7,flexWrap:"wrap"}}>
                   {OPTS.map(o=>{ const on=energie===o.k; return(
-                    <button key={o.k} onClick={()=>setEnergie(on?null:o.k)} aria-pressed={on}
+                    <button key={o.k} onClick={()=>{ setEnergie(on?null:o.k); if(!on&&(typeof jToday.energie!=="number"||jToday.energieAccueil)) setJournal(p=>({...p,[todayKey]:{...(p[todayKey]||{}),energie:{haute:4,moyenne:3,basse:2}[o.k],energieAccueil:true}})); }} aria-pressed={on}
                       style={{padding:"8px 14px",borderRadius:99,border:`1.5px solid ${on?C.terra:C.border}`,background:on?C.terra:C.white,color:on?"#fff":C.brown,fontFamily:"inherit",fontSize:12,fontWeight:600,cursor:"pointer"}}>{o.l}</button>); })}
                   <button onClick={()=>{ setAccompOpen("coach"); setScrollAnchor("coach-mindset"); }}
                     style={{padding:"8px 14px",borderRadius:99,border:`1.5px solid ${C.border}`,background:C.white,color:C.brown,fontFamily:"inherit",fontSize:12,fontWeight:600,cursor:"pointer"}}>+ autre</button>
@@ -11880,7 +11895,7 @@ export default function App() {
 
             {/* ── Aujourd'hui, pour toi : « bon, je fais quoi aujourd'hui ? » ── */}
             {perso&&day<=365&&vueJour==null&&(()=>{ const t=getCureActive(profil,day).find(x=>!(tisanesPrises[dateLocale()]||{})[x.nom]&&({matin:true,midi:new Date().getHours()>=11,soir:new Date().getHours()>=17})[tisaneMoment(x.timing)]);
-              return <AujourdhuiPourToi C={C} pc={pc} Icon={Icon} perso={perso} etat={persoEtat} setEtat={setPersoEtat} energie={energie} niveau={niveau} mission={todayData} fait={!!checked[day]} tisane={t?t.nom:""} prendreTisane={()=>togglePrise(t.nom)} journeeNotee={["humeur","energie","stress","sommeil"].some(k=>jToday[k]!=null)} aller={allerVers} dateJour={dateLocale()} ouvrirMission={()=>{ setMissionOpen(true); setScrollAnchor("action-du-jour"); }}/>; })()}
+              return <AujourdhuiPourToi C={C} pc={pc} Icon={Icon} perso={perso} etat={persoEtat} setEtat={setPersoEtat} energie={energie} niveau={niveau} mission={todayData} fait={!!checked[day]} tisane={t?t.nom:""} prendreTisane={()=>togglePrise(t.nom)} journeeNotee={["humeur","stress","sommeil"].some(k=>jToday[k]!=null)||(jToday.energie!=null&&!jToday.energieAccueil)} aller={allerVers} dateJour={dateLocale()} ouvrirMission={()=>{ setMissionOpen(true); setScrollAnchor("action-du-jour"); }}/>; })()}
 
             {/* ══ TOUT EN HAUT — Je viens d'être diagnostiquée ══ */}
             {!load("diagSeen",false)&&(
@@ -12610,20 +12625,19 @@ export default function App() {
             <div style={carte}>
               <div style={{fontSize:12.5,fontWeight:700,color:C.brown,marginBottom:4}}>suivre mon corps</div>
               {ligne("moon","Mon cycle","tes règles, ta courbe de température, tes signes",()=>setTab("cycle"))}
-              {ligne("chart","Mes tendances","ce qui t'aide vraiment, semaine après semaine",()=>setTab("tendances"))}
-              {ligne("pulse","Mes mesures","tension, glycémie, température",()=>setTab("mesures"))}
+              {ligne("chart","Ma vue d'ensemble","tes courbes et tes tendances",()=>setTab("apercu"))}
               {ligne("bed","Mon sommeil","tes nuits et ton rituel du soir",()=>setTab("sommeil"))}
             </div>
             <div style={carte}>
               <div style={{fontSize:12.5,fontWeight:700,color:C.brown,marginBottom:4}}>prendre soin de ma tête</div>
-              {ligne("book","Mon journal","ce que tu ressens, ce que tu as testé",()=>setTab("journal"))}
-              {ligne("leaf","Mon ancrage","ton affirmation, ta lettre, vider ton cerveau",()=>setTab("ancrage"))}
+              {ligne("book","Mon journal","le matin, le soir, et un coin pour t'ancrer",()=>setTab("journal"))}
               {ligne("alert","Mes fiches SOS","fringale, angoisse, réveil à 3h… quand ça ne va pas",()=>setTab("sos"))}
             </div>
             <div style={carte}>
               <div style={{fontSize:12.5,fontWeight:700,color:C.brown,marginBottom:4}}>ma santé</div>
               {ligne("flask","Mes analyses","comprendre tes résultats de prise de sang",()=>setTab("analyses"))}
               {ligne("doctor","Mon dossier médecin","préparer ton prochain rendez-vous",()=>setTab("medecin"))}
+              {ligne("drop","Mes mesures","tension, glycémie, poids : facultatif",()=>setTab("mesures"))}
             </div>
             {missionsSoin.length>0&&(
             <div style={carte}>
@@ -14072,12 +14086,9 @@ export default function App() {
             <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8,marginBottom:14}}>
               {[
                 {id:"apercu",ic:"chart",l:"Vue d'ensemble"},
-                {id:"tendances",ic:"pulse",l:"Mes tendances"},
-                {id:"mesures",ic:"drop",l:"Mes mesures"},
                 {id:"cycle",ic:"moon",l:"Mon cycle"},
                 {id:"journal",ic:"calendar",l:"Mon journal"},
                 {id:"bouger",ic:"steps",l:"Bouger"},
-                {id:"ancrage",ic:"heart",l:"Mon ancrage"},
                 {id:"planif",ic:"book",l:"Planifier ma semaine",outil:true},
               ].map(x=>(
                 <button key={x.id} onClick={()=>{ if(x.outil){setTab("outils");setOutilCat("alimentation");setOutilOpen(x.id);} else setTab(x.id); }} style={{display:"flex",alignItems:"center",gap:8,background:C.bubble,border:`1px solid ${C.border}`,borderRadius:12,padding:"11px 12px",cursor:"pointer",fontFamily:"inherit",textAlign:"left"}}>
@@ -14196,7 +14207,7 @@ export default function App() {
                     {sc.opts.map((opt,i)=>{
                       const val=i+1; const sel=jView[key]===val;
                       return (
-                        <button key={i} onClick={()=>setJV(key, sel?null:val)}
+                        <button key={i} onClick={()=>{ setJV(key, sel?null:val); if(key==="energie") setJV("energieAccueil",false); }}
                           style={{flex:1,padding:"8px 2px",borderRadius:9,border:`1.5px solid ${sel?sc.col:C.border}`,background:sel?sc.col:C.white,color:sel?"white":C.mid,cursor:"pointer",fontFamily:"inherit",display:"flex",flexDirection:"column",alignItems:"center",gap:1}}>
                           <span style={{fontSize:12,fontWeight:sel?700:500}}>{val}</span>
                           <span style={{fontSize:7.5,opacity:.85}}>{opt}</span>
@@ -14273,10 +14284,22 @@ export default function App() {
               ))}
             </div>
 
-            <button onClick={()=>setTab("tendances")} style={{width:"100%",background:`${pc.p}10`,border:`1px solid ${pc.p}40`,borderRadius:12,padding:"11px 14px",marginBottom:14,display:"flex",alignItems:"center",justifyContent:"space-between",cursor:"pointer",fontFamily:"inherit"}}>
-              <span style={{fontSize:12.5,fontWeight:600,color:C.brown}}>Mes tendances, expliquées par Kamila</span>
-              <span style={{fontSize:13,color:pc.p}}>→</span>
-            </button>
+            {(()=>{ const trends=computeTrends(), suivis=tendancesEnCours(); return (
+            <div id="mes-tendances" style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:16,padding:"15px 16px",marginBottom:14}}>
+              <div style={{fontSize:13,fontWeight:600,color:C.brown,marginBottom:2}}>Mes tendances</div>
+              <div style={{fontSize:11,color:C.mid,lineHeight:1.5,marginBottom:10}}>ce qui semble jouer sur toi, d'après ce que tu notes. ce sont des repères, pas des preuves.</div>
+              {trends.map((t,i)=>(
+                <div key={i} style={{background:C.cream,borderRadius:12,padding:"12px 13px",marginBottom:9}}>
+                  <div style={{fontSize:12.5,color:C.brown,lineHeight:1.5,marginBottom:5}}>{t.text}</div>
+                  <div style={{fontSize:12,fontStyle:"italic",fontFamily:"'Playfair Display',serif",color:C.mid,lineHeight:1.55}}>« {t.kamila} »</div>
+                </div>))}
+              {suivis.map((x,i)=>(
+                <div key={i} style={{display:"flex",gap:10,alignItems:"center",padding:"8px 0",borderTop:`1px solid ${C.border}`}}>
+                  <span style={{flex:1,minWidth:0}}><span style={{display:"block",fontSize:12,fontWeight:600,color:C.brown}}>{x.l}</span><span style={{display:"block",fontSize:10.5,color:C.mid,lineHeight:1.45}}>{x.pret?"pas d'écart net pour l'instant : c'est aussi une info.":x.manque}</span></span>
+                  <span style={{fontSize:10,fontWeight:700,color:x.pret?"#4A7A52":C.light,flexShrink:0}}>{x.pret?"suivi":x.fait+"/6"}</span>
+                </div>))}
+              <button onClick={()=>setTab("suivi")} style={{marginTop:10,background:"none",border:"none",padding:0,color:pc.p,fontFamily:"inherit",fontSize:11.5,fontWeight:700,cursor:"pointer"}}>noter ma journée →</button>
+            </div>); })()}
 
             {!hasData ? (
               <div style={{background:C.white,border:`1px dashed ${C.border}`,borderRadius:16,padding:"28px 18px",textAlign:"center",color:C.light,fontSize:12.5,lineHeight:1.65}}>
@@ -14383,31 +14406,6 @@ export default function App() {
           );
         })()}
 
-        {tab==="tendances"&&(()=>{
-          const trends=computeTrends();
-          return (
-          <div className="fu">
-            <button onClick={()=>setTab("apercu")} style={{background:"none",border:"none",color:C.light,fontSize:12,cursor:"pointer",fontFamily:"inherit",padding:0,marginBottom:12,display:"flex",alignItems:"center",gap:5}}>← vue d'ensemble</button>
-            <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.3rem",color:C.brown,marginBottom:2}}>Tes tendances</div>
-            <div style={{fontSize:12,color:C.light,marginBottom:16,lineHeight:1.5}}>ce que tes données racontent — et ce que ça veut dire pour toi.</div>
-            {trends.length===0 ? (
-              <div style={{background:C.white,border:`1px dashed ${C.border}`,borderRadius:16,padding:"28px 18px",textAlign:"center",color:C.light,fontSize:12.5,lineHeight:1.65}}>
-                ✨ continue ton <b style={{color:C.mid}}>Suivi</b> quelques jours.<br/>dès qu'une tendance se dessine dans tes données, je te l'explique ici — jamais avant, pour ne rien inventer.
-              </div>
-            ) : trends.map((t,i)=>(
-              <div key={i} style={{background:C.white,borderRadius:16,padding:"16px",marginBottom:14,border:`1px solid ${C.border}`}}>
-                <span style={{display:"inline-block",fontSize:9,letterSpacing:.5,background:`${pc.p}18`,color:pc.p,borderRadius:99,padding:"3px 10px",marginBottom:8}}>tendance · {t.tag}</span>
-                <div style={{fontSize:14,color:C.brown,lineHeight:1.45,marginBottom:10}}>{t.text}</div>
-                <div style={{background:"#F7EFE6",borderLeft:`3px solid ${pc.p}`,borderRadius:"0 10px 10px 0",padding:"11px 13px"}}>
-                  <div style={{fontSize:9,fontWeight:700,color:pc.p,marginBottom:3}}>le mot de Kamila</div>
-                  <div style={{fontSize:12.5,fontStyle:"italic",fontFamily:"'Playfair Display',serif",color:C.mid,lineHeight:1.6}}>« {t.kamila} »</div>
-                </div>
-              </div>
-            ))}
-          </div>
-          );
-        })()}
-
         {tab==="mesures"&&(()=>{
           const poids=(mesures.poids||[]).slice().sort((a,b)=> a.d<b.d?-1:1);
           const vals=poids.map(p=>p.v);
@@ -14419,9 +14417,8 @@ export default function App() {
           const pts=poids.map((p,i)=>`${px(i).toFixed(1)},${py(p.v).toFixed(1)}`).join(" ");
           return (
           <div className="fu">
-            <button onClick={()=>setTab("suivi")} style={{background:"none",border:"none",color:C.light,fontSize:12,cursor:"pointer",fontFamily:"inherit",padding:0,marginBottom:12,display:"flex",alignItems:"center",gap:5}}>← retour au suivi</button>
             <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.3rem",color:C.brown,marginBottom:2}}>Mes mesures</div>
-            <div style={{fontSize:12,color:C.light,marginBottom:14}}>optionnel — seulement si ça t'aide.</div>
+            <div style={{fontSize:12,color:C.light,marginBottom:14}}>optionnel, seulement si ça t'aide. ta température, elle, est dans <button onClick={()=>setTab("cycle")} style={{background:"none",border:"none",padding:0,color:pc.p,fontFamily:"inherit",fontSize:12,fontWeight:700,cursor:"pointer",textDecoration:"underline"}}>Mon cycle</button>.</div>
 
             <div style={{background:"#F1EEF6",borderLeft:"3px solid #A89AB8",borderRadius:"0 12px 12px 0",padding:"12px 14px",marginBottom:14}}>
               <div style={{fontSize:9,fontWeight:700,color:"#8B7BA0",marginBottom:4}}>le mot de Kamila</div>
@@ -14430,7 +14427,6 @@ export default function App() {
 
             {(()=>{
               const DEFS=[
-                {k:"temp",l:"Température au réveil",u:"°C",ph:"36.5",help:"au réveil, avant de te lever. elle aide à repérer la légère montée qui suit l'ovulation."},
                 {k:"tension",l:"Tension artérielle",u:"",ph:"12/8",help:"en pharmacie ou avec un tensiomètre. une à quelques fois par an suffit."},
                 {k:"glycemie",l:"Glycémie",u:"g/L",ph:"0.95",help:"seulement si tu as un lecteur et que ton médecin te l'a conseillé."},
               ];
@@ -14673,6 +14669,15 @@ export default function App() {
                 <div style={{fontSize:10,color:C.mid,marginTop:1}}>noter et suivre tes bilans dans le temps</div>
               </div>
               <div style={{fontSize:16,color:pc.p}}>›</div>
+            </button>
+
+            <button onClick={()=>setTab("mesures")} style={{width:"100%",display:"flex",alignItems:"center",gap:12,background:C.white,border:`1.5px solid ${C.border}`,borderRadius:14,padding:"14px 15px",marginBottom:14,cursor:"pointer",fontFamily:"inherit",textAlign:"left"}}>
+              <div style={{width:38,height:38,borderRadius:11,background:`${pc.p}15`,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><Icon name="drop" size={18} color={pc.p}/></div>
+              <div style={{flex:1}}>
+                <div style={{fontSize:13,fontWeight:700,color:C.brown}}>Mes mesures</div>
+                <div style={{fontSize:10,color:C.mid,marginTop:1}}>tension, glycémie, poids : facultatif, et repris dans ton dossier</div>
+              </div>
+              <div style={{fontSize:16,color:C.light}}>›</div>
             </button>
 
             {/* ── TROUVER UN SOIGNANT DE CONFIANCE ── */}
@@ -14955,13 +14960,28 @@ profil · tes priorités · les analyses & questions que tu as cochées · ton s
         )}
 
         {/* ── MON ANCRAGE (affirmation + lettre + vidage de cerveau) ── */}
-        {tab==="ancrage"&&(()=>{
+        {/* ── JOURNAL ── */}
+        {tab==="journal"&&(
+          <div className="fu">
+            <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.2rem",color:C.brown,marginBottom:3}}>Mon journal</div>
+            <div style={{fontSize:10,color:C.light,marginBottom:14}}>{todayLabel} · ton rituel du jour</div>
+
+            {/* ── RITUEL GUIDÉ (matin / soir) ── */}
+            <div style={{marginBottom:18}}>
+              <div style={{display:"flex",gap:6,background:C.bubble,borderRadius:12,padding:4,marginBottom:14}}>
+                {[{id:"matin",l:"Le matin"},{id:"soir",l:"Le soir"},{id:"ancrage",l:"M'ancrer"}].map(m=>{
+                  const on=journalMoment===m.id;
+                  return <button key={m.id} onClick={()=>setJournalMoment(m.id)}
+                    style={{flex:1,padding:"9px",borderRadius:9,border:"none",cursor:"pointer",fontFamily:"inherit",fontSize:12,fontWeight:on?700:500,color:on?C.brown:C.mid,background:on?C.white:"transparent",boxShadow:on?"0 2px 6px rgba(0,0,0,.05)":"none"}}>{m.l}</button>;
+                })}
+              </div>
+
+              {journalMoment==="ancrage"?(()=>{
           const now=new Date(); const doy=Math.floor((now-new Date(now.getFullYear(),0,0))/86400000);
           const affi=AFFIRMATIONS[doy%AFFIRMATIONS.length];
           return(
           <div className="fu">
-            <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.3rem",color:C.brown,marginBottom:2}}>Mon ancrage</div>
-            <div style={{fontSize:12,color:C.light,marginBottom:16}}>pourquoi tu fais ça — à relire dans les jours durs.</div>
+            <div style={{fontSize:12,color:C.light,marginBottom:12}}>pourquoi tu fais ça, à relire dans les jours durs.</div>
 
             {/* Affirmation du jour */}
             <div style={{background:`linear-gradient(135deg,${C.mauve},#8B7BA0)`,borderRadius:18,padding:"22px 20px",color:"#fff",textAlign:"center",marginBottom:16}}>
@@ -14991,25 +15011,7 @@ profil · tes priorités · les analyses & questions que tu as cochées · ton s
             </div>
           </div>
           );
-        })()}
-
-        {/* ── JOURNAL ── */}
-        {tab==="journal"&&(
-          <div className="fu">
-            <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.2rem",color:C.brown,marginBottom:3}}>Mon journal</div>
-            <div style={{fontSize:10,color:C.light,marginBottom:14}}>{todayLabel} · ton rituel du jour</div>
-
-            {/* ── RITUEL GUIDÉ (matin / soir) ── */}
-            <div style={{marginBottom:18}}>
-              <div style={{display:"flex",gap:6,background:C.bubble,borderRadius:12,padding:4,marginBottom:14}}>
-                {[{id:"matin",l:"Le matin"},{id:"soir",l:"Le soir"}].map(m=>{
-                  const on=journalMoment===m.id;
-                  return <button key={m.id} onClick={()=>setJournalMoment(m.id)}
-                    style={{flex:1,padding:"9px",borderRadius:9,border:"none",cursor:"pointer",fontFamily:"inherit",fontSize:12,fontWeight:on?700:500,color:on?C.brown:C.mid,background:on?C.white:"transparent",boxShadow:on?"0 2px 6px rgba(0,0,0,.05)":"none"}}>{m.l}</button>;
-                })}
-              </div>
-
-              {journalMoment==="matin"?(
+        })():journalMoment==="matin"?(
                 <div>
                   <div style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:16,padding:"1rem",marginBottom:11}}>
                     <div style={{fontSize:9,letterSpacing:1.5,textTransform:"uppercase",color:C.terra,fontWeight:700,marginBottom:9}}>Comment je me sens ce matin</div>
