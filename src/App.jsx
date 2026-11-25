@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import Bouger from "./Bouger.jsx";
+import { ETAT_VIDE, niveauPour, adapterMission, trouverAutre, FeuillePerso, SousMission, CartePerso, MesDonnees } from "./Perso.jsx";
+import { ORDRE_BASE, ordreValide, estBase, moisSelon, moisDe, idDuJour, texteLibre, ordreDeBase, convertir, convertirCles } from "./Parcours.jsx";
 // Les fenêtres s'affichent directement sur l'écran, quel que soit l'endroit où on a fait défiler la page
 const Portail = ({children}) => createPortal(<div style={{fontFamily:"'DM Sans',sans-serif"}}>{children}</div>, document.body);
 
@@ -3266,11 +3268,13 @@ const PILIERS = {
 // jours 31 à 365, une lettre par jour (10 jours par groupe)
 const PILIERS_365 = "NMNAKPBNMN SCNBNMKNKP BNMKACTRNB NMKACNRNMK ACRRNMNSDP BNMDTCRNBN MKACAANMSA KPANMKSCNR NMKSCAAABN MCCCCCNMCS CCCNMKACCC NMKDDCRCBN MKAPPRPPPP PNBNPPSPPR NMDPPPTRBD DKRRPRRSNN DRBRRRDTRR KCDDNMRBMM MMMMMMDMMM MBMNMMMRBM MMMMMRBKNK NTNNNNMNNN NKAPKTNRBD DDDDDBDDDD DDBDDDDDDB DDDDTDBDRS DDDBCCCCCC BNMSATCBCC DDCCBCCRDC CBRRRKRCBR NRRRRBBRRB RDBRNMSTDB RNRNRRBBRR RRRBB".replace(/ /g,"");
 const PILIERS_THEME = {"l'ordre dans l'assiette":"N","le petit-déjeuner qui change tout":"N","lire ses fringales comme des données":"N","trouver le sucre caché":"N","les protéines et tes hormones":"N","la cannelle de Ceylan":"N","les graisses contre les sucres":"N","l'assiette qui apaise":"N","le petit-déjeuner qui n'enflamme pas":"N","écouter ce qui t'enflamme":"N","traquer les pro-inflammatoires cachés":"N","le gras qui calme le feu":"N","curcuma & gingembre":"N","les antioxydants":"N","ton ventre, clé de l'inflammation":"N","couper le signal androgénique":"N","le petit-déjeuner qui n'excite pas tes androgènes":"N","traquer le sucre caché":"N","les protéines et tes androgènes":"N","les bons gras et tes hormones":"N","la caféine qui te trahit":"N","ne jamais partir le ventre vide":"N","le sucre qui calme, puis qui lâche":"N","l'ordre de l'assiette":"N","l'eau avant le repas":"N","le petit-déj qui tient":"N","tes oméga-3":"N","l'astuce de secours":"N","une pincée de cannelle":"N","le geste le plus sous-estimé":"N","soutenir l'élimination":"N","soutenir l'élimination des androgènes":"N","le mouvement qui change la glycémie":"M","le renforcement musculaire":"M","deuxième séance de renforcement":"M","marche double":"M","troisième séance":"M","le mouvement qui apaise":"M","bouger pour désenflammer":"M","ancrer le mouvement":"M","le mouvement qui calme les androgènes":"M","bouger sans relancer tes androgènes":"M","bouger sans te vider":"M","marcher après le repas":"M","bouger doux":"M","le sommeil est médecine":"S","le sommeil répare l'inflammation":"S","le sommeil régule tes hormones":"S","le réveil de 3h":"S","ancrer le rituel du soir":"S","la frontière digitale":"S","ta nuit, priorité n°1":"S","protéger ta nuit":"S","ton rituel du soir":"S","l'heure de coucher":"S","le téléphone hors de la chambre":"S","la lumière du matin":"S","le stress, ce grand déclencheur":"A","stress & androgènes surrénaliens":"A","ancrer la gestion du stress":"A","ton moteur, c'est le stress":"A","ton rythme de stress":"A","la charge mentale":"A","la cohérence cardiaque":"A","la nature baisse le cortisol":"A","les micro-pauses":"A","ta boîte à outils anti-cortisol":"A","le stress, carburant des deux feux":"A","le stress, source commune":"A","ton souffle":"A","dire non":"A","la micro-pause":"A","un temps dans le vert":"A","la nature & la lumière":"A","cartographier tes signes androgéniques":"P","prendre soin de ta peau & tes cheveux":"P","ta peau, tes cheveux sous cortisol":"P","préparer ton rendez-vous":"D","relire tes analyses":"D","prendre rendez-vous":"D","passer à l'action médicale":"D","tes analyses surrénaliennes":"D","le magnésium":"T","l'inositol":"T","le zinc":"T","vitamine D":"T","la vitamine D":"T","le zinc, ton minéral anti-androgènes":"T","la menthe verte, alliée anti-androgènes":"T","le thé vert, antioxydant anti-androgènes":"T","la fondation":"T","le magnésium, ton minéral anti-stress":"T","ta tisane du soir arrive":"T","ton magnésium":"T","le foie dans le SMOP":"K","bilan de semaine 1":"B","la moitié de ta Fondation":"B","rendre visible ce qui a changé":"B","bilan honnête":"B","mesurer le chemin parcouru":"B","ce que tu emmènes":"B","bilan de ta semaine 2":"B","ce qui a déjà changé":"B","mesurer le chemin":"B","ce que tu emportes":"B","une victoire notée":"B","ancrer l'habitude":"R","tout ensemble":"R","tu n'es pas faible":"R","le perfectionnisme qui t'épuise":"R","soutenir sans fouetter":"R","la douceur envers toi":"R"};
-const pilierDeMission = (m) => {
-  const j=m&&m.day; const th=String((m&&m.theme)||"").replace(/^geste d'entretien · /,"");
+const codePilier = (m) => {
+  if(m&&m._pil) return m._pil;
+  const j=m&&(m._k||m.day); const th=String((m&&m.theme)||"").replace(/^geste d'entretien · /,"");
   const c=(j>30&&j<=365)?PILIERS_365[j-31]:PILIERS_THEME[th];
-  return PILIERS[c]||PILIERS.R;
+  return PILIERS[c]?c:"R";
 };
+const pilierDeMission = (m) => PILIERS[codePilier(m)];
 
 // ─── LES MOIS DU PARCOURS (pour se repérer et revenir à n'importe quel jour) ───
 const MOIS_PARCOURS = [
@@ -10377,6 +10381,7 @@ export default function App() {
   const syncOk = useRef("");          // compte dont le cloud a bien été lu : avant, on n'envoie rien
   const dernierEnvoi = useRef(null);  // dernier bloc réellement enregistré dans le cloud
   const envoyerRef = useRef(null);
+  const envoiEnCours = useRef(null);
   const [etatSauv, setEtatSauv] = useState(null); // {ok,quand} : affiché dans Mon compte
   const [hydrated, setHydrated] = useState(false); // true quand les données cloud sont chargées (sécurité : on n'affiche pas l'app avant)
   // accès réservé : undefined = vérification en cours · true = accès ok · false = pas d'accès · "error" = vérification impossible
@@ -10503,6 +10508,29 @@ export default function App() {
     }, ()=>{ clearTimeout(safety); sansReseau(); });
   },[sb,session]);
 
+  // ─── MES DONNÉES : les récupérer, ou tout effacer ───
+  const effaceRef = useRef(false);
+  const exporterDonnees = async () => { try{
+    const donnees={}; Object.entries(collectLocal()).sort().forEach(([k,v])=>{ let x=v; try{ x=JSON.parse(v); }catch(e){} donnees[k.replace("sopklife_","")]=x; });
+    const texte=JSON.stringify({espace:"SMOP Map",compte:session?.user?.email||"",le:new Date().toISOString(),donnees},null,2);
+    const nom="mes-donnees-smop-map.json"; const blob=new Blob([texte],{type:"application/json"});
+    if(isIOS && navigator.canShare){ const f=new File([blob],nom,{type:"application/json"}); if(navigator.canShare({files:[f]})){ try{ await navigator.share({files:[f]}); return true; }catch(e){ if(e&&e.name==="AbortError") return true; } } }
+    const u=URL.createObjectURL(blob); const a=document.createElement("a"); a.href=u; a.download=nom; document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(u),4000); return true;
+  }catch(e){ return false; } };
+  const effacerDonnees = async () => {
+    if(!sb||!session) return false; effaceRef.current=true; const uid=session.user.id;
+    try{
+      const env=envoyerRef.current; if(env) await avecLimite(Promise.resolve(envoiEnCours.current),8000).catch(()=>{});
+      const { data, error } = await avecLimite(sb.from("user_data").delete().eq("user_id",uid).select("user_id").then(x=>x),8000);
+      if(error || !data || !data.length){ // suppression non autorisée par la base : on remplace par un bloc vide
+        const vide=await avecLimite(sb.from("user_data").upsert({user_id:uid,data:{},updated_at:new Date().toISOString()}).then(x=>x),8000);
+        if(vide.error) throw vide.error; }
+      try{ await avecLimite(sb.from("push_subscriptions").delete().eq("user_id",uid).then(x=>x),5000); }catch(e){}
+      try{ Object.keys(localStorage).forEach(k=>{ if(k.indexOf("sopklife_")===0||k==="smop_seenTs") localStorage.removeItem(k); }); sessionStorage.removeItem("sopklife_hydrated"); sessionStorage.setItem("smop_efface","1"); }catch(e){}
+      window.location.reload(); return true;
+    }catch(e){ effaceRef.current=false; return false; }
+  };
+
   // synchro continue : on pousse le local vers le cloud dès qu'il change — SEULEMENT une fois hydratée
   // avant chaque envoi on regarde si un autre appareil a enregistré entre-temps ; en cas d'échec on réessaie.
   useEffect(()=>{ if(!sb||!session||!hydrated) return; let alive=true, enCours=null, pause=0; const uid=session.user.id;
@@ -10524,9 +10552,10 @@ export default function App() {
       if(fusion && alive){ applyLocal(bloc); window.location.reload(); }
     };
     const push=()=>{ try{
+      if(effaceRef.current) return null;
       if(enCours) return enCours; if(Date.now()<pause) return null;
       if(dernierEnvoi.current && JSON.stringify(dernierEnvoi.current)===JSON.stringify(collectLocal())) return null;
-      enCours=avecLimite(envoyer(),20000).catch(echec).then(()=>{ enCours=null; }); return enCours;
+      enCours=avecLimite(envoyer(),20000).catch(echec).then(()=>{ enCours=null; }); envoiEnCours.current=enCours; return enCours;
     }catch(e){ return null; } };
     envoyerRef.current=()=>{ pause=0; return push(); };
     const iv=setInterval(()=>{ if(alive) push(); }, 6000);
@@ -10629,6 +10658,8 @@ export default function App() {
   const [recFiltreMoment, setRecFiltreMoment] = useState("tous");
   const [recFiltreTag, setRecFiltreTag] = useState("tous");
   const [recetteFiche, setRecetteFiche] = useState(null);
+  const [recettePop, setRecettePop] = useState(null); // recette ouverte dans une fenêtre, sans quitter la page
+  const recetteDe = (n)=> RECETTES[n] || (REPAS.find(x=>x.nom===n)||{}).recette || null;
   const [situationOpen, setSituationOpen] = useState(null);
   const [ficheOpen, setFicheOpen] = useState(null);
   const [searchOpen, setSearchOpen] = useState(false);
@@ -10684,6 +10715,9 @@ export default function App() {
   const [soignantOpen, setSoignantOpen] = useState(false);
   const [rechSpec, setRechSpec] = useState("");
   const [rechVille, setRechVille] = useState("");
+  const [perso, setPerso] = useState(() => load("perso",null));            // ses six réponses (null : pas encore répondu)
+  const [persoEtat, setPersoEtat] = useState(() => ({...ETAT_VIDE,...load("persoEtat",{})})); // missions mises de côté, longueurs, période légère
+  const [persoOpen, setPersoOpen] = useState(false);
   const [scrollAnchor, setScrollAnchor] = useState(null); // scroll vers une ancre après navigation
   const [coursesInput, setCoursesInput] = useState("");
   const [perturbCheck, setPerturbCheck] = useState(() => load("perturbCheck",{}));
@@ -10756,6 +10790,8 @@ export default function App() {
   useEffect(()=>{ try{ window.scrollTo(0,0); }catch(e){} },[tab,outilOpen,outilCat]);
   useEffect(()=>{ if(tab==="mouvement") return; if(navCur.current!==tab){ setNavPrevTab(navReset.current ? null : navCur.current); navCur.current=tab; } navReset.current=false; },[tab]);
   useEffect(()=>{ save("mesures",mesures); },[mesures]);
+  useEffect(()=>{ save("perso",perso); },[perso]);
+  useEffect(()=>{ save("persoEtat",persoEtat); },[persoEtat]);
   useEffect(()=>{ save("quizAns",quizAns); },[quizAns]);
   useEffect(()=>{ save("quizResult",quizResult); },[quizResult]);
 
@@ -10765,7 +10801,16 @@ export default function App() {
   const week = Math.ceil(day/7);
   const weekWins = victories[journalWeek]||[];
   const activeMissions = MISSIONS_BY_PROFILE[profil] || MISSIONS_META;
-  const missionPour = (d)=>{
+  const ordre = ordreValide(persoEtat.ordre), ordreClassique = estBase(ordre), mois = moisSelon(ordre,MOIS_PARCOURS);
+  // changer l'ordre des chapitres à venir : ce qui est rangé par jour (cochées, longueurs, mises de côté) suit sa mission
+  const changerOrdre = (nouveau,main)=>{ const apres=ordreValide(nouveau); const f=convertir({avant:ordre,apres,mois0:MOIS_PARCOURS});
+    setChecked(c=>convertirCles(c,f));
+    setPersoEtat(e=>({...e,ordre:apres,ordreMain:!!main,niv:convertirCles(e.niv,f),msg:convertirCles(e.msg,f),deCote:e.deCote.map(x=>({...x,d:f(x.d)})),
+      remplace:Object.fromEntries(Object.entries(e.remplace).map(([p,v])=>[f(p),v.j?{...v,j:f(v.j)}:v]))}));
+    setVueJour(null); };
+  const effacerReponses = ()=>{ const apres=ordreDeBase({ordre,jour:day,mois0:MOIS_PARCOURS}); const f=convertir({avant:ordre,apres,mois0:MOIS_PARCOURS});
+    setChecked(c=>convertirCles(c,f)); setPerso(null); setPersoEtat({...ETAT_VIDE,ordre:estBase(apres)?null:apres}); };
+  const missionBase = (d)=>{
     if(d<=30){
       const base0 = activeMissions[d-1] || MISSIONS_META[d-1] || MISSIONS_META[0];
       const base = base0.outil ? base0 : (OUTILS_PAR_THEME[base0.theme] ? {...base0, outil:OUTILS_PAR_THEME[base0.theme]} : base0);
@@ -10778,9 +10823,10 @@ export default function App() {
       return base;
     }
     if(d<=365){
-      const m = MISSIONS_365[d-31] || MISSIONS_365[MISSIONS_365.length-1];
+      const k = idDuJour(d,mois); // mission d'origine : l'ordre des chapitres peut être le sien (src/Parcours.jsx)
+      const m = texteLibre(MISSIONS_365[k-31] || MISSIONS_365[MISSIONS_365.length-1], k, ordreClassique);
       const acc = m.accents ? (m.accents[profil] || m.accents.metabolique || null) : null;
-      return {...m, day:d, _accent:acc};
+      return {...m, day:d, _k:k, _accent:acc};
     }
     // ── APRÈS LE JOUR 365 : le parcours est bouclé. en attendant la mise à jour « année 2 »,
     //    un geste d'entretien par jour (RITUELS). voir CONTENU_MISSIONS_BACKLOG.md, section « Année 2 — plan ».
@@ -10789,11 +10835,18 @@ export default function App() {
       msg:"tu as bouclé ton parcours de 365 jours.\n\nton année 2 se prépare et arrivera en mise à jour dans ton espace : tu ne seras jamais lâchée.\n\nen attendant, un petit geste par jour pour entretenir ce que tu as construit.",
       day:d, entretien:true};
   };
+  // la mission affichée : celle du parcours, sauf sujet masqué ou mission mise de côté (voir src/Perso.jsx)
+  const codeDe = (k,theme)=> theme ? (PILIERS_THEME[theme]||"R") : codePilier({...missionBase(k),day:k});
+  const missionPour = (d)=> adapterMission({d,base:missionBase,codeDe,perso,etat:persoEtat,rituels:RITUELS});
+  const autreMission = (d,raison)=> trouverAutre({d,fin:moisDe(d,mois).b,base:missionBase,codeDe,perso,etat:persoEtat,checked,raison});
   // les missions d'un pilier les plus proches de ton jour : les 3 dernières et les 5 prochaines
   const missionsProches = (codes)=>{ const noms=codes.map(c=>PILIERS[c].label); const tous=Array.from({length:365},(_,i)=>i+1).filter(d=>noms.includes(pilierDeMission({...missionPour(d),day:d}).label));
     const avant=tous.filter(d=>d<=day), apres=tous.filter(d=>d>day); return [...avant.slice(-Math.max(3,8-apres.length)),...apres.slice(0,Math.max(5,8-avant.length))].slice(0,8); };
   const jourAff = vueJour!=null ? vueJour : day; // le jour affiché (consulté) ; « day » reste ta progression
   const todayData = missionPour(jourAff);
+  // longueur affichée : express · classique · approfondi (compléments et suivi médical : jamais raccourcis, pour garder les précautions)
+  const codeJour = codePilier({...todayData,day:jourAff});
+  const niveau = (n=>n==="express"&&(codeJour==="T"||codeJour==="D")?"classique":n)(niveauPour({d:jourAff,perso,etat:persoEtat,energie}));
   const todayKey = cleJour(new Date());
   const jToday = journal[todayKey] || {};
   const todayLabel = new Date().toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long"});
@@ -11039,7 +11092,7 @@ export default function App() {
         </button>
       </div>
       <div style={{textAlign:"center",marginTop:16,fontSize:11,color:C.light,lineHeight:1.6}}>
-        Protocole SOPK Life · Profil Métabolique
+        SMOP Map · SOPK Life
       </div>
     </div>
   );
@@ -11561,8 +11614,8 @@ export default function App() {
             </div>
 
             {[
-              {n:"1",t:"Commence par ta mission du jour",d:"chaque jour, une seule action concrète t'attend dans l'onglet Kamila. fais-la, c'est tout. le reste viendra naturellement."},
-              {n:"2",t:"Explore les autres onglets quand tu veux",d:"SOS ⚡ quand ça ne va pas, Outils 🧰 pour chercher un aliment ou une idée repas, Analyses 🔬 pour comprendre tes prises de sang."},
+              {n:"1",t:"Commence par ta mission du jour",d:"chaque jour, une seule action concrète t'attend sur ton accueil. fais-la, c'est tout. le reste viendra naturellement."},
+              {n:"2",t:"Explore les autres onglets quand tu veux",d:"le mode crise quand ça ne va pas, Ressources pour chercher un aliment ou une idée repas, Santé pour comprendre tes prises de sang."},
               {n:"3",t:"Avance à ton rythme",d:"pas de pression, pas de perfection. un petit geste par jour suffit. je suis là pour t'accompagner, pas pour te juger."},
             ].map((s,i)=>(
               <div key={i} style={{display:"flex",gap:11,marginBottom:13,alignItems:"flex-start"}}>
@@ -11574,7 +11627,7 @@ export default function App() {
               </div>
             ))}
 
-            <button onClick={()=>{setShowOnboarding(false);save("onboardingDone","yes");}}
+            <button onClick={()=>{setShowOnboarding(false);save("onboardingDone","yes");if(!perso)setPersoOpen(true);}}
               style={{width:"100%",background:pc.p,border:"none",padding:"14px",borderRadius:14,color:"white",fontFamily:"inherit",fontSize:14,fontWeight:600,cursor:"pointer",marginTop:6}}>
               C'est parti, montre-moi le Jour 1 →
             </button>
@@ -11754,6 +11807,26 @@ export default function App() {
           );
         })()}
 
+        {persoOpen&&<FeuillePerso C={C} perso={perso} setPerso={setPerso} etat={persoEtat} setEtat={setPersoEtat} jour={day} titreDuJour={(d)=>missionBase(d).theme} ordre={ordre} mois={mois} mois0={MOIS_PARCOURS} changerOrdre={changerOrdre} effacerReponses={effacerReponses} setTab={setTab} onClose={()=>setPersoOpen(false)}/>}
+        {/* ── UNE RECETTE, dans une fenêtre : on la voit tout de suite, et on reste où on était ── */}
+        {recettePop&&(()=>{ const rec=recetteDe(recettePop); if(!rec) return null; const titre={fontSize:11,fontWeight:700,color:C.brown,textTransform:"uppercase",letterSpacing:0.5,marginBottom:7}; return(
+          <Portail><div onClick={()=>setRecettePop(null)} style={{position:"fixed",inset:0,zIndex:345,background:"rgba(58,42,32,.45)",display:"flex",alignItems:"center",justifyContent:"center",padding:14}}>
+            <div onClick={e=>e.stopPropagation()} role="dialog" aria-label={recettePop} style={{background:C.cream,borderRadius:22,width:"100%",maxWidth:430,maxHeight:"86vh",overflowY:"auto",padding:"18px 18px 20px",boxSizing:"border-box"}}>
+              <div style={{display:"flex",alignItems:"flex-start",gap:10,marginBottom:8}}>
+                <div style={{flex:1,fontFamily:"'Playfair Display',serif",fontSize:"1.25rem",fontWeight:600,color:C.brown,lineHeight:1.25}}>{recettePop}</div>
+                <button onClick={()=>setRecettePop(null)} aria-label="fermer" style={{background:"none",border:"none",fontSize:17,color:C.light,cursor:"pointer",fontFamily:"inherit",padding:4}}>✕</button>
+              </div>
+              <div style={{display:"flex",gap:6,flexWrap:"wrap",marginBottom:14}}>
+                {[rec.temps,rec.pour,...(rec.tags||[])].filter(Boolean).map((t,k)=><span key={k} style={{fontSize:10,color:C.mid,background:C.white,border:`1px solid ${C.border}`,borderRadius:99,padding:"3px 9px"}}>{t}</span>)}
+              </div>
+              <div style={titre}>Ingrédients</div>
+              <div style={{marginBottom:14}}>{rec.ingredients.map((x,k)=><div key={k} style={{display:"flex",gap:8,marginBottom:5}}><span style={{color:pc.p,fontSize:12}}>•</span><span style={{fontSize:12.5,color:C.mid,lineHeight:1.45}}>{x}</span></div>)}</div>
+              <div style={titre}>Préparation</div>
+              <div style={{marginBottom:12}}>{rec.etapes.map((x,k)=><div key={k} style={{display:"flex",gap:10,marginBottom:8,alignItems:"flex-start"}}><span style={{width:20,height:20,borderRadius:"50%",background:pc.p,color:"#fff",fontSize:10,fontWeight:700,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,marginTop:1}}>{k+1}</span><span style={{fontSize:12.5,color:C.mid,lineHeight:1.55}}>{x}</span></div>)}</div>
+              {rec.astuce&&<div style={{background:`${C.sage}22`,borderRadius:11,padding:"10px 12px",border:`1px solid ${C.sage}`,fontSize:11.5,color:"#4F6038",lineHeight:1.55,marginBottom:12}}>{rec.astuce}</div>}
+              <button onClick={()=>setRecettePop(null)} style={{width:"100%",background:pc.p,border:"none",borderRadius:12,padding:"12px",color:"#fff",fontFamily:"inherit",fontSize:13,fontWeight:700,cursor:"pointer"}}>fermer</button>
+            </div>
+          </div></Portail>); })()}
         {/* ── KAMILA ── */}
         {tab==="kamila"&&(
           <div className="fu">
@@ -11817,9 +11890,13 @@ export default function App() {
               );
             })()}
 
+            {/* ── Personnalisation : invitation, puis « mon parcours à moi » ── */}
+            {day<=365&&<CartePerso C={C} Icon={Icon} perso={perso} jour={day} etat={persoEtat} setEtat={setPersoEtat} ouvrir={()=>setPersoOpen(true)} setTab={setTab} mois={mois}/>}
+
             {/* ── Ton action du jour : une seule carte, facultative ── */}
             {(()=>{
               const P=pilierDeMission({...todayData,day:jourAff});
+              const propsMission={C,pc,d:jourAff,jour:day,code:codeJour,perso,etat:persoEtat,setEtat:setPersoEtat,mission:todayData,niveau,fait:!!checked[jourAff],autre:(raison)=>autreMission(jourAff,raison),ouvrir:()=>setPersoOpen(true),ouvrirDetail:setMissionOpen};
               return(
             <div style={{background:C.white,borderRadius:20,padding:"14px",marginBottom:12,border:`1.5px solid ${checked[jourAff]?pc.p:C.border}`,transition:"border-color 0.3s",boxShadow:`0 6px 20px ${pc.p}12`}}>
               <div style={{display:"flex",alignItems:"center",gap:7,marginBottom:10}}>
@@ -11861,11 +11938,15 @@ export default function App() {
                   {checked[jourAff]?"✓":""}
                 </button>
               </div>
+              {niveau==="express"&&!missionOpen&&todayData.comment&&todayData.comment[0]&&(
+                <div style={{display:"flex",gap:8,marginTop:10,fontSize:11.5,color:C.brown,lineHeight:1.5}}><span style={{color:pc.p,flexShrink:0}}>→</span><span>{todayData.comment[0]}</span></div>
+              )}
               {energie==="basse"&&!checked[jourAff]&&<div style={{marginTop:10,fontSize:10.5,color:C.mid,background:C.cream,borderRadius:10,padding:"8px 10px",lineHeight:1.5}}>journée fatiguée : fais-en une version mini, ou garde-la pour demain. tu n'as rien à rattraper.</div>}
+              <SousMission part="haut" key={"h"+jourAff} {...propsMission}/>
               {!missionOpen && (
                 <button onClick={()=>setMissionOpen(true)}
                   style={{width:"100%",marginTop:12,padding:"11px",borderRadius:12,border:`1.5px solid ${pc.p}`,background:"none",color:pc.p,fontFamily:"inherit",fontSize:12.5,fontWeight:700,cursor:"pointer"}}>
-                  Découvrir ma mission →
+                  {niveau==="express"?"en voir un peu plus →":"Découvrir ma mission →"}
                 </button>
               )}
               {missionOpen && (<>
@@ -11882,7 +11963,7 @@ export default function App() {
                     else showToast(jourAff>365?"Geste validé":`Jour ${jourAff} validé`, todayData.victoire);
                   }
                 }}
-                style={{width:"100%",padding:"12px",borderRadius:12,border:`2px solid ${pc.p}`,background:checked[jourAff]?pc.p:"transparent",color:checked[jourAff]?"white":pc.p,fontFamily:"inherit",fontSize:13,fontWeight:700,cursor:"pointer",marginBottom:4,transition:"all 0.25s"}}>
+                style={{width:"100%",padding:"12px",borderRadius:12,border:`2px solid ${pc.p}`,background:checked[jourAff]?pc.p:"transparent",color:checked[jourAff]?"white":pc.p,fontFamily:"inherit",fontSize:13,fontWeight:700,cursor:"pointer",marginTop:16,marginBottom:4,transition:"all 0.25s"}}>
                 {checked[jourAff]?"✓ Mission validée — bravo !":"Valider ma mission du jour"}
               </button>
 
@@ -11890,7 +11971,7 @@ export default function App() {
               <div style={{marginTop:10}}>
                 <div style={{fontSize:9,letterSpacing:1,textTransform:"uppercase",color:pc.p,fontWeight:600,marginBottom:4}}>💡 pourquoi — ce qui se passe dans ton corps</div>
                 <div style={{fontSize:11,color:C.mid,lineHeight:1.7,background:C.cream,borderRadius:10,padding:"10px 12px",whiteSpace:"pre-line"}}>{todayData.pourquoi||todayData.biologie}</div>
-                {todayData.source&&(
+                {todayData.source&&niveau==="approfondi"&&(
                   <div style={{fontSize:9,color:C.light,fontStyle:"italic",lineHeight:1.5,marginTop:5,paddingLeft:4}}>📚 {todayData.source}</div>
                 )}
               </div>
@@ -11934,7 +12015,7 @@ export default function App() {
               )}
 
               {/* LE + DE KAMILA */}
-              {todayData.plus&&(
+              {todayData.plus&&niveau==="approfondi"&&(
                 <div style={{marginTop:12}}>
                   <div style={{fontSize:9,letterSpacing:1,textTransform:"uppercase",color:"#5A7040",fontWeight:600,marginBottom:5}}>le + de Kamila</div>
                   <div style={{background:`${C.sage}22`,borderRadius:10,padding:"10px 12px",border:`1px solid ${C.sage}`}}>
@@ -11944,7 +12025,7 @@ export default function App() {
               )}
 
               {/* CE QUE TU OBSERVES */}
-              {todayData.observes&&(
+              {todayData.observes&&niveau==="approfondi"&&(
                 <div style={{marginTop:12}}>
                   <div style={{fontSize:9,letterSpacing:1,textTransform:"uppercase",color:pc.p,fontWeight:600,marginBottom:5}}>📈 ce que tu observes si ça marche</div>
                   <div style={{background:C.cream,borderRadius:10,padding:"10px 12px"}}>
@@ -11965,7 +12046,7 @@ export default function App() {
                     const ancre=ou.ancre||(onglet!=="kamila"?null:/coach/i.test(ou.label)?"coach-mindset":/mot de Kamila/i.test(ou.desc||"")?"mot-kamila":"mon-parcours");
                     if(ancre==="mot-kamila") setAccompOpen("mot"); if(ancre) setScrollAnchor(ancre); }
                   else {setTab("outils");setOutilOpen(todayData.outil.cible);if(todayData.outil.recherche!==undefined)setFoodSearch(todayData.outil.recherche);if(todayData.outil.cible==="repas"&&todayData.outil.moment)setRepasMoment(todayData.outil.moment);} }}
-                  style={{width:"100%",background:"linear-gradient(135deg, #D4A56A, #C49355)",border:"none",borderRadius:14,padding:"15px 16px",marginBottom:10,cursor:"pointer",fontFamily:"inherit",display:"flex",alignItems:"center",gap:12,textAlign:"left",boxShadow:"0 4px 14px rgba(212,165,106,0.4)"}}>
+                  style={{width:"100%",background:"linear-gradient(135deg, #D4A56A, #C49355)",border:"none",borderRadius:14,padding:"15px 16px",marginTop:16,marginBottom:10,cursor:"pointer",fontFamily:"inherit",display:"flex",alignItems:"center",gap:12,textAlign:"left",boxShadow:"0 4px 14px rgba(212,165,106,0.4)"}}>
                   <div style={{fontSize:26,flexShrink:0,background:"rgba(255,255,255,0.25)",borderRadius:12,width:46,height:46,display:"flex",alignItems:"center",justifyContent:"center"}}>{todayData.outil.emoji}</div>
                   <div style={{flex:1}}>
                     <div style={{fontSize:9,letterSpacing:1,textTransform:"uppercase",color:"rgba(255,255,255,0.9)",marginBottom:2,fontWeight:700}}>👆 appuie pour ouvrir l'outil</div>
@@ -11979,6 +12060,7 @@ export default function App() {
 
               <button onClick={()=>setMissionOpen(false)} style={{width:"100%",marginTop:12,background:"none",border:"none",color:C.light,fontFamily:"inherit",fontSize:11,cursor:"pointer",textDecoration:"underline"}}>replier ↑</button>
               </>)}
+              <SousMission part="bas" key={"b"+jourAff} {...propsMission}/>
               {checked[jourAff]&&<div style={{marginTop:12,fontSize:11,color:pc.p,fontWeight:500,textAlign:"center",padding:"8px",background:`${pc.p}08`,borderRadius:8}}>✓ {todayData.victoire}</div>}
             </div>
               );
@@ -12016,12 +12098,12 @@ export default function App() {
                   style={{flexShrink:0,width:28,height:28,borderRadius:"50%",border:`1.5px solid ${jourAff>=365?C.border:pc.p}`,background:jourAff>=365?C.white:pc.p,color:jourAff>=365?C.border:"white",fontSize:14,cursor:jourAff>=365?"default":"pointer",fontFamily:"inherit",display:"flex",alignItems:"center",justifyContent:"center"}}>{"›"}</button>
               </div>
               )}
-              <button onClick={()=>{ const md=moisDuJour(Math.min(jourAff,365)); setJourPickerMois(md.an*100+md.m.n); setJourPicker(o=>!o); }} aria-expanded={jourPicker}
+              <button onClick={()=>{ setJourPickerMois(100+moisDe(Math.min(jourAff,365),mois).n); setJourPicker(o=>!o); }} aria-expanded={jourPicker}
                 style={{marginTop:8,background:"none",border:"none",padding:0,color:pc.p,fontFamily:"inherit",fontSize:10.5,fontWeight:700,cursor:"pointer"}}>{jourPicker?"fermer":"choisir un jour dans mes 365 jours →"}</button>
               {jourPicker&&(()=>{
                 const sel=jourPickerMois||101; const an=1; const mn=sel%100;
                 const anMax=1;
-                const mSel=MOIS_PARCOURS.find(x=>x.n===mn)||MOIS_PARCOURS[0];
+                const mSel=mois.find(x=>x.n===mn)||mois[0];
                 const off=(an-1)*365;
                 const jours=Array.from({length:mSel.b-mSel.a+1},(_,k)=>off+mSel.a+k);
                 const chip=(on)=>({padding:"6px 10px",borderRadius:99,border:`1.5px solid ${on?pc.p:C.border}`,background:on?`${pc.p}18`:C.white,color:on?pc.p:C.mid,fontFamily:"inherit",fontSize:10.5,fontWeight:600,cursor:"pointer"});
@@ -12036,7 +12118,7 @@ export default function App() {
                     </div>
                   )}
                   <div style={{display:"flex",gap:6,flexWrap:"wrap",marginBottom:10}}>
-                    {MOIS_PARCOURS.map(x=>(
+                    {mois.map(x=>(
                       <button key={x.n} onClick={()=>setJourPickerMois(an*100+x.n)} aria-pressed={x.n===mn} style={chip(x.n===mn)}>{x.n===1?"Fondation":x.n+" · "+x.label}</button>
                     ))}
                   </div>
@@ -12301,7 +12383,7 @@ export default function App() {
                 const S={mobilite:["Mobilité & récupération","un enchaînement doux pour délier le corps, adapté à ton énergie."],cardio:["Cardio doux","du cardio sans impact, à un rythme où tu peux parler."],A:["Renforcement A","6 mouvements pour tout le corps, avec ta séance guidée."]}[sid];
                 idee={t:S[0],d:S[1],go:()=>{ setAdaptOpen(false); setBougerDepart(sid); setTab("bouger"); }}; }
               if(adaptBesoin==="manger"){ const noms=Object.keys(RECETTES).filter(n=>RECETTES[n].moment===moment&&repasRapide(n)); const n=noms[new Date().getDate()%Math.max(1,noms.length)]||Object.keys(RECETTES)[0];
-                idee={t:n,d:"une idée rapide pour ce "+(moment==="matin"?"matin":moment==="midi"?"midi":"soir")+" : "+(RECETTES[n].temps||""),go:()=>{ setAdaptOpen(false); setTab("outils"); setOutilCat("alimentation"); setOutilOpen("recettes"); setRecetteFiche(n); }}; }
+                idee={t:n,d:"une idée rapide pour ce "+(moment==="matin"?"matin":moment==="midi"?"midi":"soir")+" : "+(RECETTES[n].temps||""),go:()=>{ setAdaptOpen(false); setRecettePop(n); }}; }
               if(adaptBesoin==="poser") idee={t:"Souffler quelques minutes",d:"une respiration lente pour faire redescendre la pression, sans rien avoir à réussir.",go:()=>{ setAdaptOpen(false); setSosOpen("stress"); }};
               if(adaptBesoin==="dormir") idee={t:"Préparer une nuit plus calme",d:"quelques gestes simples pour ce soir.",go:()=>{ setAdaptOpen(false); setSosOpen("insomnie"); }};
               const chip=(on)=>({padding:"8px 13px",borderRadius:99,border:`1.5px solid ${on?C.terra:C.border}`,background:on?C.terra:C.white,color:on?"#fff":C.brown,fontFamily:"inherit",fontSize:12,fontWeight:600,cursor:"pointer"});
@@ -12780,7 +12862,7 @@ export default function App() {
                                 {meal?(
                                   <div style={{flex:1,display:"flex",alignItems:"center",gap:6,background:C.bubble,borderRadius:9,padding:"8px 10px"}}>
                                     <span style={{flex:1,fontSize:11,color:C.brown,lineHeight:1.3}}>{meal}</span>
-                                    {RECETTES[meal]&&<button onClick={()=>{ setRecFiltreMoment("tous"); setRecFiltreTag("tous"); setRecetteFiche(meal); setOutilOpen("recettes"); }} style={{background:"none",border:`1px solid ${pc.p}`,borderRadius:99,color:pc.p,fontSize:9.5,fontWeight:700,cursor:"pointer",fontFamily:"inherit",padding:"3px 8px",flexShrink:0}}>recette</button>}
+                                    {recetteDe(meal)&&<button onClick={()=>setRecettePop(meal)} style={{background:"none",border:`1px solid ${pc.p}`,borderRadius:99,color:pc.p,fontSize:9.5,fontWeight:700,cursor:"pointer",fontFamily:"inherit",padding:"3px 8px",flexShrink:0}}>recette</button>}
                                     <button onClick={()=>setRepasPlan(p=>({...p,[jk]:{...(p[jk]||{}),[sk]:null}}))} aria-label="retirer" style={{background:"none",border:"none",color:C.light,fontSize:13,cursor:"pointer",fontFamily:"inherit",padding:"0 2px",flexShrink:0}}>✕</button>
                                   </div>
                                 ):(
@@ -12806,10 +12888,11 @@ export default function App() {
                           <div key={i} style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:12,padding:"10px 12px",marginBottom:7}}>
                             <div style={{fontSize:12,fontWeight:600,color:C.brown}}>{r.nom}</div>
                             <div style={{fontSize:10,color:C.mid,marginTop:2,lineHeight:1.5}}>{r.compo}</div>
+                            {recetteDe(r.nom)&&<button onClick={()=>setRecettePop(r.nom)} style={{marginTop:7,background:"none",border:"none",padding:0,fontFamily:"inherit",fontSize:10,color:pc.p,fontWeight:700,cursor:"pointer"}}>recette →</button>}
                           </div>
                         ))}
                         {Object.keys(RECETTES).filter(n=>RECETTES[n].moment===sk&&!REPAS.some(x=>x.nom===n)).map(n=>(
-                          <button key={n} onClick={()=>{ setRecFiltreMoment("tous"); setRecFiltreTag("tous"); setRecetteFiche(n); setOutilOpen("recettes"); }}
+                          <button key={n} onClick={()=>setRecettePop(n)}
                             style={{width:"100%",textAlign:"left",background:C.white,border:`1px solid ${C.border}`,borderRadius:12,padding:"10px 12px",marginBottom:7,cursor:"pointer",fontFamily:"inherit",display:"flex",alignItems:"center",gap:8}}>
                             <span style={{flex:1}}>
                               <span style={{display:"block",fontSize:12,fontWeight:600,color:C.brown}}>{n}</span>
@@ -15268,6 +15351,8 @@ profil · tes priorités · les analyses & questions que tu as cochées · ton s
               )}
             </div>
 
+            <MesDonnees C={C} exporter={exporterDonnees} toutEffacer={effacerDonnees}/>
+
             <a href={WHATSAPP_URL} target="_blank" rel="noopener"
               style={{display:"flex",alignItems:"center",justifyContent:"center",gap:8,width:"100%",boxSizing:"border-box",background:"#E7F3EA",border:"1px solid #BFDCC8",borderRadius:12,padding:"12px",fontSize:12.5,fontWeight:700,color:"#2F6B45",textDecoration:"none",marginBottom:12}}>
               <Icon name="heart" size={15} color="#2F6B45"/> rejoindre la communauté des Cysters
@@ -15358,7 +15443,7 @@ profil · tes priorités · les analyses & questions que tu as cochées · ton s
           rSos=SOS_DATA.filter(s=>norm(s.titre).includes(q)||norm(s.validation).includes(q)||norm(s.mecanisme).includes(q)).slice(0,6);
           rRec=Object.keys(RECETTES).filter(n=>norm(n).includes(q)||(RECETTES[n].tags||[]).some(t=>norm(t).includes(q))).slice(0,6);
           rAli=ALIMENTS.filter(a=>norm(a.nom).includes(q)||norm(a.note).includes(q)).slice(0,6);
-          rJours=[...MISSIONS_META.map((m,k)=>({...m,day:k+1})),...MISSIONS_365.map((m,k)=>({...m,day:k+31}))].filter(m=>norm(m.theme).includes(q)||norm(m.mission).includes(q)).slice(0,6);
+          rJours=Array.from({length:365},(_,k)=>({...missionPour(k+1),day:k+1})).filter(m=>norm(m.theme).includes(q)||norm(m.mission).includes(q)).slice(0,6);
         }
         const total=rSos.length+rRec.length+rAli.length+rJours.length;
         return(
@@ -15404,7 +15489,7 @@ profil · tes priorités · les analyses & questions que tu as cochées · ton s
                 <div style={{marginBottom:18}}>
                   <div style={{fontSize:10,fontWeight:700,letterSpacing:1,textTransform:"uppercase",color:pc.p,marginBottom:8}}>📖 Recettes</div>
                   {rRec.map((n,k)=>(
-                    <button key={k} onClick={()=>{setTab("outils");setOutilOpen("recettes");setRecetteFiche(n);setSearchOpen(false);setSearchQ("");}}
+                    <button key={k} onClick={()=>setRecettePop(n)}
                       style={{width:"100%",textAlign:"left",background:C.white,border:`1px solid ${C.border}`,borderRadius:12,padding:"11px 13px",marginBottom:7,cursor:"pointer",fontFamily:"inherit",display:"flex",alignItems:"center",gap:10}}>
                       <span style={{fontSize:16}}>🍲</span>
                       <span style={{flex:1}}>
