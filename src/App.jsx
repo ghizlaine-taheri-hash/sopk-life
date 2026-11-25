@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import Bouger from "./Bouger.jsx";
 import { ETAT_VIDE, niveauPour, adapterMission, trouverAutre, FeuillePerso, SousMission, CartePerso, MesDonnees } from "./Perso.jsx";
+import { ORDRE_BASE, ordreValide, estBase, moisSelon, moisDe, idDuJour, texteLibre, ordreDeBase, convertir, convertirCles } from "./Parcours.jsx";
 // Les fenêtres s'affichent directement sur l'écran, quel que soit l'endroit où on a fait défiler la page
 const Portail = ({children}) => createPortal(<div style={{fontFamily:"'DM Sans',sans-serif"}}>{children}</div>, document.body);
 
@@ -3269,7 +3270,7 @@ const PILIERS_365 = "NMNAKPBNMN SCNBNMKNKP BNMKACTRNB NMKACNRNMK ACRRNMNSDP BNMD
 const PILIERS_THEME = {"l'ordre dans l'assiette":"N","le petit-déjeuner qui change tout":"N","lire ses fringales comme des données":"N","trouver le sucre caché":"N","les protéines et tes hormones":"N","la cannelle de Ceylan":"N","les graisses contre les sucres":"N","l'assiette qui apaise":"N","le petit-déjeuner qui n'enflamme pas":"N","écouter ce qui t'enflamme":"N","traquer les pro-inflammatoires cachés":"N","le gras qui calme le feu":"N","curcuma & gingembre":"N","les antioxydants":"N","ton ventre, clé de l'inflammation":"N","couper le signal androgénique":"N","le petit-déjeuner qui n'excite pas tes androgènes":"N","traquer le sucre caché":"N","les protéines et tes androgènes":"N","les bons gras et tes hormones":"N","la caféine qui te trahit":"N","ne jamais partir le ventre vide":"N","le sucre qui calme, puis qui lâche":"N","l'ordre de l'assiette":"N","l'eau avant le repas":"N","le petit-déj qui tient":"N","tes oméga-3":"N","l'astuce de secours":"N","une pincée de cannelle":"N","le geste le plus sous-estimé":"N","soutenir l'élimination":"N","soutenir l'élimination des androgènes":"N","le mouvement qui change la glycémie":"M","le renforcement musculaire":"M","deuxième séance de renforcement":"M","marche double":"M","troisième séance":"M","le mouvement qui apaise":"M","bouger pour désenflammer":"M","ancrer le mouvement":"M","le mouvement qui calme les androgènes":"M","bouger sans relancer tes androgènes":"M","bouger sans te vider":"M","marcher après le repas":"M","bouger doux":"M","le sommeil est médecine":"S","le sommeil répare l'inflammation":"S","le sommeil régule tes hormones":"S","le réveil de 3h":"S","ancrer le rituel du soir":"S","la frontière digitale":"S","ta nuit, priorité n°1":"S","protéger ta nuit":"S","ton rituel du soir":"S","l'heure de coucher":"S","le téléphone hors de la chambre":"S","la lumière du matin":"S","le stress, ce grand déclencheur":"A","stress & androgènes surrénaliens":"A","ancrer la gestion du stress":"A","ton moteur, c'est le stress":"A","ton rythme de stress":"A","la charge mentale":"A","la cohérence cardiaque":"A","la nature baisse le cortisol":"A","les micro-pauses":"A","ta boîte à outils anti-cortisol":"A","le stress, carburant des deux feux":"A","le stress, source commune":"A","ton souffle":"A","dire non":"A","la micro-pause":"A","un temps dans le vert":"A","la nature & la lumière":"A","cartographier tes signes androgéniques":"P","prendre soin de ta peau & tes cheveux":"P","ta peau, tes cheveux sous cortisol":"P","préparer ton rendez-vous":"D","relire tes analyses":"D","prendre rendez-vous":"D","passer à l'action médicale":"D","tes analyses surrénaliennes":"D","le magnésium":"T","l'inositol":"T","le zinc":"T","vitamine D":"T","la vitamine D":"T","le zinc, ton minéral anti-androgènes":"T","la menthe verte, alliée anti-androgènes":"T","le thé vert, antioxydant anti-androgènes":"T","la fondation":"T","le magnésium, ton minéral anti-stress":"T","ta tisane du soir arrive":"T","ton magnésium":"T","le foie dans le SMOP":"K","bilan de semaine 1":"B","la moitié de ta Fondation":"B","rendre visible ce qui a changé":"B","bilan honnête":"B","mesurer le chemin parcouru":"B","ce que tu emmènes":"B","bilan de ta semaine 2":"B","ce qui a déjà changé":"B","mesurer le chemin":"B","ce que tu emportes":"B","une victoire notée":"B","ancrer l'habitude":"R","tout ensemble":"R","tu n'es pas faible":"R","le perfectionnisme qui t'épuise":"R","soutenir sans fouetter":"R","la douceur envers toi":"R"};
 const codePilier = (m) => {
   if(m&&m._pil) return m._pil;
-  const j=m&&m.day; const th=String((m&&m.theme)||"").replace(/^geste d'entretien · /,"");
+  const j=m&&(m._k||m.day); const th=String((m&&m.theme)||"").replace(/^geste d'entretien · /,"");
   const c=(j>30&&j<=365)?PILIERS_365[j-31]:PILIERS_THEME[th];
   return PILIERS[c]?c:"R";
 };
@@ -10798,6 +10799,15 @@ export default function App() {
   const week = Math.ceil(day/7);
   const weekWins = victories[journalWeek]||[];
   const activeMissions = MISSIONS_BY_PROFILE[profil] || MISSIONS_META;
+  const ordre = ordreValide(persoEtat.ordre), ordreClassique = estBase(ordre), mois = moisSelon(ordre,MOIS_PARCOURS);
+  // changer l'ordre des chapitres à venir : ce qui est rangé par jour (cochées, longueurs, mises de côté) suit sa mission
+  const changerOrdre = (nouveau,main)=>{ const apres=ordreValide(nouveau); const f=convertir({avant:ordre,apres,mois0:MOIS_PARCOURS});
+    setChecked(c=>convertirCles(c,f));
+    setPersoEtat(e=>({...e,ordre:apres,ordreMain:!!main,niv:convertirCles(e.niv,f),msg:convertirCles(e.msg,f),deCote:e.deCote.map(x=>({...x,d:f(x.d)})),
+      remplace:Object.fromEntries(Object.entries(e.remplace).map(([p,v])=>[f(p),v.j?{...v,j:f(v.j)}:v]))}));
+    setVueJour(null); };
+  const effacerReponses = ()=>{ const apres=ordreDeBase({ordre,jour:day,mois0:MOIS_PARCOURS}); const f=convertir({avant:ordre,apres,mois0:MOIS_PARCOURS});
+    setChecked(c=>convertirCles(c,f)); setPerso(null); setPersoEtat({...ETAT_VIDE,ordre:estBase(apres)?null:apres}); };
   const missionBase = (d)=>{
     if(d<=30){
       const base0 = activeMissions[d-1] || MISSIONS_META[d-1] || MISSIONS_META[0];
@@ -10811,9 +10821,10 @@ export default function App() {
       return base;
     }
     if(d<=365){
-      const m = MISSIONS_365[d-31] || MISSIONS_365[MISSIONS_365.length-1];
+      const k = idDuJour(d,mois); // mission d'origine : l'ordre des chapitres peut être le sien (src/Parcours.jsx)
+      const m = texteLibre(MISSIONS_365[k-31] || MISSIONS_365[MISSIONS_365.length-1], k, ordreClassique);
       const acc = m.accents ? (m.accents[profil] || m.accents.metabolique || null) : null;
-      return {...m, day:d, _accent:acc};
+      return {...m, day:d, _k:k, _accent:acc};
     }
     // ── APRÈS LE JOUR 365 : le parcours est bouclé. en attendant la mise à jour « année 2 »,
     //    un geste d'entretien par jour (RITUELS). voir CONTENU_MISSIONS_BACKLOG.md, section « Année 2 — plan ».
@@ -10825,7 +10836,7 @@ export default function App() {
   // la mission affichée : celle du parcours, sauf sujet masqué ou mission mise de côté (voir src/Perso.jsx)
   const codeDe = (k,theme)=> theme ? (PILIERS_THEME[theme]||"R") : codePilier({...missionBase(k),day:k});
   const missionPour = (d)=> adapterMission({d,base:missionBase,codeDe,perso,etat:persoEtat,rituels:RITUELS});
-  const autreMission = (d,raison)=> trouverAutre({d,fin:d<=30?30:moisDuJour(d).m.b,base:missionBase,codeDe,perso,etat:persoEtat,checked,raison});
+  const autreMission = (d,raison)=> trouverAutre({d,fin:moisDe(d,mois).b,base:missionBase,codeDe,perso,etat:persoEtat,checked,raison});
   // les missions d'un pilier les plus proches de ton jour : les 3 dernières et les 5 prochaines
   const missionsProches = (codes)=>{ const noms=codes.map(c=>PILIERS[c].label); const tous=Array.from({length:365},(_,i)=>i+1).filter(d=>noms.includes(pilierDeMission({...missionPour(d),day:d}).label));
     const avant=tous.filter(d=>d<=day), apres=tous.filter(d=>d>day); return [...avant.slice(-Math.max(3,8-apres.length)),...apres.slice(0,Math.max(5,8-avant.length))].slice(0,8); };
@@ -11794,7 +11805,7 @@ export default function App() {
           );
         })()}
 
-        {persoOpen&&<FeuillePerso C={C} perso={perso} setPerso={setPerso} etat={persoEtat} setEtat={setPersoEtat} jour={day} titreDuJour={(d)=>missionBase(d).theme} onClose={()=>setPersoOpen(false)}/>}
+        {persoOpen&&<FeuillePerso C={C} perso={perso} setPerso={setPerso} etat={persoEtat} setEtat={setPersoEtat} jour={day} titreDuJour={(d)=>missionBase(d).theme} ordre={ordre} mois={mois} mois0={MOIS_PARCOURS} changerOrdre={changerOrdre} effacerReponses={effacerReponses} setTab={setTab} onClose={()=>setPersoOpen(false)}/>}
         {/* ── KAMILA ── */}
         {tab==="kamila"&&(
           <div className="fu">
@@ -11859,7 +11870,7 @@ export default function App() {
             })()}
 
             {/* ── Personnalisation : invitation, puis « mon parcours à moi » ── */}
-            {day<=365&&<CartePerso C={C} Icon={Icon} perso={perso} jour={day} etat={persoEtat} setEtat={setPersoEtat} ouvrir={()=>setPersoOpen(true)} setTab={setTab}/>}
+            {day<=365&&<CartePerso C={C} Icon={Icon} perso={perso} jour={day} etat={persoEtat} setEtat={setPersoEtat} ouvrir={()=>setPersoOpen(true)} setTab={setTab} mois={mois}/>}
 
             {/* ── Ton action du jour : une seule carte, facultative ── */}
             {(()=>{
@@ -12066,12 +12077,12 @@ export default function App() {
                   style={{flexShrink:0,width:28,height:28,borderRadius:"50%",border:`1.5px solid ${jourAff>=365?C.border:pc.p}`,background:jourAff>=365?C.white:pc.p,color:jourAff>=365?C.border:"white",fontSize:14,cursor:jourAff>=365?"default":"pointer",fontFamily:"inherit",display:"flex",alignItems:"center",justifyContent:"center"}}>{"›"}</button>
               </div>
               )}
-              <button onClick={()=>{ const md=moisDuJour(Math.min(jourAff,365)); setJourPickerMois(md.an*100+md.m.n); setJourPicker(o=>!o); }} aria-expanded={jourPicker}
+              <button onClick={()=>{ setJourPickerMois(100+moisDe(Math.min(jourAff,365),mois).n); setJourPicker(o=>!o); }} aria-expanded={jourPicker}
                 style={{marginTop:8,background:"none",border:"none",padding:0,color:pc.p,fontFamily:"inherit",fontSize:10.5,fontWeight:700,cursor:"pointer"}}>{jourPicker?"fermer":"choisir un jour dans mes 365 jours →"}</button>
               {jourPicker&&(()=>{
                 const sel=jourPickerMois||101; const an=1; const mn=sel%100;
                 const anMax=1;
-                const mSel=MOIS_PARCOURS.find(x=>x.n===mn)||MOIS_PARCOURS[0];
+                const mSel=mois.find(x=>x.n===mn)||mois[0];
                 const off=(an-1)*365;
                 const jours=Array.from({length:mSel.b-mSel.a+1},(_,k)=>off+mSel.a+k);
                 const chip=(on)=>({padding:"6px 10px",borderRadius:99,border:`1.5px solid ${on?pc.p:C.border}`,background:on?`${pc.p}18`:C.white,color:on?pc.p:C.mid,fontFamily:"inherit",fontSize:10.5,fontWeight:600,cursor:"pointer"});
@@ -12086,7 +12097,7 @@ export default function App() {
                     </div>
                   )}
                   <div style={{display:"flex",gap:6,flexWrap:"wrap",marginBottom:10}}>
-                    {MOIS_PARCOURS.map(x=>(
+                    {mois.map(x=>(
                       <button key={x.n} onClick={()=>setJourPickerMois(an*100+x.n)} aria-pressed={x.n===mn} style={chip(x.n===mn)}>{x.n===1?"Fondation":x.n+" · "+x.label}</button>
                     ))}
                   </div>
@@ -15410,7 +15421,7 @@ profil · tes priorités · les analyses & questions que tu as cochées · ton s
           rSos=SOS_DATA.filter(s=>norm(s.titre).includes(q)||norm(s.validation).includes(q)||norm(s.mecanisme).includes(q)).slice(0,6);
           rRec=Object.keys(RECETTES).filter(n=>norm(n).includes(q)||(RECETTES[n].tags||[]).some(t=>norm(t).includes(q))).slice(0,6);
           rAli=ALIMENTS.filter(a=>norm(a.nom).includes(q)||norm(a.note).includes(q)).slice(0,6);
-          rJours=[...MISSIONS_META.map((m,k)=>({...m,day:k+1})),...MISSIONS_365.map((m,k)=>({...m,day:k+31}))].filter(m=>norm(m.theme).includes(q)||norm(m.mission).includes(q)).slice(0,6);
+          rJours=Array.from({length:365},(_,k)=>({...missionPour(k+1),day:k+1})).filter(m=>norm(m.theme).includes(q)||norm(m.mission).includes(q)).slice(0,6);
         }
         const total=rSos.length+rRec.length+rAli.length+rJours.length;
         return(
