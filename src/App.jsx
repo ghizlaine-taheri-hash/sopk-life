@@ -3272,6 +3272,8 @@ const OUTILS_PAR_THEME = {
 // les liens des missions ouvrent la bonne fiche, pas seulement la bonne page
 const SAVOIR_DE = (ou)=>{ if(!ou||ou.cible!=="comprendre") return null; const t=(ou.label+" "+(ou.desc||"")).toLowerCase(); const m=[[/routine de sommeil/,"routine de sommeil"],[/pilule|contraception/,"La pilule"],[/intestin/,"intestin"],[/fertilité/,"fertilité"],[/androgènes|dht/,"Peau, poils"],[/cycles? irréguliers/,"suivre ton cycle"]].find(x=>x[0].test(t)); const f=m&&SAVOIRS.find(x=>x.t.includes(m[1])); return f?f.t:null; };
 const FICHE_DE = (ou)=>{ if(!ou||ou.cible!=="telechargements") return null; const t=(ou.label+" "+(ou.desc||"")).toLowerCase(); const m=[[/guide des analyses/,"dl-analyses"],[/bons gras/,"dl-bons-gras"],[/incontournables/,"dl-incontournables"],[/fibres/,"dl-fibres"],[/protéines/,"dl-proteines"],[/peau/,"dl-peau-cheveux-ongles"]].find(x=>x[0].test(t)); return m?m[1]:null; };
+const DIAG_RETOUR = {outils:"Comprendre mon SMOP",kamila:"Accueil",carte:"Ma carte",suivi:"Suivi",medecin:"Santé",soin:"Prendre soin"};
+const SOS_SITUATION = {petitdej:["fringale","coupdebarre"],alternatives:["fringale","craquage"],dehors:["restaurant","buffet","voyage"],urgence:["fatigue-repas","coupdebarre","craquage"]};
 const SEANCE_NOM = {A:"Renforcement A",B:"Renforcement B",force:"Force & glycémie",marche:"Marche active",mobilite:"Mobilité & récupération",apaiser:"Apaiser & relâcher",cardio:"Cardio doux",gainage:"Gainage & posture",velo:"Vélo d'appartement"};
 const SEANCE_DE = {"ton café, ton cortisol, ta glycémie":"apaiser","la cohérence cardiaque, ton anti-pic de stress":"apaiser","ton nerf vague, l'interrupteur du calme":"apaiser","ton sas du soir":"apaiser","bouge dans la nature":"marche","brise la position assise":"mobilite","le renforcement musculaire":"A","deuxième séance de renforcement":"B","troisième séance":"force","le mouvement qui change la glycémie":"marche","marche double":"marche","le mouvement qui apaise":"marche","le mouvement qui calme les androgènes":"marche","bouger pour désenflammer":"mobilite","ancrer le mouvement":"mobilite","bouger sans relancer tes androgènes":"mobilite","bouger sans te vider":"mobilite",
   "la marche qui efface le pic":"marche","ton muscle, ton réservoir à sucre":"A","bouger même quand tu es fatiguée":"mobilite","bouger pour calmer le feu":"mobilite","relâcher les tensions du corps":"apaiser","le repos fait partie de l'entraînement":"apaiser","marcher dans la nature":"marche","bouger pour décharger le stress":"cardio","le yoga doux du soir":"apaiser","marcher en pleine conscience":"marche","bouger (ou pas) pendant tes règles":"mobilite","la force douce pour tes hormones":"A","bouger pour ta peau et tes cheveux":"marche","ta rétention d'eau & tes jambes lourdes":"marche","bouger pour ton cœur de demain":"cardio","ta marche après le repas":"marche","ton muscle, ton allié anti-insuline":"A","ta séance de renforcement de 15 minutes":"A","vélo, natation : bouger sans impact":"velo","étire-toi, relâche tes tensions":"mobilite","la marche nordique, ta marche boostée":"marche","ton socle, le gainage profond":"gainage","bouger avec un dos ou des genoux qui grincent":"mobilite","bouge pour faire circuler":"marche"};
@@ -10084,16 +10086,19 @@ const OUTIL_CATS = {
   comprendre: { label:"Comprendre mon SMOP", em:"🎓", dotBg:"#F2EEF6", hero:"le pourquoi des choses, en clair — pour avancer en confiance.",
     tools:[
       {id:"diag", em:"🤍", nm:"Je viens d'être diagnostiquée", td:"l'accueil qu'on t'a pas donné", goTab:"diag"},
-      {id:"comprendre", em:"🎓", nm:"Comprendre", td:"les mécanismes, expliqués simplement"},
-      {id:"fiches", em:"📚", nm:"Fiches SMOP", td:"les repères essentiels à garder"},
+      {id:"comprendre", em:"🎓", nm:"Les mécanismes du SMOP", td:"ton cycle, tes hormones, ton insuline : ce qui se passe, sans jargon"},
     ]},
-  quotidien: { label:"Au quotidien", em:"📍", dotBg:"#F6ECE2", hero:"les situations de la vraie vie : resto, voyage, fatigue, imprévus.",
+  quotidien: { label:"Au quotidien", em:"📍", dotBg:"#F6ECE2", hero:"les situations de la vraie vie : petit-déj, repas dehors, jours pressés, et les fiches SOS pour les moments difficiles.",
     tools:[
-      {id:"situations", em:"📍", nm:"Gérer les situations", td:"resto, voyage, fatigue, imprévus"},
+      {id:"situations", em:"📍", nm:"Gérer les situations", td:"petit-déj, repas dehors, jours pressés, avec les fiches SOS qui vont avec"},
+      {id:"sos-liste", em:"🆘", nm:"Les fiches SOS", td:"fringale, resto, voyage, fatigue, stress : le bon geste sur le moment", goTab:"sos"},
       {id:"perturbateurs", em:"🏠", nm:"Audit maison", td:"les perturbateurs endocriniens, pièce par pièce"},
     ]},
-  fiches_imp: { label:"Mes fiches à imprimer", em:"📥", dotBg:"#EDE7F0", hero:"à imprimer et garder sous la main.",
-    tools:[ {id:"telechargements", em:"📥", nm:"Mes fiches à imprimer", td:"tes documents prêts à imprimer"} ]},
+  fiches_imp: { label:"Mes fiches", em:"📥", dotBg:"#EDE7F0", hero:"toutes tes fiches au même endroit : quatre repères à lire tout de suite, et quatorze fiches à imprimer.",
+    tools:[
+      {id:"fiches", em:"📚", nm:"Les repères à lire ici", td:"protéines, anti-inflammatoire, minéraux, microbiote : l'essentiel en deux minutes"},
+      {id:"telechargements", em:"📥", nm:"Les fiches à imprimer", td:"assiette, nutriments, analyses : 14 fiches à garder sous la main"},
+    ]},
 };
 const OUTIL_CAT_OF = (oid)=>Object.keys(OUTIL_CATS).find(ck=>OUTIL_CATS[ck].tools.some(t=>t.id===oid));
 
@@ -10801,8 +10806,9 @@ export default function App() {
   useEffect(()=>{ save("medPrioCustom",medPrioCustom); },[medPrioCustom]);
   useEffect(()=>{
     if(!scrollAnchor) return;
-    const t=setTimeout(()=>{ try{ const e=document.getElementById(scrollAnchor); if(e){ e.scrollIntoView({block:"start"}); if(scrollAnchor!=="action-du-jour") window.scrollBy(0,-14); } }catch(e){} setScrollAnchor(null); },scrollAnchor==="action-du-jour"?120:650);
-    return ()=>clearTimeout(t);
+    const id=scrollAnchor; const go=()=>{ try{ const e=document.getElementById(id); if(e){ e.scrollIntoView({block:"start"}); if(id!=="action-du-jour") window.scrollBy(0,-14); } }catch(e){} };
+    const ts=(id==="action-du-jour"?[120]:[250,700]).map((ms,i,l)=>setTimeout(()=>{ go(); if(i===l.length-1) setScrollAnchor(null); },ms));
+    return ()=>ts.forEach(clearTimeout);
   },[scrollAnchor,outilOpen,tab]);
   useEffect(()=>{ save("perturbCheck",perturbCheck); },[perturbCheck]);
   useEffect(()=>{ save("lettre",lettre); },[lettre]);
@@ -10812,6 +10818,9 @@ export default function App() {
   const pleinePage = !!sosOpen||!!criseMode||!!modePrio||screen!=="app"; const pleineRef = useRef(false); const hauteurRef = useRef(0); pleineRef.current = pleinePage;
   useEffect(()=>{ const f=()=>{ if(!pleineRef.current) hauteurRef.current=window.scrollY||0; }; window.addEventListener("scroll",f,{passive:true}); return ()=>window.removeEventListener("scroll",f); },[]);
   useEffect(()=>{ try{ window.scrollTo(0,pleinePage?0:hauteurRef.current); }catch(e){} },[sosOpen,criseMode,modePrio,screen]);
+  // « Je viens d'être diagnostiquée » : on retient d'où elle vient, sans compter les allers-retours faits depuis la page
+  const diagDe = useRef("kamila"); const depuisDiag = useRef(false);
+  useEffect(()=>{ if(tab==="diag"){ if(!depuisDiag.current&&navCur.current!=="diag") diagDe.current=navCur.current; depuisDiag.current=false; } },[tab]);
   useEffect(()=>{ if(["mouvement","ancrage","tendances"].includes(tab)) return; if(navCur.current!==tab){ setNavPrevTab(navReset.current ? null : navCur.current); navCur.current=tab; } navReset.current=false; },[tab]);
   useEffect(()=>{ save("mesures",mesures); },[mesures]);
   useEffect(()=>{ save("perso",perso); },[perso]);
@@ -11753,7 +11762,7 @@ export default function App() {
 
         {/* Retour à l'écran d'où l'on vient (quand on y est arrivée par un lien, une mission…) */}
         {(()=>{
-          const NAV_LABELS={kamila:"Accueil",carte:"Ma carte",suivi:"Suivi",outils:"Ressources",medecin:"Santé",apercu:"Vue d'ensemble",tendances:"Mes tendances",mesures:"Mes mesures",cycle:"Mon cycle",journal:"Mon journal",mouvement:"Bouger",bouger:"Bouger",ancrage:"Mon ancrage",analyses:"Mes analyses",sommeil:"Mon sommeil",soin:"Prendre soin",sos:"Fiches SOS"};
+          const NAV_LABELS={kamila:"Accueil",carte:"Ma carte",suivi:"Suivi",outils:"Ressources",medecin:"Santé",apercu:"Vue d'ensemble",tendances:"Mes tendances",mesures:"Mes mesures",cycle:"Mon cycle",journal:"Mon journal",mouvement:"Bouger",bouger:"Bouger",ancrage:"Mon ancrage",analyses:"Mes analyses",sommeil:"Mon sommeil",soin:"Prendre soin",sos:"Fiches SOS",diag:"Je viens d'être diagnostiquée"};
           const SUBP={cycle:"suivi",apercu:"suivi",tendances:"suivi",mesures:"medecin",journal:"suivi",mouvement:"suivi",sos:"outils"};
           const p=navPrevTab;
           if(!p||p===tab||p===SUBP[tab]||!NAV_LABELS[p]) return null;
@@ -13479,6 +13488,11 @@ export default function App() {
                   <div style={{background:C.bubble,borderRadius:12,padding:"12px 14px",marginBottom:14,fontSize:11,color:C.mid,lineHeight:1.6,border:`1px solid ${C.border}`}}>
                     des guides concrets pour les vraies situations de ta vie — pas de la théorie, du réel.
                   </div>
+                  <div style={{background:"#FDF0E8",border:"1px solid #F0D5C5",borderRadius:13,padding:"12px 13px",marginBottom:14}}>
+                    <div style={{fontSize:12,fontWeight:700,color:"#8A4430",marginBottom:7}}>un moment difficile, là, maintenant ?</div>
+                    <div style={{display:"flex",flexWrap:"wrap",gap:6,marginBottom:8}}>{["restaurant","buffet","voyage","craquage","coupdebarre","fatigue-repas"].map(id=>{ const f=SOS_DATA.find(x=>x.id===id); return f?<button key={id} onClick={()=>setSosOpen(id)} style={{background:C.white,border:"1px solid #F0D5C5",borderRadius:99,padding:"6px 11px",fontFamily:"inherit",fontSize:11,fontWeight:600,color:"#8A4430",cursor:"pointer"}}>{f.emoji} {f.titre}</button>:null; })}</div>
+                    <button onClick={()=>setTab("sos")} style={{background:"none",border:"none",padding:0,fontFamily:"inherit",fontSize:11,color:"#8A4430",textDecoration:"underline",cursor:"pointer"}}>voir toutes les fiches SOS</button>
+                  </div>
                   {guides.map((g,i)=>{
                     const ouvert=situationOpen===g.id;
                     return(
@@ -13498,6 +13512,10 @@ export default function App() {
                                 <div style={{fontSize:11.5,color:C.brown,lineHeight:1.5}}>{p}</div>
                               </div>
                             ))}
+                            {(SOS_SITUATION[g.id]||[]).length>0&&<div style={{marginTop:10,paddingTop:10,borderTop:`1px solid ${C.border}`}}>
+                              <div style={{fontSize:10,fontWeight:700,color:C.brown,marginBottom:6}}>une fiche SOS peut aider</div>
+                              <div style={{display:"flex",flexWrap:"wrap",gap:6}}>{SOS_SITUATION[g.id].map(id=>{ const f=SOS_DATA.find(x=>x.id===id); return f?<button key={id} onClick={()=>setSosOpen(id)} style={{background:"#FDF0E8",border:"1px solid #F0D5C5",borderRadius:99,padding:"6px 11px",fontFamily:"inherit",fontSize:11,fontWeight:600,color:"#8A4430",cursor:"pointer"}}>{f.emoji} {f.titre}</button>:null; })}</div>
+                            </div>}
                           </div>
                         )}
                       </div>
@@ -13597,7 +13615,7 @@ export default function App() {
               return(
                 <div className="fu">
                   <div style={{background:C.bubble,borderRadius:12,padding:"12px 14px",marginBottom:14,fontSize:11,color:C.mid,lineHeight:1.6,border:`1px solid ${C.border}`}}>
-                    tes fiches SMOP pour comprendre ton corps en profondeur — chaque thème expliqué simplement, sans jargon.
+                    quatre repères essentiels à lire ici, en deux minutes. pour aller plus loin, les fiches à imprimer sont juste à côté, dans Mes fiches.
                   </div>
                   {FICHES.map((f,i)=>{
                     const ouvert=ficheOpen===f.id;
@@ -14885,8 +14903,8 @@ profil · tes priorités · les analyses & questions que tu as cochées · ton s
         {/* ── JE VIENS D'ÊTRE DIAGNOSTIQUÉE ── */}
         {tab==="diag"&&(
           <div className="fu">
-            <button onClick={()=>setTab("kamila")} style={{display:"flex",alignItems:"center",gap:6,background:"none",border:"none",cursor:"pointer",fontFamily:"inherit",color:C.mid,fontSize:12,fontWeight:600,padding:"2px 0",marginBottom:12}}>
-              <Icon name="arrowL" size={16} color={C.mid}/> retour · Accueil
+            <button onClick={()=>{ const v=DIAG_RETOUR[diagDe.current]?diagDe.current:"kamila"; navReset.current=true; if(v==="outils"){ setOutilOpen(null); setOutilCat("comprendre"); } setTab(v); }} style={{display:"flex",alignItems:"center",gap:6,background:"none",border:"none",cursor:"pointer",fontFamily:"inherit",color:C.mid,fontSize:12,fontWeight:600,padding:"2px 0",marginBottom:12}}>
+              <Icon name="arrowL" size={16} color={C.mid}/> retour · {DIAG_RETOUR[diagDe.current]||"Accueil"}
             </button>
 
             <div style={{background:`linear-gradient(135deg,${C.mauve},#8B7BA0)`,borderRadius:18,padding:"22px 20px",color:"#fff",marginBottom:18}}>
@@ -14905,8 +14923,8 @@ profil · tes priorités · les analyses & questions que tu as cochées · ton s
             <div style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:16,padding:"1rem 1.1rem",marginBottom:12}}>
               <div style={{fontSize:13.5,fontWeight:700,color:C.brown,marginBottom:7}}>Ce que c'est vraiment</div>
               <div style={{fontSize:12,color:C.mid,lineHeight:1.65,marginBottom:12}}>le SMOP, ce n'est pas « juste des kystes sur les ovaires ». c'est un déséquilibre hormonal et métabolique — un tout. ta fatigue, tes fringales, ton acné, tes cycles, ton moral : tout est lié, et tout a une explication. comprendre ces liens, c'est déjà reprendre du pouvoir.</div>
-              <button onClick={()=>{ setTab("outils"); setOutilCat("comprendre"); setOutilOpen("comprendre"); }}
-                style={{width:"100%",background:`${C.mauve}15`,color:C.mauve,border:`1px solid ${C.mauve}`,borderRadius:11,padding:"11px",fontFamily:"inherit",fontSize:12,fontWeight:700,cursor:"pointer"}}>Comprendre mon SMOP →</button>
+              <button onClick={()=>{ depuisDiag.current=true; setTab("outils"); setOutilCat("comprendre"); setOutilOpen("comprendre"); }}
+                style={{width:"100%",background:`${C.mauve}15`,color:C.mauve,border:`1px solid ${C.mauve}`,borderRadius:11,padding:"11px",fontFamily:"inherit",fontSize:12,fontWeight:700,cursor:"pointer"}}>Voir comment tout est lié : cycle, hormones, insuline →</button>
             </div>
 
             {/* 3 — l'espoir / démonter les phrases qui blessent */}
@@ -14930,9 +14948,9 @@ profil · tes priorités · les analyses & questions que tu as cochées · ton s
               <div style={{fontSize:13.5,fontWeight:700,color:C.brown,marginBottom:3}}>Par où commencer, sans te noyer</div>
               <div style={{fontSize:11,color:C.light,marginBottom:12}}>on ne change pas tout d'un coup. trois petits pas, à ton rythme.</div>
               {[
-                {n:"1",t:"Découvre ton profil",d:"chaque SMOP est différent. ta carte te montre le tien.",go:()=>setTab("carte")},
-                {n:"2",t:"Un geste dans l'assiette",d:"commence par les légumes et les protéines à chaque repas.",go:()=>{ setTab("outils"); setOutilCat("alimentation"); setOutilOpen("assiette"); }},
-                {n:"3",t:"Un geste pour ton stress",d:"le stress nourrit le SMOP. un vrai temps calme chaque jour change déjà les choses.",go:()=>{ setTab("outils"); setOutilCat("comprendre"); setOutilOpen("comprendre"); }},
+                {n:"1",t:"Découvre ton profil",d:"chaque SMOP est différent. ta carte te montre le tien.",go:()=>{ depuisDiag.current=true; setTab("carte"); }},
+                {n:"2",t:"Un geste dans l'assiette",d:"commence par les légumes et les protéines à chaque repas.",go:()=>{ depuisDiag.current=true; setTab("outils"); setOutilCat("alimentation"); setOutilOpen("assiette"); }},
+                {n:"3",t:"Un geste pour ton stress",d:"le stress nourrit le SMOP. un vrai temps calme chaque jour change déjà les choses : une séance pour respirer et relâcher.",go:()=>{ depuisDiag.current=true; setBougerDepart("apaiser"); setTab("bouger"); }},
               ].map((s,i)=>(
                 <button key={i} onClick={s.go} style={{width:"100%",display:"flex",alignItems:"center",gap:12,background:C.cream,border:`1px solid ${C.border}`,borderRadius:12,padding:"11px 12px",marginBottom:i<2?8:0,cursor:"pointer",fontFamily:"inherit",textAlign:"left"}}>
                   <div style={{width:26,height:26,borderRadius:"50%",background:C.mauve,color:"#fff",fontSize:12,fontWeight:700,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>{s.n}</div>
