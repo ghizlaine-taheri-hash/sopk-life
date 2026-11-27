@@ -3,6 +3,7 @@ import { createPortal } from "react-dom";
 import Bouger from "./Bouger.jsx";
 import { ETAT_VIDE, niveauPour, adapterMission, trouverAutre, FeuillePerso, SousMission, CartePerso, MesDonnees, noterHisto, PRIOS } from "./Perso.jsx";
 import { CarteVivante, AujourdhuiPourToi } from "./Carte.jsx";
+import { evoValide, fusionEvo, objectifPrincipal, DepartEvolution, CarteEvolution, MonEvolution } from "./Evolution.jsx";
 import { ORDRE_BASE, ordreValide, estBase, moisSelon, moisDe, idDuJour, texteLibre, ordreDeBase, convertir, convertirCles } from "./Parcours.jsx";
 // Les fenêtres s'affichent directement sur l'écran, quel que soit l'endroit où on a fait défiler la page
 const Portail = ({children}) => createPortal(<div style={{fontFamily:"'DM Sans',sans-serif"}}>{children}</div>, document.body);
@@ -835,7 +836,10 @@ const getSupabase = () => {
 };
 // miroir localStorage <-> cloud : on sauvegarde tout le bloc "sopklife_*"
 const collectLocal = () => { const o={}; try { for(let i=0;i<localStorage.length;i++){ const k=localStorage.key(i); if(k && k.indexOf("sopklife_")===0) o[k]=localStorage.getItem(k); } } catch(e){} return o; };
-const applyLocal = (obj) => { try { Object.entries(obj||{}).forEach(([k,v])=>{ if(k && k.indexOf("sopklife_")===0 && typeof v==="string") localStorage.setItem(k,v); }); } catch(e){} };
+const applyLocal = (obj) => { try { Object.entries(obj||{}).forEach(([k,v])=>{ if(k && k.indexOf("sopklife_")===0 && typeof v==="string"){
+    // Mon évolution : on fusionne ce qui est sur l'appareil avec ce qui vient du cloud, pour ne perdre aucun bilan ni objectif
+    if(k==="sopklife_evo"){ try{ const ici=localStorage.getItem(k); if(ici){ localStorage.setItem(k,JSON.stringify(fusionEvo(JSON.parse(ici),JSON.parse(v)))); return; } }catch(e){} }
+    localStorage.setItem(k,v); } }); } catch(e){} };
 // vraies données = espace déjà commencé (et pas seulement les valeurs vides du départ)
 const prenomDuBloc = (o) => { try { return String(JSON.parse((o||{})["sopklife_prenom"]||'""')||"").trim(); } catch(e){ return ""; } };
 const donneesReelles = (o) => !!o && (o["sopklife_onboardingDone"]==='"yes"' || !!prenomDuBloc(o));
@@ -845,7 +849,10 @@ const lireVuTs = () => { try { return localStorage.getItem("smop_seenTs")||""; }
 const noterVuTs = (lignes,ts) => { try { localStorage.setItem("smop_seenTs", String((lignes && lignes[0] && lignes[0].updated_at) || ts)); } catch(e){} };
 const enMs = (s) => { const t=Date.parse(s); return isNaN(t)?0:t; };
 // autre appareil enregistré entre-temps : on part du cloud, et on y remet seulement ce qui a changé ici
-const fusionner = (base,local,cloud) => { const m={...cloud}; Object.keys(local).forEach(k=>{ if(!base || base[k]!==local[k]) m[k]=local[k]; }); return m; };
+const fusionner = (base,local,cloud) => { const m={...cloud}; Object.keys(local).forEach(k=>{ if(!base || base[k]!==local[k]){
+    // Mon évolution : les deux appareils ont pu ajouter des choses, on garde tout
+    if(k==="sopklife_evo" && cloud && cloud[k]){ try{ m[k]=JSON.stringify(fusionEvo(JSON.parse(local[k]),JSON.parse(cloud[k]))); return; }catch(e){} }
+    m[k]=local[k]; } }); return m; };
 const authErrFr = (msg="") => {
   const m=String(msg).toLowerCase();
   if(m.includes("invalid login")) return "Email ou mot de passe incorrect.";
@@ -10379,6 +10386,9 @@ export default function App() {
   const replier = (k)=>setReplis(r=>({...r,[k]:!r[k]}));
 
   const [bilans, setBilans] = useState(() => load("bilans",[])); // « Faire le point sur mon parcours »
+  const [evo, setEvo] = useState(() => evoValide(load("evo",null))); // Mon évolution : objectifs et bilans
+  const [evoDepart, setEvoDepart] = useState(null); // fenêtre du point de départ ("depart" ou "corriger")
+  useEffect(()=>{ save("evo",evo); },[evo]);
   useEffect(()=>{ save("bilans",bilans); },[bilans]);
   const [bilanOpen, setBilanOpen] = useState(false);
   const [bilanRep, setBilanRep] = useState({});
@@ -11762,8 +11772,8 @@ export default function App() {
 
         {/* Retour à l'écran d'où l'on vient (quand on y est arrivée par un lien, une mission…) */}
         {(()=>{
-          const NAV_LABELS={kamila:"Accueil",carte:"Ma carte",suivi:"Suivi",outils:"Ressources",medecin:"Santé",apercu:"Vue d'ensemble",tendances:"Mes tendances",mesures:"Mes mesures",cycle:"Mon cycle",journal:"Mon journal",mouvement:"Bouger",bouger:"Bouger",ancrage:"Mon ancrage",analyses:"Mes analyses",sommeil:"Mon sommeil",soin:"Prendre soin",sos:"Fiches SOS",diag:"Je viens d'être diagnostiquée"};
-          const SUBP={cycle:"suivi",apercu:"suivi",tendances:"suivi",mesures:"medecin",journal:"suivi",mouvement:"suivi",sos:"outils"};
+          const NAV_LABELS={kamila:"Accueil",carte:"Ma carte",suivi:"Suivi",outils:"Ressources",medecin:"Santé",apercu:"Vue d'ensemble",tendances:"Mes tendances",mesures:"Mes mesures",cycle:"Mon cycle",journal:"Mon journal",mouvement:"Bouger",bouger:"Bouger",ancrage:"Mon ancrage",analyses:"Mes analyses",sommeil:"Mon sommeil",soin:"Prendre soin",sos:"Fiches SOS",diag:"Je viens d'être diagnostiquée",evolution:"Mon évolution"};
+          const SUBP={cycle:"suivi",apercu:"suivi",tendances:"suivi",mesures:"medecin",journal:"suivi",mouvement:"suivi",sos:"outils",evolution:"suivi"};
           const p=navPrevTab;
           if(!p||p===tab||p===SUBP[tab]||!NAV_LABELS[p]) return null;
           return(
@@ -11776,7 +11786,7 @@ export default function App() {
 
         {/* Bouton retour sur les sous-écrans */}
         {(()=>{
-          const SUB={cycle:"suivi",apercu:"suivi",tendances:"suivi",mesures:"medecin",journal:"suivi",mouvement:"suivi",sos:"outils"};
+          const SUB={cycle:"suivi",apercu:"suivi",tendances:"suivi",mesures:"medecin",journal:"suivi",mouvement:"suivi",sos:"outils",evolution:"suivi"};
           const parent=SUB[tab]; if(!parent) return null;
           const labels={suivi:"Suivi",outils:"Ressources",medecin:"Santé"};
           return(
@@ -11865,6 +11875,7 @@ export default function App() {
           );
         })()}
 
+        {evoDepart&&<DepartEvolution C={C} evo={evo} setEvo={setEvo} perso={perso} corriger={evoDepart==="corriger"} onClose={()=>setEvoDepart(null)} aller={(k)=>allerVers(k)}/>}
         {persoOpen&&<FeuillePerso C={C} perso={perso} setPerso={setPerso} etat={persoEtat} setEtat={setPersoEtat} jour={day} titreDuJour={(d)=>missionBase(d).theme} ordre={ordre} mois={mois} mois0={MOIS_PARCOURS} changerOrdre={changerOrdre} effacerReponses={effacerReponses} setTab={setTab} onClose={()=>setPersoOpen(false)}/>}
         {/* ── UNE RECETTE, dans une fenêtre : on la voit tout de suite, et on reste où on était ── */}
         {recettePop&&(()=>{ const rec=recetteDe(recettePop); if(!rec) return null; const titre={fontSize:11,fontWeight:700,color:C.brown,textTransform:"uppercase",letterSpacing:0.5,marginBottom:7}; return(
@@ -11954,6 +11965,9 @@ export default function App() {
 
             {/* ── Personnalisation : invitation, puis « mon parcours à moi » ── */}
             {day<=365&&<CartePerso C={C} Icon={Icon} perso={perso} jour={day} etat={persoEtat} setEtat={setPersoEtat} ouvrir={()=>setPersoOpen(true)} setTab={setTab} mois={mois}/>}
+
+            {/* ── Mon évolution : tant que le point de départ n'est pas posé, on le propose ici ── */}
+            {!objectifPrincipal(evo)&&<CarteEvolution C={C} Icon={Icon} evo={evo} ouvrirDepart={()=>setEvoDepart("depart")} ouvrirPage={()=>setTab("evolution")}/>}
 
             {/* ── Ton action du jour : une seule carte, facultative ── */}
             {(()=>{
@@ -12209,6 +12223,9 @@ export default function App() {
                 </div>);
               })()}
             </div>); })()}
+
+            {/* ── Mon évolution, une fois le départ posé ── */}
+            {objectifPrincipal(evo)&&<CarteEvolution C={C} Icon={Icon} evo={evo} ouvrirDepart={()=>setEvoDepart("depart")} ouvrirPage={()=>setTab("evolution")}/>}
 
             {/* ── Les piliers : accès direct selon l'envie du moment ── */}
             <div style={{fontSize:12,fontWeight:700,color:C.brown,margin:"4px 2px 8px"}}>Plutôt envie de…</div>
@@ -14078,6 +14095,9 @@ export default function App() {
           );
         })()}
 
+        {/* ── MON ÉVOLUTION ── */}
+        {tab==="evolution"&&<MonEvolution C={C} Icon={Icon} evo={evo} setEvo={setEvo} ouvrirDepart={(c)=>setEvoDepart(c===true?"corriger":"depart")} aller={(k)=>allerVers(k)}/>}
+
         {tab==="suivi"&&(
           <div className="fu">
             <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.3rem",color:C.brown,marginBottom:10}}>Ta journée</div>
@@ -14098,6 +14118,7 @@ export default function App() {
 
             <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8,marginBottom:14}}>
               {[
+                {id:"evolution",ic:"pulse",l:"Mon évolution"},
                 {id:"apercu",ic:"chart",l:"Vue d'ensemble"},
                 {id:"cycle",ic:"moon",l:"Mon cycle"},
                 {id:"journal",ic:"calendar",l:"Mon journal"},
