@@ -243,7 +243,7 @@ export function FeuillePerso({C,perso,setPerso,etat,setEtat,onClose,titreDuJour,
     </Feuille>); }
 
   return (
-    <Feuille C={C} titre="Mon parcours à moi" onClose={onClose}>
+    <Feuille C={C} titre="Mes réponses" onClose={onClose}>
       <div style={{background:`linear-gradient(150deg,${C.mauveSoft},${C.white})`,border:`1.5px solid ${C.mauve}`,borderRadius:16,padding:"14px",marginBottom:12}}>
         <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.08rem",fontWeight:600,color:C.brown,marginBottom:8}}>Ce que nous avons compris de toi</div>
         {compris({perso:perso||brouillon,etat}).map(x=>(
