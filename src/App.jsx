@@ -1148,7 +1148,7 @@ const SOS_DATA = [
     kamila:"ton corps n'est pas ton ennemi. il essaie de te dire quelque chose. maintenant tu comprends la langue.",
     secret:"ne plus se reconnaître, ce n'est pas de la coquetterie — c'est l'effet d'une accumulation de symptômes visibles (peau, poils, poids) qui ont tous une même racine hormonale. travailler la cause commune, plutôt que chaque symptôme isolément, est ce qui te fait peu à peu te retrouver. tu n'as pas disparu : tu es enfouie sous des symptômes explicables.",
     monMot:"« je ne me reconnais plus. » cette phrase résume une grande partie de mon histoire. les poils, l'acné, le ventre, le visage gonflé, les sautes d'humeur, les douleurs. à force d'accumuler les symptômes, j'avais l'impression que mon corps devenait quelqu'un d'autre. je regardais les autres filles et je me demandais pourquoi ça semblait tellement plus simple pour elles. ce que je ne savais pas, c'est que je n'avais pas disparu : j'étais simplement enfouie sous des symptômes que personne ne m'avait appris à comprendre. et le jour où j'ai commencé à comprendre mon corps, j'ai commencé à me retrouver. pas parfaitement, pas tout de suite, mais assez pour savoir que je n'étais pas perdue.",
-    liens:["Mon parcours, sur l'accueil","les mots de Kamila, selon ton humeur","ton Journal pour mesurer ton évolution réelle"]
+    liens:["Mon évolution, sur l'accueil","les mots de Kamila, selon ton humeur","ton Journal pour mesurer ton évolution réelle"]
   },
   {
     id:"voyage", emoji:"✈️", titre:"Voyage / déplacement", couleur:"#D4A56A",
@@ -12148,14 +12148,20 @@ export default function App() {
               );
             })()}
 
-            {/* ── Mon parcours : progression discrète, sans pression ── */}
+            {/* ── Mon évolution : son objectif, son départ, et le programme (anciennement « Mon parcours »), en une seule carte ── */}
             {(()=>{ const postParcours = day>365 && vueJour==null; const pct=(Math.min(day,365)/365)*100; return (
             <div id="mon-parcours" style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:16,padding:"12px 14px",marginBottom:12}}>
               <div style={{display:"flex",alignItems:"center",gap:7,marginBottom:8}}>
-                <Icon name="chart" size={15} color={pc.p}/>
-                <span style={{fontFamily:"'Playfair Display',serif",fontSize:"1rem",fontWeight:600,color:C.brown}}>Mon parcours</span>
+                <Icon name="pulse" size={15} color={pc.p}/>
+                <span style={{fontFamily:"'Playfair Display',serif",fontSize:"1rem",fontWeight:600,color:C.brown}}>Mon évolution</span>
                 <span style={{marginLeft:"auto",fontSize:10.5,color:C.mid}}>{day>365?"parcours bouclé":"Jour "+day+" sur 365"}</span>
               </div>
+              {(()=>{ const po=objectifPrincipal(evo); if(!po) return null; const dps=(evo.bilans||[]).filter(x=>x.type==="depart").sort((x,y)=>(x.version||1)-(y.version||1)); const dp=dps[dps.length-1]; const ac=evo.cap&&evo.cap.action; return (
+                <button onClick={()=>setTab("evolution")} style={{width:"100%",textAlign:"left",background:C.mauveSoft,border:"none",borderRadius:12,padding:"10px 12px",marginBottom:10,cursor:"pointer",fontFamily:"inherit",display:"block"}}>
+                  <span style={{display:"block",fontSize:9,letterSpacing:1,textTransform:"uppercase",color:C.mauve,fontWeight:700}}>mon cap</span>
+                  <span style={{display:"block",fontFamily:"'Playfair Display',serif",fontSize:"0.98rem",fontWeight:600,color:C.brown,margin:"1px 0 2px"}}>{po.titre}</span>
+                  <span style={{display:"block",fontSize:10.5,color:C.mid,lineHeight:1.5}}>{dp?"départ posé le "+new Date(dp.le+"T12:00:00").toLocaleDateString("fr-FR",{day:"numeric",month:"long"}):"ton bilan de départ t'attend"}{ac?" · prochaine action : "+ac.titre:""}</span>
+                </button>); })()}
               <div style={{height:6,background:C.bubble,borderRadius:99,marginBottom:8,overflow:"hidden"}}>
                 <div style={{height:"100%",width:`${pct}%`,background:`linear-gradient(90deg,${pc.p},${pc.p}CC)`,borderRadius:99,transition:"width 0.4s"}}/>
               </div>
@@ -12166,8 +12172,9 @@ export default function App() {
               {!postParcours&&(()=>{ const mn=moisDe(Math.min(day,365),mois), ms=mois[mois.indexOf(mn)+1]; const b={flex:1,background:C.mauveSoft,border:"none",borderRadius:11,padding:"10px 6px",fontFamily:"inherit",fontSize:11.5,fontWeight:700,color:C.brown,cursor:"pointer"}; return (<>
                 <div style={{fontSize:11.5,color:C.brown,lineHeight:1.5,marginTop:9}}>{perso&&(perso.priorites||[]).length>0&&<>ta priorité : <strong>{(PRIOS.find(x=>x[0]===perso.priorites[0])||[])[1]}</strong><br/></>}en ce moment : <strong>{mn.label}</strong>{ms&&<> · ensuite : {ms.label}</>}</div>
                 <div style={{display:"flex",gap:8,marginTop:10}}>
-                  {perso&&<button onClick={()=>setPersoOpen(true)} style={b}>ce que j'ai choisi</button>}
+                  <button onClick={()=>setTab("evolution")} style={b}>mon évolution</button>
                   <button onClick={()=>setTab("carte")} style={b}>ma carte</button>
+                  {perso&&<button onClick={()=>setPersoOpen(true)} style={b}>mes réponses</button>}
                 </div></>); })()}
               {postParcours&&<div style={{marginTop:10,fontSize:11,color:C.mid,lineHeight:1.55,background:`${pc.p}10`,borderRadius:10,padding:"8px 10px"}}><strong style={{color:C.brown}}>Bonus : ton année 2 arrive.</strong> elle est incluse dans ton espace, et tu seras prévenue dès qu'elle arrive. en attendant, un petit geste d'entretien t'attend chaque jour.</div>}
               {!postParcours&&jourPicker&&(
@@ -12223,9 +12230,6 @@ export default function App() {
                 </div>);
               })()}
             </div>); })()}
-
-            {/* ── Mon évolution, une fois le départ posé ── */}
-            {objectifPrincipal(evo)&&<CarteEvolution C={C} Icon={Icon} evo={evo} ouvrirDepart={()=>setEvoDepart("depart")} ouvrirPage={()=>setTab("evolution")}/>}
 
             {/* ── Les piliers : accès direct selon l'envie du moment ── */}
             <div style={{fontSize:12,fontWeight:700,color:C.brown,margin:"4px 2px 8px"}}>Plutôt envie de…</div>
