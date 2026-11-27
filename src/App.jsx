@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import Bouger from "./Bouger.jsx";
 import { ETAT_VIDE, niveauPour, adapterMission, trouverAutre, FeuillePerso, SousMission, CartePerso, MesDonnees, noterHisto, PRIOS } from "./Perso.jsx";
-import { CarteVivante, AujourdhuiPourToi } from "./Carte.jsx";
+import { CarteVivante, IdeeDuJour, ditChoix } from "./Carte.jsx";
 import { evoValide, fusionEvo, objectifPrincipal, DepartEvolution, CarteEvolution, MonEvolution } from "./Evolution.jsx";
 import { ORDRE_BASE, ordreValide, estBase, moisSelon, moisDe, idDuJour, texteLibre, ordreDeBase, convertir, convertirCles } from "./Parcours.jsx";
 // Les fenêtres s'affichent directement sur l'écran, quel que soit l'endroit où on a fait défiler la page
@@ -11920,9 +11920,6 @@ export default function App() {
               );
             })()}
 
-            {/* ── Aujourd'hui, pour toi : « bon, je fais quoi aujourd'hui ? » ── */}
-            {perso&&day<=365&&vueJour==null&&(()=>{ const t=getCureActive(profil,day).find(x=>!(tisanesPrises[dateLocale()]||{})[x.nom]&&({matin:true,midi:new Date().getHours()>=11,soir:new Date().getHours()>=17})[tisaneMoment(x.timing)]);
-              return <AujourdhuiPourToi C={C} pc={pc} Icon={Icon} perso={perso} etat={persoEtat} setEtat={setPersoEtat} energie={energie} niveau={niveau} mission={todayData} fait={!!checked[day]} tisane={t?t.nom:""} prendreTisane={()=>togglePrise(t.nom)} journeeNotee={["humeur","stress","sommeil"].some(k=>jToday[k]!=null)||(jToday.energie!=null&&!jToday.energieAccueil)} aller={allerVers} dateJour={dateLocale()} ouvrirMission={()=>{ setMissionOpen(true); setScrollAnchor("action-du-jour"); }}/>; })()}
 
             {/* ══ TOUT EN HAUT — Je viens d'être diagnostiquée ══ */}
             {!load("diagSeen",false)&&(
@@ -11969,17 +11966,21 @@ export default function App() {
             {/* ── Mon évolution : tant que le point de départ n'est pas posé, on le propose ici ── */}
             {!objectifPrincipal(evo)&&<CarteEvolution C={C} Icon={Icon} evo={evo} ouvrirDepart={()=>setEvoDepart("depart")} ouvrirPage={()=>setTab("evolution")}/>}
 
-            {/* ── Ton action du jour : une seule carte, facultative ── */}
+            {/* ── Aujourd'hui, pour toi : la mission du jour (l'essentiel) et une idée selon sa priorité, en un seul bloc ── */}
             {(()=>{
               const P=pilierDeMission({...todayData,day:jourAff});
-              const propsMission={C,pc,d:jourAff,jour:day,code:codeJour,perso,etat:persoEtat,setEtat:setPersoEtat,mission:todayData,niveau,fait:!!checked[jourAff],autre:(raison)=>autreMission(jourAff,raison),ouvrir:()=>setPersoOpen(true),ouvrirDetail:setMissionOpen};
+              const propsMission={C,pc,d:jourAff,jour:day,code:codeJour,perso,etat:persoEtat,setEtat:setPersoEtat,mission:todayData,niveau,fait:!!checked[jourAff],autre:(raison)=>autreMission(jourAff,raison),ouvrir:()=>setPersoOpen(true),ouvrirDetail:setMissionOpen,
+                base:(()=>{ const mc=moisDe(Math.min(jourAff,365),mois); const ms=mois[mois.indexOf(mc)+1]; return mc.n===1&&ms?"ce premier mois pose la base, la même pour toutes. ton chapitre « "+ms.label+" » arrive ensuite.":""; })()};
+              const plie=!!checked[jourAff]&&!missionOpen&&vueJour==null; // une fois validée, la mission se range en une ligne
+              const dit=perso&&vueJour==null?ditChoix({perso,etat:persoEtat,energie,dateJour:dateLocale()}):"";
               return(
             <div id="action-du-jour" style={{scrollMarginTop:14,background:C.white,borderRadius:20,padding:"14px",marginBottom:12,border:`1.5px solid ${checked[jourAff]?pc.p:C.border}`,transition:"border-color 0.3s",boxShadow:`0 6px 20px ${pc.p}12`}}>
               <div style={{display:"flex",alignItems:"center",gap:7,marginBottom:10}}>
-                <Icon name="sparkle" size={14} color={pc.p}/>
-                <span style={{fontFamily:"'Playfair Display',serif",fontSize:"1.05rem",fontWeight:600,color:C.brown}}>Ton action du jour</span>
-                <span style={{marginLeft:"auto",fontSize:9.5,color:C.light}}>facultative</span>
+                <Icon name="sparkle" size={15} color={pc.p}/>
+                <span style={{fontFamily:"'Playfair Display',serif",fontSize:"1.25rem",fontWeight:600,color:C.brown}}>Aujourd'hui, pour toi</span>
               </div>
+              {dit&&<div style={{fontSize:11,color:C.mid,lineHeight:1.5,margin:"-6px 0 10px"}}>choisi d'après {dit}.</div>}
+              <div style={{fontSize:9,letterSpacing:1,textTransform:"uppercase",color:pc.p,fontWeight:700,marginBottom:7}}>{plie?"l'essentiel est fait":"l'essentiel"}</div>
               {vueJour!=null&&(
                 <div style={{background:`${pc.p}10`,borderRadius:9,padding:"8px 10px",marginBottom:10,fontSize:10.5,color:C.mid,lineHeight:1.5}}>
                   {day>365?"tu regardes le jour "+vueJour+" de ton parcours.":"tu regardes le jour "+vueJour+". ton parcours, lui, reste au jour "+day+"."}
@@ -11989,6 +11990,13 @@ export default function App() {
                   </div>
                 </div>
               )}
+              {plie?(
+              <div style={{display:"flex",alignItems:"center",gap:10,background:`${pc.p}10`,borderRadius:12,padding:"10px 12px"}}>
+                <span style={{width:24,height:24,borderRadius:"50%",background:pc.p,color:"#fff",display:"flex",alignItems:"center",justifyContent:"center",fontSize:12,flexShrink:0}}>✓</span>
+                <span style={{flex:1,minWidth:0,fontSize:12.5,fontWeight:700,color:C.brown,lineHeight:1.35}}>{String(todayData.theme||"").replace(/^./,c=>c.toUpperCase())}</span>
+                <button onClick={()=>setMissionOpen(true)} style={{background:"none",border:"none",padding:0,color:pc.p,fontFamily:"inherit",fontSize:11,fontWeight:700,cursor:"pointer",flexShrink:0}}>revoir</button>
+              </div>
+              ):(
               <div style={{display:"flex",gap:12,alignItems:"flex-start"}}>
                 <div style={{width:84,height:96,borderRadius:14,background:P.bg,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}><Icon name={P.ic} size={34} color={P.col}/></div>
                 <div style={{flex:1,minWidth:0}}>
@@ -12013,13 +12021,13 @@ export default function App() {
                   style={{width:32,height:32,borderRadius:"50%",border:`2px solid ${checked[jourAff]?pc.p:C.border}`,background:checked[jourAff]?pc.p:"transparent",cursor:"pointer",fontSize:14,color:"white",flexShrink:0,transition:"all 0.25s",fontFamily:"inherit"}}>
                   {checked[jourAff]?"✓":""}
                 </button>
-              </div>
-              {niveau==="express"&&!missionOpen&&todayData.comment&&todayData.comment[0]&&(
+              </div>)}
+              {!plie&&niveau==="express"&&!missionOpen&&todayData.comment&&todayData.comment[0]&&(
                 <div style={{display:"flex",gap:8,marginTop:10,fontSize:11.5,color:C.brown,lineHeight:1.5}}><span style={{color:pc.p,flexShrink:0}}>→</span><span>{todayData.comment[0]}</span></div>
               )}
               {energie==="basse"&&!checked[jourAff]&&<div style={{marginTop:10,fontSize:10.5,color:C.mid,background:C.cream,borderRadius:10,padding:"8px 10px",lineHeight:1.5}}>journée fatiguée : fais-en une version mini, ou garde-la pour demain. tu n'as rien à rattraper.</div>}
-              <SousMission part="haut" key={"h"+jourAff} {...propsMission}/>
-              {!missionOpen && (
+              {!plie&&<SousMission part="haut" key={"h"+jourAff} {...propsMission}/>}
+              {!missionOpen && !plie && (
                 <button onClick={()=>setMissionOpen(true)}
                   style={{width:"100%",marginTop:12,padding:"11px",borderRadius:12,border:`1.5px solid ${pc.p}`,background:"none",color:pc.p,fontFamily:"inherit",fontSize:12.5,fontWeight:700,cursor:"pointer"}}>
                   {niveau==="express"?"en voir un peu plus →":"Découvrir ma mission →"}
@@ -12144,6 +12152,7 @@ export default function App() {
               </>)}
               <SousMission part="bas" key={"b"+jourAff} {...propsMission}/>
               {checked[jourAff]&&<div style={{marginTop:12,fontSize:11,color:pc.p,fontWeight:500,textAlign:"center",padding:"8px",background:`${pc.p}08`,borderRadius:8}}>✓ {todayData.victoire}</div>}
+              {perso&&day<=365&&vueJour==null&&<IdeeDuJour C={C} perso={perso} etat={persoEtat} setEtat={setPersoEtat} energie={energie} aller={allerVers} dateJour={dateLocale()}/>}
             </div>
               );
             })()}
