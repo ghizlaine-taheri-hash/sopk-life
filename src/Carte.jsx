@@ -128,6 +128,39 @@ const IDEES = {
   cycle:{matin:["tab:cycle","noter où tu en es","règles, signes, température"],midi:["tab:tendances","regarder ce que ton cycle raconte","tes dernières semaines"],soir:["tab:cycle","noter tes signes du jour","20 secondes"]},
   comprendre:{matin:["outil:comprendre/comprendre","une explication courte","un mécanisme, sans jargon"],midi:["tab:medecin","ajouter une question pour ton médecin","elle t'attendra dans ton dossier"],soir:["outil:fiches_imp/fiches","lire une fiche courte","deux minutes pour comprendre"]},
 };
+// ── « si tu as envie » : une seule idée, tirée de sa priorité, qui reste douce quand elle est fatiguée ──
+const IDEES_DOUCES = {
+  fringales:["sos:coupdebarre","si le coup de barre arrive","le bon geste, en deux minutes"],
+  stress:["bouger:apaiser","respirer et relâcher","une séance douce, assise ou allongée"],
+  peau:["tab:suivi","noter ta peau","20 secondes, pour voir ce qui change"],
+  douleurs:["bouger:mobilite","délier ton corps en douceur","une séance douce"],
+  cycle:["tab:cycle","noter où tu en es","20 secondes"],
+  comprendre:["outil:fiches_imp/fiches","lire une fiche courte","deux minutes pour comprendre"],
+};
+export const ditChoix = ({perso,etat,energie,dateJour}) => { const p=(perso&&perso.priorites)||[];
+  const base=[p.length?"ta priorité ("+nomDe(PRIOS,p[0])+")":"",perso&&perso.temps?"tes "+nomDe(TEMPS,perso.temps):"",energie?"ton énergie "+({haute:"plutôt bonne",moyenne:"moyenne",basse:"basse"})[energie]:"",(etat.legerJusqu&&dateJour<=etat.legerJusqu)?"ta période légère":""].filter(Boolean);
+  return base.length>1?base.slice(0,-1).join(", ")+" et "+base[base.length-1]:base[0]||""; };
+export function IdeeDuJour({C,perso,etat,setEtat,energie,aller,dateJour}){
+  const p=(perso&&perso.priorites)||[]; if(!p.length) return null;
+  const a=etat.auj&&etat.auj.le===dateJour?etat.auj:{le:dateJour,n:0,fait2:false};
+  const majA=(x)=>setEtat(e=>({...e,auj:{...a,...x}}));
+  const h=new Date().getHours(); const moment=h<11?"matin":h<17?"midi":"soir";
+  const idees = energie==="basse"
+    ? p.map(k=>k==="stress"&&moment==="soir"?IDEES.stress.soir:IDEES_DOUCES[k]).filter(Boolean)
+    : [...p.map(k=>(IDEES[k]||{})[moment]),...p.map(k=>(IDEES[k]||{})[moment==="matin"?"soir":moment==="midi"?"matin":"midi"])].filter(Boolean);
+  const liste=idees.filter((x,i,l)=>l.findIndex(y=>y[0]===x[0]&&y[1]===x[1])===i); if(!liste.length) return null;
+  const idee=liste[a.n%liste.length];
+  return (
+    <div style={{marginTop:12,paddingTop:12,borderTop:`1px solid ${C.border}`}}>
+      <div style={{fontSize:9,letterSpacing:1,textTransform:"uppercase",color:C.mauve,fontWeight:700,marginBottom:6}}>si tu as envie{energie==="basse"?", en douceur":""}</div>
+      <button onClick={()=>{ majA({fait2:true}); aller(idee[0]); }} style={{width:"100%",display:"flex",alignItems:"center",gap:10,background:C.mauveSoft,border:"none",borderRadius:12,padding:"10px 12px",cursor:"pointer",fontFamily:"inherit",textAlign:"left",opacity:a.fait2?.75:1}}>
+        <span style={{flex:1,minWidth:0}}><span style={{display:"block",fontSize:12.5,fontWeight:700,color:C.brown}}>{majus(idee[1])}{a.fait2?" ✓":""}</span><span style={{display:"block",fontSize:10.5,color:C.mid,lineHeight:1.4}}>{idee[2]}</span></span>
+        <span style={{color:C.light}}>›</span>
+      </button>
+      {liste.length>1&&<div style={{marginTop:6}}><button onClick={()=>majA({n:a.n+1,fait2:false})} style={lien(C)}>une autre idée</button></div>}
+    </div>);
+}
+
 const DUREE = {express:"version express",classique:"version classique",approfondi:"version complète"};
 export function AujourdhuiPourToi({C,pc,Icon,perso,etat,setEtat,energie,niveau,mission,fait,tisane,prendreTisane,journeeNotee,aller,ouvrirMission,dateJour}){
   const a=etat.auj&&etat.auj.le===dateJour?etat.auj:{le:dateJour,n:0,fait2:false};
