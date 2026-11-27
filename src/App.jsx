@@ -3,6 +3,7 @@ import { createPortal } from "react-dom";
 import Bouger from "./Bouger.jsx";
 import { ETAT_VIDE, niveauPour, adapterMission, trouverAutre, FeuillePerso, SousMission, CartePerso, MesDonnees, noterHisto, PRIOS } from "./Perso.jsx";
 import { CarteVivante, AujourdhuiPourToi } from "./Carte.jsx";
+import { evoValide, fusionEvo, objectifPrincipal, DepartEvolution, CarteEvolution, MonEvolution } from "./Evolution.jsx";
 import { ORDRE_BASE, ordreValide, estBase, moisSelon, moisDe, idDuJour, texteLibre, ordreDeBase, convertir, convertirCles } from "./Parcours.jsx";
 // Les fenêtres s'affichent directement sur l'écran, quel que soit l'endroit où on a fait défiler la page
 const Portail = ({children}) => createPortal(<div style={{fontFamily:"'DM Sans',sans-serif"}}>{children}</div>, document.body);
@@ -835,7 +836,10 @@ const getSupabase = () => {
 };
 // miroir localStorage <-> cloud : on sauvegarde tout le bloc "sopklife_*"
 const collectLocal = () => { const o={}; try { for(let i=0;i<localStorage.length;i++){ const k=localStorage.key(i); if(k && k.indexOf("sopklife_")===0) o[k]=localStorage.getItem(k); } } catch(e){} return o; };
-const applyLocal = (obj) => { try { Object.entries(obj||{}).forEach(([k,v])=>{ if(k && k.indexOf("sopklife_")===0 && typeof v==="string") localStorage.setItem(k,v); }); } catch(e){} };
+const applyLocal = (obj) => { try { Object.entries(obj||{}).forEach(([k,v])=>{ if(k && k.indexOf("sopklife_")===0 && typeof v==="string"){
+    // Mon évolution : on fusionne ce qui est sur l'appareil avec ce qui vient du cloud, pour ne perdre aucun bilan ni objectif
+    if(k==="sopklife_evo"){ try{ const ici=localStorage.getItem(k); if(ici){ localStorage.setItem(k,JSON.stringify(fusionEvo(JSON.parse(ici),JSON.parse(v)))); return; } }catch(e){} }
+    localStorage.setItem(k,v); } }); } catch(e){} };
 // vraies données = espace déjà commencé (et pas seulement les valeurs vides du départ)
 const prenomDuBloc = (o) => { try { return String(JSON.parse((o||{})["sopklife_prenom"]||'""')||"").trim(); } catch(e){ return ""; } };
 const donneesReelles = (o) => !!o && (o["sopklife_onboardingDone"]==='"yes"' || !!prenomDuBloc(o));
@@ -845,7 +849,10 @@ const lireVuTs = () => { try { return localStorage.getItem("smop_seenTs")||""; }
 const noterVuTs = (lignes,ts) => { try { localStorage.setItem("smop_seenTs", String((lignes && lignes[0] && lignes[0].updated_at) || ts)); } catch(e){} };
 const enMs = (s) => { const t=Date.parse(s); return isNaN(t)?0:t; };
 // autre appareil enregistré entre-temps : on part du cloud, et on y remet seulement ce qui a changé ici
-const fusionner = (base,local,cloud) => { const m={...cloud}; Object.keys(local).forEach(k=>{ if(!base || base[k]!==local[k]) m[k]=local[k]; }); return m; };
+const fusionner = (base,local,cloud) => { const m={...cloud}; Object.keys(local).forEach(k=>{ if(!base || base[k]!==local[k]){
+    // Mon évolution : les deux appareils ont pu ajouter des choses, on garde tout
+    if(k==="sopklife_evo" && cloud && cloud[k]){ try{ m[k]=JSON.stringify(fusionEvo(JSON.parse(local[k]),JSON.parse(cloud[k]))); return; }catch(e){} }
+    m[k]=local[k]; } }); return m; };
 const authErrFr = (msg="") => {
   const m=String(msg).toLowerCase();
   if(m.includes("invalid login")) return "Email ou mot de passe incorrect.";
@@ -1141,7 +1148,7 @@ const SOS_DATA = [
     kamila:"ton corps n'est pas ton ennemi. il essaie de te dire quelque chose. maintenant tu comprends la langue.",
     secret:"ne plus se reconnaître, ce n'est pas de la coquetterie — c'est l'effet d'une accumulation de symptômes visibles (peau, poils, poids) qui ont tous une même racine hormonale. travailler la cause commune, plutôt que chaque symptôme isolément, est ce qui te fait peu à peu te retrouver. tu n'as pas disparu : tu es enfouie sous des symptômes explicables.",
     monMot:"« je ne me reconnais plus. » cette phrase résume une grande partie de mon histoire. les poils, l'acné, le ventre, le visage gonflé, les sautes d'humeur, les douleurs. à force d'accumuler les symptômes, j'avais l'impression que mon corps devenait quelqu'un d'autre. je regardais les autres filles et je me demandais pourquoi ça semblait tellement plus simple pour elles. ce que je ne savais pas, c'est que je n'avais pas disparu : j'étais simplement enfouie sous des symptômes que personne ne m'avait appris à comprendre. et le jour où j'ai commencé à comprendre mon corps, j'ai commencé à me retrouver. pas parfaitement, pas tout de suite, mais assez pour savoir que je n'étais pas perdue.",
-    liens:["Mon parcours, sur l'accueil","les mots de Kamila, selon ton humeur","ton Journal pour mesurer ton évolution réelle"]
+    liens:["Mon évolution, sur l'accueil","les mots de Kamila, selon ton humeur","ton Journal pour mesurer ton évolution réelle"]
   },
   {
     id:"voyage", emoji:"✈️", titre:"Voyage / déplacement", couleur:"#D4A56A",
@@ -10379,6 +10386,9 @@ export default function App() {
   const replier = (k)=>setReplis(r=>({...r,[k]:!r[k]}));
 
   const [bilans, setBilans] = useState(() => load("bilans",[])); // « Faire le point sur mon parcours »
+  const [evo, setEvo] = useState(() => evoValide(load("evo",null))); // Mon évolution : objectifs et bilans
+  const [evoDepart, setEvoDepart] = useState(null); // fenêtre du point de départ ("depart" ou "corriger")
+  useEffect(()=>{ save("evo",evo); },[evo]);
   useEffect(()=>{ save("bilans",bilans); },[bilans]);
   const [bilanOpen, setBilanOpen] = useState(false);
   const [bilanRep, setBilanRep] = useState({});
@@ -11762,8 +11772,8 @@ export default function App() {
 
         {/* Retour à l'écran d'où l'on vient (quand on y est arrivée par un lien, une mission…) */}
         {(()=>{
-          const NAV_LABELS={kamila:"Accueil",carte:"Ma carte",suivi:"Suivi",outils:"Ressources",medecin:"Santé",apercu:"Vue d'ensemble",tendances:"Mes tendances",mesures:"Mes mesures",cycle:"Mon cycle",journal:"Mon journal",mouvement:"Bouger",bouger:"Bouger",ancrage:"Mon ancrage",analyses:"Mes analyses",sommeil:"Mon sommeil",soin:"Prendre soin",sos:"Fiches SOS",diag:"Je viens d'être diagnostiquée"};
-          const SUBP={cycle:"suivi",apercu:"suivi",tendances:"suivi",mesures:"medecin",journal:"suivi",mouvement:"suivi",sos:"outils"};
+          const NAV_LABELS={kamila:"Accueil",carte:"Ma carte",suivi:"Suivi",outils:"Ressources",medecin:"Santé",apercu:"Vue d'ensemble",tendances:"Mes tendances",mesures:"Mes mesures",cycle:"Mon cycle",journal:"Mon journal",mouvement:"Bouger",bouger:"Bouger",ancrage:"Mon ancrage",analyses:"Mes analyses",sommeil:"Mon sommeil",soin:"Prendre soin",sos:"Fiches SOS",diag:"Je viens d'être diagnostiquée",evolution:"Mon évolution"};
+          const SUBP={cycle:"suivi",apercu:"suivi",tendances:"suivi",mesures:"medecin",journal:"suivi",mouvement:"suivi",sos:"outils",evolution:"suivi"};
           const p=navPrevTab;
           if(!p||p===tab||p===SUBP[tab]||!NAV_LABELS[p]) return null;
           return(
@@ -11776,7 +11786,7 @@ export default function App() {
 
         {/* Bouton retour sur les sous-écrans */}
         {(()=>{
-          const SUB={cycle:"suivi",apercu:"suivi",tendances:"suivi",mesures:"medecin",journal:"suivi",mouvement:"suivi",sos:"outils"};
+          const SUB={cycle:"suivi",apercu:"suivi",tendances:"suivi",mesures:"medecin",journal:"suivi",mouvement:"suivi",sos:"outils",evolution:"suivi"};
           const parent=SUB[tab]; if(!parent) return null;
           const labels={suivi:"Suivi",outils:"Ressources",medecin:"Santé"};
           return(
@@ -11865,6 +11875,7 @@ export default function App() {
           );
         })()}
 
+        {evoDepart&&<DepartEvolution C={C} evo={evo} setEvo={setEvo} perso={perso} corriger={evoDepart==="corriger"} onClose={()=>setEvoDepart(null)} aller={(k)=>allerVers(k)}/>}
         {persoOpen&&<FeuillePerso C={C} perso={perso} setPerso={setPerso} etat={persoEtat} setEtat={setPersoEtat} jour={day} titreDuJour={(d)=>missionBase(d).theme} ordre={ordre} mois={mois} mois0={MOIS_PARCOURS} changerOrdre={changerOrdre} effacerReponses={effacerReponses} setTab={setTab} onClose={()=>setPersoOpen(false)}/>}
         {/* ── UNE RECETTE, dans une fenêtre : on la voit tout de suite, et on reste où on était ── */}
         {recettePop&&(()=>{ const rec=recetteDe(recettePop); if(!rec) return null; const titre={fontSize:11,fontWeight:700,color:C.brown,textTransform:"uppercase",letterSpacing:0.5,marginBottom:7}; return(
@@ -11954,6 +11965,9 @@ export default function App() {
 
             {/* ── Personnalisation : invitation, puis « mon parcours à moi » ── */}
             {day<=365&&<CartePerso C={C} Icon={Icon} perso={perso} jour={day} etat={persoEtat} setEtat={setPersoEtat} ouvrir={()=>setPersoOpen(true)} setTab={setTab} mois={mois}/>}
+
+            {/* ── Mon évolution : tant que le point de départ n'est pas posé, on le propose ici ── */}
+            {!objectifPrincipal(evo)&&<CarteEvolution C={C} Icon={Icon} evo={evo} ouvrirDepart={()=>setEvoDepart("depart")} ouvrirPage={()=>setTab("evolution")}/>}
 
             {/* ── Ton action du jour : une seule carte, facultative ── */}
             {(()=>{
@@ -12134,14 +12148,20 @@ export default function App() {
               );
             })()}
 
-            {/* ── Mon parcours : progression discrète, sans pression ── */}
+            {/* ── Mon évolution : son objectif, son départ, et le programme (anciennement « Mon parcours »), en une seule carte ── */}
             {(()=>{ const postParcours = day>365 && vueJour==null; const pct=(Math.min(day,365)/365)*100; return (
             <div id="mon-parcours" style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:16,padding:"12px 14px",marginBottom:12}}>
               <div style={{display:"flex",alignItems:"center",gap:7,marginBottom:8}}>
-                <Icon name="chart" size={15} color={pc.p}/>
-                <span style={{fontFamily:"'Playfair Display',serif",fontSize:"1rem",fontWeight:600,color:C.brown}}>Mon parcours</span>
+                <Icon name="pulse" size={15} color={pc.p}/>
+                <span style={{fontFamily:"'Playfair Display',serif",fontSize:"1rem",fontWeight:600,color:C.brown}}>Mon évolution</span>
                 <span style={{marginLeft:"auto",fontSize:10.5,color:C.mid}}>{day>365?"parcours bouclé":"Jour "+day+" sur 365"}</span>
               </div>
+              {(()=>{ const po=objectifPrincipal(evo); if(!po) return null; const dps=(evo.bilans||[]).filter(x=>x.type==="depart").sort((x,y)=>(x.version||1)-(y.version||1)); const dp=dps[dps.length-1]; const ac=evo.cap&&evo.cap.action; return (
+                <button onClick={()=>setTab("evolution")} style={{width:"100%",textAlign:"left",background:C.mauveSoft,border:"none",borderRadius:12,padding:"10px 12px",marginBottom:10,cursor:"pointer",fontFamily:"inherit",display:"block"}}>
+                  <span style={{display:"block",fontSize:9,letterSpacing:1,textTransform:"uppercase",color:C.mauve,fontWeight:700}}>mon cap</span>
+                  <span style={{display:"block",fontFamily:"'Playfair Display',serif",fontSize:"0.98rem",fontWeight:600,color:C.brown,margin:"1px 0 2px"}}>{po.titre}</span>
+                  <span style={{display:"block",fontSize:10.5,color:C.mid,lineHeight:1.5}}>{dp?"départ posé le "+new Date(dp.le+"T12:00:00").toLocaleDateString("fr-FR",{day:"numeric",month:"long"}):"ton bilan de départ t'attend"}{ac?" · prochaine action : "+ac.titre:""}</span>
+                </button>); })()}
               <div style={{height:6,background:C.bubble,borderRadius:99,marginBottom:8,overflow:"hidden"}}>
                 <div style={{height:"100%",width:`${pct}%`,background:`linear-gradient(90deg,${pc.p},${pc.p}CC)`,borderRadius:99,transition:"width 0.4s"}}/>
               </div>
@@ -12152,8 +12172,9 @@ export default function App() {
               {!postParcours&&(()=>{ const mn=moisDe(Math.min(day,365),mois), ms=mois[mois.indexOf(mn)+1]; const b={flex:1,background:C.mauveSoft,border:"none",borderRadius:11,padding:"10px 6px",fontFamily:"inherit",fontSize:11.5,fontWeight:700,color:C.brown,cursor:"pointer"}; return (<>
                 <div style={{fontSize:11.5,color:C.brown,lineHeight:1.5,marginTop:9}}>{perso&&(perso.priorites||[]).length>0&&<>ta priorité : <strong>{(PRIOS.find(x=>x[0]===perso.priorites[0])||[])[1]}</strong><br/></>}en ce moment : <strong>{mn.label}</strong>{ms&&<> · ensuite : {ms.label}</>}</div>
                 <div style={{display:"flex",gap:8,marginTop:10}}>
-                  {perso&&<button onClick={()=>setPersoOpen(true)} style={b}>ce que j'ai choisi</button>}
+                  <button onClick={()=>setTab("evolution")} style={b}>mon évolution</button>
                   <button onClick={()=>setTab("carte")} style={b}>ma carte</button>
+                  {perso&&<button onClick={()=>setPersoOpen(true)} style={b}>mes réponses</button>}
                 </div></>); })()}
               {postParcours&&<div style={{marginTop:10,fontSize:11,color:C.mid,lineHeight:1.55,background:`${pc.p}10`,borderRadius:10,padding:"8px 10px"}}><strong style={{color:C.brown}}>Bonus : ton année 2 arrive.</strong> elle est incluse dans ton espace, et tu seras prévenue dès qu'elle arrive. en attendant, un petit geste d'entretien t'attend chaque jour.</div>}
               {!postParcours&&jourPicker&&(
@@ -14078,6 +14099,9 @@ export default function App() {
           );
         })()}
 
+        {/* ── MON ÉVOLUTION ── */}
+        {tab==="evolution"&&<MonEvolution C={C} Icon={Icon} evo={evo} setEvo={setEvo} ouvrirDepart={(c)=>setEvoDepart(c===true?"corriger":"depart")} aller={(k)=>allerVers(k)}/>}
+
         {tab==="suivi"&&(
           <div className="fu">
             <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.3rem",color:C.brown,marginBottom:10}}>Ta journée</div>
@@ -14098,6 +14122,7 @@ export default function App() {
 
             <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8,marginBottom:14}}>
               {[
+                {id:"evolution",ic:"pulse",l:"Mon évolution"},
                 {id:"apercu",ic:"chart",l:"Vue d'ensemble"},
                 {id:"cycle",ic:"moon",l:"Mon cycle"},
                 {id:"journal",ic:"calendar",l:"Mon journal"},

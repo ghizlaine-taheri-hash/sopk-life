@@ -34,7 +34,7 @@ export const NIVEAUX = [["express","express","juste le geste et les pièges."],[
 
 export const ETAT_VIDE = {niv:{},remplace:{},deCote:[],express:null,detail:null,ordre:null,ordreMain:false,points:{},histo:[],pasmoi:{},auj:null,legerJusqu:"",msg:{},avis:{},reponses:[]};
 
-const jourLocal = (plus=0) => { const d=new Date(); d.setDate(d.getDate()+plus); const z=(n)=>String(n).padStart(2,"0"); return d.getFullYear()+"-"+z(d.getMonth()+1)+"-"+z(d.getDate()); };
+export const jourLocal = (plus=0) => { const d=new Date(); d.setDate(d.getDate()+plus); const z=(n)=>String(n).padStart(2,"0"); return d.getFullYear()+"-"+z(d.getMonth()+1)+"-"+z(d.getDate()); };
 const nomDe = (liste,k) => { const x=liste.find(y=>y[0]===k); return x?x[1]:""; };
 export const estMasque = (d,perso) => !!perso && (perso.masques||[]).some(k=>{ const m=MASQUES.find(x=>x[0]===k); return m && m[2].includes(d); });
 
@@ -139,11 +139,11 @@ export const compris = ({perso,etat}) => {
 export const pasMoi = (e,k) => ({...e,pasmoi:{...(e.pasmoi||{}),[k]:true}});
 
 // ── styles communs ──
-const puce = (C,on) => ({padding:"9px 14px",borderRadius:99,border:`1.5px solid ${on?C.terra:C.border}`,background:on?C.terra:C.white,color:on?"#fff":C.brown,fontFamily:"inherit",fontSize:12.5,fontWeight:600,cursor:"pointer",textAlign:"left"});
-const plein = (C) => ({width:"100%",background:C.terra,border:"none",borderRadius:12,padding:"12px",color:"#fff",fontFamily:"inherit",fontSize:13,fontWeight:700,cursor:"pointer"});
-const lien = (C) => ({background:"none",border:"none",padding:0,color:C.mid,fontFamily:"inherit",fontSize:11,cursor:"pointer",textDecoration:"underline"});
+export const puce = (C,on) => ({padding:"9px 14px",borderRadius:99,border:`1.5px solid ${on?C.terra:C.border}`,background:on?C.terra:C.white,color:on?"#fff":C.brown,fontFamily:"inherit",fontSize:12.5,fontWeight:600,cursor:"pointer",textAlign:"left"});
+export const plein = (C) => ({width:"100%",background:C.terra,border:"none",borderRadius:12,padding:"12px",color:"#fff",fontFamily:"inherit",fontSize:13,fontWeight:700,cursor:"pointer"});
+export const lien = (C) => ({background:"none",border:"none",padding:0,color:C.mid,fontFamily:"inherit",fontSize:11,cursor:"pointer",textDecoration:"underline"});
 
-function Feuille({C,titre,onClose,children}){
+export function Feuille({C,titre,onClose,children}){
   return createPortal(
     <div style={{fontFamily:"'DM Sans',sans-serif"}}>
       <div onClick={onClose} style={{position:"fixed",inset:0,zIndex:340,background:"rgba(58,42,32,.45)",display:"flex",alignItems:"center",justifyContent:"center",padding:14}}>
@@ -243,7 +243,7 @@ export function FeuillePerso({C,perso,setPerso,etat,setEtat,onClose,titreDuJour,
     </Feuille>); }
 
   return (
-    <Feuille C={C} titre="Mon parcours à moi" onClose={onClose}>
+    <Feuille C={C} titre="Mes réponses" onClose={onClose}>
       <div style={{background:`linear-gradient(150deg,${C.mauveSoft},${C.white})`,border:`1.5px solid ${C.mauve}`,borderRadius:16,padding:"14px",marginBottom:12}}>
         <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.08rem",fontWeight:600,color:C.brown,marginBottom:8}}>Ce que nous avons compris de toi</div>
         {compris({perso:perso||brouillon,etat}).map(x=>(
