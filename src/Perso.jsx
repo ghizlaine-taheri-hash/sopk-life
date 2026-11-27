@@ -100,9 +100,10 @@ const PARSTADE = {
   perdue:"tu as dit être un peu perdue : ici, une seule chose par jour suffit.",
   place:"tu as déjà mis des choses en place : prends ce qui te sert, laisse le reste.",
 };
-export const pourquoiToi = ({code,perso,mission}) => {
+export const pourquoiToi = ({code,perso,mission,base}) => {
   if(!perso||(mission&&mission._geste)) return "";
   for(const p of (perso.priorites||[])){ const l=LIEN[p]&&LIEN[p][code]; if(l) return "tu as choisi « "+nomDe(PRIOS,p)+" » : "+l; }
+  if(base) return base; // le premier chapitre est la base commune : on le dit, plutôt que de faire semblant
   return PARSTADE[perso.stade]||"";
 };
 // petite astuce selon son quotidien (facultative)
@@ -292,9 +293,9 @@ const RAISONS = {
   aujourdhui:[["temps","pas le temps"],["fatigue","trop fatiguée"]],
   moi:[["compris","je n'ai pas compris"],["vie","pas adapté à ma vie"],["deja","je le fais déjà"]],
 };
-export function SousMission({part,C,pc,d,jour,code,perso,etat,setEtat,mission,niveau,fait,autre,ouvrir,ouvrirDetail}){
+export function SousMission({part,C,pc,d,jour,code,perso,etat,setEtat,mission,niveau,fait,autre,ouvrir,ouvrirDetail,base}){
   const [quoi,setQuoi]=useState(null);
-  const pt=pourquoiToi({code,perso,mission}); const as=astuceDuQuotidien({code,perso});
+  const pt=pourquoiToi({code,perso,mission,base}); const as=astuceDuQuotidien({code,perso});
   const note=(e,type,raison)=>({...e,reponses:[...e.reponses,{d,type,raison,le:jourLocal()}].slice(-200)});
   const cote=(e,raison)=>e.deCote.some(x=>x.d===d)?e.deCote:[...e.deCote,{d,raison,le:jourLocal()}];
   const repondre=(type,raison)=>{ setQuoi(null); setEtat(e0=>{
@@ -304,7 +305,7 @@ export function SousMission({part,C,pc,d,jour,code,perso,etat,setEtat,mission,ni
     else if(raison==="compris"){ e={...e,niv:{...e.niv,[d]:"approfondi"}}; dire("voilà la version expliquée pas à pas, avec les pièges et les détails."); }
     else { const k=autre(raison); e={...e,deCote:cote(e,raison)};
       if(k) e={...e,remplace:{...e.remplace,[d]:{j:k},[k]:raison==="rien"?{j:d,motif:"retour"}:{rit:0,motif:"faite"}}}; else e={...e,remplace:{...e.remplace,[d]:{rit:0,motif:"autre"}}};
-      dire(raison==="deja"?"acquis. on passe à la suite.":raison==="rien"?"c'est noté. elle reviendra plus tard, voilà autre chose.":"c'est noté. essaie plutôt celle-ci."); }
+      dire(raison==="deja"?"c'est noté : tu le fais déjà, c'est acquis. voici la suite, à la place.":raison==="rien"?"c'est noté. elle reviendra plus tard, voilà autre chose.":"c'est noté. essaie plutôt celle-ci."); }
     return e; });
     if(raison==="compris") ouvrirDetail(true); };
   const r=etat.remplace[d]; const possible=d===jour&&d<=365&&!fait;
