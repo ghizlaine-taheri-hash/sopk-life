@@ -55,22 +55,26 @@ export const CATEGORIES = [
 // une icône par fiche, toutes du même jeu (même trait, mêmes proportions), dans la couleur de son thème
 const FICHE_IC = { cestquoi:"book", hormones:"chart", insuline:"bolt", androgenes:"flask", shbg:"drop", stress:"brain", inflammation:"flame", cercle:"gear",
   cycle:"moon", suivre:"calendar", fatigue:"coffee", peau:"sparkle", manger:"leaf", intestin:"health", bouger:"steps", sommeil:"bed",
-  thyroide:"pulse", pilule:"doctor", fertilite:"heart", poids:"smile" };
+  thyroide:"pulse", pilule:"doctor", fertilite:"heart", poids:"heart", moral:"smile" };
 
 // ── les fiches ──
 // passe : paragraphes ; ressenti : « ce que certaines Cysters ressentent » ; actions : [cible, libellé] (cible « fiche:ID » ou un lien de l'espace)
 export const FICHES = [
-  { id:"cestquoi", cat:"comprendre", em:"🧭", titre:"C'est quoi le SMOP", court:"tout reprendre depuis le début", etiq:"etabli",
+  { id:"cestquoi", cat:"comprendre", em:"🧭", titre:"C'est quoi le SMOP", court:"tout reprendre depuis le début, diagnostic compris", etiq:"etabli",
     parle:"on t'a dit « vous avez des ovaires polykystiques » en deux minutes, et tu es repartie avec plus de questions qu'avant. on reprend depuis le début.",
     passe:["le SMOP (anciennement SOPK, PMOS dans le nouveau nom international) est un trouble hormonal et métabolique fréquent : il concerne environ 10 à 13 % des femmes. il ne se résume pas aux ovaires : il peut toucher le cycle, la peau, le métabolisme et le moral.",
       "les « kystes » n'en sont pas : ce sont de petits follicules qui ont commencé à mûrir sans aller au bout. c'est une des raisons du changement de nom.",
-      "chez l'adulte, le diagnostic repose sur au moins 2 de ces 3 éléments : des cycles irréguliers ou une ovulation perturbée, un excès d'androgènes (visible sur la peau et les poils, ou dans une prise de sang), et un aspect particulier des ovaires à l'échographie, ou une AMH élevée à la place. et seulement après avoir écarté d'autres causes.",
-      "deux Cysters peuvent donc avoir des SMOP très différents. c'est normal que ton vécu ne ressemble pas à celui de ta copine.",
+      "chez l'adulte, le diagnostic repose sur au moins 2 de ces 3 éléments : des cycles irréguliers ou une ovulation perturbée, un excès d'androgènes (visible sur la peau et les poils, ou dans une prise de sang), et un aspect particulier des ovaires à l'échographie, ou une AMH élevée à la place.",
+      "et seulement après avoir écarté d'autres causes qui donnent des signes proches : un problème de thyroïde, une prolactine trop haute, ou un trouble des surrénales. c'est pour ça qu'une prise de sang fait partie du diagnostic.",
+      "chez les adolescentes, c'est différent : dans les premières années après les premières règles, des cycles irréguliers sont souvent normaux, et l'échographie n'est pas recommandée pour poser le diagnostic.",
+      "si ton diagnostic a mis des années à arriver, tu n'es pas seule : c'est le cas de beaucoup de femmes, souvent après plusieurs médecins. ce n'était pas « dans ta tête ».",
+      "deux Cysters peuvent avoir des SMOP très différents, avec ou sans surpoids. c'est normal que ton vécu ne ressemble pas à celui de ta copine.",
       "le SMOP ne se guérit pas, mais ses symptômes s'accompagnent, et beaucoup de choses peuvent les apaiser."],
-    faire:["noter tes cycles et tes symptômes : c'est ce qui aidera le plus ton médecin, et ce qui te permettra de voir ce qui change."],
+    faire:["noter tes cycles et tes symptômes : c'est ce qui aidera le plus ton médecin, et ce qui te permettra de voir ce qui change.",
+      "si tu as un doute sur ton diagnostic, tu as le droit de demander sur quoi il repose, et un deuxième avis."],
     actions:[["tab:carte","ouvrir ma carte"],["tab:cycle","noter mon cycle"]],
     medecin:"si tu as des symptômes mais pas de diagnostic, ou si on t'a diagnostiquée sur une seule échographie, sans bilan sanguin.",
-    question:"Sur quels éléments mon diagnostic de SMOP a-t-il été posé ?", sources:["jcem2023","yale2026","lancet2026"] },
+    question:"Sur quels éléments mon diagnostic de SMOP a-t-il été posé, et a-t-on écarté les autres causes ?", sources:["jcem2023","yale2026","lancet2026"] },
   { id:"hormones", cat:"comprendre", em:"🔎", titre:"Les hormones en 1 coup d'œil", court:"le résumé avant le détail", etiq:"observe",
     parle:"insuline, androgènes, cortisol, SHBG : tu entends ces mots partout. voilà ce qu'ils font, en une minute.",
     passe:["chez beaucoup de Cysters, quatre acteurs se répondent. chacun a sa fiche détaillée."],
@@ -83,13 +87,17 @@ export const FICHES = [
     question:"Quelles analyses hormonales sont utiles dans mon cas ?", sources:["jcem2023"] },
   { id:"insuline", cat:"comprendre", em:"⚡", titre:"La résistance à l'insuline", court:"un des leviers les plus importants", etiq:"etabli", etiqNote:"Bien établi pour le lien insuline–androgènes ; observé chez certaines pour les fringales et le ventre.",
     parle:"des fringales l'après-midi, un coup de barre après les repas, l'impression que ton corps stocke malgré tes efforts ?",
-    passe:["ton corps fabrique de l'insuline pour faire entrer le sucre dans tes cellules. quand elles répondent moins bien, ton pancréas en produit plus.",
-      "chez beaucoup de Cysters, même minces, cette insuline en excès pousse les ovaires à fabriquer plus d'androgènes. elle peut aussi participer aux fringales, et elle est souvent associée à une prise de poids au niveau du ventre.",
-      "aucune prise de sang simple ne mesure bien l'insuline au quotidien : les dosages d'insuline sont jugés peu utiles en routine."],
-    ressenti:"fringales de 15h, coup de barre après les repas, prise de poids au niveau du ventre malgré les efforts.",
-    faire:["c'est un des leviers les plus importants, et l'assiette, le mouvement et le sommeil peuvent l'aider."],
+    passe:["ton corps fabrique de l'insuline pour faire entrer le sucre dans tes cellules. quand elles répondent moins bien, ton pancréas en produit plus pour compenser : c'est la résistance à l'insuline.",
+      "elle touche la grande majorité des femmes avec un SMOP, y compris beaucoup de femmes minces. le poids peut l'accentuer, mais il n'en est pas la cause unique.",
+      "cette insuline en excès pousse les ovaires à fabriquer plus d'androgènes, et fait baisser la SHBG : c'est un des moteurs de l'acné, des poils et des cycles perturbés. elle peut aussi participer aux fringales, et elle est souvent associée à une prise de poids au niveau du ventre.",
+      "sur le long terme, elle augmente le risque de diabète de type 2. ce n'est pas une fatalité : c'est justement pour ça qu'on recommande de vérifier ta glycémie, pour agir tôt si besoin.",
+      "aucune prise de sang simple ne mesure bien la résistance à l'insuline au quotidien : les dosages d'insuline sont jugés peu utiles en routine. on regarde plutôt ta glycémie."],
+    ressenti:"fringales de 15h, coup de barre après les repas, prise de poids au niveau du ventre malgré les efforts, parfois une peau plus foncée au cou ou aux aisselles.",
+    faire:["c'est un des leviers les plus importants, et il répond à tes habitudes : une assiette avec des fibres et des protéines, quelques minutes de marche après les repas, un sommeil suffisant, un stress apaisé. chaque geste compte, même sans perte de poids.",
+      "il existe aussi un médicament, la metformine, que ton médecin peut te proposer selon ta situation.",
+      "les compléments comme l'inositol sont encore à l'étude : parles-en avant d'en prendre, surtout si tu as un traitement."],
     actions:[["outil:alimentation/assiette","l'assiette SMOP"],["bouger:marche","marcher après un repas"],["sos:fringale","fiche SOS fringale"]],
-    medecin:"les recommandations conseillent de vérifier ta glycémie au moment du diagnostic.",
+    medecin:"les recommandations conseillent de vérifier ta glycémie au moment du diagnostic, puis tous les 1 à 3 ans selon ta situation.",
     question:"Est-ce qu'on peut vérifier ma glycémie (à jeun, HbA1c ou hyperglycémie provoquée) ?", sources:["jcem2023","diamanti2012"] },
   { id:"androgenes", cat:"comprendre", em:"🌙", titre:"Les androgènes", court:"testostérone, DHT et signes visibles", etiq:"etabli",
     parle:"une acné sur le bas du visage, des poils plus drus, des cheveux qui s'affinent ?",
@@ -155,11 +163,19 @@ export const FICHES = [
   { id:"fatigue", cat:"symptomes", em:"🔋", titre:"La fatigue qui ne passe pas", court:"même en dormant", etiq:"observe",
     parle:"tu te réveilles déjà épuisée après une nuit complète, le corps en plomb dès le matin ?",
     passe:["c'est une plainte très fréquente, et ce n'est pas de la paresse. cette fatigue est réelle, même si le SMOP n'en est pas toujours la seule cause.",
-      "plusieurs choses peuvent tirer dessus en même temps : une glycémie en montagnes russes, un sommeil peu réparateur, un moral fatigué, parfois une thyroïde au ralenti ou des carences (fer, vitamine D)."],
-    faire:["par petits bouts : un dîner qui ne fait pas flamber ta glycémie, un vrai sas calme le soir, bouger un peu en journée. et arrête de te culpabiliser : ton épuisement est un signal, pas un défaut."],
-    actions:[["sos:fatigue","fiche SOS fatigue"],["tab:sommeil","mon sommeil"]],
-    medecin:"pour vérifier ton fer, ta vitamine D et ta thyroïde. et si tu ronfles ou te réveilles épuisée : les recommandations demandent de rechercher les signes d'apnée du sommeil.",
-    question:"Peut-on vérifier mon fer, ma vitamine D, ma thyroïde et mon sommeil ?", sources:["jcem2023"] },
+      "plusieurs choses peuvent tirer dessus en même temps, et c'est souvent leur addition qui épuise :"],
+    liste2:[["ce qui peut peser","#B07C55",[["Ta glycémie","des montagnes russes de sucre donnent des coups de barre, surtout après les repas."],
+      ["Ton sommeil","un sommeil léger ou haché, et parfois une apnée du sommeil, plus fréquente avec un SMOP."],
+      ["Des carences","fer, vitamine D, et vitamine B12 si tu prends de la metformine."],
+      ["Ta thyroïde","une thyroïde au ralenti fatigue, et passe facilement inaperçue."],
+      ["Ton moral","l'anxiété et la déprime fatiguent autant que le manque de sommeil."]]]],
+    ressenti:"le corps lourd dès le matin, le besoin de sieste, l'impression de tirer sur la corde toute la journée.",
+    faire:["par petits bouts : des repas avec des protéines pour éviter les coups de barre, de la lumière du jour le matin, un vrai sas calme le soir, bouger un peu en journée, même 10 minutes.",
+      "les jours sans énergie, baisse la barre : dis-le à ton espace en début de journée, il allège ce qu'il te propose.",
+      "et arrête de te culpabiliser : ton épuisement est un signal, pas un défaut."],
+    actions:[["sos:fatigue","fiche SOS fatigue"],["tab:sommeil","mon sommeil"],["fiche:moral","le moral et le SMOP"]],
+    medecin:"pour vérifier ton fer, ta vitamine D, ta thyroïde et ta glycémie. et si tu ronfles ou te réveilles épuisée : les recommandations demandent de rechercher les signes d'apnée du sommeil.",
+    question:"Peut-on vérifier mon fer, ma vitamine D, ma thyroïde, ma glycémie et mon sommeil ?", sources:["jcem2023"] },
   { id:"peau", cat:"symptomes", em:"✨", titre:"Peau, poils et cheveux", court:"pourquoi, et quoi faire", etiq:"etabli",
     parle:"une acné sur la mâchoire qui ne part pas, des poils plus drus sur le menton, des cheveux qui s'affinent ? et l'impression que personne ne prend ça au sérieux ?",
     passe:["ces signes viennent le plus souvent d'un excès d'androgènes, les hormones dites « masculines » que toutes les femmes fabriquent en petite quantité. ce n'est ni un manque d'hygiène, ni un manque de volonté.",
@@ -263,17 +279,30 @@ export const FICHES = [
     actions:[["fiche:insuline","la résistance à l'insuline"],["fiche:manger","manger sans régime"],["sos:decouragement","fiche SOS découragement"]],
     medecin:"si on ne te parle que de ton poids, ou si manger devient une source d'angoisse : tu as le droit de demander qu'on regarde aussi tes autres symptômes.",
     question:"En dehors du poids, que pouvons-nous faire pour mes symptômes ?", sources:["jcem2023"] },
+  { id:"moral", cat:"soin", em:"🤍", titre:"Le moral, l'anxiété et le SMOP", court:"ce n'est pas dans ta tête, et ça se soigne", etiq:"etabli",
+    parle:"des jours où tout pèse, une anxiété qui ne te lâche pas, l'impression que ton corps t'échappe ?",
+    passe:["l'anxiété et la déprime sont plus fréquentes chez les femmes avec un SMOP. ce n'est pas une faiblesse : c'est tellement reconnu que les recommandations internationales demandent aux soignants d'en parler avec toutes les femmes qui ont un SMOP.",
+      "plusieurs choses s'additionnent : les hormones et l'insuline, les symptômes visibles qui touchent l'image de soi, les années d'attente avant un diagnostic, les inquiétudes sur la fertilité, et parfois des remarques blessantes.",
+      "le rapport à la nourriture et à son corps peut aussi devenir compliqué : les troubles du comportement alimentaire sont plus fréquents avec un SMOP.",
+      "et ça marche dans les deux sens : le stress et le manque de sommeil peuvent renforcer certains symptômes. prendre soin de ton moral fait partie de prendre soin de ton SMOP."],
+    ressenti:"l'irritabilité, les larmes faciles, les ruminations le soir, l'envie de tout lâcher, la honte de son corps.",
+    faire:["en parler, à quelqu'un de confiance ou à un professionnel. une psychologue ou ton médecin peuvent vraiment t'aider.",
+      "garder les petits gestes qui portent : bouger un peu, dormir, respirer, écrire ce que tu ressens dans ton journal, sans te juger.",
+      "si ça va vraiment mal, n'attends pas : le bouton « mode crise » est toujours là, et en France, tu peux appeler le 3114, gratuitement, jour et nuit."],
+    actions:[["tab:journal","mon journal"],["sos:decouragement","fiche SOS découragement"],["bouger:apaiser","respirer et relâcher"]],
+    medecin:"si ton moral est bas depuis plus de deux semaines, si l'anxiété t'empêche de vivre, ou si manger devient une source d'angoisse.",
+    question:"Est-ce qu'on peut parler de mon moral, et pouvez-vous m'orienter vers un ou une psychologue ?", sources:["jcem2023"] },
 ];
 const parId = (id) => FICHES.find(f=>f.id===id);
 
 // ── portes d'entrée (aucun contenu recopié : seulement des liens vers les fiches) ──
 const BESOINS = [["C'est quoi exactement, le SMOP ?","cestquoi"],["Pourquoi mes règles sont irrégulières ?","cycle"],["Pourquoi je suis tout le temps épuisée ?","fatigue"],["Pourquoi j'ai des fringales ?","insuline"],
-  ["Acné, poils, cheveux : pourquoi ?","peau"],["Est-ce que je pourrai avoir un enfant ?","fertilite"],["Pourquoi on me parle tout le temps de mon poids ?","poids"],["La pilule, c'est la seule solution ?","pilule"]];
+  ["Acné, poils, cheveux : pourquoi ?","peau"],["Est-ce que je pourrai avoir un enfant ?","fertilite"],["Pourquoi on me parle tout le temps de mon poids ?","poids"],["La pilule, c'est la seule solution ?","pilule"],["Pourquoi j'ai le moral à zéro ?","moral"]];
 const COLLECTIONS = [
   { titre:"Les liens que tu n'avais jamais faits", sous:"une question de ta vie, la fiche qui l'explique",
     liens:[["tu ronfles et tu te réveilles épuisée ?","sommeil"],["fatiguée, frileuse, des cycles perturbés ?","thyroide"],["tes symptômes empirent quand tu es stressée ?","stress"],["des fringales l'après-midi, même en mangeant bien ?","insuline"],["des cheveux qui tombent ?","androgenes"]] },
   { titre:"Ce qu'on aurait aimé nous expliquer", sous:"les questions qu'on n'ose pas toujours poser",
-    liens:[["un SMOP avec un poids normal, c'est possible ?","insuline"],["mes analyses sont normales, mais je vais mal","fatigue"],["pourquoi mon médecin ne parle que de mon poids ?","poids"]] },
+    liens:[["un SMOP avec un poids normal, c'est possible ?","insuline"],["mes analyses sont normales, mais je vais mal","fatigue"],["pourquoi mon médecin ne parle que de mon poids ?","poids"],["je suis à fleur de peau, et je ne sais pas pourquoi","moral"]] },
 ];
 const PARCOURS = [["Comprendre l'insuline en 10 minutes",["insuline","cercle","manger","bouger","sommeil"]],["Comprendre pourquoi ton cycle est irrégulier",["cycle","suivre","pilule","fertilite"]],["Comprendre l'acné et la chute de cheveux",["androgenes","peau","thyroide"]]];
 
@@ -291,7 +320,7 @@ const suggestions = ({profil,perso,evo}) => { const out=[]; const add=(id,pq)=>{
 // ── trouver la fiche qui correspond à un lien d'une mission ou d'une fiche SOS ──
 export const ficheDeTexte = (t) => { t=String(t||"").toLowerCase();
   const m=[[/routine de sommeil|sommeil/,"sommeil"],[/pilule|contraception/,"pilule"],[/intestin|microbiote/,"intestin"],[/fertilité/,"fertilite"],[/androgènes|dht|peau|poils|cheveux/,"androgenes"],[/cycle|ovulation|règles|lh|fsh|œstrogènes|progestérone/,"cycle"],
-    [/foie|shbg/,"shbg"],[/stress|cortisol|surrénal/,"stress"],[/inflammation/,"inflammation"],[/mouvement|bouger|sport|activité physique/,"bouger"],[/insuline/,"insuline"],[/thyroïde/,"thyroide"],[/poids/,"poids"],[/fatigue/,"fatigue"],[/ovaires|bases|clichés|origines|diagnostic/,"cestquoi"],[/mécanismes|hormones/,"hormones"]].find(x=>x[0].test(t));
+    [/foie|shbg/,"shbg"],[/stress|cortisol|surrénal/,"stress"],[/moral|anxiété|déprime|humeur/,"moral"],[/inflammation/,"inflammation"],[/mouvement|bouger|sport|activité physique/,"bouger"],[/insuline/,"insuline"],[/thyroïde/,"thyroide"],[/poids/,"poids"],[/fatigue/,"fatigue"],[/ovaires|bases|clichés|origines|diagnostic/,"cestquoi"],[/mécanismes|hormones/,"hormones"]].find(x=>x[0].test(t));
   return m?m[1]:null; };
 
 const majus = (t) => String(t||"").replace(/^./,c=>c.toUpperCase());
