@@ -46,7 +46,7 @@ const ETIQ = { etabli:["Bien établi","recommandation internationale ou relation
 export const CATEGORIES = [
   ["comprendre","Mon corps, mes hormones","book","ce qui se passe dans ton corps, sans jargon","#C17855"],
   ["cycle","Mon cycle","moon","tes règles, ton ovulation, ce qui est normal ou pas","#A0607A"],
-  ["symptomes","Mes symptômes","pulse","fatigue, peau, poils, cheveux : pourquoi, et quoi faire","#B07C55"],
+  ["symptomes","Ce que je ressens","pulse","fatigue, peau, poils, cheveux : pourquoi, et quoi faire","#B07C55"],
   ["nourrir","Nourrir mon corps","leaf","manger pour ton SMOP, sans régime ni culpabilité","#6E8A55"],
   ["bouger","Bouger et récupérer","steps","le mouvement, le sommeil, la récupération","#8E80A3"],
   ["medical","Mon parcours médical","doctor","diagnostic, traitements, thyroïde, fertilité","#5B7FA6"],
