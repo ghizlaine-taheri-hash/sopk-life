@@ -38,6 +38,8 @@ export const SOURCES = {
   dermato: { ref:"Revue de dermatologie sur le rôle de la DHT dans l'acné et la chute de cheveux.", url:"", type:"À trouver",
     niveau:"—", limites:"—", statut:"a_trouver", note:"Aucune source choisie pour l'instant : la phrase reste prudente en attendant." },
 };
+// les sources et les étiquettes de preuve sont prêtes mais masquées pour l'instant : passer à true pour les afficher
+const AFFICHER_SOURCES = false;
 const STATUTS = { consultee:["consultée","#4A7A52","#EAF3EA"], a_verifier:["à vérifier","#9A5B2E","#FBEEDD"], a_trouver:["à trouver","#9A5B2E","#FBEEDD"] };
 const ETIQ = { etabli:["Bien établi","recommandation internationale ou relation solidement documentée"], observe:["Observé chez certaines","constaté chez une partie des femmes, pas chez toutes"], recherche:["En recherche","données encore limitées ou contradictoires"] };
 
@@ -82,7 +84,7 @@ export const FICHES = [
       "aucune prise de sang simple ne mesure bien l'insuline au quotidien : les dosages d'insuline sont jugés peu utiles en routine."],
     ressenti:"fringales de 15h, coup de barre après les repas, prise de poids au niveau du ventre malgré les efforts.",
     faire:["c'est un des leviers les plus importants, et l'assiette, le mouvement et le sommeil peuvent l'aider."],
-    actions:[["outil:alimentation/assiette","l'assiette SMOP"],["bouger:marche","marcher après un repas"]],
+    actions:[["outil:alimentation/assiette","l'assiette SMOP"],["bouger:marche","marcher après un repas"],["sos:fringale","fiche SOS fringale"]],
     medecin:"les recommandations conseillent de vérifier ta glycémie au moment du diagnostic.",
     question:"Est-ce qu'on peut vérifier ma glycémie (à jeun, HbA1c ou hyperglycémie provoquée) ?", sources:["jcem2023","diamanti2012"] },
   { id:"androgenes", cat:"comprendre", em:"🌙", titre:"Les androgènes", court:"testostérone, DHT et signes visibles", etiq:"etabli",
@@ -135,7 +137,7 @@ export const FICHES = [
     passe:["chez l'adulte, un cycle est dit irrégulier s'il dure moins de 21 jours ou plus de 35, ou s'il y a moins de 8 cycles par an.",
       "un cycle irrégulier n'est pas un corps « cassé » : c'est un corps dont l'ovulation est gênée par le déséquilibre hormonal. bon à savoir : avoir des règles ne veut pas forcément dire avoir ovulé."],
     faire:["les habitudes de vie peuvent aider l'ovulation chez certaines femmes, et il existe aussi des solutions médicales à voir avec ton médecin. noter tes règles, même en désordre, t'aide à voir ce qui change."],
-    actions:[["tab:cycle","noter mon cycle"],["fiche:suivre","pourquoi suivre ton cycle"]],
+    actions:[["tab:cycle","noter mon cycle"],["sos:regles","fiche SOS règles absentes"],["fiche:suivre","pourquoi suivre ton cycle"]],
     medecin:"si tes règles ne viennent plus depuis plus de 3 mois, ou si tes cycles changent beaucoup.",
     question:"Mes règles ne viennent plus depuis plus de 3 mois : que faut-il vérifier ?", sources:["jcem2023"] },
   { id:"suivre", cat:"cycle", em:"🗓️", titre:"Pourquoi suivre ton cycle", court:"même irrégulier", etiq:"etabli",
@@ -181,12 +183,21 @@ export const FICHES = [
     actions:[["sos:ventre","fiche SOS ventre gonflé"],["outil:alimentation/aliments","chercher un aliment"]],
     medecin:"si ton ventre te gêne souvent (douleurs, transit) : d'autres causes existent et méritent d'être regardées.",
     question:"Mes troubles digestifs méritent-ils un bilan ?", sources:[] },
+  { id:"bouger", cat:"bouger", em:"🚶‍♀️", titre:"Bouger avec un SMOP", court:"ce qui compte vraiment, sans te forcer", etiq:"etabli",
+    parle:"on t'a dit « faites du sport » sans plus de détail ? ou tu n'as ni le temps ni l'énergie ?",
+    passe:["bouger aide ton corps à mieux utiliser l'insuline, et ça joue aussi sur le moral et le sommeil. c'est utile même quand la balance ne bouge pas.",
+      "les recommandations internationales conseillent, chez l'adulte, au moins 150 minutes d'activité modérée par semaine (ou 75 minutes plus intense), du renforcement musculaire 2 jours par semaine, et moins de temps assis.",
+      "aucun sport n'est meilleur qu'un autre pour le SMOP : le meilleur, c'est celui que tu peux tenir."],
+    faire:["commence petit : 10 minutes de marche après un repas, ça compte déjà. les jours sans énergie, une séance douce vaut mieux que de forcer, et le repos fait partie du programme."],
+    actions:[["bouger:marche","marcher après un repas"],["bouger:mobilite","une séance douce"],["tab:bouger","toutes mes séances"]],
+    medecin:"si tu as des douleurs, un essoufflement inhabituel, ou si tu reprends après une longue pause.",
+    question:"Y a-t-il des précautions à prendre avant que je reprenne une activité ?", sources:["jcem2023"] },
   { id:"sommeil", cat:"bouger", em:"🌙", titre:"Ma routine de sommeil", court:"le levier que personne ne te prescrit", etiq:"etabli",
     parle:"tu dors tes heures, mais tu te réveilles fatiguée, avec des fringales le lendemain ?",
     passe:["quand tu dors mal, ta glycémie du lendemain est plus instable et les hormones de la faim se dérèglent. ce n'est pas « dans ta tête »."],
     vecu:["ce qui m'aide, et que je te partage comme mon expérience, pas comme une ordonnance : de la lumière du jour le matin, tôt, pour caler mon horloge interne. un dîner qui ne fait pas flamber ma glycémie, pas trop tard. couper les écrans au moins 30 minutes avant le lit : c'est le geste le plus dur et le plus payant. et des horaires réguliers, même le week-end.",
       "un vrai sas le soir, même court : lumière tamisée, une tisane, quelques respirations lentes. on n'apaise pas son SMOP en se forçant à dormir : on crée les conditions, et le sommeil vient."],
-    faire:["choisis un seul geste du soir et teste-le une semaine."], actions:[["tab:sommeil","mon sommeil"],["sos:insomnie","fiche SOS réveil nocturne"]],
+    faire:["choisis un seul geste du soir et teste-le une semaine."], actions:[["tab:sommeil","mon sommeil"],["sos:reveil3h","fiche SOS réveil à 3h"]],
     medecin:"si tu ronfles ou te réveilles épuisée : les recommandations demandent de rechercher les signes d'apnée du sommeil.",
     question:"Est-ce que je devrais faire vérifier mon sommeil (apnée) ?", sources:["spiegel1999","jcem2023"] },
   { id:"thyroide", cat:"medical", em:"🦋", titre:"La thyroïde et le SMOP", court:"le duo qu'on oublie", etiq:"observe",
@@ -218,7 +229,7 @@ export const FICHES = [
     passe:["avec un SMOP, la résistance à l'insuline peut rendre la perte de poids plus difficile. ce n'est pas un manque de volonté.",
       "beaucoup de femmes avec un SMOP vivent une stigmatisation liée au poids, y compris chez les soignants. tu n'as pas à l'accepter."],
     faire:["l'objectif n'est pas un chiffre : c'est d'apaiser ton terrain (une glycémie stable, un meilleur sommeil, moins de stress).","ton corps n'est pas ton ennemi. il réagit à un déséquilibre."],
-    actions:[["fiche:insuline","la résistance à l'insuline"],["tab:soin","prendre soin de moi"]],
+    actions:[["fiche:insuline","la résistance à l'insuline"],["sos:decouragement","fiche SOS découragement"]],
     medecin:"si on ne te parle que de ton poids : tu as le droit de demander qu'on regarde aussi tes autres symptômes.",
     question:"En dehors du poids, que pouvons-nous faire pour mes symptômes ?", sources:["jcem2023"] },
 ];
@@ -233,12 +244,12 @@ const COLLECTIONS = [
   { titre:"Ce qu'on aurait aimé nous expliquer", sous:"les questions qu'on n'ose pas toujours poser",
     liens:[["un SMOP avec un poids normal, c'est possible ?","insuline"],["mes analyses sont normales, mais je vais mal","fatigue"],["pourquoi mon médecin ne parle que de mon poids ?","poids"]] },
 ];
-const PARCOURS = [["Comprendre l'insuline en 10 minutes",["insuline","cercle","manger","sommeil"]],["Comprendre pourquoi ton cycle est irrégulier",["cycle","suivre","pilule","fertilite"]],["Comprendre l'acné et la chute de cheveux",["androgenes","peau","thyroide"]]];
+const PARCOURS = [["Comprendre l'insuline en 10 minutes",["insuline","cercle","manger","bouger","sommeil"]],["Comprendre pourquoi ton cycle est irrégulier",["cycle","suivre","pilule","fertilite"]],["Comprendre l'acné et la chute de cheveux",["androgenes","peau","thyroide"]]];
 
 // ── découvertes suggérées : selon son profil, ses priorités et son objectif ──
 const PAR_PROFIL = { metabolique:"insuline", androgenique:"androgenes", inflammatoire:"inflammation", surrenalien:"stress", mixte_ma:"insuline", mixte_mi:"insuline", mixte_ai:"androgenes" };
 const PAR_PRIO = { fringales:"insuline", douleurs:"cycle", peau:"peau", stress:"stress", cycle:"cycle", comprendre:"cestquoi" };
-const PAR_OBJ = { energie:"fatigue", sommeil:"sommeil", cycle:"cycle", alimentation:"manger", mouvement:"insuline", profil:"insuline", quotidien:"cercle", besoins:"cestquoi" };
+const PAR_OBJ = { energie:"fatigue", sommeil:"sommeil", cycle:"cycle", alimentation:"manger", mouvement:"bouger", profil:"insuline", quotidien:"cercle", besoins:"cestquoi" };
 const suggestions = ({profil,perso,evo}) => { const out=[]; const add=(id,pq)=>{ if(id&&parId(id)&&!out.some(x=>x.id===id)) out.push({id,pq}); };
   const obj=evo&&Array.isArray(evo.objectifs)?evo.objectifs.find(o=>o.priorite==="principal"&&o.statut!=="pause"):null;
   if(obj) add(PAR_OBJ[obj.cle],"pour ton objectif : "+String(obj.titre).toLowerCase());
@@ -249,7 +260,7 @@ const suggestions = ({profil,perso,evo}) => { const out=[]; const add=(id,pq)=>{
 // ── trouver la fiche qui correspond à un lien d'une mission ou d'une fiche SOS ──
 export const ficheDeTexte = (t) => { t=String(t||"").toLowerCase();
   const m=[[/routine de sommeil|sommeil/,"sommeil"],[/pilule|contraception/,"pilule"],[/intestin|microbiote/,"intestin"],[/fertilité/,"fertilite"],[/androgènes|dht|peau|poils|cheveux/,"androgenes"],[/cycle|ovulation|règles|lh|fsh|œstrogènes|progestérone/,"cycle"],
-    [/foie|shbg/,"shbg"],[/stress|cortisol|surrénal/,"stress"],[/inflammation/,"inflammation"],[/insuline|mouvement/,"insuline"],[/thyroïde/,"thyroide"],[/poids/,"poids"],[/fatigue/,"fatigue"],[/ovaires|bases|clichés|origines|diagnostic/,"cestquoi"],[/mécanismes|hormones/,"hormones"]].find(x=>x[0].test(t));
+    [/foie|shbg/,"shbg"],[/stress|cortisol|surrénal/,"stress"],[/inflammation/,"inflammation"],[/mouvement|bouger|sport|activité physique/,"bouger"],[/insuline/,"insuline"],[/thyroïde/,"thyroide"],[/poids/,"poids"],[/fatigue/,"fatigue"],[/ovaires|bases|clichés|origines|diagnostic/,"cestquoi"],[/mécanismes|hormones/,"hormones"]].find(x=>x[0].test(t));
   return m?m[1]:null; };
 
 const majus = (t) => String(t||"").replace(/^./,c=>c.toUpperCase());
@@ -279,7 +290,7 @@ export function Bibliotheque({C,Icon,profil,perso,evo,fiche,setFiche,questions,a
       {retour(parcours&&iP>=0?parcours[0]:cat?cat[1]:"Comprendre", ()=>{ setFiche(null); if(!(parcours&&iP>=0)&&cat) setVue("cat:"+cat[0]); })}
       {parcours&&iP>=0&&<div style={{fontSize:10.5,color:C.mauve,fontWeight:700,marginBottom:6}}>parcours · {iP+1} sur {parcours[1].length}</div>}
       <div style={{display:"flex",gap:11,alignItems:"center",marginBottom:4}}><span style={{fontSize:26}}>{f.em}</span><div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.35rem",fontWeight:600,color:C.brown,lineHeight:1.2}}>{f.titre}</div></div>
-      <div style={{display:"inline-block",fontSize:10,fontWeight:700,color:C.mauve,background:C.mauveSoft,borderRadius:99,padding:"3px 9px",margin:"4px 0 12px"}} title={e[1]}>{e[0]}</div>
+      {AFFICHER_SOURCES?<div style={{display:"inline-block",fontSize:10,fontWeight:700,color:C.mauve,background:C.mauveSoft,borderRadius:99,padding:"3px 9px",margin:"4px 0 12px"}} title={e[1]}>{e[0]}</div>:<div style={{height:10}}/>}
       <div style={{...carte,background:C.cream}}>{lbl("ça te parle ?")}<div style={{fontSize:13,color:C.brown,lineHeight:1.6,fontStyle:"italic"}}>{f.parle}</div></div>
       <div style={carte}>{lbl("ce qui se passe")}
         {f.tableau&&<div style={{display:"flex",gap:8,marginBottom:10}}>{f.tableau.map(([t,coul,rows],i)=>(
@@ -294,7 +305,7 @@ export function Bibliotheque({C,Icon,profil,perso,evo,fiche,setFiche,questions,a
         {f.liste2&&f.liste2.map(([t,coul,items],i)=>(<div key={i} style={{marginTop:8}}><div style={{fontSize:11.5,fontWeight:700,color:coul,marginBottom:6}}>{t}</div>
           {items.map(([n,p],j)=><div key={j} style={{borderLeft:`3px solid ${coul}`,background:C.cream,borderRadius:10,padding:"8px 10px",marginBottom:6}}><div style={{fontSize:11.5,fontWeight:700,color:C.brown}}>{n}</div><div style={{fontSize:11,color:C.mid,lineHeight:1.45}}>{p}</div></div>)}</div>))}
         {f.ressenti&&<div style={{marginTop:6,background:C.cream,borderRadius:10,padding:"9px 11px"}}><div style={{fontSize:8.5,letterSpacing:1,textTransform:"uppercase",color:C.mauve,fontWeight:700,marginBottom:2}}>ce que certaines Cysters ressentent</div><div style={{fontSize:11,color:C.mid,lineHeight:1.5}}>{f.ressenti}</div></div>}
-        <div style={{fontSize:10,color:C.light,lineHeight:1.5,marginTop:8}}>{f.etiqNote||e[0]+" : "+e[1]+"."}</div>
+        {AFFICHER_SOURCES&&<div style={{fontSize:10,color:C.light,lineHeight:1.5,marginTop:8}}>{f.etiqNote||e[0]+" : "+e[1]+"."}</div>}
       </div>
       <div style={carte}>{lbl("ce que tu peux faire","#4F6038")}
         {f.faire.map((p,i)=><p key={i} style={{fontSize:12.5,color:C.brown,lineHeight:1.65,margin:"0 0 9px"}}>{p}</p>)}
@@ -309,19 +320,19 @@ export function Bibliotheque({C,Icon,profil,perso,evo,fiche,setFiche,questions,a
       {f.vecu&&<div style={{...carte,background:`linear-gradient(150deg,#FDF4EE,${C.white})`,border:`1px dashed ${C.terra}`}}>{lbl("mon vécu · Kamila")}
         <div style={{fontSize:10,color:C.light,marginBottom:8}}>mon expérience personnelle, pas une explication scientifique.</div>
         {f.vecu.map((p,i)=><p key={i} style={{fontFamily:"'Playfair Display',serif",fontSize:13,color:C.brown,lineHeight:1.65,fontStyle:"italic",margin:"0 0 9px"}}>{p}</p>)}</div>}
-      <div style={{...carte,background:"transparent"}}>{lbl("sources",C.light)}
+      {AFFICHER_SOURCES&&<div style={{...carte,background:"transparent"}}>{lbl("sources",C.light)}
         {f.sources.length===0&&<div style={{fontSize:11,color:C.mid,lineHeight:1.5}}>aucune source solide pour l'instant : cette fiche est présentée comme une piste de recherche.</div>}
         {f.sources.map(id=>{ const s=SOURCES[id]; if(!s) return null; const st=STATUTS[s.statut]; return (<div key={id} style={{fontSize:10.5,color:C.mid,lineHeight:1.5,marginBottom:7}}>
           <span style={{fontSize:9,fontWeight:700,color:st[1],background:st[2],borderRadius:99,padding:"1px 7px",marginRight:6}}>{st[0]}{s.statut==="consultee"&&s.le?" le "+dateFr(s.le):""}</span>{s.ref}</div>); })}
         <button onClick={()=>{ setFiche(null); setVue("sources"); }} style={{background:"none",border:"none",padding:0,color:C.mid,fontFamily:"inherit",fontSize:10.5,cursor:"pointer",textDecoration:"underline"}}>comment on vérifie nos sources</button>
-      </div>
+      </div>}
       {suivante&&<button onClick={()=>setFiche(suivante.id)} style={{width:"100%",padding:"12px",borderRadius:12,border:"none",background:C.terra,color:"#fff",fontFamily:"inherit",fontSize:13,fontWeight:700,cursor:"pointer",marginBottom:12}}>fiche suivante : {suivante.titre} →</button>}
       {parcours&&iP===parcours[1].length-1&&<div style={{...carte,textAlign:"center",fontSize:12,color:C.brown}}>parcours terminé. <button onClick={()=>{ setParcours(null); setFiche(null); }} style={{background:"none",border:"none",color:C.terra,fontWeight:700,fontFamily:"inherit",cursor:"pointer"}}>revenir à la bibliothèque</button></div>}
     </div>);
   }
 
   // ── le registre des sources ──
-  if(vue==="sources") return (<div className="fu">
+  if(AFFICHER_SOURCES&&vue==="sources") return (<div className="fu">
     {retour("Comprendre",()=>setVue(null))}
     <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.3rem",fontWeight:600,color:C.brown,marginBottom:4}}>Nos sources</div>
     <div style={{fontSize:11.5,color:C.mid,lineHeight:1.6,marginBottom:12}}>chaque fiche dit d'où vient ce qu'elle affirme. une source n'est marquée « consultée » que si on l'a vraiment ouverte et lue. les autres sont « à vérifier » : on les relit avant la version finale.</div>
@@ -364,6 +375,6 @@ export function Bibliotheque({C,Icon,profil,perso,evo,fiche,setFiche,questions,a
     <div style={{display:"grid",gridTemplateColumns:"repeat(2,minmax(0,1fr))",gap:8,marginBottom:12}}>{CATEGORIES.map(([id,t,em,d])=>{ const n=FICHES.filter(x=>x.cat===id).length; return (
       <button key={id} onClick={()=>setVue("cat:"+id)} style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:14,padding:"12px",cursor:"pointer",fontFamily:"inherit",textAlign:"left"}}>
         <div style={{fontSize:20}}>{em}</div><div style={{fontSize:12,fontWeight:700,color:C.brown,marginTop:4,lineHeight:1.25}}>{t}</div><div style={{fontSize:10,color:C.light,marginTop:2}}>{n} fiche{n>1?"s":""}</div></button>); })}</div>
-    <button onClick={()=>setVue("sources")} style={{display:"block",margin:"4px auto 0",background:"none",border:"none",color:C.mid,fontFamily:"inherit",fontSize:11,cursor:"pointer",textDecoration:"underline"}}>nos sources, et comment on les vérifie</button>
+    {AFFICHER_SOURCES&&<button onClick={()=>setVue("sources")} style={{display:"block",margin:"4px auto 0",background:"none",border:"none",color:C.mid,fontFamily:"inherit",fontSize:11,cursor:"pointer",textDecoration:"underline"}}>nos sources, et comment on les vérifie</button>}
   </div>);
 }
