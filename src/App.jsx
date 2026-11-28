@@ -77,16 +77,24 @@ const PROFIL_HIERARCHIE = {
 
 
 // ─── PRIORITÉS PAR PROFIL (Centre de Priorités J0) ────────────────────────────
+// le geste d'une priorité ouvre l'outil qui permet de le faire ; sa fiche de la bibliothèque explique le pourquoi
+const GESTE_CIBLE = (g)=>{ g=String(g||"").toLowerCase();
+  return /ordre des aliments/.test(g)?["outil:alimentation/assiette","l'assiette SMOP"]:/magnésium|zinc|oméga/.test(g)?["outil:complements/complements","mes compléments"]
+    :/cure détox/.test(g)?["outil:complements/complements","la cure"]:/cohérence cardiaque|respiration/.test(g)?["bouger:apaiser","la séance respiration"]
+    :/écran/.test(g)?["tab:sommeil","mon sommeil"]:/café/.test(g)?["sos:coupdebarre","la fiche SOS coup de barre"]:null; };
+const FICHE_PRIO = (t)=>{ t=String(t||"").toLowerCase();
+  return /glycémie|insuline/.test(t)?"insuline":/androgènes/.test(t)?"androgenes":/foie/.test(t)?"shbg":/carences/.test(t)?"fatigue":/inflammation/.test(t)?"inflammation"
+    :/cortisol|stress|surrénales/.test(t)?"stress":/sommeil/.test(t)?"sommeil":/terrain/.test(t)?"cercle":null; };
 const PRIORITES_PROFIL = {
   metabolique:[
     {n:"01",em:"⚡",t:"Stabiliser ta glycémie",col:"#CB9A79",res:["Moins de fringales","Plus d'énergie entre les repas","Moins de stockage abdominal"],quand:"2 à 4 semaines",geste:"L'ordre des aliments — dès aujourd'hui"},
     {n:"02",em:"✨",t:"Corriger les carences silencieuses",col:"#D4A56A",res:["Énergie au réveil","Meilleur sommeil","Moins de fatigue profonde"],quand:"1 à 3 semaines",geste:"Magnésium bisglycinate ce soir"},
-    {n:"03",em:"🌱",t:"Soutenir ton foie",col:"#B8C5A0",res:["Moins de gonflements","Peau qui s'améliore","Androgènes mieux éliminés"],quand:"3 à 6 semaines",geste:"Cure Détox demain matin à jeun"},
+    {n:"03",em:"🌱",t:"Soutenir ton foie",col:"#B8C5A0",res:["Moins de gonflements","Peau qui s'améliore","Digestion plus légère"],quand:"3 à 6 semaines",geste:"Cure Détox demain matin à jeun"},
   ],
   androgenique:[
     {n:"01",em:"🌿",t:"Réduire les androgènes actifs",col:"#C2AEBA",res:["Moins d'acné hormonale","Pilosité qui ralentit","Chute de cheveux freinée"],quand:"4 à 8 semaines",geste:"Zinc ce soir avec le repas"},
     {n:"02",em:"⚡",t:"Stabiliser ton insuline",col:"#CB9A79",res:["Signal androgénique réduit","Moins de fringales","Énergie stable"],quand:"2 à 4 semaines",geste:"L'ordre des aliments — dès aujourd'hui"},
-    {n:"03",em:"🌱",t:"Booster ton foie",col:"#B8C5A0",res:["Élimination des androgènes","Peau plus nette","Moins de gonflements"],quand:"3 à 6 semaines",geste:"Cure Détox demain matin à jeun"},
+    {n:"03",em:"🌱",t:"Booster ton foie",col:"#B8C5A0",res:["Digestion plus légère","Peau plus nette","Moins de gonflements"],quand:"3 à 6 semaines",geste:"Cure Détox demain matin à jeun"},
   ],
   inflammatoire:[
     {n:"01",em:"🔥",t:"Calmer l'inflammation de fond",col:"#D4A56A",res:["Moins de douleurs","Brouillard qui se lève","Énergie qui revient"],quand:"3 à 6 semaines",geste:"Oméga-3 dès aujourd'hui"},
@@ -101,12 +109,12 @@ const PRIORITES_PROFIL = {
   mixte_ma:[
     {n:"01",em:"⚡",t:"Stabiliser ta glycémie",col:"#CB9A79",res:["Moins de fringales","Signal androgénique réduit","Énergie stable"],quand:"2 à 4 semaines",geste:"L'ordre des aliments — dès aujourd'hui"},
     {n:"02",em:"🌿",t:"Réduire les androgènes",col:"#C2AEBA",res:["Moins d'acné","Pilosité ralentie","Cheveux préservés"],quand:"4 à 8 semaines",geste:"Zinc ce soir avec le repas"},
-    {n:"03",em:"🌱",t:"Soutenir ton foie",col:"#B8C5A0",res:["Androgènes éliminés","Peau qui s'améliore","Moins de gonflements"],quand:"3 à 6 semaines",geste:"Cure Détox demain matin à jeun"},
+    {n:"03",em:"🌱",t:"Soutenir ton foie",col:"#B8C5A0",res:["Digestion plus légère","Peau qui s'améliore","Moins de gonflements"],quand:"3 à 6 semaines",geste:"Cure Détox demain matin à jeun"},
   ],
   mixte_mi:[
     {n:"01",em:"⚡",t:"Stabiliser ta glycémie",col:"#CB9A79",res:["Moins de fringales","Énergie stable","Inflammation réduite"],quand:"2 à 4 semaines",geste:"L'ordre des aliments — dès aujourd'hui"},
     {n:"02",em:"🔥",t:"Calmer l'inflammation",col:"#D4A56A",res:["Moins de douleurs","Brouillard levé","Récupération améliorée"],quand:"3 à 6 semaines",geste:"Oméga-3 dès aujourd'hui"},
-    {n:"03",em:"🌱",t:"Soutenir ton terrain",col:"#B8C5A0",res:["Foie soutenu","Digestion apaisée","Élimination optimisée"],quand:"4 à 8 semaines",geste:"Cure Détox demain matin à jeun"},
+    {n:"03",em:"🌱",t:"Soutenir ton terrain",col:"#B8C5A0",res:["Foie soutenu","Digestion apaisée","Moins de lourdeur"],quand:"4 à 8 semaines",geste:"Cure Détox demain matin à jeun"},
   ],
   mixte_ai:[
     {n:"01",em:"🔥",t:"Calmer l'inflammation de fond",col:"#D4A56A",res:["Moins de douleurs","Brouillard levé","Androgènes apaisés"],quand:"3 à 6 semaines",geste:"Oméga-3 dès aujourd'hui"},
@@ -10327,6 +10335,9 @@ const ICON_PATHS = {
   coffee:'M4 8h12v5a5 5 0 0 1-10 0V8Zm12 1h2.5a2.5 2.5 0 0 1 0 5H16M6 3v2m4-2v2',
   sparkle:'M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3Z',
 };
+// chaque sous-page appartient à un onglet du bas : il reste allumé quand on y est
+const ONGLET_DE = (t)=>({cycle:"suivi",apercu:"suivi",tendances:"suivi",journal:"suivi",mouvement:"suivi",bouger:"suivi",evolution:"suivi",soin:"suivi",sommeil:"suivi",ancrage:"suivi",
+  mesures:"medecin",analyses:"medecin",sos:"outils",diag:"outils"}[t]||t);
 function Icon({name,size=20,color="currentColor",stroke=1.6,fill="none",style}){
   const d=ICON_PATHS[name]; if(!d) return null;
   return (<svg width={size} height={size} viewBox="0 0 24 24" fill={fill} stroke={color}
@@ -11411,7 +11422,11 @@ export default function App() {
                 <span key={j} style={{background:`${p.col}12`,border:`1px solid ${p.col}`,borderRadius:99,padding:"2px 9px",fontSize:9,color:p.col}}>✓ {r}</span>
               ))}
             </div>
-            <div style={{fontSize:10,color:p.col,fontWeight:500}}>→ {p.geste}</div>
+            {(()=>{ const g=GESTE_CIBLE(p.geste), fi=FICHE_PRIO(p.t); return (<div style={{display:"flex",flexWrap:"wrap",gap:7,alignItems:"center"}}>
+              {g?<button onClick={()=>{ setModePrio(false); allerVers(g[0]); }} style={{background:`${p.col}22`,border:`1.5px solid ${p.col}`,borderRadius:99,padding:"7px 12px",color:C.brown,fontFamily:"inherit",fontSize:11,fontWeight:700,cursor:"pointer",textAlign:"left"}}>{p.geste} → {g[1]}</button>
+                :<div style={{fontSize:10.5,color:p.col,fontWeight:600}}>→ {p.geste}</div>}
+              {fi&&<button onClick={()=>{ setModePrio(false); setTab("outils"); setOutilCat("comprendre"); setOutilOpen("comprendre"); setBibFiche(fi); }} style={{background:"none",border:"none",padding:0,color:C.mid,fontFamily:"inherit",fontSize:10.5,cursor:"pointer",textDecoration:"underline"}}>comprendre pourquoi</button>}
+            </div>); })()}
           </div>
         ))}
 
@@ -11420,7 +11435,7 @@ export default function App() {
           <div style={{fontSize:10,color:"#5A7040",lineHeight:1.7}}>
             <strong>dans 14 jours</strong> → moins de fatigue après les repas · fringales qui diminuent · réveils plus faciles<br/>
             <strong>dans 30 jours</strong> → énergie plus stable · brouillard qui se lève · premiers signes sur la peau<br/>
-            <strong>dans 3 mois</strong> → cycle qui se régularise · analyses qui bougent · terrain transformé
+            <strong>dans 3 mois</strong> → chez beaucoup, un cycle qui commence à bouger · un terrain plus apaisé
           </div>
         </div>
 
@@ -11778,7 +11793,7 @@ export default function App() {
           const NAV_LABELS={kamila:"Accueil",carte:"Ma carte",suivi:"Suivi",outils:"Ressources",medecin:"Santé",apercu:"Vue d'ensemble",tendances:"Mes tendances",mesures:"Mes mesures",cycle:"Mon cycle",journal:"Mon journal",mouvement:"Bouger",bouger:"Bouger",ancrage:"Mon ancrage",analyses:"Mes analyses",sommeil:"Mon sommeil",soin:"Prendre soin",sos:"Fiches SOS",diag:"Je viens d'être diagnostiquée",evolution:"Mon évolution"};
           const SUBP={cycle:"suivi",apercu:"suivi",tendances:"suivi",mesures:"medecin",journal:"suivi",mouvement:"suivi",sos:"outils",evolution:"suivi"};
           const p=navPrevTab;
-          if(!p||p===tab||p===SUBP[tab]||!NAV_LABELS[p]) return null;
+          if(!p||p===tab||p===SUBP[tab]||!NAV_LABELS[p]||(tab==="outils"&&outilOpen==="comprendre")) return null;
           return(
             <button onClick={()=>{ navReset.current=true; if(tab==="outils"){ setOutilOpen(null); } setTab(p); }}
               style={{display:"flex",alignItems:"center",gap:6,background:`${pc.p}12`,border:`1px solid ${pc.p}40`,borderRadius:99,cursor:"pointer",fontFamily:"inherit",color:pc.p,fontSize:11.5,fontWeight:700,padding:"6px 12px",marginBottom:10}}>
@@ -11903,19 +11918,17 @@ export default function App() {
         {tab==="kamila"&&(
           <div className="fu">
             {/* ══ ACCUEIL V2 — d'après la maquette : bonjour + check-in, priorité, action du jour, adapter ma journée, parcours, piliers, accompagnement ══ */}
-            {/* ── Comment te sens-tu aujourd'hui ? (check-in énergie, facultatif) ── */}
+            {/* ── Ton énergie aujourd'hui ? (check-in énergie, facultatif : il adapte la mission du jour) ── */}
             {(()=>{
-              const OPTS=[{k:"haute",l:"plutôt bien",tip:"belle énergie aujourd'hui : profites-en pour avancer sur ton action du jour, à ton rythme."},{k:"moyenne",l:"moyenne",tip:"rythme normal : écoute ton corps au fil de la journée."},{k:"basse",l:"fatiguée",tip:"aujourd'hui, une seule petite chose suffit. et si tu ne fais rien, c'est ok aussi."}];
+              const OPTS=[{k:"haute",l:"en forme",tip:"belle énergie aujourd'hui : profites-en pour avancer sur ton action du jour, à ton rythme."},{k:"moyenne",l:"moyenne",tip:"rythme normal : écoute ton corps au fil de la journée."},{k:"basse",l:"fatiguée",tip:"aujourd'hui, une seule petite chose suffit. et si tu ne fais rien, c'est ok aussi."}];
               const sel=OPTS.find(o=>o.k===energie);
               return(
               <div style={{marginBottom:12}}>
-                <div style={{fontSize:12,color:C.mid,marginBottom:8}}>Comment te sens-tu aujourd'hui ?</div>
+                <div style={{fontSize:12,color:C.mid,marginBottom:8}}>Ton énergie aujourd'hui ?</div>
                 <div style={{display:"flex",gap:7,flexWrap:"wrap"}}>
                   {OPTS.map(o=>{ const on=energie===o.k; return(
                     <button key={o.k} onClick={()=>{ setEnergie(on?null:o.k); if(!on&&(typeof jToday.energie!=="number"||jToday.energieAccueil)) setJournal(p=>({...p,[todayKey]:{...(p[todayKey]||{}),energie:{haute:4,moyenne:3,basse:2}[o.k],energieAccueil:true}})); }} aria-pressed={on}
                       style={{padding:"8px 14px",borderRadius:99,border:`1.5px solid ${on?C.terra:C.border}`,background:on?C.terra:C.white,color:on?"#fff":C.brown,fontFamily:"inherit",fontSize:12,fontWeight:600,cursor:"pointer"}}>{o.l}</button>); })}
-                  <button onClick={()=>setScrollAnchor("coach-mindset")}
-                    style={{padding:"8px 14px",borderRadius:99,border:`1.5px solid ${C.border}`,background:C.white,color:C.brown,fontFamily:"inherit",fontSize:12,fontWeight:600,cursor:"pointer"}}>+ autre</button>
                 </div>
                 {sel&&<div style={{fontSize:11,color:C.mid,lineHeight:1.5,marginTop:8}}>{sel.tip}{energie==="basse"&&<> <button onClick={()=>{ setFatigueOpen(true); setFatigueStep(0); }} style={{background:"none",border:"none",padding:0,color:C.terra,fontFamily:"inherit",fontSize:11,fontWeight:700,cursor:"pointer",textDecoration:"underline"}}>comprendre ma fatigue</button></>}</div>}
                 <button onClick={()=>setTab("suivi")} style={{marginTop:6,background:"none",border:"none",padding:0,color:C.light,fontFamily:"inherit",fontSize:10.5,cursor:"pointer",textDecoration:"underline"}}>noter ma journée en détail</button>
@@ -11943,20 +11956,20 @@ export default function App() {
               const prios=PRIORITES_PROFIL[profil]||PRIORITES_PROFIL.metabolique;
               const prio1=prios[0];
               return(
-                <div style={{position:"relative",overflow:"hidden",background:`linear-gradient(135deg,${pc.l},${C.white})`,border:`1.5px solid ${pc.p}`,borderRadius:18,padding:"16px",marginBottom:12}}>
-                  <div style={{position:"absolute",right:-8,bottom:-10,opacity:.18,pointerEvents:"none"}}><Icon name="leaf" size={96} color={pc.p}/></div>
-                  <div style={{display:"flex",alignItems:"center",gap:7,marginBottom:6}}>
-                    <Icon name="bolt" size={15} color={pc.p}/>
-                    <span style={{fontSize:12,fontWeight:700,color:C.brown}}>Ta priorité du moment</span>
+                <div style={{position:"relative",overflow:"hidden",background:pc.p,borderRadius:18,padding:"16px",marginBottom:12,color:"#fff"}}>
+                  <div style={{position:"absolute",right:-8,bottom:-10,opacity:.16,pointerEvents:"none"}}><Icon name="leaf" size={96} color="#fff"/></div>
+                  <div style={{display:"inline-flex",alignItems:"center",gap:6,background:"rgba(255,255,255,.2)",borderRadius:99,padding:"3px 9px",marginBottom:8}}>
+                    <Icon name="bolt" size={13} color="#fff"/>
+                    <span style={{fontSize:9.5,letterSpacing:1.1,textTransform:"uppercase",fontWeight:700}}>ton cap · ta priorité du moment</span>
                   </div>
-                  <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.4rem",fontWeight:600,color:C.brown,lineHeight:1.2,marginBottom:6}}>{prio1.t}</div>
-                  <div style={{fontSize:11.5,color:C.mid,lineHeight:1.6,marginBottom:12,maxWidth:"85%"}}>d'après tes réponses, c'est l'axe à explorer en premier. on avance ensemble, un geste à la fois : {prio1.geste.toLowerCase()}.</div>
+                  <div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.4rem",fontWeight:600,lineHeight:1.2,marginBottom:6}}>{prio1.t}</div>
+                  <div style={{fontSize:11.5,opacity:.95,lineHeight:1.6,marginBottom:12,maxWidth:"85%"}}>d'après tes réponses, c'est l'axe à explorer en premier. on avance ensemble, un geste à la fois : {prio1.geste.toLowerCase()}.</div>
                   <button onClick={()=>setModePrio(true)}
-                    style={{background:pc.p,border:"none",borderRadius:12,padding:"10px 16px",cursor:"pointer",fontFamily:"inherit",fontSize:12,fontWeight:700,color:"#fff"}}>
+                    style={{background:"#fff",border:"none",borderRadius:12,padding:"10px 16px",cursor:"pointer",fontFamily:"inherit",fontSize:12,fontWeight:700,color:pc.p}}>
                     Voir mes 3 priorités →
                   </button>
                   <button onClick={()=>setScreen("profil-select")}
-                    style={{display:"block",marginTop:8,background:"none",border:"none",padding:0,cursor:"pointer",fontFamily:"inherit",fontSize:10,color:C.light,textDecoration:"underline"}}>
+                    style={{display:"block",marginTop:8,background:"none",border:"none",padding:0,cursor:"pointer",fontFamily:"inherit",fontSize:10,color:"#fff",opacity:.85,textDecoration:"underline"}}>
                     ajuster ma priorité
                   </button>
                 </div>
@@ -11964,10 +11977,22 @@ export default function App() {
             })()}
 
             {/* ── Personnalisation : invitation, puis « mon parcours à moi » ── */}
-            {day<=365&&<CartePerso C={C} Icon={Icon} perso={perso} jour={day} etat={persoEtat} setEtat={setPersoEtat} ouvrir={()=>setPersoOpen(true)} setTab={setTab} mois={mois}/>}
+            {(()=>{ const persoFait=!!perso, departFait=!!objectifPrincipal(evo); if(persoFait&&departFait) return null;
+              const brouillon=!!evoValide(evo).brouillon;
+              const etape=(n,fait,titre,sous,go,bouton)=>(<button onClick={fait?undefined:go} disabled={fait} style={{width:"100%",display:"flex",alignItems:"center",gap:11,background:C.white,border:"none",borderRadius:13,padding:"11px 12px",cursor:fait?"default":"pointer",fontFamily:"inherit",textAlign:"left",opacity:fait?.75:1}}>
+                <span style={{width:28,height:28,borderRadius:99,background:fait?"#EAF3EA":C.mauve,color:fait?"#4A7A52":"#fff",display:"flex",alignItems:"center",justifyContent:"center",fontSize:12.5,fontWeight:700,flexShrink:0}}>{fait?"✓":n}</span>
+                <span style={{flex:1,minWidth:0}}><span style={{display:"block",fontSize:12.5,fontWeight:700,color:C.brown,textDecoration:fait?"line-through":"none"}}>{titre}</span><span style={{display:"block",fontSize:10.5,color:C.mid,lineHeight:1.4}}>{fait?"c'est fait":sous}</span></span>
+                {!fait&&<span style={{fontSize:11,fontWeight:700,color:C.mauve,flexShrink:0}}>{bouton} ›</span>}</button>);
+              return(<div style={{background:C.mauveSoft,borderRadius:18,padding:"14px 13px 13px",marginBottom:12}}>
+                <div style={{display:"flex",alignItems:"center",gap:7,marginBottom:4}}><Icon name="sparkle" size={14} color={C.mauve}/><span style={{fontSize:9.5,letterSpacing:1.1,textTransform:"uppercase",color:C.mauve,fontWeight:700}}>pour bien démarrer</span><span style={{marginLeft:"auto",fontSize:10,color:C.mid}}>{(persoFait?1:0)+(departFait?1:0)} sur 2</span></div>
+                <div style={{fontSize:11,color:C.mid,lineHeight:1.5,marginBottom:10}}>deux étapes, une seule fois, pour que ton espace parte de toi.</div>
+                {etape(1,persoFait,"Un parcours plus à toi","six questions, 90 secondes, et tes missions s'adaptent",()=>setPersoOpen(true),"commencer")}
+                <div style={{display:"flex",justifyContent:"center",margin:"3px 0"}}><span style={{fontSize:13,color:C.mauve,lineHeight:1}}>↓</span></div>
+                {etape(2,departFait,"Pose ton point de départ","ton objectif, et où tu en es aujourd'hui : trois minutes, pour voir plus tard le chemin parcouru",()=>setEvoDepart("depart"),brouillon?"reprendre":"commencer")}
+              </div>); })()}
 
-            {/* ── Mon évolution : tant que le point de départ n'est pas posé, on le propose ici ── */}
-            {!objectifPrincipal(evo)&&<CarteEvolution C={C} Icon={Icon} evo={evo} ouvrirDepart={()=>setEvoDepart("depart")} ouvrirPage={()=>setTab("evolution")}/>}
+            {/* ── Une fois les six questions faites : « mon parcours à moi » et ses petits avis ── */}
+            {day<=365&&perso&&<CartePerso C={C} Icon={Icon} perso={perso} jour={day} etat={persoEtat} setEtat={setPersoEtat} ouvrir={()=>setPersoOpen(true)} setTab={setTab} mois={mois}/>}
 
             {/* ── Aujourd'hui, pour toi : la mission du jour (l'essentiel) et une idée selon sa priorité, en un seul bloc ── */}
             {(()=>{
@@ -11977,7 +12002,8 @@ export default function App() {
               const plie=!!checked[jourAff]&&!missionOpen&&vueJour==null; // une fois validée, la mission se range en une ligne
               const dit=perso&&vueJour==null?ditChoix({perso,etat:persoEtat,energie,dateJour:dateLocale()}):"";
               return(
-            <div id="action-du-jour" style={{scrollMarginTop:14,background:C.white,borderRadius:20,padding:"14px",marginBottom:12,border:`1.5px solid ${checked[jourAff]?pc.p:C.border}`,transition:"border-color 0.3s",boxShadow:`0 6px 20px ${pc.p}12`}}>
+            <div id="action-du-jour" style={{scrollMarginTop:14,background:C.white,borderRadius:20,padding:"0 14px 14px",marginBottom:12,border:`1.5px solid ${checked[jourAff]?pc.p:C.border}`,transition:"border-color 0.3s",boxShadow:`0 6px 20px ${pc.p}12`,overflow:"hidden"}}>
+              <div style={{margin:"0 -14px 12px",padding:"7px 14px",background:C.cream,borderBottom:`1px solid ${C.border}`,display:"flex",alignItems:"center",gap:6,fontSize:9.5,letterSpacing:1.1,textTransform:"uppercase",color:C.mid,fontWeight:700}}><Icon name="calendar" size={12} color={C.mid}/>ta journée{vueJour==null?" · "+todayLabel:""}</div>
               <div style={{display:"flex",alignItems:"center",gap:7,marginBottom:10}}>
                 <Icon name="sparkle" size={15} color={pc.p}/>
                 <span style={{fontFamily:"'Playfair Display',serif",fontSize:"1.25rem",fontWeight:600,color:C.brown}}>Aujourd'hui, pour toi</span>
@@ -12261,13 +12287,13 @@ export default function App() {
 
             {/* ── LES MOTS DE KAMILA, SELON L'HUMEUR ── */}
             <div id="coach-mindset" style={{background:`linear-gradient(135deg,${pc.l},${C.cream})`,borderRadius:16,padding:"1rem",marginBottom:10,border:`1px solid ${C.border}`}}>
-              <div style={{fontSize:12,fontWeight:700,color:C.brown,marginBottom:3}}>Comment tu te sens, là ?</div>
-              <div style={{fontSize:10.5,color:C.mid,marginBottom:11,lineHeight:1.5}}>dis-moi ton humeur du moment, et je te réponds.</div>
+              <div style={{fontSize:12,fontWeight:700,color:C.brown,marginBottom:3}}>Et ton humeur, là ?</div>
+              <div style={{fontSize:10.5,color:C.mid,marginBottom:11,lineHeight:1.5}}>dis-moi ce que tu ressens, je te réponds. ça s'ajoute à ton suivi du jour.</div>
               <div style={{display:"flex",flexWrap:"wrap",gap:6}}>
                 {MINDSET.map(m=>{
                   const sel=mindsetOpen===m.id;
                   return(
-                    <button key={m.id} onClick={()=>setMindsetOpen(sel?null:m.id)}
+                    <button key={m.id} onClick={()=>{ setMindsetOpen(sel?null:m.id); if(!sel&&(typeof jToday.humeur!=="number"||jToday.humeurAccueil)) setJournal(p=>({...p,[todayKey]:{...(p[todayKey]||{}),humeur:m.id==="bien"?4:2,humeurAccueil:true,humeurMot:m.label}})); }}
                       style={{padding:"8px 12px",borderRadius:99,border:`1.5px solid ${sel?pc.p:C.border}`,background:sel?pc.p:C.white,color:sel?"white":C.brown,fontSize:11,fontWeight:500,cursor:"pointer",fontFamily:"inherit"}}>
                       {m.emoji} {m.label}
                     </button>
@@ -14101,7 +14127,7 @@ export default function App() {
                     {sc.opts.map((opt,i)=>{
                       const val=i+1; const sel=jView[key]===val;
                       return (
-                        <button key={i} onClick={()=>{ setJV(key, sel?null:val); if(key==="energie") setJV("energieAccueil",false); }}
+                        <button key={i} onClick={()=>{ setJV(key, sel?null:val); if(key==="energie") setJV("energieAccueil",false); if(key==="humeur") setJV("humeurAccueil",false); }}
                           style={{flex:1,padding:"8px 2px",borderRadius:9,border:`1.5px solid ${sel?sc.col:C.border}`,background:sel?sc.col:C.white,color:sel?"white":C.mid,cursor:"pointer",fontFamily:"inherit",display:"flex",flexDirection:"column",alignItems:"center",gap:1}}>
                           <span style={{fontSize:12,fontWeight:sel?700:500}}>{val}</span>
                           <span style={{fontSize:7.5,opacity:.85}}>{opt}</span>
@@ -15413,13 +15439,14 @@ profil · tes priorités · les analyses & questions que tu as cochées · ton s
 
       {/* BOTTOM NAV (mobile) */}
       <div className="bottom-nav-wrap" style={{position:"fixed",bottom:0,left:"50%",transform:"translateX(-50%)",width:"100%",maxWidth:430,background:C.white,borderTop:`1px solid ${C.border}`,padding:"9px 4px 12px",display:"flex",justifyContent:"space-around",zIndex:30}}>
-        {TABS.map(t=>(
-          <button key={t.id} onClick={()=>{ navReset.current=true; setTab(t.id); }}
-            style={{background:"none",border:"none",cursor:"pointer",display:"flex",flexDirection:"column",alignItems:"center",gap:3,padding:"3px 4px",fontFamily:"inherit",flex:1}}>
-            <Icon name={t.icon} size={21} color={tab===t.id?C.mauve:C.light} stroke={tab===t.id?1.9:1.6}/>
-            <span style={{fontSize:8.5,color:tab===t.id?C.mauve:C.light,fontWeight:tab===t.id?700:500}}>{t.label}</span>
-          </button>
-        ))}
+        {TABS.map(t=>{ const on=ONGLET_DE(tab)===t.id; return(
+          <button key={t.id} aria-current={on?"page":undefined} onClick={()=>{ navReset.current=true; setTab(t.id); }}
+            style={{position:"relative",background:"none",border:"none",cursor:"pointer",display:"flex",flexDirection:"column",alignItems:"center",gap:2,padding:"3px 2px",fontFamily:"inherit",flex:1}}>
+            {on&&<span style={{position:"absolute",top:-9,left:"50%",transform:"translateX(-50%)",width:24,height:3,borderRadius:99,background:C.mauve}}/>}
+            <span style={{display:"flex",alignItems:"center",justifyContent:"center",width:46,height:28,borderRadius:99,background:on?C.mauveSoft:"transparent"}}>
+              <Icon name={t.icon} size={21} color={on?C.mauve:C.light} stroke={on?2:1.6}/></span>
+            <span style={{fontSize:9,color:on?C.brown:C.light,fontWeight:on?700:500}}>{t.label}</span>
+          </button>); })}
       </div>
       </div>
     </div>
