@@ -46,11 +46,11 @@ const ETIQ = { etabli:["Bien établi","recommandation internationale ou relation
 export const CATEGORIES = [
   ["comprendre","Mon corps, mes hormones","book","ce qui se passe dans ton corps, sans jargon","#C17855"],
   ["cycle","Mon cycle","moon","tes règles, ton ovulation, ce qui est normal ou pas","#A0607A"],
-  ["symptomes","Ce que je ressens","pulse","fatigue, peau, poils, cheveux : pourquoi, et quoi faire","#B07C55"],
+  ["symptomes","Ce que je ressens","pulse","fatigue, peau, poils, cheveux : pourquoi, et quoi faire","#7A5C45"],
   ["nourrir","Nourrir mon corps","leaf","manger pour ton SMOP, sans régime ni culpabilité","#6E8A55"],
   ["bouger","Bouger et récupérer","steps","le mouvement, le sommeil, la récupération","#8E80A3"],
   ["medical","Mon parcours médical","doctor","diagnostic, traitements, thyroïde, fertilité","#5B7FA6"],
-  ["soin","Prendre soin de moi","heart","le poids, la culpabilité, le moral","#C0707A"],
+  ["soin","Prendre soin de moi","heart","le poids, la culpabilité, le moral","#B8893E"],
 ];
 // une icône par fiche, toutes du même jeu (même trait, mêmes proportions), dans la couleur de son thème
 const FICHE_IC = { cestquoi:"book", hormones:"chart", insuline:"bolt", androgenes:"flask", shbg:"drop", stress:"brain", inflammation:"flame", cercle:"gear",
@@ -354,7 +354,7 @@ export function Bibliotheque({C,Icon,profil,perso,evo,fiche,setFiche,questions,a
         {go&&!dernier?<button onClick={go} style={{background:"none",border:"none",padding:0,fontFamily:"inherit",fontSize:10.5,color:C.mid,cursor:"pointer",textDecoration:"underline",textUnderlineOffset:2}}>{t}</button>
           :<span style={{color:dernier?C.brown:C.light,fontWeight:dernier?700:400}}>{t}</span>}</span>); })}</div>
     </div>); };
-  const ligneFiche=(x,sous,key)=>(<button key={key||x.id} onClick={()=>ouvrirFiche(x.id)} style={{width:"100%",display:"flex",alignItems:"center",gap:11,background:C.white,border:`1px solid ${C.border}`,borderRadius:13,padding:"11px 12px",marginBottom:8,cursor:"pointer",fontFamily:"inherit",textAlign:"left"}}>
+  const ligneFiche=(x,sous,key)=>(<button key={key||x.id} onClick={()=>ouvrirFiche(x.id)} style={{width:"100%",display:"flex",alignItems:"center",gap:11,background:C.white,border:`1px solid ${C.border}`,borderLeft:`4px solid ${(catDe(x.cat)||[])[4]||C.terra}`,borderRadius:13,padding:"11px 12px",marginBottom:8,cursor:"pointer",fontFamily:"inherit",textAlign:"left"}}>
     {pastille(FICHE_IC[x.id]||"book",(catDe(x.cat)||[])[4]||C.terra)}
     <span style={{flex:1,minWidth:0}}><span style={{display:"block",fontSize:12.5,fontWeight:700,color:C.brown}}>{x.titre}</span><span style={{display:"block",fontSize:10.5,color:C.mid,lineHeight:1.4}}>{sous||x.court}</span></span>
     <span style={{color:C.light}}>›</span></button>);
@@ -369,9 +369,10 @@ export function Bibliotheque({C,Icon,profil,perso,evo,fiche,setFiche,questions,a
     return (<div className="fu">
       {nav(f.titre)}
       {parcours&&iP>=0&&<div style={{fontSize:10.5,color:C.mauve,fontWeight:700,marginBottom:6}}>parcours · {iP+1} sur {parcours[1].length}</div>}
+      {cat&&<div style={{fontSize:9.5,letterSpacing:1.2,textTransform:"uppercase",fontWeight:700,color:cat[4],marginBottom:7}}>{cat[1]}</div>}
       <div style={{display:"flex",gap:11,alignItems:"center",marginBottom:4}}>{pastille(FICHE_IC[f.id]||"book",cat?cat[4]:C.terra,42,21)}<div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.35rem",fontWeight:600,color:C.brown,lineHeight:1.2}}>{f.titre}</div></div>
       {AFFICHER_SOURCES?<div style={{display:"inline-block",fontSize:10,fontWeight:700,color:C.mauve,background:C.mauveSoft,borderRadius:99,padding:"3px 9px",margin:"4px 0 12px"}} title={e[1]}>{e[0]}</div>:<div style={{height:10}}/>}
-      <div style={{...carte,background:C.cream}}>{lbl("ça te parle ?")}<div style={{fontSize:13,color:C.brown,lineHeight:1.6,fontStyle:"italic"}}>{f.parle}</div></div>
+      <div style={{...carte,background:C.cream,borderLeft:`4px solid ${cat?cat[4]:C.terra}`}}>{lbl("ça te parle ?",cat?cat[4]:C.terra)}<div style={{fontSize:13,color:C.brown,lineHeight:1.6,fontStyle:"italic"}}>{f.parle}</div></div>
       <div style={carte}>{lbl("ce qui se passe")}
         {f.tableau&&<div style={{display:"flex",gap:8,marginBottom:10}}>{f.tableau.map(([t,coul,rows],i)=>(
           <div key={i} style={{flex:1,minWidth:0,background:C.cream,borderRadius:12,padding:"10px",borderTop:`3px solid ${coul}`}}>
@@ -431,8 +432,9 @@ export function Bibliotheque({C,Icon,profil,perso,evo,fiche,setFiche,questions,a
   // ── une catégorie ──
   if(vue&&vue.startsWith("cat:")){ const c=CATEGORIES.find(x=>x[0]===vue.slice(4)); const liste=FICHES.filter(x=>x.cat===c[0]); return (<div className="fu">
     {nav(c[1])}
-    <div style={{display:"flex",alignItems:"center",gap:10}}>{pastille(c[2],c[4])}<div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.3rem",fontWeight:600,color:C.brown}}>{c[1]}</div></div>
-    <div style={{fontSize:11.5,color:C.mid,marginBottom:12}}>{c[3]}</div>
+    <div style={{background:c[4]+"14",borderLeft:`4px solid ${c[4]}`,borderRadius:14,padding:"12px 13px",marginBottom:12}}>
+      <div style={{display:"flex",alignItems:"center",gap:10}}>{pastille(c[2],c[4])}<div style={{fontFamily:"'Playfair Display',serif",fontSize:"1.3rem",fontWeight:600,color:C.brown}}>{c[1]}</div></div>
+      <div style={{fontSize:11.5,color:C.mid,marginTop:6}}>{c[3]}</div></div>
     {liste.map(x=>ligneFiche(x))}
     <div style={{fontSize:10.5,color:C.light,lineHeight:1.5,textAlign:"center",marginTop:6}}>d'autres fiches arrivent au fil de la bêta, selon ce que vous cherchez.</div>
   </div>); }
@@ -454,7 +456,7 @@ export function Bibliotheque({C,Icon,profil,perso,evo,fiche,setFiche,questions,a
         <span style={{flex:1,fontSize:12.5,fontWeight:700,color:C.brown}}>{t}</span><span style={{fontSize:10.5,color:C.mid}}>{ids.length} fiches ›</span></button>)}</div>
     {lbl("explorer par thème",C.brown)}
     <div style={{display:"grid",gridTemplateColumns:"repeat(2,minmax(0,1fr))",gap:8,marginBottom:12}}>{CATEGORIES.map(([id,t,ic,d,col])=>{ const n=FICHES.filter(x=>x.cat===id).length; return (
-      <button key={id} onClick={()=>avancer({vue:"cat:"+id})} style={{background:C.white,border:`1px solid ${C.border}`,borderRadius:14,padding:"12px",cursor:"pointer",fontFamily:"inherit",textAlign:"left"}}>
+      <button key={id} onClick={()=>avancer({vue:"cat:"+id})} style={{background:C.white,border:`1px solid ${C.border}`,borderTop:`3px solid ${col}`,borderRadius:14,padding:"12px",cursor:"pointer",fontFamily:"inherit",textAlign:"left"}}>
         {pastille(ic,col,32,16)}<div style={{fontSize:12,fontWeight:700,color:C.brown,marginTop:7,lineHeight:1.25}}>{t}</div><div style={{fontSize:10,color:C.light,marginTop:2}}>{n} fiche{n>1?"s":""}</div></button>); })}</div>
     {AFFICHER_SOURCES&&<button onClick={()=>setVue("sources")} style={{display:"block",margin:"4px auto 0",background:"none",border:"none",color:C.mid,fontFamily:"inherit",fontSize:11,cursor:"pointer",textDecoration:"underline"}}>nos sources, et comment on les vérifie</button>}
   </div>);
