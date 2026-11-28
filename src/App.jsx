@@ -10094,7 +10094,7 @@ const OUTIL_CATS = {
   comprendre: { label:"Comprendre mon SMOP", em:"🎓", dotBg:"#F2EEF6", hero:"le pourquoi des choses, en clair — pour avancer en confiance.",
     tools:[
       {id:"diag", em:"🤍", nm:"Je viens d'être diagnostiquée", td:"l'accueil qu'on t'a pas donné", goTab:"diag"},
-      {id:"comprendre", em:"🎓", nm:"La bibliothèque du SMOP", td:"ton corps, ton cycle, tes symptômes : une fiche à la fois, avec ses sources"},
+      {id:"comprendre", em:"🎓", nm:"La bibliothèque du SMOP", td:"ton corps, ton cycle, tes symptômes : une fiche à la fois, en clair"},
     ]},
   quotidien: { label:"Au quotidien", em:"📍", dotBg:"#F6ECE2", hero:"les situations de la vraie vie : petit-déj, repas dehors, jours pressés, et les fiches SOS pour les moments difficiles.",
     tools:[
@@ -12780,7 +12780,7 @@ export default function App() {
             })()}
 
             {/* NIVEAU 3 — un outil ouvert : bouton retour vers sa famille */}
-            {outilOpen && (()=>{
+            {outilOpen && outilOpen!=="comprendre" && (()=>{
               const ck=OUTIL_CAT_OF(outilOpen); const lbl=ck?OUTIL_CATS[ck].label:"Ressources";
               return(
                 <button onClick={()=>{ setOutilOpen(null); setOutilCat(ck||null); }}
@@ -13690,7 +13690,8 @@ export default function App() {
             {/* OUTIL : COMPRENDRE LES ALIMENTS */}
             {/* ── COMPRENDRE MON SMOP : la bibliothèque (fiches, besoins, collections, parcours, sources) ── */}
             {outilOpen==="comprendre"&&<Bibliotheque C={C} Icon={Icon} profil={profil} perso={perso} evo={evo} fiche={bibFiche} setFiche={setBibFiche} questions={medQCustom}
-              ajouterQuestion={(q)=>{ setMedQCustom(p=>p.includes(q)?p:[...p,q]); showToast("Question ajoutée","elle t'attend dans ton dossier santé."); }} aller={(k)=>allerVers(k)}/>}
+              ajouterQuestion={(q)=>{ setMedQCustom(p=>p.includes(q)?p:[...p,q]); showToast("Question ajoutée","elle t'attend dans ton dossier santé."); }} aller={(k)=>allerVers(k)}
+              sortir={()=>{ setOutilOpen(null); setOutilCat(OUTIL_CAT_OF("comprendre")||null); }} ressources={()=>{ setOutilOpen(null); setOutilCat(null); }}/>}
 
             {/* OUTIL : MES COURSES */}
             {outilOpen==="courses"&&(
