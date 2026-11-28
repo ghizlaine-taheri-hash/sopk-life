@@ -3,6 +3,7 @@ import { createPortal } from "react-dom";
 import Bouger from "./Bouger.jsx";
 import { ETAT_VIDE, niveauPour, adapterMission, trouverAutre, FeuillePerso, SousMission, CartePerso, MesDonnees, noterHisto, PRIOS } from "./Perso.jsx";
 import { CarteVivante, IdeeDuJour, ditChoix } from "./Carte.jsx";
+import { Bibliotheque, ficheDeTexte } from "./Comprendre.jsx";
 import { evoValide, fusionEvo, objectifPrincipal, DepartEvolution, CarteEvolution, MonEvolution } from "./Evolution.jsx";
 import { ORDRE_BASE, ordreValide, estBase, moisSelon, moisDe, idDuJour, texteLibre, ordreDeBase, convertir, convertirCles } from "./Parcours.jsx";
 // Les fenêtres s'affichent directement sur l'écran, quel que soit l'endroit où on a fait défiler la page
@@ -10093,7 +10094,7 @@ const OUTIL_CATS = {
   comprendre: { label:"Comprendre mon SMOP", em:"🎓", dotBg:"#F2EEF6", hero:"le pourquoi des choses, en clair — pour avancer en confiance.",
     tools:[
       {id:"diag", em:"🤍", nm:"Je viens d'être diagnostiquée", td:"l'accueil qu'on t'a pas donné", goTab:"diag"},
-      {id:"comprendre", em:"🎓", nm:"Les mécanismes du SMOP", td:"ton cycle, tes hormones, ton insuline : ce qui se passe, sans jargon"},
+      {id:"comprendre", em:"🎓", nm:"La bibliothèque du SMOP", td:"ton corps, ton cycle, tes symptômes : une fiche à la fois, avec ses sources"},
     ]},
   quotidien: { label:"Au quotidien", em:"📍", dotBg:"#F6ECE2", hero:"les situations de la vraie vie : petit-déj, repas dehors, jours pressés, et les fiches SOS pour les moments difficiles.",
     tools:[
@@ -10690,6 +10691,8 @@ export default function App() {
   const [tisaneOpen, setTisaneOpen] = useState(null);
   const [mecaOpen, setMecaOpen] = useState(null);
   const [savoirOpen, setSavoirOpen] = useState(null);
+  const [bibFiche, setBibFiche] = useState(null); // fiche ouverte dans la bibliothèque Comprendre mon SMOP
+  useEffect(()=>{ if(outilOpen!=="comprendre") setBibFiche(null); },[outilOpen]);
   const [recFiltreMoment, setRecFiltreMoment] = useState("tous");
   const [recFiltreTag, setRecFiltreTag] = useState("tous");
   const [recetteFiche, setRecetteFiche] = useState(null);
@@ -11524,7 +11527,7 @@ export default function App() {
                 if(low.includes("analyses")) return B(goTab("analyses"));
                 if(low.includes("scripts")) return B(goTab("medecin"));
                 if(low.includes("mon cycle")) return B(goTab("cycle"));
-                if(low.includes("dans comprendre")) return B(()=>{goOutil("comprendre","comprendre")(); const sv=SAVOIRS.find(x=>low.includes(x.t.toLowerCase())); if(sv){ setSavoirOpen(sv.t); setScrollAnchor("savoir-ouvert"); }});
+                if(low.includes("dans comprendre")) return B(()=>{goOutil("comprendre","comprendre")(); setBibFiche(ficheDeTexte(l)); });
                 if(low.includes("assiette")) return B(goOutil("alimentation","assiette"));
                 if(low.includes("planificateur")||low.includes("planifier")) return B(goOutil("alimentation","planif"));
                 if(low.includes("chercher un aliment")) return B(goOutil("alimentation","aliments"));
@@ -12135,7 +12138,7 @@ export default function App() {
                   else if(onglet){ if(onglet==="mouvement"&&SEANCE_DE[todayData.theme]) setBougerDepart(SEANCE_DE[todayData.theme]); setTab(onglet==="mouvement"?"bouger":onglet);
                     const ancre=ou.ancre||(onglet!=="kamila"?null:/mots de Kamila/i.test(ou.label)?"coach-mindset":/mot de Kamila/i.test(ou.desc||"")?"mot-kamila":"mon-parcours");
                     if(ancre) setScrollAnchor(ancre); }
-                  else {setTab("outils");setOutilOpen(todayData.outil.cible); if(ou.guide) setSituationOpen(ou.guide); const sv=SAVOIR_DE(ou); if(sv) setSavoirOpen(sv); const fi=ou.fiche||FICHE_DE(ou); if(fi) setScrollAnchor(fi); else if(sv) setScrollAnchor("savoir-ouvert"); if(todayData.outil.recherche!==undefined)setFoodSearch(todayData.outil.recherche);if(todayData.outil.cible==="repas"&&todayData.outil.moment)setRepasMoment(todayData.outil.moment);} }}
+                  else {setTab("outils");setOutilOpen(todayData.outil.cible); if(ou.guide) setSituationOpen(ou.guide); if(ou.cible==="comprendre") setBibFiche(ficheDeTexte(ou.label+" "+(ou.desc||""))); const fi=ou.fiche||FICHE_DE(ou); if(fi) setScrollAnchor(fi); if(todayData.outil.recherche!==undefined)setFoodSearch(todayData.outil.recherche);if(todayData.outil.cible==="repas"&&todayData.outil.moment)setRepasMoment(todayData.outil.moment);} }}
                   style={{width:"100%",background:"linear-gradient(135deg, #D4A56A, #C49355)",border:"none",borderRadius:14,padding:"15px 16px",marginTop:16,marginBottom:10,cursor:"pointer",fontFamily:"inherit",display:"flex",alignItems:"center",gap:12,textAlign:"left",boxShadow:"0 4px 14px rgba(212,165,106,0.4)"}}>
                   <div style={{fontSize:26,flexShrink:0,background:"rgba(255,255,255,0.25)",borderRadius:12,width:46,height:46,display:"flex",alignItems:"center",justifyContent:"center"}}>{todayData.outil.emoji}</div>
                   <div style={{flex:1}}>
@@ -13685,169 +13688,9 @@ export default function App() {
             })()}
 
             {/* OUTIL : COMPRENDRE LES ALIMENTS */}
-            {outilOpen==="comprendre"&&(
-              <div className="fu">
-                <div style={{background:C.bubble,border:`1px solid ${C.border}`,borderRadius:12,padding:"10px 12px",marginBottom:14,fontSize:10.5,color:C.mid,lineHeight:1.6}}>
-                  <strong style={{color:C.brown}}>SMOP, PMOS, SOPK :</strong> en 2026, un consensus international a renommé le SOPK en <i>polyendocrine metabolic ovarian syndrome</i> (PMOS). « SMOP » est le nom qu'on utilise ici en français : la traduction officielle n'est pas encore fixée. ces repères sont éducatifs et ne remplacent pas l'avis de ton médecin.
-                </div>
-                {/* ── CYCLE NORMAL vs CYCLE SMOP ── */}
-                <div style={{fontSize:10,letterSpacing:1.5,textTransform:"uppercase",color:C.terra,fontWeight:700,marginBottom:4}}>Ton cycle, pour de vrai</div>
-                <div style={{fontSize:11,color:C.mid,lineHeight:1.6,marginBottom:12}}>on t'a sûrement dit « tes cycles sont irréguliers » sans jamais t'expliquer pourquoi. voilà la différence, côte à côte.</div>
-                <div style={{display:"flex",gap:9,marginBottom:12}}>
-                  {[
-                    {t:"Un cycle « classique »",coul:"#A9BC8E",bg:"#EFF3E8",lignes:[
-                      ["Durée","21 à 35 jours, assez régulier"],
-                      ["Ovulation","une douzaine de jours avant les règles, pas forcément pile au milieu"],
-                      ["Déroulé","l'ovule mûrit, est libéré, puis les règles arrivent"],
-                      ["Règles","reviennent à un rythme prévisible"],
-                    ]},
-                    {t:"Un cycle avec SMOP",coul:"#A89AB8",bg:"#F2EEF6",lignes:[
-                      ["Durée","souvent long (> 35 j), irrégulier ou absent"],
-                      ["Ovulation","retardée, aléatoire, ou absente certains mois"],
-                      ["Déroulé","certains mois, les follicules commencent à mûrir sans aller jusqu'à l'ovulation"],
-                      ["Règles","espacées, imprévisibles — ce n'est pas « dans ta tête »"],
-                    ]},
-                  ].map((col,i)=>(
-                    <div key={i} style={{flex:1,background:col.bg,borderRadius:14,padding:"12px 11px",border:`1.5px solid ${col.coul}`}}>
-                      <div style={{fontSize:11.5,fontWeight:700,color:C.brown,marginBottom:9,lineHeight:1.25,minHeight:30}}>{col.t}</div>
-                      {col.lignes.map(([k,v],j)=>(
-                        <div key={j} style={{marginBottom:j<col.lignes.length-1?9:0}}>
-                          <div style={{fontSize:8,letterSpacing:0.8,textTransform:"uppercase",color:col.coul,fontWeight:700,marginBottom:2}}>{k}</div>
-                          <div style={{fontSize:10,color:C.brown,lineHeight:1.45}}>{v}</div>
-                        </div>
-                      ))}
-                    </div>
-                  ))}
-                </div>
-                <div style={{background:`${C.sage}22`,borderRadius:12,padding:"11px 14px",border:`1px solid ${C.sage}`,marginBottom:18}}>
-                  <div style={{fontSize:11,color:"#4F6038",lineHeight:1.6}}><strong>à retenir :</strong> un cycle irrégulier n'est pas un corps « cassé ». c'est un corps dont l'ovulation est gênée par le déséquilibre hormonal. les habitudes de vie peuvent aider l'ovulation chez certaines femmes, et il existe aussi des solutions médicales à voir avec ton médecin. bon à savoir : avoir des règles ne veut pas forcément dire avoir ovulé. et plus de 3 mois sans règles, c'est une raison d'en parler à ton médecin.</div>
-                </div>
-                <div style={{height:1,background:C.border,margin:"0 0 18px"}}/>
-
-                {/* ── LES MÉCANISMES DU SMOP ── */}
-                <div style={{fontSize:10,letterSpacing:1.5,textTransform:"uppercase",color:C.terra,fontWeight:700,marginBottom:4}}>Comment marche ton SMOP</div>
-                <div style={{fontSize:11,color:C.mid,lineHeight:1.6,marginBottom:12}}>pas pour te faire peur — pour que tu comprennes ce qui se joue dans ton corps, et pourquoi chaque geste compte.</div>
-
-                {/* ── LES HORMONES EN 1 COUP D'ŒIL ── */}
-                <div style={{background:C.white,border:`1.5px solid ${C.border}`,borderRadius:14,padding:"13px 14px",marginBottom:12}}>
-                  <div style={{fontSize:12,fontWeight:700,color:C.brown,marginBottom:3}}>Les hormones en 1 coup d'œil</div>
-                  <div style={{fontSize:10.5,color:C.mid,lineHeight:1.55,marginBottom:11}}>le résumé avant le détail — ce qui se dérègle, et ce qui l'apaise. tu ouvres chaque mécanisme juste en dessous.</div>
-                  {[
-                    {h:"Insuline",coul:"#CB9A79",etat:"souvent trop haute",role:"peut pousser les ovaires à fabriquer plus d'androgènes, et participer aux fringales",apaise:"assiette qui stabilise la glycémie · bouger après les repas · sommeil"},
-                    {h:"Androgènes",coul:"#A89AB8",etat:"en excès",role:"agissent sur la peau, les poils et les cheveux",apaise:"ce qui aide ton insuline · un dermatologue ou ton médecin si besoin"},
-                    {h:"Cortisol",coul:"#9FB3C9",etat:"emballé par le stress",role:"aggrave la résistance à l'insuline et relance tout le cercle",apaise:"sommeil · respiration · récupération · un vrai temps calme"},
-                    {h:"SHBG",coul:"#A9BC8E",etat:"souvent trop basse",role:"quand elle baisse, plus de testostérone circule librement",apaise:"ce qui aide ton insuline : assiette, mouvement, sommeil"},
-                  ].map((r,i)=>(
-                    <div key={i} style={{display:"flex",gap:10,paddingTop:i>0?10:0,marginTop:i>0?10:0,borderTop:i>0?`1px solid ${C.border}`:"none"}}>
-                      <div style={{width:4,alignSelf:"stretch",borderRadius:99,background:r.coul,flexShrink:0}}/>
-                      <div style={{flex:1}}>
-                        <div style={{display:"flex",alignItems:"baseline",gap:7,flexWrap:"wrap",marginBottom:3}}>
-                          <span style={{fontSize:12,fontWeight:700,color:C.brown}}>{r.h}</span>
-                          <span style={{fontSize:8.5,fontWeight:700,color:r.coul,background:`${r.coul}1C`,borderRadius:99,padding:"2px 8px"}}>{r.etat}</span>
-                        </div>
-                        <div style={{fontSize:10.5,color:C.mid,lineHeight:1.5,marginBottom:4}}>{r.role}</div>
-                        <div style={{fontSize:10,color:"#4F6038",lineHeight:1.45}}><span style={{fontWeight:700}}>on l'apaise par :</span> {r.apaise}</div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-                <div style={{fontSize:10.5,color:C.mid,lineHeight:1.6,marginBottom:12,fontStyle:"italic"}}>le détail de chaque mécanisme, en dessous — touche celui que tu veux ouvrir.</div>
-                {MECANISMES.map((m,i)=>{
-                  const open=mecaOpen===m.nom;
-                  return(
-                    <div key={i} style={{background:C.white,border:`1.5px solid ${open?m.couleur:C.border}`,borderRadius:14,marginBottom:9,overflow:"hidden"}}>
-                      <button onClick={()=>setMecaOpen(open?null:m.nom)}
-                        style={{width:"100%",display:"flex",alignItems:"center",gap:11,padding:"12px 13px",background:"none",border:"none",cursor:"pointer",fontFamily:"inherit",textAlign:"left"}}>
-                        <div style={{width:38,height:38,borderRadius:11,background:`${m.couleur}22`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:17,flexShrink:0}}>{m.em}</div>
-                        <div style={{flex:1}}>
-                          <div style={{fontSize:12.5,fontWeight:700,color:C.brown}}>{m.nom}</div>
-                          <div style={{fontSize:9.5,color:C.light,marginTop:1}}>{m.court}</div>
-                        </div>
-                        <div style={{fontSize:15,color:C.light,transform:open?"rotate(90deg)":"none",transition:"transform .2s"}}>›</div>
-                      </button>
-                      {open&&(
-                        <div style={{padding:"0 13px 13px"}}>
-                          <div style={{fontSize:11.5,color:C.brown,lineHeight:1.65,marginBottom:10}}>{m.texte}</div>
-                          <div style={{background:`${m.couleur}18`,borderRadius:9,padding:"8px 11px"}}>
-                            <div style={{fontSize:8.5,letterSpacing:1,textTransform:"uppercase",color:m.couleur,fontWeight:700,marginBottom:2}}>ce que certaines Cysters ressentent</div>
-                            <div style={{fontSize:10.5,color:C.mid,lineHeight:1.5}}>{m.signes}</div>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
-
-                <div style={{height:1,background:C.border,margin:"16px 0"}}/>
-                <div style={{fontSize:10,letterSpacing:1.5,textTransform:"uppercase",color:C.terra,fontWeight:700,marginBottom:8}}>Bien manger pour ton SMOP</div>
-                <div style={{background:C.bubble,borderRadius:12,padding:"12px 14px",marginBottom:14,fontSize:11,color:C.mid,lineHeight:1.6,border:`1px solid ${C.border}`}}>
-                  il n'existe pas un régime SMOP meilleur que tous les autres. ce qui compte, c'est une alimentation que tu peux tenir, qui te nourrit et qui te va. ici, des repères pour choisir en connaissance de cause, pas par règles aveugles.
-                </div>
-                {[
-                  {emoji:"🟢",titre:"À privilégier",coul:"#7A9A5A",items:[
-                    {nom:"Légumes verts & crucifères",pourquoi:"brocoli, chou, épinards : riches en fibres, ils aident à lisser la glycémie."},
-                    {nom:"Protéines de qualité",pourquoi:"œufs, poisson, volaille, légumineuses : elles stabilisent la glycémie et coupent les fringales."},
-                    {nom:"Bons gras",pourquoi:"avocat, huile d'olive, oléagineux, poissons gras : ils ralentissent l'absorption du sucre."},
-                    {nom:"Féculents à index bas",pourquoi:"quinoa, légumineuses, patate douce, pain au levain : de l'énergie qui ne fait pas flamber l'insuline."},
-                  ]},
-                  {emoji:"🟠",titre:"À limiter",coul:"#D4A56A",items:[
-                    {nom:"Sucres rapides",pourquoi:"sodas, jus, pâtisseries, bonbons : à limiter, surtout seuls et en dehors des repas, car ils font monter vite la glycémie."},
-                    {nom:"Produits ultra-transformés",pourquoi:"plats industriels, snacks : souvent riches en sucres et en graisses cachés."},
-                    {nom:"Féculents raffinés",pourquoi:"pain blanc, riz blanc, pâtes blanches : index élevé, pic rapide. préfère les versions complètes."},
-                  ]},
-                ].map((cat,i)=>(
-                  <div key={i} style={{marginBottom:14}}>
-                    <div style={{fontSize:12,fontWeight:700,color:cat.coul,marginBottom:8}}>{cat.emoji} {cat.titre}</div>
-                    {cat.items.map((it,j)=>(
-                      <div key={j} style={{background:C.white,borderRadius:12,padding:"11px 13px",marginBottom:7,border:`1px solid ${C.border}`,borderLeft:`3px solid ${cat.coul}`}}>
-                        <div style={{fontSize:12,fontWeight:600,color:C.brown,marginBottom:3}}>{it.nom}</div>
-                        <div style={{fontSize:11,color:C.mid,lineHeight:1.5}}>{it.pourquoi}</div>
-                      </div>
-                    ))}
-                  </div>
-                ))}
-                <div style={{background:`${C.sage}22`,borderRadius:12,padding:"12px 14px",border:`1px solid ${C.sage}`,marginBottom:12}}>
-                  <div style={{fontSize:11,color:"#4F6038",lineHeight:1.6}}>
-                    <strong>l'esprit, pas les règles :</strong> il n'y a pas d'aliment « interdit ». il y a des choix qui apaisent ton corps et d'autres qui le sollicitent. tu apprends à doser, pas à te priver.
-                  </div>
-                </div>
-                <button onClick={()=>{ setOutilCat("alimentation"); setOutilOpen("assiette"); }}
-                  style={{width:"100%",display:"flex",alignItems:"center",gap:11,background:C.white,border:`1.5px solid ${C.terra}`,borderRadius:13,padding:"13px 14px",cursor:"pointer",fontFamily:"inherit",textAlign:"left"}}>
-                  <div style={{width:36,height:36,borderRadius:10,background:`${C.terra}1C`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:17,flexShrink:0}}>🍴</div>
-                  <div style={{flex:1}}>
-                    <div style={{fontSize:12.5,fontWeight:700,color:C.brown}}>Passer à l'action : l'assiette SMOP</div>
-                    <div style={{fontSize:10,color:C.light,marginTop:1}}>la bonne proportion dans ton assiette, concrètement</div>
-                  </div>
-                  <div style={{fontSize:16,color:C.terra}}>›</div>
-                </button>
-
-                {/* ── BANQUE DE CONNAISSANCES ── */}
-                <div style={{height:1,background:C.border,margin:"18px 0"}}/>
-                <div style={{fontSize:10,letterSpacing:1.5,textTransform:"uppercase",color:C.terra,fontWeight:700,marginBottom:4}}>Ta banque de connaissances</div>
-                <div style={{fontSize:11,color:C.mid,lineHeight:1.6,marginBottom:12}}>les sujets qu'on ne t'a jamais vraiment expliqués. ouvre celui qui te parle, à ton rythme.</div>
-                {SAVOIRS.map((s,i)=>{
-                  const open=savoirOpen===s.t;
-                  return(
-                    <div key={i} id={open?"savoir-ouvert":undefined} style={{background:C.white,border:`1.5px solid ${open?s.couleur:C.border}`,borderRadius:14,marginBottom:9,overflow:"hidden"}}>
-                      <button onClick={()=>setSavoirOpen(open?null:s.t)}
-                        style={{width:"100%",display:"flex",alignItems:"center",gap:11,padding:"12px 13px",background:"none",border:"none",cursor:"pointer",fontFamily:"inherit",textAlign:"left"}}>
-                        <div style={{width:36,height:36,borderRadius:10,background:`${s.couleur}22`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:16,flexShrink:0}}>{s.em}</div>
-                        <div style={{flex:1,fontSize:12.5,fontWeight:700,color:C.brown,lineHeight:1.25}}>{s.t}</div>
-                        <div style={{fontSize:15,color:C.light,transform:open?"rotate(90deg)":"none",transition:"transform .2s"}}>›</div>
-                      </button>
-                      {open&&(
-                        <div style={{padding:"0 14px 14px"}}>
-                          {s.corps.map((p,j)=>(
-                            <div key={j} style={{fontSize:11.5,color:C.brown,lineHeight:1.65,marginBottom:j<s.corps.length-1?9:0}}>{p}</div>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
-                <div style={{fontSize:9.5,color:C.light,lineHeight:1.5,marginTop:6,textAlign:"center"}}>ces repères t'aident à comprendre — ils ne remplacent pas l'avis de ton médecin.</div>
-              </div>
-            )}
+            {/* ── COMPRENDRE MON SMOP : la bibliothèque (fiches, besoins, collections, parcours, sources) ── */}
+            {outilOpen==="comprendre"&&<Bibliotheque C={C} Icon={Icon} profil={profil} perso={perso} evo={evo} fiche={bibFiche} setFiche={setBibFiche} questions={medQCustom}
+              ajouterQuestion={(q)=>{ setMedQCustom(p=>p.includes(q)?p:[...p,q]); showToast("Question ajoutée","elle t'attend dans ton dossier santé."); }} aller={(k)=>allerVers(k)}/>}
 
             {/* OUTIL : MES COURSES */}
             {outilOpen==="courses"&&(
