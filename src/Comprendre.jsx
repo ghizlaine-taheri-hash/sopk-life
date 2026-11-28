@@ -288,7 +288,7 @@ export const FICHES = [
     ressenti:"l'irritabilité, les larmes faciles, les ruminations le soir, l'envie de tout lâcher, la honte de son corps.",
     faire:["en parler, à quelqu'un de confiance ou à un professionnel. une psychologue ou ton médecin peuvent vraiment t'aider.",
       "garder les petits gestes qui portent : bouger un peu, dormir, respirer, écrire ce que tu ressens dans ton journal, sans te juger.",
-      "si ça va vraiment mal, n'attends pas : le bouton « mode crise » est toujours là, et en France, tu peux appeler le 3114, gratuitement, jour et nuit."],
+      "si ça va vraiment mal, n'attends pas : prends rendez-vous avec une psychologue, ou parles-en à ton médecin, qui peut t'orienter. et le bouton « mode crise » est toujours là pour les moments difficiles."],
     actions:[["tab:journal","mon journal"],["sos:decouragement","fiche SOS découragement"],["bouger:apaiser","respirer et relâcher"]],
     medecin:"si ton moral est bas depuis plus de deux semaines, si l'anxiété t'empêche de vivre, ou si manger devient une source d'angoisse.",
     question:"Est-ce qu'on peut parler de mon moral, et pouvez-vous m'orienter vers un ou une psychologue ?", sources:["jcem2023"] },
