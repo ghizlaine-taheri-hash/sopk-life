@@ -993,7 +993,7 @@ const SOS_DATA = [
       {em:"🥜", t:"Poignée d'amandes ou noix", why:"glucose stable = cerveau qui repart"},
     ],
     action1h:"une seule tâche. pas trois. une. jusqu'au bout. puis la suivante.",
-    mecanisme:"les cytokines inflammatoires traversent la barrière hémato-encéphalique et perturbent la neurotransmission. concrètement — ton cerveau reçoit des signaux parasites. ce n'est pas de la paresse. c'est de la neurobiologie.",
+    mecanisme:"les cytokines inflammatoires traversent la barrière hémato-encéphalique et perturbent la neurotransmission. concrètement — ton cerveau reçoit des signaux parasites. ce n'est pas de la paresse.",
     kamila:"un seul truc à la fois Cyster. le reste peut attendre.",
     secret:"le brouillard mental s'aggrave avec les pics et chutes de glycémie. après un repas trop sucré, le coup de barre cérébral est plus fort. stabiliser ta glycémie (protéines + bons gras à chaque repas) est souvent la première chose qui éclaircit les idées — avant même de penser au sommeil.",
     monMot:"il y a une fatigue que les gens comprennent. et puis il y a le brouillard mental : celui où tu cherches tes mots, où tu oublies ce que tu venais faire dans une pièce, où ton cerveau tourne au ralenti. parfois je me demandais si quelque chose n'allait pas dans ma tête — je me trouvais moins vive, moins efficace, moins moi. aujourd'hui je sais que quand le corps lutte en permanence, le cerveau finit souvent par payer une partie de la facture. ça ne veut pas dire que tu perds tes capacités. ça veut dire que ton corps réclame de l'aide.",
@@ -1024,7 +1024,7 @@ const SOS_DATA = [
       {em:"🚫", t:"Zéro chignon serré aujourd'hui", why:"traction = follicules supplémentaires perdus"},
     ],
     action1h:"vérifier ta ferritine dans tes analyses. une ferritine < 70 est souvent la cause principale — même si ton médecin dit 'normale'.",
-    mecanisme:"la DHT — dérivé de la testostérone — raccourcit la durée de vie de tes follicules capillaires. les cheveux poussent moins vite et tombent plus tôt. le protocole s'attaque à la DHT via plusieurs voies. la stabilisation arrive en 2-3 mois. la repousse en 4-6 mois.",
+    mecanisme:"la DHT — dérivé de la testostérone — raccourcit la durée de vie de tes follicules capillaires. les cheveux poussent moins vite et tombent plus tôt. plusieurs causes peuvent jouer (androgènes, fer, thyroïde, stress) : un bilan et l'avis d'un médecin ou d'un dermatologue aident à trouver la tienne.",
     kamila:"ce que tu perds maintenant reviendra. le protocole travaille sur la cause.",
     secret:"une chute de cheveux avec un SMOP n'est pas toujours « hormonale » : très souvent, c'est une ferritine trop basse qui en est la vraie cause. exige le chiffre exact de ta ferritine — pas un « c'est normal ». en dessous de 70, les cheveux tombent, même si la valeur est dans les normes du labo.",
     monMot:"je me souviens du moment où j'ai commencé à regarder la brosse avant même de regarder mes cheveux. chaque douche était une angoisse, chaque mèche tombée semblait confirmer que je perdais une partie de moi. ce qui m'a le plus aidée, ce n'est pas une solution miracle : c'est de comprendre que la chute avait une cause — et qu'une cause, ça se travaille. les cheveux sont souvent les derniers à montrer une amélioration. c'est frustrant. mais ça ne veut pas dire que rien ne se passe : pendant des semaines, ton corps répare avant que tes yeux voient le résultat. accroche-toi à ça les jours où le miroir te décourage.",
@@ -1039,7 +1039,7 @@ const SOS_DATA = [
       {em:"📱", t:"Ouvre tes scripts médecin dans ton espace", why:"prépare la demande de bilan hormonal"},
     ],
     action1h:"si > 90 jours sans règles — prends rendez-vous. les analyses à demander : LH, FSH, progestérone, prolactine, TSH.",
-    mecanisme:"l'excès d'androgènes ou d'insuline perturbe la maturation des follicules. ils commencent à se développer mais n'arrivent pas à terme. pas d'ovulation = pas de règles. c'est mécanique. et ça se régule.",
+    mecanisme:"l'excès d'androgènes ou d'insuline perturbe la maturation des follicules. ils commencent à se développer mais n'arrivent pas à terme. pas d'ovulation = pas de règles. et ça peut s'améliorer : parles-en à ton médecin, surtout si tes règles ne viennent plus depuis 3 mois.",
     kamila:"chaque action du protocole travaille à ramener ce cycle. c'est lent. mais c'est réel.",
     secret:"l'absence de règles n'est pas le problème en soi — c'est le signal d'une ovulation qui ne se fait pas régulièrement. noter tes cycles (même absents) sur plusieurs mois donne à ton médecin une information précieuse, bien plus utile qu'un simple « j'ai des cycles irréguliers ». tes données, c'est ton pouvoir en consultation.",
     monMot:"j'ai attendu mes règles pendant des mois, parfois presque un an. et quand elles arrivaient, elles ne repartaient plus — je pouvais saigner un mois, parfois deux. personne autour de moi ne vivait ça. je me sentais différente, cassée, comme si mon corps avait oublié comment fonctionner. longtemps j'ai cru que mes règles étaient le problème. avec le recul, je comprends qu'elles n'étaient que le signal : le vrai sujet se jouait en arrière-plan, dans mes hormones, mon ovulation, mon métabolisme. aujourd'hui je regarde mes cycles autrement. ils ne sont pas là pour me punir, mais pour me raconter ce qui se passe à l'intérieur.",
@@ -1051,7 +1051,7 @@ const SOS_DATA = [
     actions5min:[
       {em:"🌡️", t:"Bouillotte sur le bas ventre", why:"chaleur = relâchement des crampes utérines"},
       {em:"🧘", t:"Position fœtale + respiration lente", why:"réduit la pression intra-abdominale"},
-      {em:"🫚", t:"Oméga-3 maintenant", why:"anti-inflammatoire naturel — même mécanisme que l'ibuprofène"},
+      {em:"🫚", t:"Oméga-3 maintenant", why:"une piste étudiée pour les règles douloureuses, sans certitude à ce jour"},
     ],
     action1h:"ibuprofène si nécessaire — pas de culpabilité. et note l'intensité sur 10 pour ton dossier médecin.",
     mecanisme:"les prostaglandines pro-inflammatoires provoquent les contractions utérines. avec un terrain inflammatoire SMOP (SOPK), leur production est souvent excessive. les oméga-3 et le magnésium réduisent cette production progressivement.",
@@ -1099,7 +1099,7 @@ const SOS_DATA = [
       {em:"📵", t:"Notifications off", why:"chaque notification = micro-spike de cortisol"},
     ],
     action1h:"une chose à la fois. écrire sur papier la liste de ce qui stresse. puis choisir une seule chose. une.",
-    mecanisme:"le stress active l'axe HPA. cortisol produit. cortisol élevé = résistance à l'insuline aggravée + surrénales qui sur-produisent des androgènes. un jour de stress intense peut aggraver tes symptômes SMOP (SOPK) pendant 48-72h.",
+    mecanisme:"le stress active l'axe HPA. cortisol produit. cortisol élevé = résistance à l'insuline aggravée + surrénales qui sur-produisent des androgènes.",
     kamila:"ce que tu ressens là est réel. et biologique. la cohérence cardiaque n'est pas du yoga — c'est de la neurobiologie appliquée.",
     secret:"le SMOP et le stress s'aggravent mutuellement — c'est une relation bidirectionnelle bien documentée. un cortisol élevé en continu perturbe la glycémie et les hormones. ce n'est pas « juste dans la tête » : agir sur le stress (respiration, sommeil) agit aussi, concrètement, sur ton terrain hormonal.",
     monMot:"longtemps, j'ai cru que j'étais simplement quelqu'un de stressée. avec le recul, je vois surtout un corps qui tirait sur la corde depuis des années : les douleurs, les symptômes, les rendez-vous, les analyses, les inquiétudes. à force, le système d'alarme finit par rester allumé en permanence. le moindre imprévu me vidait, et je culpabilisais de ne pas gérer comme les autres. aujourd'hui je sais que quand un corps lutte depuis longtemps, il devient plus sensible aux signaux de danger. ça ne veut pas dire que tu es faible. ça veut souvent dire que tu es épuisée depuis trop longtemps.",
@@ -1144,7 +1144,7 @@ const SOS_DATA = [
       {em:"🎙️", t:"Écoute le vocal Kamila 'jours difficiles'", why:"tu n'as pas à gérer ça seule"},
     ],
     action1h:"pas de solution rapide ici. juste — une action du protocole. n'importe laquelle. pour dire à ton corps que tu travailles pour lui.",
-    mecanisme:"l'acné, la pilosité, la chute de cheveux, la prise de poids — ce sont des manifestations physiques de déséquilibres hormonaux. ton corps n'a pas changé de caractère. il envoie des signaux de détresse hormonale. le protocole s'attaque à ces signaux à la source.",
+    mecanisme:"l'acné, la pilosité, la chute de cheveux, la prise de poids — ce sont des manifestations physiques de déséquilibres hormonaux. ton corps n'a pas changé de caractère. il envoie des signaux de détresse hormonale.",
     kamila:"ton corps n'est pas ton ennemi. il essaie de te dire quelque chose. maintenant tu comprends la langue.",
     secret:"ne plus se reconnaître, ce n'est pas de la coquetterie — c'est l'effet d'une accumulation de symptômes visibles (peau, poils, poids) qui ont tous une même racine hormonale. travailler la cause commune, plutôt que chaque symptôme isolément, est ce qui te fait peu à peu te retrouver. tu n'as pas disparu : tu es enfouie sous des symptômes explicables.",
     monMot:"« je ne me reconnais plus. » cette phrase résume une grande partie de mon histoire. les poils, l'acné, le ventre, le visage gonflé, les sautes d'humeur, les douleurs. à force d'accumuler les symptômes, j'avais l'impression que mon corps devenait quelqu'un d'autre. je regardais les autres filles et je me demandais pourquoi ça semblait tellement plus simple pour elles. ce que je ne savais pas, c'est que je n'avais pas disparu : j'étais simplement enfouie sous des symptômes que personne ne m'avait appris à comprendre. et le jour où j'ai commencé à comprendre mon corps, j'ai commencé à me retrouver. pas parfaitement, pas tout de suite, mais assez pour savoir que je n'étais pas perdue.",
@@ -1174,7 +1174,7 @@ const SOS_DATA = [
       {em:"🥛", t:"Une petite poignée d'amandes si tu as faim", why:"hypoglycémie nocturne = réveil à 3h — c'est biologique"},
     ],
     action1h:"si tu ne te rendors pas en 20 min — lève-toi 15 minutes. lumière tamisée. pas d'écran. retourne te coucher.",
-    mecanisme:"deux causes fréquentes du réveil nocturne quand on a un SMOP : le cortisol élevé la nuit qui freine la mélatonine, et l'hypoglycémie nocturne qui déclenche une alerte adrénaline. les deux sont biologiques. les deux répondent au protocole sur plusieurs semaines.",
+    mecanisme:"deux causes fréquentes du réveil nocturne quand on a un SMOP : le cortisol élevé la nuit qui freine la mélatonine, et l'hypoglycémie nocturne qui déclenche une alerte adrénaline. les deux sont biologiques, et ce qui apaise tes soirées peut aider.",
     kamila:"demain tu seras fatiguée. et tu continueras quand même. parce que t'as prouvé que tu peux.",
     secret:"le réveil nocturne vers 3-4h est souvent lié à une chute de glycémie pendant la nuit ou à un cortisol qui grimpe trop tôt. une collation protéinée légère le soir (pas sucrée) aide parfois à éviter la chute. ce n'est pas « juste du stress » : ton corps a des raisons physiologiques que tu peux apaiser.",
     monMot:"longtemps, je croyais que dormir était censé me reposer. sauf que je me réveillais en pleine nuit — 3h, 4h — les yeux grands ouverts, le cerveau en marche alors que mon corps était épuisé. je calculais combien d'heures il me restait, et plus je m'inquiétais, moins je me rendormais. je pensais que c'était le stress. parfois oui. mais j'ai découvert que les hormones, la glycémie, le cortisol et même les carences pouvaient jouer leur rôle. ce n'était pas que dans ma tête : c'était mon corps qui essayait de me parler. le jour où j'ai arrêté de me traiter comme une machine défectueuse, j'ai commencé à écouter les messages derrière les symptômes.",
@@ -3080,44 +3080,44 @@ function ExIllus({ pose, color = "#A89AB8" }) {
 // ── BANQUE DE CONNAISSANCES SMOP (contenu original, voix SOPK Life, cadrage prudent) ──
 const SAVOIRS = [
   { t:"La fatigue qui ne passe pas, même en dormant", em:"🔋", couleur:"#C98B6E",
-    corps:["se réveiller déjà épuisée après une nuit complète, le corps en plomb dès le matin : c'est la plainte numéro un, et ce n'est pas de la paresse. cette fatigue est biologique.","si elle est si tenace, c'est qu'elle n'a pas une seule cause — plusieurs mécanismes du SMOP tirent dessus en même temps : une glycémie en montagnes russes (le pic du soir, la chute de la nuit), l'inflammation de bas grade qui sollicite ton corps en continu, un cortisol déréglé qui t'épuise au lieu de te réveiller, parfois une thyroïde au ralenti ou des carences (fer, vitamine D).","ton sommeil peut aussi être « non réparateur » : tu dors les heures, mais pas la qualité.","ce qui aide, par petits bouts : un dîner qui ne fait pas flamber ta glycémie, un vrai sas calme le soir, bouger un peu en journée, et faire vérifier ton fer, ta vitamine D et ta thyroïde. mais d'abord, arrête de te culpabiliser : ton épuisement est un signal, pas un défaut."] },
+    corps:["se réveiller déjà épuisée après une nuit complète, le corps en plomb dès le matin : c'est la plainte numéro un, et ce n'est pas de la paresse. cette fatigue est réelle, même si le SMOP n'en est pas toujours la seule cause.","si elle est si tenace, c'est qu'elle n'a pas une seule cause — plusieurs mécanismes du SMOP tirent dessus en même temps : une glycémie en montagnes russes (le pic du soir, la chute de la nuit), un cortisol déréglé qui t'épuise au lieu de te réveiller, parfois une thyroïde au ralenti ou des carences (fer, vitamine D).","ton sommeil peut aussi être « non réparateur » : tu dors les heures, mais pas la qualité.","ce qui aide, par petits bouts : un dîner qui ne fait pas flamber ta glycémie, un vrai sas calme le soir, bouger un peu en journée, et faire vérifier ton fer, ta vitamine D et ta thyroïde. mais d'abord, arrête de te culpabiliser : ton épuisement est un signal, pas un défaut."] },
   { t:"Pourquoi suivre ton cycle, même irrégulier", em:"🌙", couleur:"#A89AB8",
     corps:["avec un SMOP, l'ovulation peut se décaler ou ne pas avoir lieu certains mois — c'est fréquent, et ce n'est pas un échec de ton corps.","noter tes règles, même en désordre, révèle des schémas : la longueur de tes cycles, les moments où ton corps « répond » mieux, l'effet de ton assiette ou de ton stress.","c'est aussi une mine d'or pour ton médecin : des cycles notés valent mille fois mieux qu'un « je sais plus trop »."] },
   { t:"L'intestin et ton SMOP", em:"🌱", couleur:"#A9BC8E",
-    corps:["70 % de ton système immunitaire vit dans ton intestin. un microbiote déséquilibré peut entretenir l'inflammation de bas grade, qui elle-même pèse sur tes hormones et ta sensibilité à l'insuline.","concrètement : des fibres variées (légumes, légumineuses), des aliments fermentés si tu les tolères, et le moins d'ultra-transformé possible soutiennent ton terrain digestif.","un ventre qui gonfle, des digestions difficiles ne sont pas « dans ta tête » — c'est une piste à explorer, en douceur."] },
+    corps:["le lien entre ton intestin et le SMOP est une piste de recherche : on ne sait pas encore exactement ce qu'il change. mais prendre soin de ta digestion fait du bien, quoi qu'il en soit.","concrètement : des fibres variées (légumes, légumineuses), des aliments fermentés si tu les tolères, et le moins d'ultra-transformé possible soutiennent ton terrain digestif.","un ventre qui gonfle, des digestions difficiles ne sont pas « dans ta tête » — c'est une piste à explorer, en douceur."] },
   { t:"Peau, poils et cheveux : pourquoi, et quoi faire", em:"✨", couleur:"#CB9A79",
-    corps:["acné sur la mâchoire et le bas du visage, poils plus drus, cheveux qui s'affinent : ce sont des signes d'hyperandrogénie, pas un manque d'hygiène ou de volonté.","le travail de fond passe par ton terrain (insuline, inflammation, stress) — c'est lui qui nourrit ces signes.","la peau et les poils bougent lentement : compte plusieurs semaines pour l'acné, plusieurs mois pour les poils et les cheveux. la patience fait partie du traitement."] },
+    corps:["acné sur la mâchoire et le bas du visage, poils plus drus, cheveux qui s'affinent : ce sont des signes d'hyperandrogénie, pas un manque d'hygiène ou de volonté.","ton mode de vie (l'insuline, le stress) peut jouer, mais il n'est pas seul en cause : un dermatologue ou ton médecin peuvent aussi te proposer des solutions (traitements, contraception, laser).","la peau et les poils bougent lentement : compte plusieurs semaines pour l'acné, plusieurs mois pour les poils et les cheveux. la patience fait partie du traitement."] },
   { t:"SMOP et fertilité : ce qu'on oublie de te dire", em:"🤍", couleur:"#D4A5A5",
-    corps:["« vous devrez passer par la PMA » est une phrase trop vite lâchée. beaucoup de femmes avec un SMOP conçoivent, parfois naturellement — souvent en travaillant le terrain (insuline, poids si besoin, stress, cycle).","le SMOP est l'une des causes d'infertilité les plus *réversibles* : l'ovulation peut revenir.","si un projet bébé est là, un suivi médical spécialisé en parallèle est précieux. ici, on t'aide à comprendre et à préparer le terrain, jamais à promettre."] },
+    corps:["« vous devrez passer par la PMA » est une phrase trop vite lâchée. beaucoup de femmes avec un SMOP conçoivent, parfois naturellement — souvent en travaillant le terrain (insuline, poids si besoin, stress, cycle).","les troubles de l'ovulation du SMOP font partie des causes d'infertilité qui répondent bien aux traitements. et des cycles irréguliers ne veulent pas dire stérile.","si un projet bébé est là, un suivi médical spécialisé en parallèle est précieux. ici, on t'aide à comprendre et à préparer le terrain, jamais à promettre."] },
   { t:"La pilule et le SMOP : ce qu'elle fait (et ne fait pas)", em:"💊", couleur:"#9FB3C9",
-    corps:["la pilule apporte des hormones de synthèse : elle régularise les saignements, peut améliorer l'acné et la pilosité tant qu'on la prend. c'est un choix valable pour certaines, à décider avec ton médecin.","ce qu'elle ne fait pas : elle ne « soigne » pas le SMOP et n'agit pas sur la résistance à l'insuline. les symptômes reviennent souvent à l'arrêt, car le terrain n'a pas changé.","la connaître pour ce qu'elle est — un outil, pas une fatalité ni une solution unique — te permet de choisir en conscience."] },
+    corps:["la pilule apporte des hormones de synthèse : elle régularise les saignements, peut améliorer l'acné et la pilosité tant qu'on la prend. c'est un choix valable pour certaines, à décider avec ton médecin.","ce qu'elle ne fait pas : elle ne « soigne » pas le SMOP et n'agit pas sur la résistance à l'insuline. les symptômes reviennent souvent à l'arrêt, car le terrain n'a pas changé.","la connaître pour ce qu'elle est — un outil, pas une fatalité ni une solution unique — te permet de choisir en conscience. et ne change pas ta contraception sans en parler à ton médecin."] },
   { t:"La thyroïde et le SMOP : le duo qu'on oublie", em:"🦋", couleur:"#8FB0C4",
-    corps:["l'hypothyroïdie — souvent la thyroïdite de Hashimoto — accompagne fréquemment le SMOP. les deux aiment voyager ensemble.","le piège : leurs symptômes se ressemblent (fatigue, prise de poids, cycles perturbés, frilosité, moral en berne). du coup, une thyroïde paresseuse passe souvent inaperçue, cachée derrière le SMOP.","ça vaut la peine d'en parler à ton médecin et de demander un dosage de la TSH (et, si besoin, T4 libre et anticorps anti-TPO). traiter une thyroïde qui tourne au ralenti peut soulager une grande partie de ce que tu mets sur le dos du SMOP.","ce n'est pas à toi de poser le diagnostic — mais c'est à toi de poser la question."] },
+    corps:["l'hypothyroïdie — souvent la thyroïdite de Hashimoto — accompagne fréquemment le SMOP. les deux aiment voyager ensemble.","le piège : leurs symptômes se ressemblent (fatigue, prise de poids, cycles perturbés, frilosité, moral en berne). du coup, une thyroïde paresseuse passe souvent inaperçue, cachée derrière le SMOP.","ça vaut la peine d'en parler à ton médecin et de demander un dosage de la TSH (et, si besoin, T4 libre et anticorps anti-TPO). traiter une thyroïde qui tourne au ralenti peut soulager des symptômes que tu mettais sur le compte du SMOP.","ce n'est pas à toi de poser le diagnostic — mais c'est à toi de poser la question."] },
   { t:"Le poids et le SMOP : sortir de la culpabilité", em:"🌾", couleur:"#B8A98E",
-    corps:["« perdez du poids » est le conseil le plus donné et le moins expliqué. or avec un SMOP, la résistance à l'insuline rend la perte de poids plus difficile — ce n'est pas un manque de volonté.","l'objectif n'est pas un chiffre : c'est d'apaiser ton terrain (glycémie stable, moins d'inflammation, meilleur sommeil). le reste suit, à son rythme.","ton corps n'est pas ton ennemi. il réagit à un déséquilibre — et il répond quand on lui donne les bons signaux."] },
+    corps:["« perdez du poids » est le conseil le plus donné et le moins expliqué. or avec un SMOP, la résistance à l'insuline rend la perte de poids plus difficile — ce n'est pas un manque de volonté.","l'objectif n'est pas un chiffre : c'est d'apaiser ton terrain (glycémie stable, meilleur sommeil, moins de stress).","ton corps n'est pas ton ennemi. il réagit à un déséquilibre."] },
   { t:"Le cercle vicieux hormonal — et comment le briser", em:"♻️", couleur:"#CB9A79",
-    corps:["si tu as l'impression de tourner en rond, c'est normal : le SMOP fonctionne en boucle, et chaque pièce entretient la suivante.","voilà la boucle, en clair : ta glycémie fait des montagnes russes → ton corps produit beaucoup d'insuline → cette insuline pousse les ovaires à fabriquer plus d'androgènes → les androgènes et l'inflammation dérèglent l'ovulation et entretiennent les fringales → les fringales te ramènent au sucre → et la glycémie repart en montagnes russes. le stress se greffe dessus : le cortisol aggrave la résistance à l'insuline et relance tout.","la bonne nouvelle, c'est qu'une boucle, ça se brise par n'importe quel maillon — tu n'as pas à tout faire en même temps. stabiliser ta glycémie (une assiette qui ne fait pas flamber le sucre), bouger un peu après les repas, soigner ton sommeil, apaiser ton stress : chacun de ces gestes casse un bout du cercle, et l'effet se propage au reste.","c'est pour ça qu'ici on avance un geste à la fois, dans la durée. tu ne répares pas la boucle en un jour — tu la desserres, petit à petit."] },
+    corps:["si tu as l'impression de tourner en rond, c'est normal : chez beaucoup de Cysters (pas chez toutes), le SMOP fonctionne en boucle, et chaque pièce entretient la suivante.","voilà la boucle, en clair : ta glycémie fait des montagnes russes → ton corps produit beaucoup d'insuline → cette insuline pousse les ovaires à fabriquer plus d'androgènes → ces androgènes perturbent l'ovulation. de son côté, une glycémie instable peut entretenir les fringales, qui te ramènent au sucre → et la glycémie repart en montagnes russes. le stress se greffe dessus : le cortisol aggrave la résistance à l'insuline et relance tout.","la bonne nouvelle, c'est qu'une boucle, ça se brise par n'importe quel maillon — tu n'as pas à tout faire en même temps. stabiliser ta glycémie (une assiette qui ne fait pas flamber le sucre), bouger un peu après les repas, soigner ton sommeil, apaiser ton stress : chacun de ces gestes casse un bout du cercle, et l'effet se propage au reste.","c'est pour ça qu'ici on avance un geste à la fois, dans la durée. tu ne répares pas la boucle en un jour — tu la desserres, petit à petit."] },
   { t:"Ma routine de sommeil, celle qui m'aide vraiment", em:"🌙", couleur:"#9FB3C9",
-    corps:["le sommeil, c'est le levier que personne ne te prescrit, et pourtant c'est souvent celui qui change le plus de choses. quand tu dors mal, ton cortisol grimpe, ta glycémie du lendemain est plus instable, et les hormones de la faim se dérèglent — d'où les fringales de sucre le jour d'après. ce n'est pas « dans ta tête ».","ce qui m'aide, et que je te partage comme mon expérience, pas comme une ordonnance : de la lumière du jour le matin, tôt, pour caler ton horloge interne. un dîner qui ne fait pas flamber ta glycémie (des protéines, des légumes, des bons gras), pas trop tard. couper les écrans au moins 30 min avant le lit — c'est le geste le plus dur et le plus payant. et surtout, des horaires réguliers, même le week-end : ton corps adore la régularité.","un vrai sas le soir, même court : lumière tamisée, une tisane, quelques respirations lentes. tu n'apaises pas ton SMOP en te forçant à dormir — tu crées les conditions, et le sommeil vient.","si malgré tout tu te réveilles à 3h chaque nuit, ce n'est pas un hasard : c'est souvent la glycémie qui chute ou le cortisol qui s'emballe. la fiche SOS « réveil nocturne » te donne le geste sur le moment."] },
+    corps:["le sommeil, c'est le levier que personne ne te prescrit, et pourtant c'est souvent celui qui change le plus de choses. quand tu dors mal, ton cortisol grimpe, ta glycémie du lendemain est plus instable, et les hormones de la faim se dérèglent — d'où les fringales de sucre le jour d'après. ce n'est pas « dans ta tête ».","ce qui m'aide, et que je te partage comme mon expérience, pas comme une ordonnance : de la lumière du jour le matin, tôt, pour caler ton horloge interne. un dîner qui ne fait pas flamber ta glycémie (des protéines, des légumes, des bons gras), pas trop tard. couper les écrans au moins 30 min avant le lit — c'est le geste le plus dur et le plus payant. et surtout, des horaires réguliers, même le week-end : ton corps adore la régularité.","un vrai sas le soir, même court : lumière tamisée, une tisane, quelques respirations lentes. tu n'apaises pas ton SMOP en te forçant à dormir — tu crées les conditions, et le sommeil vient.","si malgré tout tu te réveilles souvent la nuit, la fiche SOS « réveil nocturne » te donne le geste sur le moment. et si tu ronfles ou te réveilles épuisée, parles-en à ton médecin : il peut vérifier ton sommeil."] },
 ];
 
 // ── COMPRENDRE MON SMOP : les mécanismes expliqués simplement ───────────────
 const MECANISMES = [
   { nom:"La résistance à l'insuline", em:"⚡", couleur:"#CB9A79", court:"le moteur central, chez beaucoup de Cysters",
-    texte:"ton corps produit de l'insuline pour faire entrer le sucre dans les cellules. Quand elles y répondent mal, le pancréas en produit encore plus. Cette insuline haute pousse les ovaires à fabriquer plus d'androgènes, favorise le stockage au niveau du ventre et déclenche les fringales. C'est souvent le premier levier sur lequel agir — par l'assiette, le mouvement et le sommeil.",
+    texte:"ton corps fabrique de l'insuline pour faire entrer le sucre dans tes cellules. quand elles répondent moins bien, ton pancréas en produit plus. chez beaucoup de Cysters, même minces, cette insuline en excès pousse les ovaires à fabriquer plus d'androgènes. elle peut aussi participer aux fringales, et elle est souvent associée à une prise de poids au niveau du ventre. c'est un des leviers les plus importants, et l'assiette, le mouvement et le sommeil peuvent l'aider.",
     signes:"fringales de 15h, coup de barre après les repas, prise de poids abdominale malgré les efforts." },
   { nom:"L'hyperandrogénie", em:"🌙", couleur:"#A89AB8", court:"l'excès d'androgènes et ses signes visibles",
-    texte:"les androgènes (dont la testostérone) sont normaux en petite quantité. En excès, ils agissent sur la peau et les poils. Une enzyme, la 5-alpha-réductase, convertit la testostérone en DHT, une forme plus active responsable de l'acné de la mâchoire et de la chute de cheveux. Agir sur cette conversion, et sur ce qui neutralise les androgènes, fait partie de l'accompagnement.",
+    texte:"les androgènes (dont la testostérone) sont normaux en petite quantité. En excès, ils agissent sur la peau et les poils. Une enzyme, la 5-alpha-réductase, convertit la testostérone en DHT, une forme plus active qui joue sur l'acné et la chute de cheveux. la chute de cheveux peut aussi avoir d'autres causes (fer, thyroïde, stress, accouchement), et une acné qui dure mérite l'avis d'un dermatologue.",
     signes:"acné sur le bas du visage, pilosité, cheveux qui s'affinent ou tombent." },
-  { nom:"Le foie et la SHBG", em:"🌿", couleur:"#A9BC8E", court:"l'angle que personne n'explique",
-    texte:"le foie produit la SHBG, une protéine qui attrape et neutralise les hormones actives en excès. Il aide aussi à éliminer le surplus d'androgènes. Quand le foie est surchargé, il fabrique moins de SHBG : plus d'androgènes circulent librement. C'est pourquoi soutenir le foie est souvent le point de départ d'une routine.",
-    signes:"digestion lourde, teint terne, sensation d'être « encrassée »." },
-  { nom:"L'axe stress-cortisol", em:"🌾", couleur:"#9FB3C9", court:"le SMOP surrénalien, souvent oublié",
-    texte:"le stress chronique maintient le cortisol élevé. Ce cortisol aggrave la résistance à l'insuline ET pousse les surrénales à produire des androgènes (DHEA). Résultat : un SMOP qui flambe sous stress. C'est un cercle vicieux — mais aussi un vrai levier, par le sommeil, la respiration et la récupération.",
-    signes:"réveils à 3h du matin, SMOP qui empire dans les périodes difficiles, épuisement nerveux." },
-  { nom:"L'inflammation de bas grade", em:"🔥", couleur:"#CB7E6B", court:"le feu silencieux",
-    texte:"une inflammation chronique et discrète, invisible sur la plupart des bilans standards, qui sollicite le système immunitaire en continu. Elle perturbe les hormones, aggrave la résistance à l'insuline et peut gêner l'ovulation. C'est souvent ce qui explique une fatigue profonde malgré un bon sommeil.",
-    signes:"fatigue qui ne passe pas, douleurs diffuses, intestin sensible." },
+  { nom:"Le foie et la SHBG", em:"🌿", couleur:"#A9BC8E", court:"la protéine qui transporte tes hormones",
+    texte:"ton foie fabrique la SHBG, une protéine qui transporte tes hormones. quand il y en a moins, plus de testostérone circule librement. ce qui la fait baisser, c'est surtout l'insuline en excès. donc les leviers sont les mêmes : ton assiette, le mouvement, le sommeil.",
+    signes:"rien que tu puisses sentir : la SHBG se mesure par une prise de sang, si ton médecin la juge utile." },
+  { nom:"L'axe stress-cortisol", em:"🌾", couleur:"#9FB3C9", court:"le stress et tes hormones",
+    texte:"le stress chronique maintient le cortisol élevé, ce qui peut aggraver la résistance à l'insuline. chez certaines Cysters, les surrénales participent aussi à l'excès d'androgènes (DHEA). beaucoup de Cysters voient leurs symptômes empirer dans les périodes difficiles. c'est aussi un vrai levier : le sommeil, la respiration et la récupération. et si le moral flanche, parles-en : l'anxiété et la déprime méritent d'être prises au sérieux.",
+    signes:"symptômes qui empirent dans les périodes difficiles, sommeil plus léger, épuisement nerveux." },
+  { nom:"L'inflammation de bas grade", em:"🔥", couleur:"#CB7E6B", court:"une piste encore étudiée",
+    texte:"chez certaines Cysters, on retrouve une inflammation légère mais continue. elle est liée à l'insuline et au mode de vie, et on cherche encore à comprendre son rôle exact. ce qui l'apaise, c'est ce qui aide aussi le reste : bouger, bien dormir, une assiette variée.",
+    signes:"rien de spécifique : une fatigue qui dure doit d'abord faire vérifier le fer, la thyroïde et le sommeil." },
 ];
 
 // ── TISANES SMOP (SOPK) LIFE (compléments alimentaires à base de plantes — cadrage : soutient/accompagne, jamais traite) ──
@@ -11251,7 +11251,7 @@ export default function App() {
           </div>
           <button onClick={()=>{setTab("analyses");setScreen("app");}} style={{width:"100%",padding:"11px",borderRadius:11,border:`1.5px solid ${prof.p}`,background:"transparent",color:prof.p,fontFamily:"inherit",fontSize:12.5,fontWeight:600,cursor:"pointer"}}>Ouvrir mes analyses →</button>
         </div>
-        <div style={{fontSize:11,color:C.mid,lineHeight:1.6,fontStyle:"italic",marginBottom:20}}>ce n'est pas un diagnostic — c'est un point de départ pour décider par où commencer. ton parcours s'adapte à ce profil, et tu pourras toujours le refaire.</div>
+        <div style={{fontSize:11,color:C.mid,lineHeight:1.6,fontStyle:"italic",marginBottom:20}}>ton profil SMOP Map t'aide à savoir par où commencer. ce n'est pas un diagnostic, ni une classification médicale : c'est notre grille de lecture. ton parcours s'adapte à ce profil, et tu pourras toujours le refaire.</div>
         <button onClick={()=>setScreen("priorites")} style={{width:"100%",padding:"15px",borderRadius:14,border:"none",background:prof.p,color:"white",fontFamily:"inherit",fontSize:15,fontWeight:600,cursor:"pointer"}}>Commencer mon parcours →</button>
         <button onClick={()=>{setQuizAns({});setQuizResult(null);setScreen("quiz");}} style={{width:"100%",marginTop:10,background:"none",border:"none",color:C.light,fontFamily:"inherit",fontSize:11,textDecoration:"underline",cursor:"pointer"}}>refaire le quiz</button>
       </div>
@@ -13687,6 +13687,9 @@ export default function App() {
             {/* OUTIL : COMPRENDRE LES ALIMENTS */}
             {outilOpen==="comprendre"&&(
               <div className="fu">
+                <div style={{background:C.bubble,border:`1px solid ${C.border}`,borderRadius:12,padding:"10px 12px",marginBottom:14,fontSize:10.5,color:C.mid,lineHeight:1.6}}>
+                  <strong style={{color:C.brown}}>SMOP, PMOS, SOPK :</strong> en 2026, un consensus international a renommé le SOPK en <i>polyendocrine metabolic ovarian syndrome</i> (PMOS). « SMOP » est le nom qu'on utilise ici en français : la traduction officielle n'est pas encore fixée. ces repères sont éducatifs et ne remplacent pas l'avis de ton médecin.
+                </div>
                 {/* ── CYCLE NORMAL vs CYCLE SMOP ── */}
                 <div style={{fontSize:10,letterSpacing:1.5,textTransform:"uppercase",color:C.terra,fontWeight:700,marginBottom:4}}>Ton cycle, pour de vrai</div>
                 <div style={{fontSize:11,color:C.mid,lineHeight:1.6,marginBottom:12}}>on t'a sûrement dit « tes cycles sont irréguliers » sans jamais t'expliquer pourquoi. voilà la différence, côte à côte.</div>
@@ -13694,14 +13697,14 @@ export default function App() {
                   {[
                     {t:"Un cycle « classique »",coul:"#A9BC8E",bg:"#EFF3E8",lignes:[
                       ["Durée","21 à 35 jours, assez régulier"],
-                      ["Ovulation","vers le milieu, chaque mois"],
+                      ["Ovulation","une douzaine de jours avant les règles, pas forcément pile au milieu"],
                       ["Déroulé","l'ovule mûrit, est libéré, puis les règles arrivent"],
                       ["Règles","reviennent à un rythme prévisible"],
                     ]},
                     {t:"Un cycle avec SMOP",coul:"#A89AB8",bg:"#F2EEF6",lignes:[
                       ["Durée","souvent long (> 35 j), irrégulier ou absent"],
                       ["Ovulation","retardée, aléatoire, ou absente certains mois"],
-                      ["Déroulé","les follicules mûrissent mal et le signal d'ovulation ne part pas toujours"],
+                      ["Déroulé","certains mois, les follicules commencent à mûrir sans aller jusqu'à l'ovulation"],
                       ["Règles","espacées, imprévisibles — ce n'est pas « dans ta tête »"],
                     ]},
                   ].map((col,i)=>(
@@ -13717,7 +13720,7 @@ export default function App() {
                   ))}
                 </div>
                 <div style={{background:`${C.sage}22`,borderRadius:12,padding:"11px 14px",border:`1px solid ${C.sage}`,marginBottom:18}}>
-                  <div style={{fontSize:11,color:"#4F6038",lineHeight:1.6}}><strong>à retenir :</strong> un cycle irrégulier n'est pas un corps « cassé ». c'est un corps dont l'ovulation est gênée par le déséquilibre hormonal — et l'ovulation peut revenir quand on travaille le terrain. c'est tout l'enjeu de ce que tu fais ici.</div>
+                  <div style={{fontSize:11,color:"#4F6038",lineHeight:1.6}}><strong>à retenir :</strong> un cycle irrégulier n'est pas un corps « cassé ». c'est un corps dont l'ovulation est gênée par le déséquilibre hormonal. les habitudes de vie peuvent aider l'ovulation chez certaines femmes, et il existe aussi des solutions médicales à voir avec ton médecin. bon à savoir : avoir des règles ne veut pas forcément dire avoir ovulé. et plus de 3 mois sans règles, c'est une raison d'en parler à ton médecin.</div>
                 </div>
                 <div style={{height:1,background:C.border,margin:"0 0 18px"}}/>
 
@@ -13730,10 +13733,10 @@ export default function App() {
                   <div style={{fontSize:12,fontWeight:700,color:C.brown,marginBottom:3}}>Les hormones en 1 coup d'œil</div>
                   <div style={{fontSize:10.5,color:C.mid,lineHeight:1.55,marginBottom:11}}>le résumé avant le détail — ce qui se dérègle, et ce qui l'apaise. tu ouvres chaque mécanisme juste en dessous.</div>
                   {[
-                    {h:"Insuline",coul:"#CB9A79",etat:"souvent trop haute",role:"pousse les ovaires à fabriquer des androgènes et déclenche les fringales",apaise:"assiette qui stabilise la glycémie · bouger après les repas · sommeil"},
-                    {h:"Androgènes",coul:"#A89AB8",etat:"en excès",role:"agissent sur la peau, les poils et les cheveux",apaise:"soutenir le foie · gérer l'insuline · les plantes de ton profil"},
+                    {h:"Insuline",coul:"#CB9A79",etat:"souvent trop haute",role:"peut pousser les ovaires à fabriquer plus d'androgènes, et participer aux fringales",apaise:"assiette qui stabilise la glycémie · bouger après les repas · sommeil"},
+                    {h:"Androgènes",coul:"#A89AB8",etat:"en excès",role:"agissent sur la peau, les poils et les cheveux",apaise:"ce qui aide ton insuline · un dermatologue ou ton médecin si besoin"},
                     {h:"Cortisol",coul:"#9FB3C9",etat:"emballé par le stress",role:"aggrave la résistance à l'insuline et relance tout le cercle",apaise:"sommeil · respiration · récupération · un vrai temps calme"},
-                    {h:"SHBG",coul:"#A9BC8E",etat:"souvent trop basse",role:"quand le foie est surchargé, elle neutralise moins les androgènes libres",apaise:"soutenir le foie · alléger l'inflammation"},
+                    {h:"SHBG",coul:"#A9BC8E",etat:"souvent trop basse",role:"quand elle baisse, plus de testostérone circule librement",apaise:"ce qui aide ton insuline : assiette, mouvement, sommeil"},
                   ].map((r,i)=>(
                     <div key={i} style={{display:"flex",gap:10,paddingTop:i>0?10:0,marginTop:i>0?10:0,borderTop:i>0?`1px solid ${C.border}`:"none"}}>
                       <div style={{width:4,alignSelf:"stretch",borderRadius:99,background:r.coul,flexShrink:0}}/>
@@ -13766,7 +13769,7 @@ export default function App() {
                         <div style={{padding:"0 13px 13px"}}>
                           <div style={{fontSize:11.5,color:C.brown,lineHeight:1.65,marginBottom:10}}>{m.texte}</div>
                           <div style={{background:`${m.couleur}18`,borderRadius:9,padding:"8px 11px"}}>
-                            <div style={{fontSize:8.5,letterSpacing:1,textTransform:"uppercase",color:m.couleur,fontWeight:700,marginBottom:2}}>ce que ça donne au quotidien</div>
+                            <div style={{fontSize:8.5,letterSpacing:1,textTransform:"uppercase",color:m.couleur,fontWeight:700,marginBottom:2}}>ce que certaines Cysters ressentent</div>
                             <div style={{fontSize:10.5,color:C.mid,lineHeight:1.5}}>{m.signes}</div>
                           </div>
                         </div>
@@ -13778,18 +13781,18 @@ export default function App() {
                 <div style={{height:1,background:C.border,margin:"16px 0"}}/>
                 <div style={{fontSize:10,letterSpacing:1.5,textTransform:"uppercase",color:C.terra,fontWeight:700,marginBottom:8}}>Bien manger pour ton SMOP</div>
                 <div style={{background:C.bubble,borderRadius:12,padding:"12px 14px",marginBottom:14,fontSize:11,color:C.mid,lineHeight:1.6,border:`1px solid ${C.border}`}}>
-                  comprendre POURQUOI certains aliments t'aident et d'autres t'épuisent — pour choisir en connaissance de cause, pas par règles aveugles.
+                  il n'existe pas un régime SMOP meilleur que tous les autres. ce qui compte, c'est une alimentation que tu peux tenir, qui te nourrit et qui te va. ici, des repères pour choisir en connaissance de cause, pas par règles aveugles.
                 </div>
                 {[
                   {emoji:"🟢",titre:"À privilégier",coul:"#7A9A5A",items:[
-                    {nom:"Légumes verts & crucifères",pourquoi:"brocoli, chou, épinards : riches en fibres, ils lissent la glycémie et soutiennent l'élimination des hormones par le foie."},
+                    {nom:"Légumes verts & crucifères",pourquoi:"brocoli, chou, épinards : riches en fibres, ils aident à lisser la glycémie."},
                     {nom:"Protéines de qualité",pourquoi:"œufs, poisson, volaille, légumineuses : elles stabilisent la glycémie et coupent les fringales."},
-                    {nom:"Bons gras",pourquoi:"avocat, huile d'olive, oléagineux, poissons gras : ils ralentissent l'absorption du sucre et apaisent l'inflammation."},
+                    {nom:"Bons gras",pourquoi:"avocat, huile d'olive, oléagineux, poissons gras : ils ralentissent l'absorption du sucre."},
                     {nom:"Féculents à index bas",pourquoi:"quinoa, légumineuses, patate douce, pain au levain : de l'énergie qui ne fait pas flamber l'insuline."},
                   ]},
                   {emoji:"🟠",titre:"À limiter",coul:"#D4A56A",items:[
-                    {nom:"Sucres rapides",pourquoi:"sodas, jus, pâtisseries, bonbons : pics de glycémie qui aggravent la résistance à l'insuline."},
-                    {nom:"Produits ultra-transformés",pourquoi:"plats industriels, snacks : sucres et graisses cachés, additifs pro-inflammatoires."},
+                    {nom:"Sucres rapides",pourquoi:"sodas, jus, pâtisseries, bonbons : à limiter, surtout seuls et en dehors des repas, car ils font monter vite la glycémie."},
+                    {nom:"Produits ultra-transformés",pourquoi:"plats industriels, snacks : souvent riches en sucres et en graisses cachés."},
                     {nom:"Féculents raffinés",pourquoi:"pain blanc, riz blanc, pâtes blanches : index élevé, pic rapide. préfère les versions complètes."},
                   ]},
                 ].map((cat,i)=>(
